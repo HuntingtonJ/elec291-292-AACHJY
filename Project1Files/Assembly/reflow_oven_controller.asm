@@ -13,6 +13,11 @@ TIMER0_RATE   EQU 4096     ; 2048Hz squarewave (peak amplitude of CEM-1203 speak
 TIMER0_RELOAD EQU ((65536-(CLK/TIMER0_RATE)))
 TIMER2_RATE   EQU 1000     ; 1000Hz, for a timer tick of 1ms
 TIMER2_RELOAD EQU ((65536-(CLK/TIMER2_RATE)))
+MAX_TEMP	  EQU 250
+TIMEOUT_TIME  EQU 60
+BAUD equ 115200
+BRG_VAL equ (0x100-(CLK/(16*BAUD)))
+
 
 org 0x0000
    ljmp MainProgram
@@ -41,8 +46,6 @@ org 0x0023
 org 0x002B
 	ljmp Timer2_ISR
 
-BAUD equ 115200
-BRG_VAL equ (0x100-(CLK/(16*BAUD)))
 
 ; These ’EQU’ must match the wiring between the microcontroller and ADC
 SOUND_OUT   EQU P3.7
@@ -51,12 +54,17 @@ MY_MOSI     EQU P2.5
 MY_MISO     EQU P2.6
 MY_SCLK     EQU P2.7
 
+
 DSEG at 0x30
 Count1ms:      ds 2 ; Used to determine when half second has passed
 Result: ds 2
 x:      ds 4
 y:      ds 4
 bcd:    ds 5
+soak_time: ds 1
+soak_temp: ds 1
+reflow_time: ds 1
+reflow_temp: ds 1
 
 BSEG
 mf: dbit 1
@@ -77,6 +85,11 @@ LCD_D7 equ P3.5
 $NOLIST
 $include(LCD_4bit.inc) ; A library of LCD related functions and utility macros
 $LIST
+
+$NOLIST
+$include(menu_code.inc) ; A library of LCD related functions and utility macros
+$LIST
+
 
 ;---------------------------------;
 ; Routine to initialize the ISR   ;
