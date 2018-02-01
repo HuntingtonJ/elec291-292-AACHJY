@@ -1,0 +1,1259 @@
+                 -1   $MODLP51
+0000              1   ;--------------------------------------------------------
+0000              2   ; Special Function Registers
+0000              3   ;--------------------------------------------------------
+0000              4   ACC            DATA 0xe0
+0000              5   B              DATA 0xf0
+0000              6   PSW            DATA 0xd0
+0000              7   SP             DATA 0x81
+0000              8   SPX            DATA 0xef
+0000              9   DPL            DATA 0x82
+0000             10   DPH            DATA 0x83
+0000             11   DPLB           DATA 0xd4
+0000             12   DPHB           DATA 0xd5
+0000             13   PAGE           DATA 0xf6
+0000             14   AX             DATA 0xe1
+0000             15   BX             DATA 0xf7
+0000             16   DSPR           DATA 0xe2
+0000             17   FIRD           DATA 0xe3
+0000             18   MACL           DATA 0xe4
+0000             19   MACH           DATA 0xe5
+0000             20   PCON           DATA 0x87
+0000             21   AUXR           DATA 0x8e
+0000             22   AUXR1          DATA 0xa2
+0000             23   DPCF           DATA 0xa1
+0000             24   CKRL           DATA 0x97
+0000             25   CKCKON0        DATA 0x8f
+0000             26   CKCKON1        DATA 0xaf
+0000             27   CKSEL          DATA 0x85
+0000             28   CLKREG         DATA 0xae
+0000             29   OSCCON         DATA 0x85
+0000             30   IE             DATA 0xa8
+0000             31   IEN0           DATA 0xa8
+0000             32   IEN1           DATA 0xb1
+0000             33   IPH0           DATA 0xb7
+0000             34   IP             DATA 0xb8
+0000             35   IPL0           DATA 0xb8
+0000             36   IPH1           DATA 0xb3
+0000             37   IPL1           DATA 0xb2
+0000             38   P0             DATA 0x80
+0000             39   P1             DATA 0x90
+0000             40   P2             DATA 0xa0
+0000             41   P3             DATA 0xb0
+0000             42   P4             DATA 0xc0
+0000             43   P0M0           DATA 0xe6
+0000             44   P0M1           DATA 0xe7
+0000             45   P1M0           DATA 0xd6
+0000             46   P1M1           DATA 0xd7
+0000             47   P2M0           DATA 0xce
+0000             48   P2M1           DATA 0xcf
+0000             49   P3M0           DATA 0xc6
+0000             50   P3M1           DATA 0xc7
+0000             51   P4M0           DATA 0xbe
+0000             52   P4M1           DATA 0xbf
+0000             53   SCON           DATA 0x98
+0000             54   SBUF           DATA 0x99
+0000             55   SADEN          DATA 0xb9
+0000             56   SADDR          DATA 0xa9
+0000             57   BDRCON         DATA 0x9b
+0000             58   BRL            DATA 0x9a
+0000             59   TCON           DATA 0x88
+0000             60   TMOD           DATA 0x89
+0000             61   TCONB          DATA 0x91
+0000             62   TL0            DATA 0x8a
+0000             63   TH0            DATA 0x8c
+0000             64   TL1            DATA 0x8b
+0000             65   TH1            DATA 0x8d
+0000             66   RL0            DATA 0xf2
+0000             67   RL1            DATA 0xf3
+0000             68   RH0            DATA 0xf4
+0000             69   RH1            DATA 0xf5
+0000             70   WDTRST         DATA 0xa6
+0000             71   WDTPRG         DATA 0xa7
+0000             72   T2CON          DATA 0xc8
+0000             73   T2MOD          DATA 0xc9
+0000             74   RCAP2H         DATA 0xcb
+0000             75   RCAP2L         DATA 0xca
+0000             76   TH2            DATA 0xcd
+0000             77   TL2            DATA 0xcc
+0000             78   SPCON          DATA 0xc3
+0000             79   SPSTA          DATA 0xc4
+0000             80   SPDAT          DATA 0xc5
+0000             81   SSCON          DATA 0x93
+0000             82   SSCS           DATA 0x94
+0000             83   SSDAT          DATA 0x95
+0000             84   SSADR          DATA 0x96
+0000             85   KBLS           DATA 0x9c
+0000             86   KBE            DATA 0x9d
+0000             87   KBF            DATA 0x9e
+0000             88   KBMOD          DATA 0x9f
+0000             89   BMSEL          DATA 0x92
+0000             90   FCON           DATA 0xd2
+0000             91   EECON          DATA 0xd2
+0000             92   ACSRA          DATA 0xa3
+0000             93   ACSRB          DATA 0xab
+0000             94   AREF           DATA 0xbd
+0000             95   DADC           DATA 0xa4
+0000             96   DADI           DATA 0xa5
+0000             97   DADL           DATA 0xac
+0000             98   DADH           DATA 0xad
+0000             99   CCON           DATA 0xd8
+0000            100   CMOD           DATA 0xd9
+0000            101   CL             DATA 0xe9
+0000            102   CH             DATA 0xf9
+0000            103   CCAPM0         DATA 0xda
+0000            104   CCAPM1         DATA 0xdb
+0000            105   CCAPM2         DATA 0xdc
+0000            106   CCAPM3         DATA 0xdd
+0000            107   CCAPM4         DATA 0xde
+0000            108   CCAP0H         DATA 0xfa
+0000            109   CCAP1H         DATA 0xfb
+0000            110   CCAP2H         DATA 0xfc
+0000            111   CCAP3H         DATA 0xfd
+0000            112   CCAP4H         DATA 0xfe
+0000            113   CCAP0L         DATA 0xea
+0000            114   CCAP1L         DATA 0xeb
+0000            115   CCAP2L         DATA 0xec
+0000            116   CCAP3L         DATA 0xed
+0000            117   CCAP4L         DATA 0xee
+0000            118   ;--------------------------------------------------------
+0000            119   ; special function bits
+0000            120   ;--------------------------------------------------------
+0000            121   P              BIT 0xd0
+0000            122   F1             BIT 0xd1
+0000            123   OV             BIT 0xd2
+0000            124   RS0            BIT 0xd3
+0000            125   RS1            BIT 0xd4
+0000            126   F0             BIT 0xd5
+0000            127   AC             BIT 0xd6
+0000            128   CY             BIT 0xd7
+0000            129   EX0            BIT 0xa8
+0000            130   ET0            BIT 0xa9
+0000            131   EX1            BIT 0xaa
+0000            132   ET1            BIT 0xab
+0000            133   ES             BIT 0xac
+0000            134   ET2            BIT 0xad
+0000            135   EC             BIT 0xae
+0000            136   EA             BIT 0xaf
+0000            137   PX0            BIT 0xb8
+0000            138   PT0            BIT 0xb9
+0000            139   PX1            BIT 0xba
+0000            140   PT1            BIT 0xbb
+0000            141   PS             BIT 0xbc
+0000            142   PT2            BIT 0xbd
+0000            143   IP0D           BIT 0xbf
+0000            144   PPCL           BIT 0xbe
+0000            145   PT2L           BIT 0xbd
+0000            146   PLS            BIT 0xbc
+0000            147   PT1L           BIT 0xbb
+0000            148   PX1L           BIT 0xba
+0000            149   PT0L           BIT 0xb9
+0000            150   PX0L           BIT 0xb8
+0000            151   RXD            BIT 0xb0
+0000            152   TXD            BIT 0xb1
+0000            153   INT0           BIT 0xb2
+0000            154   INT1           BIT 0xb3
+0000            155   T0             BIT 0xb4
+0000            156   T1             BIT 0xb5
+0000            157   WR             BIT 0xb6
+0000            158   RD             BIT 0xb7
+0000            159   RI             BIT 0x98
+0000            160   TI             BIT 0x99
+0000            161   RB8            BIT 0x9a
+0000            162   TB8            BIT 0x9b
+0000            163   REN            BIT 0x9c
+0000            164   SM2            BIT 0x9d
+0000            165   SM1            BIT 0x9e
+0000            166   SM0            BIT 0x9f
+0000            167   IT0            BIT 0x88
+0000            168   IE0            BIT 0x89
+0000            169   IT1            BIT 0x8a
+0000            170   IE1            BIT 0x8b
+0000            171   TR0            BIT 0x8c
+0000            172   TF0            BIT 0x8d
+0000            173   TR1            BIT 0x8e
+0000            174   TF1            BIT 0x8f
+0000            175   CP_RL2         BIT 0xc8
+0000            176   C_T2           BIT 0xc9
+0000            177   TR2            BIT 0xca
+0000            178   EXEN2          BIT 0xcb
+0000            179   TCLK           BIT 0xcc
+0000            180   RCLK           BIT 0xcd
+0000            181   EXF2           BIT 0xce
+0000            182   TF2            BIT 0xcf
+0000            183   CF             BIT 0xdf
+0000            184   CR             BIT 0xde
+0000            185   CCF4           BIT 0xdc
+0000            186   CCF3           BIT 0xdb
+0000            187   CCF2           BIT 0xda
+0000            188   CCF1           BIT 0xd9
+0000            189   CCF0           BIT 0xd8
+0000              2   
+0000              3   ; There is a couple of typos in MODLP51 in the definition of the timer 0/1 reload
+0000              4   ; special function registers (SFRs), so:
+0000              5   
+0000              6   TIMER0_RELOAD_L DATA 0xf2
+0000              7   TIMER1_RELOAD_L DATA 0xf3
+0000              8   TIMER0_RELOAD_H DATA 0xf4
+0000              9   TIMER1_RELOAD_H DATA 0xf5
+0000             10   
+0000             11   CLK           EQU 22118400 ; Microcontroller system crystal frequency in Hz
+0000             12   TIMER0_RATE   EQU 4096     ; 2048Hz squarewave (peak amplitude of CEM-1203 speaker)
+0000             13   TIMER0_RELOAD EQU ((65536-(CLK/TIMER0_RATE)))
+0000             14   TIMER2_RATE   EQU 1000     ; 1000Hz, for a timer tick of 1ms
+0000             15   TIMER2_RELOAD EQU ((65536-(CLK/TIMER2_RATE)))
+0000             16   MAX_TEMP           EQU 250
+0000             17   TIMEOUT_TIME  EQU 60
+0000             18   BAUD equ 115200
+0000             19   BRG_VAL equ (0x100-(CLK/(16*BAUD)))
+0000             20   
+0000             21   
+0000             22   org 0x0000
+0000 0201DF      23      ljmp MainProgram
+0003             24   
+0003             25   ; These ’EQU’ must match the wiring between the microcontroller and ADC
+0003             26   SOUND_OUT   EQU P3.7
+0003             27   CE_ADC      EQU P2.4
+0003             28   MY_MOSI     EQU P2.5
+0003             29   MY_MISO     EQU P2.6
+0003             30   MY_SCLK     EQU P2.7
+0003             31   UP_BUTTON        EQU P0.0
+0003             32   DOWN_BUTTON EQU P0.2
+0003             33   SELECT_BUTTON EQU P0.5
+0003             34   NEXT_BUTTON EQU P0.7
+0003             35   BACK_BUTTON EQU p0.3
+0003             36   MASTER_START_STOP equ p0.4
+0003             37   
+0003             38   
+0030             39   DSEG at 0x30
+0030             40   Count1ms:      ds 2 ; Used to determine when half second has passed
+0032             41   Result: ds 2
+0034             42   x:      ds 4
+0038             43   y:      ds 4
+003C             44   bcd:    ds 5
+0041             45   soaktime: ds 2
+0043             46   soaktemp: ds 2
+0045             47   reflowtime: ds 2
+0047             48   reflowtemp: ds 2
+0049             49   soaktemp3digit: ds 2
+004B             50   
+004B             51   
+0000             52   BSEG
+0000             53   mf: dbit 1
+0001             54   
+0003             55   CSEG
+0003             56   LCD_RS equ P1.1
+0003             57   LCD_RW equ P1.2
+0003             58   LCD_E  equ P1.3
+0003             59   LCD_D4 equ P3.2
+0003             60   LCD_D5 equ P3.3
+0003             61   LCD_D6 equ P3.4
+0003             62   LCD_D7 equ P3.5
+0003             63   
+                 65   	$LIST
+00B1             67   
+00B1             68   ;$NOLIST
+00B1             69   ;$include(menu_code.inc) 
+00B1             70   ;$LIST
+00B1             71   
+00B1             72   ;                     1234567890123456    <- This helps determine the location of the counter
+00B1 57656C63    73   Welcome:                   db 'Welcome!        ', 0
+     6F6D6521
+     20202020
+     20202020
+     00
+00C2 53656C65    74   Choose_option:     db 'Select option   ', 0
+     6374206F
+     7074696F
+     6E202020
+     00
+00D3 50726573    75   Preset_menu_msg:  db 'Preset Profile  ', 0
+     65742050
+     726F6669
+     6C652020
+     00
+00E4 43757374    76   Custom_menu_msg:  db 'Custom Profile  ', 0
+     6F6D2050
+     726F6669
+     6C652020
+     00
+00F5 536F616B    77   Soak_temp:                 db 'Soak Temp       ', 0
+     2054656D
+     70202020
+     20202020
+     00
+0106 536F616B    78   Soak_time:                 db 'Soak Time       ', 0
+     2054696D
+     65202020
+     20202020
+     00
+0117 5265666C    79   Reflow_time:       db 'Reflow Time     ', 0
+     6F772054
+     696D6520
+     20202020
+     00
+0128 5265666C    80   Reflow_temp:       db 'Reflow Temp     ', 0
+     6F772054
+     656D7020
+     20202020
+     00
+0139 53414333    81   Pb_free_solder:    db 'SAC305 solder   ', 0
+     30352073
+     6F6C6465
+     72202020
+     00
+014A 50622D73    82   Pb_solder:                 db 'Pb-solder paste ', 0
+     6F6C6465
+     72207061
+     73746520
+     00
+015B 53686868    83   Pizza_msg0:        db 'Shhh! No pizza  ', 0
+     21204E6F
+     2070697A
+     7A612020
+     00
+016C 616C6C6F    84   Pizza_msg1:        db 'allowed in here.', 0
+     77656420
+     696E2068
+     6572652E
+     00
+017D 70726F66    85   Profile_loaded:   db 'profile loaded  ', 0
+     696C6520
+     6C6F6164
+     65642020
+     00
+018E 53797374    86   Is_ready:                  db 'System Ready    ', 0
+     656D2052
+     65616479
+     20202020
+     00
+019F 50726573    87   Press_start:       db 'Press Start     ', 0
+     73205374
+     61727420
+     20202020
+     00
+01B0 78782020    88   Set_Value:                 db 'xx              ', 0
+     20202020
+     20202020
+     20202020
+     00
+01C1 20202020    89   Clear_Row:                 db '                ', 0
+     20202020
+     20202020
+     20202020
+     00
+01D2             90   
+01D2             91   WaitHalfSec:
+01D2 7A2D        92       mov R2, #45
+01D4 79FA        93   Wait3: mov R1, #250
+01D6 78A6        94   Wait2: mov R0, #166
+01D8 D8FE        95   Wait1: djnz R0, Wait1 ; 3 cycles->3*45.21123ns*166=22.51519us
+01DA D9FA        96       djnz R1, Wait2 ; 22.51519us*250=5.629ms
+01DC DAF6        97       djnz R2, Wait3 ; 5.629ms*89=0.5s (approximately)
+01DE 22          98       ret
+01DF             99   
+01DF            100   ;-----------------------------
+01DF            101   ;Button Pressed macro 
+01DF            102   ;if button (input %0) is pressed, go to specified location (input %1), if not, go to next instruction
+01DF            103   ;-----------------------------
+01DF            104   
+                105   button_jmp mac	
+                106   jb %0, endhere_%M
+                107   Wait_Milli_Seconds(#50)
+                108   jb %0, endhere_%M
+                109   jnb %0, $
+                110   ljmp %1
+                111   
+                112   endhere_%M: 			
+                113   	endmac
+01DF            114   
+01DF            115   ;UP_BUTTON       EQU P0.0
+01DF            116   ;DOWN_BUTTON EQU P0.2
+01DF            117   ;SELECT_BUTTON EQU P0.5
+01DF            118   ;BACK_BUTTON p0.7
+01DF            119   
+01DF            120   MainProgram:
+01DF 75817F     121            mov SP, #7FH
+01E2            122            ;Configure port 0/1 in bi-directional mode
+01E2 75E600     123            mov P0M0, #0
+01E5 75E700     124       mov P0M1, #0
+01E8 12005D     125       lcall LCD_4BIT
+01EB            126            ;Set all vars initally to zero
+01EB 754100     127            mov soaktime, #0x00
+01EE 754300     128            mov soaktemp, #0x00
+01F1 754500     129            mov reflowtime, #0x00
+01F4 754700     130            mov reflowtemp, #0x00
+01F7            131            ;display initial menu messages
+01F7            132   
+01F7 020454     133            ljmp Initial_menu       
+01FA            134   
+01FA            135   Custom_menu:
+01FA 00         136   nop 
+01FB            137   Forever: 
+01FB C0E0       138            push acc
+01FD 7401       138            mov a, #1
+01FF 14         138            dec a
+0200 120096     138            lcall ?Set_Cursor_1 ; Select column and row
+0203 D0E0       138            pop acc
+0205 C083       139            push dph
+0207 C082       139            push dpl
+0209 C0E0       139            push acc
+020B 9001FA     139            mov dptr, #Custom_menu
+020E 120089     139            lcall ?Send_Constant_String
+0211 D0E0       139            pop acc
+0213 D082       139            pop dpl
+0215 D083       139            pop dph
+0217 C0E0       140            push acc
+0219 7401       140            mov a, #1
+021B 14         140            dec a
+021C 120094     140            lcall ?Set_Cursor_2 ; Select column and row
+021F D0E0       140            pop acc
+0221            140   
+0221 C083       141            push dph
+0223 C082       141            push dpl
+0225 C0E0       141            push acc
+0227 9001C1     141            mov dptr, #Clear_Row
+022A 120089     141            lcall ?Send_Constant_String
+022D D0E0       141            pop acc
+022F D082       141            pop dpl
+0231 D083       141            pop dph
+0233            142            ;Wait until select button is pressed then loop to options
+0233 30850E     143            jnb SELECT_BUTTON, Set_Soak_temp
+0236 C002       144            push AR2
+0238 7A32       144            mov R2, #50
+023A 12000E     144            lcall ?Wait_Milli_Seconds
+023D D002       144            pop AR2
+023F 308502     145            jnb SELECT_BUTTON, Set_Soak_temp
+0242            146            ;jb SELECT_BUTTON, $
+0242 80B7       147            sjmp Forever    
+0244            148   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+0244            149   ;;;                      Set Soak Temp
+0244            150   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;         
+0244            151   Set_Soak_temp:   
+0244 C0E0       152            push acc
+0246 7401       152            mov a, #1
+0248 14         152            dec a
+0249 120096     152            lcall ?Set_Cursor_1 ; Select column and row
+024C D0E0       152            pop acc
+024E C083       153            push dph
+0250 C082       153            push dpl
+0252 C0E0       153            push acc
+0254 9000F5     153            mov dptr, #Soak_temp
+0257 120089     153            lcall ?Send_Constant_String
+025A D0E0       153            pop acc
+025C D082       153            pop dpl
+025E D083       153            pop dph
+0260 C0E0       154            push acc
+0262 7401       154            mov a, #1
+0264 14         154            dec a
+0265 120094     154            lcall ?Set_Cursor_2 ; Select column and row
+0268 D0E0       154            pop acc
+026A C000       155            push ar0
+026C A843       155            mov r0, soaktemp
+026E 12009B     155            lcall ?Display_BCD
+0271 D000       155            pop ar0
+0273            156            ;if up/down buttons pressed branch and inc/dec params
+0273 208023     157            jb UP_BUTTON, Decrease_soaktemp
+0276 C002       158            push AR2
+0278 7A32       158            mov R2, #50
+027A 12000E     158            lcall ?Wait_Milli_Seconds
+027D D002       158            pop AR2
+027F 208017     159            jb UP_BUTTON, Decrease_soaktemp
+0282 3080FD     160            jnb UP_BUTTON, $
+0285 E543       161            mov a, soaktemp
+0287 2401       162            add a, #0x01
+0289 D4         163            da a
+028A B49906     164            cjne a, #0x99, Increase_soaktemp_loop
+028D E4         165            clr a 
+028E F543       166            mov soaktemp, a
+0290 020244     167            ljmp Set_Soak_temp
+0293            168            
+0293            169   Increase_soaktemp_loop:
+0293 F543       170            mov soaktemp, a
+0295 E4         171            clr a   
+0296 020244     172            ljmp Set_Soak_temp      
+0299            173            
+0299            174   Decrease_soaktemp:
+0299 208223     175            jb DOWN_BUTTON, Nextmenu1
+029C C002       176            push AR2
+029E 7A32       176            mov R2, #50
+02A0 12000E     176            lcall ?Wait_Milli_Seconds
+02A3 D002       176            pop AR2
+02A5 208217     177            jb DOWN_BUTTON, Nextmenu1
+02A8 3082FD     178            jnb DOWN_BUTTON, $      
+02AB E543       179            mov a, soaktemp
+02AD 2499       180            add a, #0x99
+02AF D4         181            da a
+02B0 B40006     182            cjne a, #0x00, Decrease_soaktemp_loop
+02B3 E4         183            clr a 
+02B4 F543       184            mov soaktemp, a
+02B6 020244     185            ljmp Set_Soak_temp
+02B9            186            
+02B9            187   Decrease_soaktemp_loop:
+02B9 F543       188            mov soaktemp, a
+02BB E4         189            clr a   
+02BC 020244     190            ljmp Set_Soak_temp      
+02BF            191   Nextmenu1:
+02BF 308703     192            jnb NEXT_BUTTON, Set_Soak_time
+02C2 020244     193            ljmp Set_Soak_temp      
+02C5            194   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+02C5            195   ;;;                      Set Soak Time
+02C5            196   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+02C5            197   Set_Soak_time:
+02C5 3087FD     198            jnb NEXT_BUTTON, $
+02C8 C0E0       199            push acc
+02CA 7401       199            mov a, #1
+02CC 14         199            dec a
+02CD 120096     199            lcall ?Set_Cursor_1 ; Select column and row
+02D0 D0E0       199            pop acc
+02D2 C083       200            push dph
+02D4 C082       200            push dpl
+02D6 C0E0       200            push acc
+02D8 900106     200            mov dptr, #Soak_time
+02DB 120089     200            lcall ?Send_Constant_String
+02DE D0E0       200            pop acc
+02E0 D082       200            pop dpl
+02E2 D083       200            pop dph
+02E4 C0E0       201            push acc
+02E6 7401       201            mov a, #1
+02E8 14         201            dec a
+02E9 120094     201            lcall ?Set_Cursor_2 ; Select column and row
+02EC D0E0       201            pop acc
+02EE C000       202            push ar0
+02F0 A841       202            mov r0, soaktime
+02F2 12009B     202            lcall ?Display_BCD
+02F5 D000       202            pop ar0
+02F7            203            ;if up/down buttons pressed branch and inc/dec params
+02F7 208023     204            jb UP_BUTTON, Decrease_soaktime
+02FA C002       205            push AR2
+02FC 7A32       205            mov R2, #50
+02FE 12000E     205            lcall ?Wait_Milli_Seconds
+0301 D002       205            pop AR2
+0303 208017     206            jb UP_BUTTON, Decrease_soaktime
+0306 3080FD     207            jnb UP_BUTTON, $
+0309 E541       208            mov a, soaktime
+030B 2401       209            add a, #0x01
+030D D4         210            da a
+030E B49906     211            cjne a, #0x99, Increase_soaktime_loop
+0311 E4         212            clr a 
+0312 F541       213            mov soaktime, a
+0314 0202C5     214            ljmp Set_Soak_time
+0317            215            
+0317            216   Increase_soaktime_loop:
+0317 F541       217            mov soaktime, a
+0319 E4         218            clr a   
+031A 0202C5     219            ljmp Set_Soak_time      
+031D            220            
+031D            221   Decrease_soaktime:
+031D 208223     222            jb DOWN_BUTTON, Nextmenu2
+0320 C002       223            push AR2
+0322 7A32       223            mov R2, #50
+0324 12000E     223            lcall ?Wait_Milli_Seconds
+0327 D002       223            pop AR2
+0329 208217     224            jb DOWN_BUTTON, Nextmenu2
+032C 3082FD     225            jnb DOWN_BUTTON, $      
+032F E541       226            mov a, soaktime
+0331 2499       227            add a, #0x99
+0333 D4         228            da a
+0334 B40006     229            cjne a, #0x00, Decrease_soaktime_loop
+0337 E4         230            clr a 
+0338 F541       231            mov soaktime, a
+033A 0202C5     232            ljmp Set_Soak_time
+033D            233            
+033D            234   Decrease_soaktime_loop:
+033D F541       235            mov soaktime, a
+033F E4         236            clr a   
+0340 0202C5     237            ljmp Set_Soak_time      
+0343            238   Nextmenu2:
+0343 308703     239            jnb NEXT_BUTTON, Set_Reflow_temp 
+0346 0202C5     240            ljmp Set_Soak_time
+0349            241   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+0349            242   ;;;                      Set Reflow Temp
+0349            243   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+0349            244   Set_Reflow_temp:
+0349 3087FD     245            jnb NEXT_BUTTON, $
+034C C0E0       246            push acc
+034E 7401       246            mov a, #1
+0350 14         246            dec a
+0351 120096     246            lcall ?Set_Cursor_1 ; Select column and row
+0354 D0E0       246            pop acc
+0356 C083       247            push dph
+0358 C082       247            push dpl
+035A C0E0       247            push acc
+035C 900128     247            mov dptr, #Reflow_temp
+035F 120089     247            lcall ?Send_Constant_String
+0362 D0E0       247            pop acc
+0364 D082       247            pop dpl
+0366 D083       247            pop dph
+0368 C0E0       248            push acc
+036A 7401       248            mov a, #1
+036C 14         248            dec a
+036D 120094     248            lcall ?Set_Cursor_2 ; Select column and row
+0370 D0E0       248            pop acc
+0372            248   
+0372 C000       249            push ar0
+0374 A847       249            mov r0, reflowtemp
+0376 12009B     249            lcall ?Display_BCD
+0379 D000       249            pop ar0
+037B            250            ;if up/down buttons pressed branch and inc/dec params
+037B 208023     251            jb UP_BUTTON, Decrease_reflowtemp
+037E C002       252            push AR2
+0380 7A32       252            mov R2, #50
+0382 12000E     252            lcall ?Wait_Milli_Seconds
+0385 D002       252            pop AR2
+0387 208017     253            jb UP_BUTTON, Decrease_reflowtemp
+038A 3080FD     254            jnb UP_BUTTON, $
+038D E547       255            mov a, reflowtemp
+038F 2401       256            add a, #0x01
+0391 D4         257            da a
+0392 B49906     258            cjne a, #0x99, Increase_reflowtemp_loop
+0395 E4         259            clr a 
+0396 F547       260            mov reflowtemp, a
+0398 020349     261            ljmp Set_Reflow_temp
+039B            262            
+039B            263   Increase_reflowtemp_loop:
+039B F547       264            mov reflowtemp, a
+039D E4         265            clr a   
+039E 020349     266            ljmp Set_Reflow_temp    
+03A1            267            
+03A1            268   Decrease_reflowtemp:
+03A1 208223     269            jb DOWN_BUTTON, Nextmenu3
+03A4 C002       270            push AR2
+03A6 7A32       270            mov R2, #50
+03A8 12000E     270            lcall ?Wait_Milli_Seconds
+03AB D002       270            pop AR2
+03AD 208217     271            jb DOWN_BUTTON, Nextmenu3
+03B0 3082FD     272            jnb DOWN_BUTTON, $      
+03B3 E547       273            mov a, reflowtemp
+03B5 2499       274            add a, #0x99
+03B7 D4         275            da a
+03B8 B40006     276            cjne a, #0x00, Decrease_reflowtemp_loop
+03BB E4         277            clr a 
+03BC F547       278            mov reflowtemp, a
+03BE 020349     279            ljmp Set_Reflow_temp
+03C1            280            
+03C1            281   Decrease_reflowtemp_loop:
+03C1 F547       282            mov reflowtemp, a
+03C3 E4         283            clr a   
+03C4 020349     284            ljmp Set_Reflow_temp    
+03C7            285   Nextmenu3:
+03C7 308703     286            jnb NEXT_BUTTON, Set_Reflow_time 
+03CA 020349     287            ljmp Set_Reflow_temp
+03CD            288   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+03CD            289   ;;;                      Set Reflow Time
+03CD            290   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;         
+03CD            291   Set_Reflow_time:
+03CD 3087FD     292            jnb NEXT_BUTTON, $
+03D0 C0E0       293            push acc
+03D2 7401       293            mov a, #1
+03D4 14         293            dec a
+03D5 120096     293            lcall ?Set_Cursor_1 ; Select column and row
+03D8 D0E0       293            pop acc
+03DA C083       294            push dph
+03DC C082       294            push dpl
+03DE C0E0       294            push acc
+03E0 900117     294            mov dptr, #Reflow_time
+03E3 120089     294            lcall ?Send_Constant_String
+03E6 D0E0       294            pop acc
+03E8 D082       294            pop dpl
+03EA D083       294            pop dph
+03EC C0E0       295            push acc
+03EE 7401       295            mov a, #1
+03F0 14         295            dec a
+03F1 120094     295            lcall ?Set_Cursor_2 ; Select column and row
+03F4 D0E0       295            pop acc
+03F6            295   
+03F6 C000       296            push ar0
+03F8 A845       296            mov r0, reflowtime
+03FA 12009B     296            lcall ?Display_BCD
+03FD D000       296            pop ar0
+03FF            297            ;if up/down buttons pressed branch and inc/dec params
+03FF 208023     298            jb UP_BUTTON, Decrease_reflowtime
+0402 C002       299            push AR2
+0404 7A32       299            mov R2, #50
+0406 12000E     299            lcall ?Wait_Milli_Seconds
+0409 D002       299            pop AR2
+040B 208017     300            jb UP_BUTTON, Decrease_reflowtime
+040E 3080FD     301            jnb UP_BUTTON, $
+0411 E545       302            mov a, reflowtime
+0413 2401       303            add a, #0x01
+0415 D4         304            da a
+0416 B49906     305            cjne a, #0x99, Increase_reflowtime_loop
+0419 E4         306            clr a 
+041A F545       307            mov reflowtime, a
+041C 0203CD     308            ljmp Set_Reflow_time
+041F            309            
+041F            310   Increase_reflowtime_loop:
+041F F545       311            mov reflowtime, a
+0421 E4         312            clr a   
+0422 0203CD     313            ljmp Set_Reflow_time
+0425            314            
+0425            315   Decrease_reflowtime:
+0425 208223     316            jb DOWN_BUTTON, Nextmenu4
+0428 C002       317            push AR2
+042A 7A32       317            mov R2, #50
+042C 12000E     317            lcall ?Wait_Milli_Seconds
+042F D002       317            pop AR2
+0431 208217     318            jb DOWN_BUTTON, Nextmenu4
+0434 3082FD     319            jnb DOWN_BUTTON, $      
+0437 E545       320            mov a, reflowtime
+0439 2499       321            add a, #0x99
+043B D4         322            da a
+043C B40006     323            cjne a, #0x00, Decrease_reflowtime_loop
+043F E4         324            clr a 
+0440 F545       325            mov reflowtime, a
+0442 0203CD     326            ljmp Set_Reflow_time
+0445            327            
+0445            328   Decrease_reflowtime_loop:
+0445 F545       329            mov reflowtime, a
+0447 E4         330            clr a   
+0448 0203CD     331            ljmp Set_Reflow_time
+044B            332   Nextmenu4:
+044B 308703     333            jnb NEXT_BUTTON, Custom_menu_loopback
+044E 0203CD     334            ljmp Set_Reflow_time
+0451            335            
+0451            336   Custom_menu_loopback:
+0451 0201FB     337            ljmp Forever
+0454            338   
+0454            339   
+0454            340   
+0454            341   ;----------------Main Menu Logic----------------;
+0454            342   
+0454            343   
+0454            344            Initial_menu:                   
+0454            345   
+0454 C0E0       346            push acc
+0456 7401       346            mov a, #1
+0458 14         346            dec a
+0459 120096     346            lcall ?Set_Cursor_1 ; Select column and row
+045C D0E0       346            pop acc
+045E C083       347            push dph
+0460 C082       347            push dpl
+0462 C0E0       347            push acc
+0464 9000B1     347            mov dptr, #Welcome
+0467 120089     347            lcall ?Send_Constant_String
+046A D0E0       347            pop acc
+046C D082       347            pop dpl
+046E D083       347            pop dph
+0470 C0E0       348            push acc
+0472 7401       348            mov a, #1
+0474 14         348            dec a
+0475 120094     348            lcall ?Set_Cursor_2 ; Select column and row
+0478 D0E0       348            pop acc
+047A C083       349            push dph
+047C C082       349            push dpl
+047E C0E0       349            push acc
+0480 9000C2     349            mov dptr, #Choose_option
+0483 120089     349            lcall ?Send_Constant_String
+0486 D0E0       349            pop acc
+0488 D082       349            pop dpl
+048A D083       349            pop dph
+048C            350       ;------------- any button being pressed will change the screen
+048C            351   
+048C 208512     352   jb SELECT_BUTTON, endhere_41
+048F C002       352            push AR2
+0491 7A32       352            mov R2, #50
+0493 12000E     352            lcall ?Wait_Milli_Seconds
+0496 D002       352            pop AR2
+0498 208506     352   jb SELECT_BUTTON, endhere_41
+049B 3085FD     352   jnb SELECT_BUTTON, $
+049E 020572     352   ljmp Choose_menu
+04A1            352   
+04A1            352   endhere_41:                      
+04A1 208712     353   jb NEXT_BUTTON, endhere_43
+04A4 C002       353            push AR2
+04A6 7A32       353            mov R2, #50
+04A8 12000E     353            lcall ?Wait_Milli_Seconds
+04AB D002       353            pop AR2
+04AD 208706     353   jb NEXT_BUTTON, endhere_43
+04B0 3087FD     353   jnb NEXT_BUTTON, $
+04B3 020572     353   ljmp Choose_menu
+04B6            353   
+04B6            353   endhere_43:                      
+04B6 208012     354   jb UP_BUTTON, endhere_45
+04B9 C002       354            push AR2
+04BB 7A32       354            mov R2, #50
+04BD 12000E     354            lcall ?Wait_Milli_Seconds
+04C0 D002       354            pop AR2
+04C2 208006     354   jb UP_BUTTON, endhere_45
+04C5 3080FD     354   jnb UP_BUTTON, $
+04C8 020572     354   ljmp Choose_menu
+04CB            354   
+04CB            354   endhere_45:                      
+04CB 208212     355   jb DOWN_BUTTON, endhere_47
+04CE C002       355            push AR2
+04D0 7A32       355            mov R2, #50
+04D2 12000E     355            lcall ?Wait_Milli_Seconds
+04D5 D002       355            pop AR2
+04D7 208206     355   jb DOWN_BUTTON, endhere_47
+04DA 3082FD     355   jnb DOWN_BUTTON, $
+04DD 020572     355   ljmp Choose_menu
+04E0            355   
+04E0            355   endhere_47:                      
+04E0 020454     356       ljmp Initial_menu
+04E3            357   
+04E3            358   system_ready: 
+04E3 C0E0       359            push acc
+04E5 7401       359            mov a, #1
+04E7 14         359            dec a
+04E8 120096     359            lcall ?Set_Cursor_1 ; Select column and row
+04EB D0E0       359            pop acc
+04ED C083       360            push dph
+04EF C082       360            push dpl
+04F1 C0E0       360            push acc
+04F3 90018E     360            mov dptr, #Is_ready
+04F6 120089     360            lcall ?Send_Constant_String
+04F9 D0E0       360            pop acc
+04FB D082       360            pop dpl
+04FD D083       360            pop dph
+04FF C0E0       361            push acc
+0501 7401       361            mov a, #1
+0503 14         361            dec a
+0504 120094     361            lcall ?Set_Cursor_2 ; Select column and row
+0507 D0E0       361            pop acc
+0509 C083       362            push dph
+050B C082       362            push dpl
+050D C0E0       362            push acc
+050F 90019F     362            mov dptr, #Press_start
+0512 120089     362            lcall ?Send_Constant_String
+0515 D0E0       362            pop acc
+0517 D082       362            pop dpl
+0519 D083       362            pop dph
+051B            362   
+051B            363   
+051B 208312     364   jb BACK_BUTTON, endhere_53
+051E C002       364            push AR2
+0520 7A32       364            mov R2, #50
+0522 12000E     364            lcall ?Wait_Milli_Seconds
+0525 D002       364            pop AR2
+0527 208306     364   jb BACK_BUTTON, endhere_53
+052A 3083FD     364   jnb BACK_BUTTON, $
+052D 020572     364   ljmp Choose_menu
+0530            364   
+0530            364   endhere_53:                      
+0530            365            
+0530 208012     366   jb UP_BUTTON, endhere_55
+0533 C002       366            push AR2
+0535 7A32       366            mov R2, #50
+0537 12000E     366            lcall ?Wait_Milli_Seconds
+053A D002       366            pop AR2
+053C 208006     366   jb UP_BUTTON, endhere_55
+053F 3080FD     366   jnb UP_BUTTON, $
+0542 020572     366   ljmp Choose_menu
+0545            366   
+0545            366   endhere_55:                      
+0545            367   
+0545 208212     368   jb DOWN_BUTTON, endhere_57
+0548 C002       368            push AR2
+054A 7A32       368            mov R2, #50
+054C 12000E     368            lcall ?Wait_Milli_Seconds
+054F D002       368            pop AR2
+0551 208206     368   jb DOWN_BUTTON, endhere_57
+0554 3082FD     368   jnb DOWN_BUTTON, $
+0557 020572     368   ljmp Choose_menu
+055A            368   
+055A            368   endhere_57:                      
+055A 208512     369   jb SELECT_BUTTON, endhere_59
+055D C002       369            push AR2
+055F 7A32       369            mov R2, #50
+0561 12000E     369            lcall ?Wait_Milli_Seconds
+0564 D002       369            pop AR2
+0566 208506     369   jb SELECT_BUTTON, endhere_59
+0569 3085FD     369   jnb SELECT_BUTTON, $
+056C 020572     369   ljmp Choose_menu
+056F            369   
+056F            369   endhere_59:                      
+056F            370   
+056F 0204E3     371   ljmp system_ready
+0572            372   
+0572            373   
+0572            374   
+0572            375   
+0572            376   Choose_menu: 
+0572 C0E0       377            push acc
+0574 7401       377            mov a, #1
+0576 14         377            dec a
+0577 120096     377            lcall ?Set_Cursor_1 ; Select column and row
+057A D0E0       377            pop acc
+057C C083       378            push dph
+057E C082       378            push dpl
+0580 C0E0       378            push acc
+0582 9000D3     378            mov dptr, #Preset_menu_msg
+0585 120089     378            lcall ?Send_Constant_String
+0588 D0E0       378            pop acc
+058A D082       378            pop dpl
+058C D083       378            pop dph
+058E            379   
+058E            380            
+058E C0E0       381            push acc
+0590 7401       381            mov a, #1
+0592 14         381            dec a
+0593 120094     381            lcall ?Set_Cursor_2 ; Select column and row
+0596 D0E0       381            pop acc
+0598 C083       382            push dph
+059A C082       382            push dpl
+059C C0E0       382            push acc
+059E 9000E4     382            mov dptr, #Custom_menu_msg
+05A1 120089     382            lcall ?Send_Constant_String
+05A4 D0E0       382            pop acc
+05A6 D082       382            pop dpl
+05A8 D083       382            pop dph
+05AA            383   
+05AA            384   
+05AA            385            ;!!!!need to have flashing cursor on screen on whichever option is selected !!!
+05AA 208012     386   jb UP_BUTTON, endhere_65
+05AD C002       386            push AR2
+05AF 7A32       386            mov R2, #50
+05B1 12000E     386            lcall ?Wait_Milli_Seconds
+05B4 D002       386            pop AR2
+05B6 208006     386   jb UP_BUTTON, endhere_65
+05B9 3080FD     386   jnb UP_BUTTON, $
+05BC 0205D6     386   ljmp Preset_menu_select
+05BF            386   
+05BF            386   endhere_65:                      
+05BF 208212     387   jb DOWN_BUTTON, endhere_67
+05C2 C002       387            push AR2
+05C4 7A32       387            mov R2, #50
+05C6 12000E     387            lcall ?Wait_Milli_Seconds
+05C9 D002       387            pop AR2
+05CB 208206     387   jb DOWN_BUTTON, endhere_67
+05CE 3082FD     387   jnb DOWN_BUTTON, $
+05D1 020617     387   ljmp Custom_menu_select
+05D4            387   
+05D4            387   endhere_67:                      
+05D4            388   
+05D4 809C       389            sjmp Choose_menu
+05D6            390   
+05D6            391   
+05D6            392   Preset_menu_select: 
+05D6 208212     393   jb DOWN_BUTTON, endhere_69
+05D9 C002       393            push AR2
+05DB 7A32       393            mov R2, #50
+05DD 12000E     393            lcall ?Wait_Milli_Seconds
+05E0 D002       393            pop AR2
+05E2 208206     393   jb DOWN_BUTTON, endhere_69
+05E5 3082FD     393   jnb DOWN_BUTTON, $
+05E8 020617     393   ljmp Custom_menu_select
+05EB            393   
+05EB            393   endhere_69:                      
+05EB 208512     394   jb SELECT_BUTTON, endhere_71
+05EE C002       394            push AR2
+05F0 7A32       394            mov R2, #50
+05F2 12000E     394            lcall ?Wait_Milli_Seconds
+05F5 D002       394            pop AR2
+05F7 208506     394   jb SELECT_BUTTON, endhere_71
+05FA 3085FD     394   jnb SELECT_BUTTON, $
+05FD 020658     394   ljmp Preset_menu
+0600            394   
+0600            394   endhere_71:                      
+0600 208312     395   jb BACK_BUTTON, endhere_73
+0603 C002       395            push AR2
+0605 7A32       395            mov R2, #50
+0607 12000E     395            lcall ?Wait_Milli_Seconds
+060A D002       395            pop AR2
+060C 208306     395   jb BACK_BUTTON, endhere_73
+060F 3083FD     395   jnb BACK_BUTTON, $
+0612 020572     395   ljmp Choose_menu
+0615            395   
+0615            395   endhere_73:                       ; have we determined if we are using a back button or a next button? What is the purpose of a next button? 
+0615            396   
+0615 80BF       397            sjmp Preset_menu_select
+0617            398   
+0617            399   Custom_menu_select: 
+0617 208012     400   jb UP_BUTTON, endhere_75
+061A C002       400            push AR2
+061C 7A32       400            mov R2, #50
+061E 12000E     400            lcall ?Wait_Milli_Seconds
+0621 D002       400            pop AR2
+0623 208006     400   jb UP_BUTTON, endhere_75
+0626 3080FD     400   jnb UP_BUTTON, $
+0629 0205D6     400   ljmp Preset_menu_select
+062C            400   
+062C            400   endhere_75:                      
+062C 208512     401   jb SELECT_BUTTON, endhere_77
+062F C002       401            push AR2
+0631 7A32       401            mov R2, #50
+0633 12000E     401            lcall ?Wait_Milli_Seconds
+0636 D002       401            pop AR2
+0638 208506     401   jb SELECT_BUTTON, endhere_77
+063B 3085FD     401   jnb SELECT_BUTTON, $
+063E 0201FA     401   ljmp Custom_menu
+0641            401   
+0641            401   endhere_77:                      
+0641 208312     402   jb BACK_BUTTON, endhere_79
+0644 C002       402            push AR2
+0646 7A32       402            mov R2, #50
+0648 12000E     402            lcall ?Wait_Milli_Seconds
+064B D002       402            pop AR2
+064D 208306     402   jb BACK_BUTTON, endhere_79
+0650 3083FD     402   jnb BACK_BUTTON, $
+0653 020572     402   ljmp Choose_menu
+0656            402   
+0656            402   endhere_79:                      
+0656            403   
+0656 80BF       404            sjmp Custom_menu_select
+0658            405   
+0658            406   
+0658            407   Preset_menu: 
+0658 C0E0       408            push acc
+065A 7401       408            mov a, #1
+065C 14         408            dec a
+065D 120096     408            lcall ?Set_Cursor_1 ; Select column and row
+0660 D0E0       408            pop acc
+0662 C083       409            push dph
+0664 C082       409            push dpl
+0666 C0E0       409            push acc
+0668 900139     409            mov dptr, #Pb_free_solder
+066B 120089     409            lcall ?Send_Constant_String
+066E D0E0       409            pop acc
+0670 D082       409            pop dpl
+0672 D083       409            pop dph
+0674 C0E0       410            push acc
+0676 7401       410            mov a, #1
+0678 14         410            dec a
+0679 120094     410            lcall ?Set_Cursor_2 ; Select column and row
+067C D0E0       410            pop acc
+067E C083       411            push dph
+0680 C082       411            push dpl
+0682 C0E0       411            push acc
+0684 90014A     411            mov dptr, #Pb_solder
+0687 120089     411            lcall ?Send_Constant_String
+068A D0E0       411            pop acc
+068C D082       411            pop dpl
+068E D083       411            pop dph
+0690            412   
+0690            413   
+0690 208012     414   jb UP_BUTTON, endhere_85
+0693 C002       414            push AR2
+0695 7A32       414            mov R2, #50
+0697 12000E     414            lcall ?Wait_Milli_Seconds
+069A D002       414            pop AR2
+069C 208006     414   jb UP_BUTTON, endhere_85
+069F 3080FD     414   jnb UP_BUTTON, $
+06A2 0206D2     414   ljmp pb_free_select
+06A5            414   
+06A5            414   endhere_85:                      
+06A5 208212     415   jb DOWN_BUTTON, endhere_87
+06A8 C002       415            push AR2
+06AA 7A32       415            mov R2, #50
+06AC 12000E     415            lcall ?Wait_Milli_Seconds
+06AF D002       415            pop AR2
+06B1 208206     415   jb DOWN_BUTTON, endhere_87
+06B4 3082FD     415   jnb DOWN_BUTTON, $
+06B7 020713     415   ljmp pb_select
+06BA            415   
+06BA            415   endhere_87:                      
+06BA 208312     416   jb BACK_BUTTON, endhere_89
+06BD C002       416            push AR2
+06BF 7A32       416            mov R2, #50
+06C1 12000E     416            lcall ?Wait_Milli_Seconds
+06C4 D002       416            pop AR2
+06C6 208306     416   jb BACK_BUTTON, endhere_89
+06C9 3083FD     416   jnb BACK_BUTTON, $
+06CC 020572     416   ljmp Choose_menu
+06CF            416   
+06CF            416   endhere_89:                      
+06CF            417   
+06CF 020572     418            ljmp Choose_menu
+06D2            419   
+06D2            420   pb_free_select: 
+06D2 208212     421   jb DOWN_BUTTON, endhere_91
+06D5 C002       421            push AR2
+06D7 7A32       421            mov R2, #50
+06D9 12000E     421            lcall ?Wait_Milli_Seconds
+06DC D002       421            pop AR2
+06DE 208206     421   jb DOWN_BUTTON, endhere_91
+06E1 3082FD     421   jnb DOWN_BUTTON, $
+06E4 020713     421   ljmp pb_select
+06E7            421   
+06E7            421   endhere_91:                      
+06E7 208512     422   jb SELECT_BUTTON, endhere_93
+06EA C002       422            push AR2
+06EC 7A32       422            mov R2, #50
+06EE 12000E     422            lcall ?Wait_Milli_Seconds
+06F1 D002       422            pop AR2
+06F3 208506     422   jb SELECT_BUTTON, endhere_93
+06F6 3085FD     422   jnb SELECT_BUTTON, $
+06F9 02079B     422   ljmp pb_free_solder_set
+06FC            422   
+06FC            422   endhere_93:                      
+06FC 208312     423   jb BACK_BUTTON, endhere_95
+06FF C002       423            push AR2
+0701 7A32       423            mov R2, #50
+0703 12000E     423            lcall ?Wait_Milli_Seconds
+0706 D002       423            pop AR2
+0708 208306     423   jb BACK_BUTTON, endhere_95
+070B 3083FD     423   jnb BACK_BUTTON, $
+070E 020572     423   ljmp Choose_menu
+0711            423   
+0711            423   endhere_95:                      
+0711            424   
+0711 80BF       425            sjmp pb_free_select
+0713            426   
+0713            427   pb_select: 
+0713 208012     428   jb UP_BUTTON, endhere_97
+0716 C002       428            push AR2
+0718 7A32       428            mov R2, #50
+071A 12000E     428            lcall ?Wait_Milli_Seconds
+071D D002       428            pop AR2
+071F 208006     428   jb UP_BUTTON, endhere_97
+0722 3080FD     428   jnb UP_BUTTON, $
+0725 0206D2     428   ljmp pb_free_select
+0728            428   
+0728            428   endhere_97:                      
+0728 208512     429   jb SELECT_BUTTON, endhere_99
+072B C002       429            push AR2
+072D 7A32       429            mov R2, #50
+072F 12000E     429            lcall ?Wait_Milli_Seconds
+0732 D002       429            pop AR2
+0734 208506     429   jb SELECT_BUTTON, endhere_99
+0737 3085FD     429   jnb SELECT_BUTTON, $
+073A 020754     429   ljmp pb_solder_set
+073D            429   
+073D            429   endhere_99:                      
+073D 208312     430   jb BACK_BUTTON, endhere_101
+0740 C002       430            push AR2
+0742 7A32       430            mov R2, #50
+0744 12000E     430            lcall ?Wait_Milli_Seconds
+0747 D002       430            pop AR2
+0749 208306     430   jb BACK_BUTTON, endhere_101
+074C 3083FD     430   jnb BACK_BUTTON, $
+074F 020572     430   ljmp Choose_menu
+0752            430   
+0752            430   endhere_101:                     
+0752            431   
+0752 80BF       432            sjmp pb_select
+0754            433   
+0754            434   
+0754            435   pb_solder_set:           ; for soldering with the Sn63Pb37 alloy         
+0754 C0E0       436            push acc
+0756 7401       436            mov a, #1
+0758 14         436            dec a
+0759 120096     436            lcall ?Set_Cursor_1 ; Select column and row
+075C D0E0       436            pop acc
+075E C083       437            push dph
+0760 C082       437            push dpl
+0762 C0E0       437            push acc
+0764 90014A     437            mov dptr, #Pb_solder
+0767 120089     437            lcall ?Send_Constant_String
+076A D0E0       437            pop acc
+076C D082       437            pop dpl
+076E D083       437            pop dph
+0770 C0E0       438            push acc
+0772 7401       438            mov a, #1
+0774 14         438            dec a
+0775 120094     438            lcall ?Set_Cursor_2 ; Select column and row
+0778 D0E0       438            pop acc
+077A C083       439            push dph
+077C C082       439            push dpl
+077E C0E0       439            push acc
+0780 90017D     439            mov dptr, #Profile_loaded
+0783 120089     439            lcall ?Send_Constant_String
+0786 D0E0       439            pop acc
+0788 D082       439            pop dpl
+078A D083       439            pop dph
+078C            440            ;mov a, #120
+078C            441            ;da a 
+078C 754178     442            mov soaktime, #120
+078F            443   ;        mov a, #150
+078F            444            ;da a
+078F 754396     445            mov soaktemp, #150
+0792 754514     446            mov reflowtime, #20
+0795 7547E6     447            mov reflowtemp, #230
+0798            448   
+0798 0204E3     449            ljmp system_ready
+079B            450   
+079B            451   pb_free_solder_set:      ;for soldering SAC305 lead-free solder 
+079B C0E0       452            push acc
+079D 7401       452            mov a, #1
+079F 14         452            dec a
+07A0 120096     452            lcall ?Set_Cursor_1 ; Select column and row
+07A3 D0E0       452            pop acc
+07A5 C083       453            push dph
+07A7 C082       453            push dpl
+07A9 C0E0       453            push acc
+07AB 900139     453            mov dptr, #Pb_free_solder
+07AE 120089     453            lcall ?Send_Constant_String
+07B1 D0E0       453            pop acc
+07B3 D082       453            pop dpl
+07B5 D083       453            pop dph
+07B7 C0E0       454            push acc
+07B9 7401       454            mov a, #1
+07BB 14         454            dec a
+07BC 120094     454            lcall ?Set_Cursor_2 ; Select column and row
+07BF D0E0       454            pop acc
+07C1 C083       455            push dph
+07C3 C082       455            push dpl
+07C5 C0E0       455            push acc
+07C7 90017D     455            mov dptr, #Profile_loaded
+07CA 120089     455            lcall ?Send_Constant_String
+07CD D0E0       455            pop acc
+07CF D082       455            pop dpl
+07D1 D083       455            pop dph
+07D3            456            
+07D3            457   ;        mov a, #120
+07D3            458   ;        da a
+07D3 754178     459            mov soaktime, #120
+07D6            460            
+07D6            461   ;        mov a, #160
+07D6            462   ;        da a
+07D6 7543A0     463            mov soaktemp, #160
+07D9 740F       464            mov a, #15
+07DB            465   ;        da a
+07DB F545       466            mov reflowtime, a
+07DD            467            
+07DD 74F5       468            mov a, #245
+07DF            469   ;        da a
+07DF F547       470            mov reflowtemp, a
+07E1 0204E3     471            ljmp system_ready
+07E4            472   
+07E4            473   Pb_free_secret_pizza:                            ; can we include this as a joke/bonus pls???
+07E4 C0E0       474            push acc
+07E6 7401       474            mov a, #1
+07E8 14         474            dec a
+07E9 120096     474            lcall ?Set_Cursor_1 ; Select column and row
+07EC D0E0       474            pop acc
+07EE C083       475            push dph
+07F0 C082       475            push dpl
+07F2 C0E0       475            push acc
+07F4 90015B     475            mov dptr, #Pizza_msg0
+07F7 120089     475            lcall ?Send_Constant_String
+07FA D0E0       475            pop acc
+07FC D082       475            pop dpl
+07FE D083       475            pop dph
+0800 C0E0       476            push acc
+0802 7401       476            mov a, #1
+0804 14         476            dec a
+0805 120094     476            lcall ?Set_Cursor_2 ; Select column and row
+0808 D0E0       476            pop acc
+080A C083       477            push dph
+080C C082       477            push dpl
+080E C0E0       477            push acc
+0810 90016C     477            mov dptr, #Pizza_msg1
+0813 120089     477            lcall ?Send_Constant_String
+0816 D0E0       477            pop acc
+0818 D082       477            pop dpl
+081A D083       477            pop dph
+081C            478   
+081C 741E       479            mov a, #30
+081E            480   ;        da a
+081E F541       481            mov soaktime, a
+0820 74C8       482            mov a, #200
+0822            483   ;        da a
+0822 F543       484            mov soaktemp, a
+0824            485            
+0824 7414       486            mov a , #20
+0826            487   ;        da a
+0826 F545       488            mov reflowtime, a
+0828 74F5       489            mov a, #245
+082A            490   ;        da a
+082A F547       491            mov reflowtemp, a
+082C            492   
+082C 0204E3     493            ljmp system_ready
+082F            494   
+082F            495   
+082F            496   
+082F            497   
+082F            498   
+082F            499            
+082F            500   End
