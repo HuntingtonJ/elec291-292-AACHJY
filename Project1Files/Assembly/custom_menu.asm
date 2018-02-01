@@ -32,6 +32,7 @@ UP_BUTTON	EQU P0.0
 DOWN_BUTTON EQU P0.2
 SELECT_BUTTON EQU P0.5
 NEXT_BUTTON EQU P0.7
+BACK_BUTTON EQU p0.3
 MASTER_START_STOP equ p0.4
 
 
@@ -65,15 +66,25 @@ $include(LCD_4bit.inc) ; A library of LCD related functions and utility macros
 $LIST
 
 $NOLIST
-$include(menu_code.inc) ; A library of LCD related functions and utility macros
+$include(menu_code.inc) 
 $LIST
 
 ;                     1234567890123456    <- This helps determine the location of the counter
-Custom_menu: 	  db 'Custom          ', 0
+Welcome: 		  db 'Welcome!        ', 0
+Choose_option: 	  db 'Select option   ', 0
+Preset_menu:	  db 'Preset Profile  ', 0
+Custom_menu: 	  db 'Custom Profile  ', 0
 Soak_temp:		  db 'Soak Temp       ', 0
 Soak_time:		  db 'Soak Time       ', 0
 Reflow_time: 	  db 'Reflow Time     ', 0
 Reflow_temp:	  db 'Reflow Temp     ', 0
+Pb_free_solder:	  db 'SAC305 solder   ', 0
+Pb_solder:		  db 'Pb-solder paste ', 0
+Pizza_msg0: 	  db 'Shhh! No pizza  ', 0
+Pizza_msg1: 	  db 'allowed in here.', 0
+Profile_loaded:   db 'profile loaded  ', 0
+Is_ready: 		  db 'System Ready    ', 0
+Press_start: 	  db 'Press Start     ', 0
 Set_Value:		  db 'xx              ', 0
 Clear_Row:		  db '                ', 0
 
@@ -90,6 +101,7 @@ Wait1: djnz R0, Wait1 ; 3 cycles->3*45.21123ns*166=22.51519us
 ;DOWN_BUTTON EQU P0.2
 ;SELECT_BUTTON EQU P0.5
 ;BACK_BUTTON p0.7
+
 MainProgram:
 	mov SP, #7FH
 	;Configure port 0/1 in bi-directional mode
@@ -102,7 +114,10 @@ MainProgram:
 	mov reflowtime, #0x00
 	mov reflowtemp, #0x00
 	;display initial menu messages
-	
+
+	ljmp Initial_menu	
+
+Custom_menu:
 Forever: 
 	Set_Cursor(1, 1)
     Send_Constant_String(#Custom_menu)
@@ -304,6 +319,156 @@ Nextmenu4:
 	
 Custom_menu_loopback:
 	ljmp Forever
+
+
+
+;----------------Main Menu Logic----------------;
+
+
+	Initial_menu: 			
+
+	Set_Cursor(1, 1)
+    Send_Constant_String(#Welcome)
+    Set_Cursor(2, 1)
+    Send_Constant_String(#Choose_option)
+    ;------------- any button being pressed will change the screen
+
+    jnb SELECT_BUTTON, Choose_menu
+    jnb NEXT_BUTTON, Choose_menu
+    jnb UP_BUTTON, Choose_menu
+    jnb DOWN_BUTTON, Choose_menu
+    sjmp Initial_menu
+
+system_ready: 
+	Set_Cursor(1,1)
+	Send_Constant_String(#Is_ready)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Press_start)
+
+	button_jmp(BACK_BUTTON, Choose_menu)
+	button_jmp(UP_BUTTON, Choose_menu)
+	button_jmp(DOWN_BUTTON, Choose_menu)
+	button_jmp(SELECT_BUTTON, Choose_menu)
+
+sjmp system_ready
+
+
+
+
+Choose_menu: 
+	Set_Cursor(1,1)
+	Send_Constant_String(#Preset_menu)
+
+	
+	Set_Cursor(2,1)
+	Send_Constant_String(#Custom_menu)
+
+
+	;!!!!need to have flashing cursor on screen on whichever option is selected !!!
+	jnb UP_BUTTON, Preset_menu_select
+	jnb DOWN_BUTTON, Custom_menu_select
+
+	sjmp Choose_menu
+
+
+Preset_menu_select: 
+	jnb DOWN_BUTTON, Custom_menu_select
+	jnb SELECT_BUTTON, Preset_menu
+	jnb BACK_BUTTON, Choose_menu ; have we determined if we are using a back button or a next button? What is the purpose of a next button? 
+
+	sjmp Preset_menu_select
+
+Custom_menu_select: 
+	jnb UP_BUTTON, Preset_menu_select
+	jnb SELECT_BUTTON, Custom_menu
+	jnb BACK_BUTTON, Choose_menu
+
+	sjmp Custom_menu_select
+
+
+Preset_menu: 
+	Set_Cursor(1,1)
+	Send_Constant_String(#Pb_free_solder)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Pb_solder)
+
+
+	jnb UP_BUTTON, pb_free_select
+	jnb DOWN_BUTTON, pb_select
+	jnb BACK_BUTTON, Choose_menu
+
+	sjmp Choose_menu
+
+pb_free_select: 
+	jnb DOWN_BUTTON, pb_select
+	jnb SELECT_BUTTON, pb_free_solder_set
+	jnb BACK_BUTTON, Choose_menu
+
+	sjmp pb_free_select
+
+pb_select: 
+	jnb UP_BUTTON, pb_free_select
+	jnb SELECT_BUTTON, pb_solder_set
+	jnb BACK_BUTTON, Choose_menu
+
+	sjmp pb_select
+
+
+pb_solder_set: 		; for soldering with the Sn63Pb37 alloy	
+	Set_Cursor(1,1)
+	Send_Constant_String(#Pb_solder)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Profile_loaded)
+
+	mov soak_time, #120
+	mov soak_temp, #150
+	mov reflow_time, #20
+	mov reflow_temp, #230
+
+	ljmp system_ready
+
+pb_free_solder_set: 	;for soldering SAC305 lead-free solder 
+	Set_Cursor(1,1)
+	Send_Constant_String(#Pb_free_solder)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Profile_loaded)
+
+	mov soak_time, #120
+	mov soak_temp, #160
+	mov reflow_time, #15
+	mov reflow_temp, #245
+
+	ljmp system_ready
+
+Pb_free_secret_pizza: 				; can we include this as a joke/bonus pls???
+	Set_Cursor(1,1)
+	Send_Constant_String(#Pizza_msg0)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Pizza_msg1)
+
+	mov soak_time, #30
+	mov soak_temp, #200
+	mov reflow_time, #20
+	mov reflow_temp, #245
+
+	ljmp system_ready
+
+
+
+
+
+;Button Pressed macro 
+;if button (input %0) is pressed, go to specified location (input %1), if not, go to next instruction
+
+button_jmp mac	
+jb %0, endhere
+Wait_Milli_Seconds(#50)
+jb %0, endhere
+jnb %0, $
+ljmp %1
+
+endhere: 
+	endmac
 	
 End
 	
