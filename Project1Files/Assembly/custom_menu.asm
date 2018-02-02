@@ -29,11 +29,11 @@ MY_MOSI     EQU P2.5
 MY_MISO     EQU P2.6
 MY_SCLK     EQU P2.7
 UP_BUTTON	EQU P0.0
-DOWN_BUTTON EQU P0.2
-SELECT_BUTTON EQU P0.5
-NEXT_BUTTON EQU P0.7
-BACK_BUTTON EQU p0.3
-MASTER_START_STOP equ p0.4
+DOWN_BUTTON EQU P0.1
+SELECT_BUTTON EQU P0.2
+NEXT_BUTTON EQU P0.3
+BACK_BUTTON EQU p0.4
+MASTER_START_STOP equ p0.5
 
 
 DSEG at 0x30
@@ -87,6 +87,9 @@ Is_ready: 		  db 'System Ready    ', 0
 Press_start: 	  db 'Press Start     ', 0
 Set_Value:		  db 'xx              ', 0
 Clear_Row:		  db '                ', 0
+PRESETMENUMSG:	  db 'AT PRESET MENU  ', 0
+CUSTOMMENUMSG:	  db 'AT CUSTOM MENU  ', 0
+Are_you_sure:  	  db 'Are you sure?   ', 0
 
 WaitHalfSec:
     mov R2, #45
@@ -112,11 +115,6 @@ ljmp %1
 endhere_%M: 			
 	endmac
 
-;UP_BUTTON	EQU P0.0
-;DOWN_BUTTON EQU P0.2
-;SELECT_BUTTON EQU P0.5
-;BACK_BUTTON p0.7
-
 MainProgram:
 	mov SP, #7FH
 	;Configure port 0/1 in bi-directional mode
@@ -132,19 +130,190 @@ MainProgram:
 
 	ljmp Initial_menu	
 
-Custom_menu:
-nop 
-Forever: 
+
+;----------------Main Menu Logic----------------;
+
+
+Initial_menu: 
 	Set_Cursor(1, 1)
-    Send_Constant_String(#Custom_menu)
+    Send_Constant_String(#Welcome)
+    Set_Cursor(2, 1)
+    Send_Constant_String(#Choose_option)
+	
+    ;------------- any button being pressed will change the screen
+    button_jmp(SELECT_BUTTON, Choose_menu)
+    button_jmp(NEXT_BUTTON, Choose_menu)
+    button_jmp(UP_BUTTON, Choose_menu)
+   button_jmp(DOWN_BUTTON, Choose_menu)
+    ljmp Initial_menu
+
+system_ready: 
+	Set_Cursor(1,1)
+	Send_Constant_String(#Is_ready)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Press_start)
+
+	button_jmp(BACK_BUTTON, Choose_menu)
+	
+	button_jmp(UP_BUTTON, Choose_menu)
+
+	button_jmp(DOWN_BUTTON, Choose_menu)
+	button_jmp(SELECT_BUTTON, Choose_menu)
+
+ljmp system_ready
+
+
+Choose_menu: 
+	Set_Cursor(1,1)
+	Send_Constant_String(#Preset_menu_msg)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Custom_menu_msg)
+
+	;!!!!need to have flashing cursor on screen on whichever option is selected !!!
+	button_jmp(UP_BUTTON, Preset_menu_select)
+	button_jmp(DOWN_BUTTON, Custom_menu_select)
+	
+	sjmp Choose_menu
+
+Preset_menu_select:
+	;Remove messages when blinking cursor is set up
+	Set_Cursor(1,1)
+	Send_Constant_String(#PRESETMENUMSG)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Clear_Row)
+	
+	button_jmp(DOWN_BUTTON, Custom_menu_select)
+	button_jmp(SELECT_BUTTON, Preset_menu)
+	button_jmp(BACK_BUTTON, Choose_menu) ; have we determined if we are using a back button or a next button? What is the purpose of a next button? 
+
+	sjmp Preset_menu_select
+
+Custom_menu_select: 
+	;Remove messages when blinking cursor is set up
+	Set_Cursor(1,1)
+	Send_Constant_String(#CUSTOMMENUMSG)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Clear_Row)
+	
+	button_jmp(UP_BUTTON, Preset_menu_select)
+	button_jmp(SELECT_BUTTON, Custom_menu)
+	button_jmp(BACK_BUTTON, Choose_menu)
+
+	sjmp Custom_menu_select
+
+;------------------ Preset Menu END----------------------------------;
+Preset_menu: 
+	Set_Cursor(1,1)
+	Send_Constant_String(#Pb_free_solder)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Pb_solder)
+
+
+	button_jmp(UP_BUTTON, pb_free_select)
+	button_jmp(DOWN_BUTTON, pb_select)
+	button_jmp(BACK_BUTTON, Choose_menu)
+
+	ljmp Preset_menu
+
+pb_free_select: 
+	button_jmp(DOWN_BUTTON, pb_select)
+	button_jmp(SELECT_BUTTON, pb_free_solder_set)
+	button_jmp(BACK_BUTTON, Choose_menu)
+
+	sjmp pb_free_select
+
+pb_select: 
+	button_jmp(UP_BUTTON, pb_free_select)
+	button_jmp(SELECT_BUTTON, pb_solder_set)
+	button_jmp(BACK_BUTTON, Choose_menu)
+
+	sjmp pb_select
+
+
+pb_solder_set: 		; for soldering with the Sn63Pb37 alloy	
+	Set_Cursor(1,1)
+	Send_Constant_String(#Pb_solder)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Profile_loaded)
+	;mov a, #120
+	;da a 
+	mov soaktime, #120
+;	mov a, #150
+	;da a
+	mov soaktemp, #150
+	mov reflowtime, #20
+	mov reflowtemp, #230
+
+	ljmp system_ready
+
+pb_free_solder_set: 	;for soldering SAC305 lead-free solder 
+	Set_Cursor(1,1)
+	Send_Constant_String(#Pb_free_solder)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Profile_loaded)
+	
+;	mov a, #120
+;	da a
+	mov soaktime, #120
+	
+;	mov a, #160
+;	da a
+	mov soaktemp, #160
+	mov a, #15
+;	da a
+	mov reflowtime, a
+	
+	mov a, #245
+;	da a
+	mov reflowtemp, a
+	ljmp system_ready
+
+Pb_free_secret_pizza: 				; can we include this as a joke/bonus pls???
+	Set_Cursor(1,1)
+	Send_Constant_String(#Pizza_msg0)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Pizza_msg1)
+
+	mov a, #30
+;	da a
+	mov soaktime, a
+	mov a, #200
+;	da a
+	mov soaktemp, a
+	
+	mov a , #20
+;	da a
+	mov reflowtime, a
+	mov a, #245
+;	da a
+	mov reflowtemp, a
+
+	ljmp system_ready
+	
+;------------------ Preset Menu END----------------------------------;	
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;			Custom Menu Begin
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Custom_menu: 
+	Set_Cursor(1, 1)
+    Send_Constant_String(#Custom_menu_msg)
     Set_Cursor(2, 1)
     Send_Constant_String(#Clear_Row)
 	;Wait until select button is pressed then loop to options
-	jnb SELECT_BUTTON, Set_Soak_temp
-	Wait_Milli_Seconds(#50)
-	jnb SELECT_BUTTON, Set_Soak_temp
-	;jb SELECT_BUTTON, $
-	sjmp Forever	
+	;button_jmp(SELECT_BUTTON, Forever_loop)
+	;jb SELECT_BUTTON, Forever_loop
+	;Wait_Milli_Seconds(#50)
+	;jb SELECT_BUTTON, Forever_loop
+	;jnb SELECT_BUTTON, $
+	BUTTON_jmp(SELECT_BUTTON, Set_Soak_temp)
+	sjmp Forever_loop
+	;ljmp Set_Soak_temp
+	
+Forever_loop:
+	jnb BACK_BUTTON, Custom_to_Choose_menu
+	sjmp Custom_menu	
+Custom_to_Choose_menu:
+	ljmp Choose_menu
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;			Set Soak Temp
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
@@ -200,6 +369,7 @@ Set_Soak_time:
 	Send_Constant_String(#Soak_time)
 	Set_Cursor(2,1)
 	Display_BCD(soaktime)
+	;Button_jmp(UP_BUTTON,Decrease_soaktime)
 	;if up/down buttons pressed branch and inc/dec params
 	jb UP_BUTTON, Decrease_soaktime
 	Wait_Milli_Seconds(#50)
@@ -334,176 +504,16 @@ Nextmenu4:
 	ljmp Set_Reflow_time
 	
 Custom_menu_loopback:
-	ljmp Forever
-
-
-
-;----------------Main Menu Logic----------------;
-
-
-	Initial_menu: 			
-
-	Set_Cursor(1, 1)
-    Send_Constant_String(#Welcome)
-    Set_Cursor(2, 1)
-    Send_Constant_String(#Choose_option)
-    ;------------- any button being pressed will change the screen
-
-    button_jmp(SELECT_BUTTON, Choose_menu)
-    button_jmp(NEXT_BUTTON, Choose_menu)
-    button_jmp(UP_BUTTON, Choose_menu)
-   button_jmp(DOWN_BUTTON, Choose_menu)
-    ljmp Initial_menu
-
-system_ready: 
 	Set_Cursor(1,1)
-	Send_Constant_String(#Is_ready)
+	Send_Constant_String(#Are_you_sure)
 	Set_Cursor(2,1)
-	Send_Constant_String(#Press_start)
-
-	button_jmp(BACK_BUTTON, Choose_menu)
-	
-	button_jmp(UP_BUTTON, Choose_menu)
-
-	button_jmp(DOWN_BUTTON, Choose_menu)
-	button_jmp(SELECT_BUTTON, Choose_menu)
-
-ljmp system_ready
-
-
-
-
-Choose_menu: 
-	Set_Cursor(1,1)
-	Send_Constant_String(#Preset_menu_msg)
-
-	
-	Set_Cursor(2,1)
-	Send_Constant_String(#Custom_menu_msg)
-
-
-	;!!!!need to have flashing cursor on screen on whichever option is selected !!!
-	button_jmp(UP_BUTTON, Preset_menu_select)
-	button_jmp(DOWN_BUTTON, Custom_menu_select)
-
-	sjmp Choose_menu
-
-
-Preset_menu_select: 
-	button_jmp(DOWN_BUTTON, Custom_menu_select)
-	button_jmp(SELECT_BUTTON, Preset_menu)
-	button_jmp(BACK_BUTTON, Choose_menu) ; have we determined if we are using a back button or a next button? What is the purpose of a next button? 
-
-	sjmp Preset_menu_select
-
-Custom_menu_select: 
-	button_jmp(UP_BUTTON, Preset_menu_select)
-	button_jmp(SELECT_BUTTON, Custom_menu)
-	button_jmp(BACK_BUTTON, Choose_menu)
-
-	sjmp Custom_menu_select
-
-
-Preset_menu: 
-	Set_Cursor(1,1)
-	Send_Constant_String(#Pb_free_solder)
-	Set_Cursor(2,1)
-	Send_Constant_String(#Pb_solder)
-
-
-	button_jmp(UP_BUTTON, pb_free_select)
-	button_jmp(DOWN_BUTTON, pb_select)
-	button_jmp(BACK_BUTTON, Choose_menu)
-
-	ljmp Choose_menu
-
-pb_free_select: 
-	button_jmp(DOWN_BUTTON, pb_select)
-	button_jmp(SELECT_BUTTON, pb_free_solder_set)
-	button_jmp(BACK_BUTTON, Choose_menu)
-
-	sjmp pb_free_select
-
-pb_select: 
-	button_jmp(UP_BUTTON, pb_free_select)
-	button_jmp(SELECT_BUTTON, pb_solder_set)
-	button_jmp(BACK_BUTTON, Choose_menu)
-
-	sjmp pb_select
-
-
-pb_solder_set: 		; for soldering with the Sn63Pb37 alloy	
-	Set_Cursor(1,1)
-	Send_Constant_String(#Pb_solder)
-	Set_Cursor(2,1)
-	Send_Constant_String(#Profile_loaded)
-	;mov a, #120
-	;da a 
-	mov soaktime, #120
-;	mov a, #150
-	;da a
-	mov soaktemp, #150
-	mov reflowtime, #20
-	mov reflowtemp, #230
-
-	ljmp system_ready
-
-pb_free_solder_set: 	;for soldering SAC305 lead-free solder 
-	Set_Cursor(1,1)
-	Send_Constant_String(#Pb_free_solder)
-	Set_Cursor(2,1)
-	Send_Constant_String(#Profile_loaded)
-	
-;	mov a, #120
-;	da a
-	mov soaktime, #120
-	
-;	mov a, #160
-;	da a
-	mov soaktemp, #160
-	mov a, #15
-;	da a
-	mov reflowtime, a
-	
-	mov a, #245
-;	da a
-	mov reflowtemp, a
-	ljmp system_ready
-
-Pb_free_secret_pizza: 				; can we include this as a joke/bonus pls???
-	Set_Cursor(1,1)
-	Send_Constant_String(#Pizza_msg0)
-	Set_Cursor(2,1)
-	Send_Constant_String(#Pizza_msg1)
-
-	mov a, #30
-;	da a
-	mov soaktime, a
-	mov a, #200
-;	da a
-	mov soaktemp, a
-	
-	mov a , #20
-;	da a
-	mov reflowtime, a
-	mov a, #245
-;	da a
-	mov reflowtemp, a
-
-	ljmp system_ready
-
-
-
+	Send_Constant_String(#Clear_Row)
+	jnb UP_BUTTON, lllaaa
+	ljmp Custom_menu_loopback
+lllaaa:
+	ljmp Custom_menu
+;----------------Custom Menu End----------------;
 
 
 	
 End
-	
-	
-	
-
-	
-
-	
-
-
