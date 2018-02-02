@@ -46,10 +46,10 @@ BRG_VAL equ (0x100-(CLK/(16*BAUD)))
 
 ; These ’EQU’ must match the wiring between the microcontroller and ADC
 SOUND_OUT   EQU P3.7
-CE_ADC      EQU P2.4
-MY_MOSI     EQU P2.5
-MY_MISO     EQU P2.6
-MY_SCLK     EQU P2.7
+CE_ADC EQU P2.0
+MY_MOSI EQU P2.1
+MY_MISO EQU P2.2
+MY_SCLK EQU P2.3
 
 DSEG at 0x30
 Count1ms:      ds 2 ; Used to determine when half second has passed
@@ -157,6 +157,8 @@ Timer2_ISR:
 	mov a, Count1ms+0
 	cjne a, #10h, Timer2_ISR_done
 	mov Count1ms+0, #0h
+	
+	
 	Send_BCD(bcd)
 	
 Timer2_ISR_done:
@@ -307,6 +309,66 @@ skip_blank_2:
 	pop acc
 	ret
 
+;____________________________________
+;*************************************
+
+; This is the code that converts the amplified voltage from the the k-type thermocouple 
+; to temperature data for use. 
+; Current Parameters: 
+;		Op-amp gain: ~200
+;		Thermocouple conversion: 41 uV/celcius
+; 		Reference Voltage: 4.096 
+; inputs
+;*************************************		
+;------------------------------------- 		
+
+Voltage_to_temp_LM355: 
+		  	Load_y(4081)
+		    lcall mul32 ;multiplies x *= y
+		    
+		    ;A/1023 = B
+		    Load_y(1023)
+		    lcall div32 ;divides x /= y
+		    
+		    ;B - 2730 = C
+		    Load_y(2730);
+		    lcall sub32
+		    
+		    ;B/10 = V_OUT
+		    Load_y(10);
+		    lcall div32 ;divides x /= y
+    	ret
+
+  Voltage_to_temp_thermocouple: 
+
+    Load_y(4081)
+   	lcall mul32 ;multiplies x *= y
+   	
+   	Load_y(2475) 	; 24.75 c/mV
+    lcall mul32		; x*=y
+    
+    ;A/1023 = B
+    Load_y(1023)
+    lcall div32 ;divides x /= y
+    
+    ;keep in milli
+    Load_y(1000)
+    lcall mul32 ;divides x /= y
+    
+    Load_y(200)
+    lcall div32
+    
+    Load_y(100)
+    lcall div32
+  
+  	Load_y(Result)
+  	lcall add32    
+    
+   ret
+  
+
+
+
 MainProgram:
     mov SP, #7FH ; Set the stack pointer to the begining of idata
     
@@ -325,6 +387,8 @@ MainProgram:
     lcall LCD_4BIT
     
 forever:
+nop
+GET_TEMP_DATA: 
     clr CE_ADC         ; selects 
     mov R0, #00000001B ; Start bit: 1
     lcall DO_SPI_G
@@ -348,21 +412,8 @@ forever:
     mov x+2, #0
     mov x+3, #0
     
-    Load_y(4081)
-    lcall mul32 ;multiplies x *= y
-    
-    ;A/1023 = B
-    Load_y(1023)
-    lcall div32 ;divides x /= y
-    
-    ;B - 2730 = C
-    Load_y(2730);
-    lcall sub32
-    
-    ;B/10 = V_OUT
-    Load_y(10);
-    lcall div32 ;divides x /= y
-    
+    lcall Voltage_to_temp_LM355
+  	
     lcall hex2bcd
     lcall Display_10_digit_BCD
     
@@ -388,20 +439,15 @@ forever:
     mov x+2, #0
     mov x+3, #0
     
-    Load_y(4081)
-    lcall mul32 ;multiplies x *= y
+    lcall Voltage_to_temp_thermocouple
     
-    ;A/1023 = B
-    Load_y(1023)
-    lcall div32 ;divides x /= y
-    
-    ;keep in milli
-    ;Load_y(1000)
-    ;lcall div32 ;divides x /= y
-    
-    lcall hex2bcd
+	lcall hex2bcd
     lcall Display_10_digit_BCD_2
     
     lcall Delay
     ljmp forever ; This is equivalent to 'forever: sjmp forever'
+    ret
+	
+
+
 END

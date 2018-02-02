@@ -60,19 +60,17 @@ SELECT_BUTTON EQU P0.3
 MASTER_START_STOP equ p0.4
 
 
-
-
-
 DSEG at 0x30
 Count1ms:      ds 2 ; Used to determine when half second has passed
 Result: ds 2
 x:      ds 4
 y:      ds 4
 bcd:    ds 5
-soak_time: ds 1
-soak_temp: ds 1
-reflow_time: ds 1
-reflow_temp: ds 1
+soaktime: ds 2
+soaktemp: ds 2
+reflowtime: ds 2
+reflowtemp: ds 2
+soaktemp3digit: ds 2
 
 BSEG
 mf: dbit 1
@@ -98,6 +96,9 @@ $NOLIST
 $include(menu_code.inc) ; A library of LCD related functions and utility macros
 $LIST
 
+$NOLIST
+$include(lab3HJ.asm) ; A copy of Huntington's Lab3 to be used in polling, converting and pushing temp data to SPI
+$LIST
 
 ;---------------------------------;
 ; Routine to initialize the ISR   ;
@@ -321,4 +322,6 @@ MainProgram:
     
 forever:
     ljmp forever ; This is equivalent to 'forever: sjmp forever'
+
+    lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
 END
