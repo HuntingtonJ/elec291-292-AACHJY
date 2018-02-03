@@ -907,58 +907,60 @@
 072B 753E00     456            mov y+3, #high(2000 / 0x10000)  ; 200*10
 072E 120235     457            lcall div32
 0731            458            
-0731 753B18     459            mov y+0, #low (24 % 0x10000) 
-0734 753C00     459            mov y+1, #high(24 % 0x10000) 
-0737 753D00     459            mov y+2, #low (24 / 0x10000) 
-073A 753E00     459            mov y+3, #high(24 / 0x10000) 
-073D 1200F3     460            lcall add32
-0740            461            
-0740 12002E     462            lcall hex2bcd
-0743 22         463      ret
-0744            464     
-0744            465   
-0744            466   
+0731 753B16     459            mov y+0, #low (22 % 0x10000) 
+0734 753C00     459            mov y+1, #high(22 % 0x10000) 
+0737 753D00     459            mov y+2, #low (22 / 0x10000) 
+073A 753E00     459            mov y+3, #high(22 / 0x10000) 
+073D            460   
+073D            461   
+073D 1200F3     462            lcall add32
+0740            463            
+0740 12002E     464            lcall hex2bcd
+0743 22         465      ret
+0744            466     
 0744            467   
-0744            468   MainProgram:
-0744 75817F     469       mov SP, #7FH ; Set the stack pointer to the begining of idata
-0747            470       
-0747            471       ;lcall Timer0_Init
-0747 120368     472       lcall Timer2_Init
-074A            473       ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
-074A 75E600     474       mov P0M0, #0
-074D 75E700     475       mov P0M1, #0
-0750 D2AF       476       setb EA   ; Enable Global interrupts
-0752            477       
-0752 1203C3     478       lcall InitSerialPort
-0755 90040C     479       mov DPTR, #Hello_World
-0758 1203E3     480       lcall SendString
-075B            481       
-075B 1203EE     482       lcall INIT_SPI
-075E 1202F8     483       lcall LCD_4BIT
-0761            484       
-0761            485   forever:
-0761 00         486   nop
-0762            487   
-0762            488   
-0762            489   GET_TEMP_DATA: 
-0762 3001FD     490            jnb one_second_flag, GET_TEMP_DATA
-0765 C201       491            clr one_second_flag ; We clear this flag in the main loop, but it is set in the ISR for timer 2
-0767            492            
-0767            493            ;Gets, displays, and pushes ADC LM355 temp values
-0767 120667     494            lcall GET_ADC_TEMP
-076A 1206B5     495       lcall Voltage_to_temp_LM355
-076D 120425     496       lcall Display_10_digit_BCD
-0770            497       
-0770            498       ; Gets, displays, and pushes k-type thermocouple vlaues
-0770 12068E     499            lcall GET_THERMO_TEMP
-0773 1206F5     500       lcall Voltage_to_temp_thermocouple
-0776 1205F1     501       lcall Send_10_digit_BCD
-0779 12050B     502       lcall Display_10_digit_BCD_2
-077C            503       
-077C 12041C     504       lcall Delay
-077F 020761     505       ljmp forever ; This is equivalent to 'forever: sjmp forever'
-0782 22         506       ret
-0783            507            
-0783            508   
-0783            509   
-0783            510   EN
+0744            468   
+0744            469   
+0744            470   MainProgram:
+0744 75817F     471       mov SP, #7FH ; Set the stack pointer to the begining of idata
+0747            472       
+0747            473       ;lcall Timer0_Init
+0747 120368     474       lcall Timer2_Init
+074A            475       ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
+074A 75E600     476       mov P0M0, #0
+074D 75E700     477       mov P0M1, #0
+0750 D2AF       478       setb EA   ; Enable Global interrupts
+0752            479       
+0752 1203C3     480       lcall InitSerialPort
+0755 90040C     481       mov DPTR, #Hello_World
+0758 1203E3     482       lcall SendString
+075B            483       
+075B 1203EE     484       lcall INIT_SPI
+075E 1202F8     485       lcall LCD_4BIT
+0761            486       
+0761            487   forever:
+0761 00         488   nop
+0762            489   
+0762            490   
+0762            491   GET_TEMP_DATA: 
+0762 3001FD     492            jnb one_second_flag, GET_TEMP_DATA
+0765 C201       493            clr one_second_flag ; We clear this flag in the main loop, but it is set in the ISR for timer 2
+0767            494            
+0767            495            ;Gets, displays, and pushes ADC LM355 temp values
+0767 120667     496            lcall GET_ADC_TEMP
+076A 1206B5     497       lcall Voltage_to_temp_LM355
+076D 120425     498       lcall Display_10_digit_BCD
+0770            499       
+0770            500       ; Gets, displays, and pushes k-type thermocouple vlaues
+0770 12068E     501            lcall GET_THERMO_TEMP
+0773 1206F5     502       lcall Voltage_to_temp_thermocouple
+0776 1205F1     503       lcall Send_10_digit_BCD
+0779 12050B     504       lcall Display_10_digit_BCD_2
+077C            505       
+077C 12041C     506       lcall Delay
+077F 020761     507       ljmp forever ; This is equivalent to 'forever: sjmp forever'
+0782 22         508       ret
+0783            509            
+0783            510   
+0783            511   
+0783            512   EN

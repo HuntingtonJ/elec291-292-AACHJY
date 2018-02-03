@@ -44,11 +44,7 @@ Result: ds 2
 x:      ds 4
 y:      ds 4
 bcd:    ds 5
-soaktime: ds 2
-soaktemp: ds 2
-reflowtime: ds 2
-reflowtemp: ds 2
-soaktemp3digit: ds 2
+
 
 
 BSEG

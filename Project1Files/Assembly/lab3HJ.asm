@@ -456,7 +456,9 @@ Voltage_to_temp_LM355:
 	Load_y(2000) ; 200*10
 	lcall div32
 	
-	Load_y(24)
+	Load_y(22)
+
+
 	lcall add32
   	
    	lcall hex2bcd
