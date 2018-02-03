@@ -22,8 +22,9 @@ reflow_state_machine:
 	state0:
 			cjne a, #0, state1
 			mov pwm, #0
-			jb MASTER_START_STOP, state0_done
-			jnb MASTER_START_STOP, $ ; Wait for key release
+			ljmp Main_Menu_Program
+			jb MASTER_START, state0_done
+			jnb MASTER_START, $ ; Wait for key release
 			mov state, #1
 		state0_done:
 			ljmp forever

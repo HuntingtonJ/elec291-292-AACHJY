@@ -483,9 +483,7 @@ MainProgram:
     
     lcall INIT_SPI
     lcall LCD_4BIT
-    
-forever:
-nop
+  
 
 
 GET_TEMP_DATA: 
@@ -503,8 +501,7 @@ GET_TEMP_DATA:
     lcall Send_10_digit_BCD
     lcall Display_10_digit_BCD_2
     
-    lcall Delay
-    ljmp forever ; This is equivalent to 'forever: sjmp forever'
+    ;lcall Delay
     ret
 	
 

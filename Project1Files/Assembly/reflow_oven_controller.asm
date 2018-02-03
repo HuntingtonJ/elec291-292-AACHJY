@@ -57,7 +57,7 @@ UP_BUTTON	EQU P0.1
 DOWN_BUTTON EQU P0.2
 SELECT_BUTTON EQU P0.3
 
-MASTER_START_STOP equ p0.4
+MASTER_START_STOP equ p1.0
 
 
 DSEG at 0x30
@@ -71,7 +71,7 @@ soaktemp: ds 2
 reflowtime: ds 2
 reflowtemp: ds 2
 soaktemp3digit: ds 2
-reflow_state: ds 1
+
 
 BSEG
 mf: dbit 1
@@ -322,7 +322,8 @@ MainProgram:
     lcall SendString
     
 forever:
+	lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
     ljmp forever ; This is equivalent to 'forever: sjmp forever'
 
-    lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
+    
 END

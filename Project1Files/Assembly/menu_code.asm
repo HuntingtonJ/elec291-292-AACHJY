@@ -22,7 +22,7 @@ BRG_VAL equ (0x100-(CLK/(16*BAUD)))
 
 
 org 0x0000
-   ljmp MainProgram
+   ljmp Main_Program
 
 ; These ’EQU’ must match the wiring between the microcontroller and ADC
 SOUND_OUT   EQU P3.7
@@ -113,7 +113,7 @@ ljmp %1
 endhere_%M: 			
 	endmac
 
-MainProgram:
+Main_Menu_Program:
 	mov SP, #7FH
 	;Configure port 0/1 in bi-directional mode
 	mov P0M0, #0
