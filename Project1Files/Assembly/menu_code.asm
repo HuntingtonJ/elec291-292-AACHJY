@@ -22,7 +22,7 @@ BRG_VAL equ (0x100-(CLK/(16*BAUD)))
 
 
 org 0x0000
-   ljmp Main_Program
+   ljmp Main_Menu_Program
 
 ; These ’EQU’ must match the wiring between the microcontroller and ADC
 SOUND_OUT   EQU P3.7
@@ -44,7 +44,11 @@ Result: ds 2
 x:      ds 4
 y:      ds 4
 bcd:    ds 5
-
+soaktime: ds 2
+soaktemp: ds 2
+reflowtime: ds 2
+reflowtemp: ds 2
+soaktemp3digit: ds 2
 
 
 BSEG
@@ -102,6 +106,11 @@ Wait1: djnz R0, Wait1 ; 3 cycles->3*45.21123ns*166=22.51519us
 ;Button Pressed macro 
 ;if button (input %0) is pressed, go to specified location (input %1), if not, go to next instruction
 ;-----------------------------
+putchar:
+    jnb TI, putchar
+    clr TI
+    mov SBUF, a
+    ret
 
 button_jmp mac	
 jb %0, endhere_%M
@@ -126,6 +135,10 @@ Main_Menu_Program:
 	mov reflowtemp, #0x00
 	;display initial menu messages
 
+	Set_Cursor(2, 4)
+	mov a, #11011111b
+	lcall putchar 	
+
 	ljmp Initial_menu	
 
 
@@ -142,7 +155,7 @@ Initial_menu:
     button_jmp(SELECT_BUTTON, Choose_menu)
     button_jmp(NEXT_BUTTON, Choose_menu)
     button_jmp(UP_BUTTON, Choose_menu)
-   button_jmp(DOWN_BUTTON, Choose_menu)
+    button_jmp(DOWN_BUTTON, Choose_menu)
     ljmp Initial_menu
 
 system_ready: 

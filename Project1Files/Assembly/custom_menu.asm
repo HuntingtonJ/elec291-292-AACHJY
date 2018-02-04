@@ -114,6 +114,7 @@ ljmp %1
 
 endhere_%M: 			
 	endmac
+	
 
 MainProgram:
 	mov SP, #7FH
@@ -127,6 +128,7 @@ MainProgram:
 	mov reflowtime, #0x00
 	mov reflowtemp, #0x00
 	;display initial menu messages
+	
 
 	ljmp Initial_menu	
 
@@ -137,9 +139,10 @@ MainProgram:
 Initial_menu: 
 	Set_Cursor(1, 1)
     Send_Constant_String(#Welcome)
+    
     Set_Cursor(2, 1)
     Send_Constant_String(#Choose_option)
-	
+   
     ;------------- any button being pressed will change the screen
     button_jmp(SELECT_BUTTON, Choose_menu)
     button_jmp(NEXT_BUTTON, Choose_menu)
