@@ -14,9 +14,23 @@ MASTER_STOP EQU 1.1
 Abort_string: db 'Process aborted', 0
 Waiting_to_cool: db 'Wait to cool', 0
 
+;----------------;
+; Routine to initialize 
+; Start/stop buttons ISR; 
+;-----------------;
 
+Start_stop_Init: 
+	
+	mov KBMOD, #3	; enable edge triggered for P0.0 and P0.1
+	mov KBLS, #0 	; watch for negative edge (0->1)
+	mov KBE, #3	; enable interrupt for p0.0 and p0.1
+	mov KBF, #3; interrupt active, must clear at start of ISR and setb at end. 
+
+	ret
 
 Start_stop_ISR: 
+mov KBF, #0		; masks interrupt 
+push acc
 
 button_jmp(MASTER_STOP, STOP_ROUTINE)	; if master stop has been pressed, change to state 5
 
@@ -44,7 +58,8 @@ sjmp End_master_ISR
 
 
 End_master_ISR: 
-	
+	mov KBF, #3		; enables interrupt
+	pop acc
 
 	reti
 

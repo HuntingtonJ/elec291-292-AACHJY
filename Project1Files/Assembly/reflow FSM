@@ -43,7 +43,7 @@ Reflow_screen mac
 	lcall putchar 					;display current temp of state
 
 	Set_Cursor(2, 4)
-	mov a, #11011111b
+	mov a, #11011111b			; trying to display the special "degree" symbol 
 	lcall putchar 	
 endmac
 
