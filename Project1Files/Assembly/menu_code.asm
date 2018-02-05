@@ -170,6 +170,7 @@ system_ready:
 
 	button_jmp(DOWN_BUTTON, Choose_menu)
 	button_jmp(SELECT_BUTTON, Choose_menu)
+	button_jmp(MASTER_START, Confirm_menu)
 
 ljmp system_ready
 
@@ -525,6 +526,15 @@ lllaaa:
 	ljmp Custom_menu
 ;----------------Custom Menu End----------------;
 
-
+Confirm_menu:
+	Set_Cursor(1,1)
+	Send_Constant_String(#Confirm_menu)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Clear_Row)	
+		
+	button_jmp(BACK_BUTTON, Choose_menu)
+	button_jmp(MASTER_START, reflow_state_machine)	
+	
+	ljmp Confirm_menu
 	
 End

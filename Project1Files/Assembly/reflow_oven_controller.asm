@@ -244,16 +244,24 @@ Timer2_ISR_done:
 	reti
 
 Start_stop_ISR: 
+
+			; In order to make the start button work effectively, we need to update where the routine returns to in main when it gets updated. This could involve either changing the link register (which is????) or checking if a flag has been pressed upon returning to main. 
+
 	mov KBF, #0		; masks interrupt 
 	push acc
 
 	button_jmp(MASTER_STOP, STOP_ROUTINE)	; if master stop has been pressed, change to state 5
 	button_jmp(MASTER_START, START_ROUTINE) ; if master start has been pressed, change to state 1
 START_ROUTINE: 
+
+; We should add some code here that checks if appropriate values have been loaded into the variable locations (ie the temp isn't greater than 255)
+
 	mov a, reflow_state
 	cjne a, #0, End_master_ISR
 	mov reflow_state, #1
 	sjmp End_master_ISR
+
+
 STOP_ROUTINE: 
 	mov reflow_state, #5	
 			; any other things we want to do, ie, statements we want to make 
