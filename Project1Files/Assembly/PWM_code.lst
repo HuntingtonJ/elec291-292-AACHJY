@@ -256,11 +256,11 @@
 0030 4410        67            orl a, #00010000B
 0032 F589        68            mov TMOD, a
 0034             69            
-0034 758DCC      70            mov TH1, #DUTY_80             ;Current count value
-0037 758B00      71            mov TL1, #0                 ;Linear Prescaling
+0034 758D00      70            mov TH1, #0             ;Current count value
+0037 758B00      71            mov TL1, #0                  ;Linear Prescaling
 003A             72            
-003A 75F5CC      73            mov TIMER1_RELOAD_H, #DUTY_80 ;Duty cycle percentage
-003D 75F300      74            mov TIMER1_RELOAD_L, #0     ;Frequency scaling/adjust f_out = f_sys/(256 * (256 - TL))
+003A 75F500      73            mov TIMER1_RELOAD_H, #DUTY_0 ;Duty cycle percentage. Replace this value to change the duty cycle
+003D 75F300      74            mov TIMER1_RELOAD_L, #0      ;Frequency scaling/adjust f_out = f_sys/(256 * (256 - TL))
 0040             75            
 0040 E591        76            mov a, TCONB ;load TCONB for PWM settings
 0042 5400        77            anl a, #00000000B
