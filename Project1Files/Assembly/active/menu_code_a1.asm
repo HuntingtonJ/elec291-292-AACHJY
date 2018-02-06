@@ -1,97 +1,4 @@
-; Code for menu options
-
-$MODLP51
-
-; There is a couple of typos in MODLP51 in the definition of the timer 0/1 reload
-; special function registers (SFRs), so:
-
-TIMER0_RELOAD_L DATA 0xf2
-TIMER1_RELOAD_L DATA 0xf3
-TIMER0_RELOAD_H DATA 0xf4
-TIMER1_RELOAD_H DATA 0xf5
-
-CLK           EQU 22118400 ; Microcontroller system crystal frequency in Hz
-TIMER0_RATE   EQU 4096     ; 2048Hz squarewave (peak amplitude of CEM-1203 speaker)
-TIMER0_RELOAD EQU ((65536-(CLK/TIMER0_RATE)))
-TIMER2_RATE   EQU 1000     ; 1000Hz, for a timer tick of 1ms
-TIMER2_RELOAD EQU ((65536-(CLK/TIMER2_RATE)))
-MAX_TEMP	  EQU 250
-TIMEOUT_TIME  EQU 60
-BAUD equ 115200
-BRG_VAL equ (0x100-(CLK/(16*BAUD)))
-
-
-org 0x0000
-   ljmp Main_Menu_Program
-
-; These ’EQU’ must match the wiring between the microcontroller and ADC
-SOUND_OUT   EQU P3.7
-CE_ADC      EQU P2.4
-MY_MOSI     EQU P2.5
-MY_MISO     EQU P2.6
-MY_SCLK     EQU P2.7
-UP_BUTTON	EQU P0.0
-DOWN_BUTTON EQU P0.1
-SELECT_BUTTON EQU P0.2
-NEXT_BUTTON EQU P0.3
-BACK_BUTTON EQU p0.4
-MASTER_START_STOP equ p0.5
-
-
-DSEG at 0x30
-Count1ms:      ds 2 ; Used to determine when half second has passed
-Result: ds 2
-x:      ds 4
-y:      ds 4
-bcd:    ds 5
-soaktime: ds 2
-soaktemp: ds 2
-reflowtime: ds 2
-reflowtemp: ds 2
-soaktemp3digit: ds 2
-
-
-BSEG
-mf: dbit 1
-
 CSEG
-LCD_RS equ P1.1
-LCD_RW equ P1.2
-LCD_E  equ P1.3
-LCD_D4 equ P3.2
-LCD_D5 equ P3.3
-LCD_D6 equ P3.4
-LCD_D7 equ P3.5
-
-$NOLIST
-$include(LCD_4bit.inc) ; A library of LCD related functions and utility macros
-$LIST
-
-;$NOLIST
-;$include(menu_code.inc) 
-;$LIST
-
-;                     1234567890123456    <- This helps determine the location of the counter
-Welcome: 		  db 'Welcome!        ', 0
-Choose_option: 	  db 'Select option   ', 0
-Preset_menu_msg:  db 'Preset Profile  ', 0
-Custom_menu_msg:  db 'Custom Profile  ', 0
-Soak_temp:		  db 'Soak Temp       ', 0
-Soak_time:		  db 'Soak Time       ', 0
-Reflow_time: 	  db 'Reflow Time     ', 0
-Reflow_temp:	  db 'Reflow Temp     ', 0
-Pb_free_solder:	  db 'SAC305 solder   ', 0
-Pb_solder:		  db 'Pb-solder paste ', 0
-Pizza_msg0: 	  db 'Shhh! No pizza  ', 0
-Pizza_msg1: 	  db 'allowed in here.', 0
-Profile_loaded:   db 'profile loaded  ', 0
-Is_ready: 		  db 'System Ready    ', 0
-Press_start: 	  db 'Press Start     ', 0
-Set_Value:		  db 'xx              ', 0
-Clear_Row:		  db '                ', 0
-PRESETMENUMSG:	  db 'AT PRESET MENU  ', 0
-CUSTOMMENUMSG:	  db 'AT CUSTOM MENU  ', 0
-Are_you_sure:  	  db 'Are you sure?   ', 0
 
 WaitHalfSec:
     mov R2, #45
@@ -106,11 +13,7 @@ Wait1: djnz R0, Wait1 ; 3 cycles->3*45.21123ns*166=22.51519us
 ;Button Pressed macro 
 ;if button (input %0) is pressed, go to specified location (input %1), if not, go to next instruction
 ;-----------------------------
-putchar:
-    jnb TI, putchar
-    clr TI
-    mov SBUF, a
-    ret
+
 
 button_jmp mac	
 jb %0, endhere_%M
@@ -174,6 +77,44 @@ system_ready:
 
 ljmp system_ready
 
+Confirm_menu:
+	
+	; We need to check that all parameters are loaded with non-zero values
+	mov a, soaktime
+	CJNE a, #0, one_good
+	sjmp unloaded
+one_good: 
+	mov a, soaktemp
+	CJNE a, #0, two_good
+	sjmp unloaded
+two_good: 
+	mov a, reflowtime
+	CJNE a, #0, three_good
+	sjmp unloaded
+
+three_good: 
+	mov a, reflowtemp
+	CJNE a, #0, Loaded_param
+	sjmp unloaded
+
+unloaded: 
+	Set_Cursor(1,1)
+	Send_Constant_String(#Error_msg1)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Error_msg2)
+	mov reflow_state, #0		; reset state to zero (as it is set to 1 by the start_button ISR)
+	ljmp Initial_menu
+
+Loaded_param: 
+
+	;Then check if the state=1. If so, goto reflow FSM
+;	mov a, reflow_state
+	;cjne a, #1, state_error
+	
+	button_jmp(BACK_BUTTON, Choose_menu)
+	button_jmp(MASTER_START, reflow_state_machine)	
+	
+	sjmp Loaded_param
 
 Choose_menu: 
 	Set_Cursor(1,1)
@@ -526,15 +467,5 @@ lllaaa:
 	ljmp Custom_menu
 ;----------------Custom Menu End----------------;
 
-Confirm_menu:
-	Set_Cursor(1,1)
-	Send_Constant_String(#Confirm_menu)
-	Set_Cursor(2,1)
-	Send_Constant_String(#Clear_Row)	
-		
-	button_jmp(BACK_BUTTON, Choose_menu)
-	button_jmp(MASTER_START, reflow_state_machine)	
-	
-	ljmp Confirm_menu
-	
+
 End

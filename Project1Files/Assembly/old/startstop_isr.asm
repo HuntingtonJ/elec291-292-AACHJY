@@ -37,6 +37,9 @@ button_jmp(MASTER_STOP, STOP_ROUTINE)	; if master stop has been pressed, change 
 button_jmp(MASTER_START, START_ROUTINE) ; if master start has been pressed, change to state 1
 
 START_ROUTINE: 
+	; We should add some code here that 
+
+
 	mov a, reflow_state
 	cjne a, #0, End_master_ISR
 	mov reflow_state, #1
