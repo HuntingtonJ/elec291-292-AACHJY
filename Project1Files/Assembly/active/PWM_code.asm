@@ -1,4 +1,4 @@
-<<<<<<< HEAD:Project1Files/Assembly/PWM_code.asm
+
 $MODLP51
 
 ; There is a couple of typos in MODLP51 in the definition of the timer 0/1 reload
@@ -246,5 +246,4 @@ MainProgram:
     
 forever:
 	sjmp forever
->>>>>>> origin/integration:Project1Files/Assembly/active/PWM_code.asm
 END

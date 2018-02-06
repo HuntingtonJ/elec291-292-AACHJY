@@ -19,6 +19,11 @@ BAUD equ 115200
 BRG_VAL equ (0x100-(CLK/(16*BAUD)))
 MILLISECOND_WAIT equ 200		; how many milliseconds between temp samples
 
+DUTY_0    EQU 0
+DUTY_20   EQU 51   ;256 * 0.2
+DUTY_50   EQU 128  ;256 * 0.5
+DUTY_80   EQU 204  ;256 * 0.8
+DUTY_100  EQU 255
 
 org 0x0000
    ljmp MainProgram
@@ -96,13 +101,13 @@ $include(math32.inc)   ; A library of 32bit math functions
 $LIST
 
 CSEG
-LCD_RS equ P1.1
-LCD_RW equ P1.2
-LCD_E  equ P1.3
-LCD_D4 equ P3.2
-LCD_D5 equ P3.3
-LCD_D6 equ P3.4
-LCD_D7 equ P3.5
+LCD_RS equ P1.2
+LCD_RW equ P1.3
+LCD_E  equ P3.2
+LCD_D4 equ P3.3
+LCD_D5 equ P3.4
+LCD_D6 equ P3.6
+LCD_D7 equ P3.7
 
 Ramp_to_Soak: 		db         'Preheat', 0
 Soak: 				db		   'Soak   ', 0
@@ -188,6 +193,26 @@ Timer0_ISR:
 beep_on:
 	;cpl SOUND_OUT ; Connect speaker to P3.7!
 no_beep:
+	reti
+
+Timer1_Init:
+	mov a, TMOD
+	anl a, #00001111B
+	orl a, #00010000B
+	mov TMOD, a
+	
+	mov TH1, #0             ;Current count value
+	mov TL1, #0                  ;Linear Prescaling
+	
+	mov TIMER1_RELOAD_H, #DUTY_0 ;Duty cycle percentage. Replace this value to change the duty cycle
+	mov TIMER1_RELOAD_L, #0      ;Frequency scaling/adjust f_out = f_sys/(256 * (256 - TL))
+	
+	mov a, TCONB ;load TCONB for PWM settings
+	anl a, #00000000B
+	orl a, #10000000B
+	mov TCONB, a
+	
+	setb TR1
 	reti
 
 ;---------------------------------;
@@ -311,8 +336,6 @@ End_master_ISR:
 	reti
 
 
-
-
 MainProgram:
     mov SP, #7FH ; Set the stack pointer to the begining of idata
     lcall Start_stop_Init
@@ -327,7 +350,6 @@ MainProgram:
 	lcall INIT_SPI
     lcall LCD_4BIT
 	
-    
 	
 forever:
 	lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
