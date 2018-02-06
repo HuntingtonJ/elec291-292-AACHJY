@@ -41,6 +41,16 @@ org 0x0023
 org 0x002B
 	ljmp Timer2_ISR
 	
+DSEG at 0x30
+Count1ms:      ds 2 ; Used to determine when half second has passed
+x:             ds 4
+y:             ds 4
+bcd:           ds 5
+
+BSEG
+
+CSEG
+	
 ;---------------------------------;
 ; Routine to initialize the ISR   ;
 ; for timer 0                     ;
@@ -119,7 +129,6 @@ Timer2_ISR:
 	mov a, Count1ms+0
 	cjne a, #10h, Timer2_ISR_done
 	mov Count1ms+0, #0h
-	Send_BCD(bcd)
 	
 Timer2_ISR_done:
 	pop psw
