@@ -51,7 +51,7 @@ org 0x002B
 org 0x003B
 	ljmp Start_stop_ISR
 
-; These ’EQU’ must match the wiring between the microcontroller and ADC
+; These â€™EQUâ€™ must match the wiring between the microcontroller and ADC
 SOUND_OUT   EQU P3.7
 CE_ADC      EQU P2.4
 MY_MOSI     EQU P2.5
@@ -60,8 +60,7 @@ MY_SCLK     EQU P2.7
 UP_BUTTON	EQU P0.1
 DOWN_BUTTON EQU P0.2
 SELECT_BUTTON EQU P0.3
-
-MASTER_START_STOP equ p1.0
+MASTER_START equ p1.0
 
 
 DSEG at 0x30
@@ -243,6 +242,10 @@ Timer2_ISR_done:
 	pop acc
 	reti
 
+
+;-------------------------------------
+; To start or ABORT the reflow cycle
+;------------------------------------
 Start_stop_ISR: 
 
 			; In order to make the start button work effectively, we need to update where the routine returns to in main when it gets updated. This could involve either changing the link register (which is????) or checking if a flag has been pressed upon returning to main. 
@@ -250,7 +253,7 @@ Start_stop_ISR:
 	mov KBF, #0		; masks interrupt 
 	push acc
 
-	button_jmp(MASTER_STOP, STOP_ROUTINE)	; if master stop has been pressed, change to state 5
+	;button_jmp(MASTER_STOP, STOP_ROUTINE)	; if master stop has been pressed, change to state 5
 	button_jmp(MASTER_START, START_ROUTINE) ; if master start has been pressed, change to state 1
 START_ROUTINE: 
 
@@ -416,6 +419,8 @@ MainProgram:
 forever:
 	lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
 	ljmp reflow_state_machine 	; go do some stuff in the state_machine
+
+
     ljmp forever ; This is equivalent to 'forever: sjmp forever'
 
     

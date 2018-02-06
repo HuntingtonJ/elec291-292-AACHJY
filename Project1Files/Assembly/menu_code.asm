@@ -35,7 +35,7 @@ DOWN_BUTTON EQU P0.1
 SELECT_BUTTON EQU P0.2
 NEXT_BUTTON EQU P0.3
 BACK_BUTTON EQU p0.4
-MASTER_START_STOP equ p0.5
+MASTER_START equ p0.5
 
 
 DSEG at 0x30
@@ -49,6 +49,8 @@ soaktemp: ds 2
 reflowtime: ds 2
 reflowtemp: ds 2
 soaktemp3digit: ds 2
+reflow_state: ds 1
+
 
 
 BSEG
@@ -67,9 +69,9 @@ $NOLIST
 $include(LCD_4bit.inc) ; A library of LCD related functions and utility macros
 $LIST
 
-;$NOLIST
-;$include(menu_code.inc) 
-;$LIST
+$NOLIST
+$include(reflow_FSM.asm) 
+$LIST
 
 ;                     1234567890123456    <- This helps determine the location of the counter
 Welcome: 		  db 'Welcome!        ', 0
@@ -92,6 +94,9 @@ Clear_Row:		  db '                ', 0
 PRESETMENUMSG:	  db 'AT PRESET MENU  ', 0
 CUSTOMMENUMSG:	  db 'AT CUSTOM MENU  ', 0
 Are_you_sure:  	  db 'Are you sure?   ', 0
+Error_msg1: 	  db 'Error, profiles ', 0
+Error_msg2:       db 'not loaded      ', 0
+
 
 WaitHalfSec:
     mov R2, #45
@@ -174,6 +179,44 @@ system_ready:
 
 ljmp system_ready
 
+Confirm_menu:
+	
+	; We need to check that all parameters are loaded with non-zero values
+	mov a, soaktime
+	CJNE a, #0, one_good
+	sjmp unloaded
+one_good: 
+	mov a, soaktemp
+	CJNE a, #0, two_good
+	sjmp unloaded
+two_good: 
+	mov a, reflowtime
+	CJNE a, #0, three_good
+	sjmp unloaded
+
+three_good: 
+	mov a, reflowtemp
+	CJNE a, #0, Loaded_param
+	sjmp unloaded
+
+unloaded: 
+	Set_Cursor(1,1)
+	Send_Constant_String(#Error_msg1)
+	Set_Cursor(2,1)
+	Send_Constant_String(#Error_msg2)
+	mov reflow_state, #0		; reset state to zero (as it is set to 1 by the start_button ISR)
+	ljmp Initial_menu
+
+Loaded_param: 
+
+	;Then check if the state=1. If so, goto reflow FSM
+;	mov a, reflow_state
+	;cjne a, #1, state_error
+	
+	button_jmp(BACK_BUTTON, Choose_menu)
+	button_jmp(MASTER_START, reflow_state_machine)	
+	
+	sjmp Loaded_param
 
 Choose_menu: 
 	Set_Cursor(1,1)
@@ -526,15 +569,5 @@ lllaaa:
 	ljmp Custom_menu
 ;----------------Custom Menu End----------------;
 
-Confirm_menu:
-	Set_Cursor(1,1)
-	Send_Constant_String(#Confirm_menu)
-	Set_Cursor(2,1)
-	Send_Constant_String(#Clear_Row)	
-		
-	button_jmp(BACK_BUTTON, Choose_menu)
-	button_jmp(MASTER_START, reflow_state_machine)	
-	
-	ljmp Confirm_menu
-	
+
 End

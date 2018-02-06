@@ -1,14 +1,16 @@
 
-dseg: 
+dseg 
 
-reflow_state: ds 1
+;reflow_state: ds 1
 pwm: ds 1
 temp: ds 1
 sec: ds 1 		; seconds variable for reflow FSM (to be incremented every second)
 cooled_temp: ds 1
 
+cseg
+
 ; State titles for LCD
-						123456789012345
+;						123456789012345
 Ramp_to_Soak: 		db         'Preheat', 0
 Soak: 				db		   'Soak   ', 0
 Ramp_to_Peak: 		db 		   'Ramp2pk', 0
@@ -128,3 +130,5 @@ reflow_state_machine:
 			mov state, #0
 		state5_done:
 			ljmp forever
+
+			end
