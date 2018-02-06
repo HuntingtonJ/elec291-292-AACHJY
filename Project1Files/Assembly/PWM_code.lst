@@ -203,119 +203,76 @@
 0000             14   TIMER2_RATE   EQU 1000     ; 1000Hz, for a timer tick of 1ms
 0000             15   TIMER2_RELOAD EQU ((65536-(CLK/TIMER2_RATE)))
 0000             16   
-0000             17   org 0x0000
-0000 02007A      18      ljmp MainProgram
-0003             19   
-0003             20   ; External interrupt 0 vector (not used in this code)
-0003             21   org 0x0003
-0003 32          22            reti
-0004             23   
-0004             24   ; Timer/Counter 0 overflow interrupt vector
-000B             25   org 0x000B
-000B 020047      26            ljmp Timer0_ISR
-000E             27   
-000E             28   ; External interrupt 1 vector (not used in this code)
-0013             29   org 0x0013
-0013 32          30            reti
-0014             31   
-0014             32   ; Timer/Counter 1 overflow interrupt vector (not used in this code)
-001B             33   org 0x001B
-001B 32          34            reti
-001C             35   
-001C             36   ; Serial port receive/transmit interrupt vector (not used in this code)
-0023             37   org 0x0023 
-0023 32          38            reti
-0024             39            
-0024             40   ; Timer/Counter 2 overflow interrupt vector
-002B             41   org 0x002B
-002B 020063      42            ljmp Timer2_ISR
-002E             43            
-0030             44   DSEG at 0x30
-0030             45   Count1ms:      ds 2 ; Used to determine when half second has passed
-0032             46   x:             ds 4
-0036             47   y:             ds 4
-003A             48   bcd:           ds 5
-003F             49   
-0000             50   BSEG
-0000             51   
-002E             52   CSEG
-002E             53            
-002E             54   ;---------------------------------;
-002E             55   ; Routine to initialize the ISR   ;
-002E             56   ; for timer 0                     ;
-002E             57   ;---------------------------------;
-002E             58   Timer0_Init:
-002E E589        59            mov a, TMOD
-0030 54F0        60            anl a, #0xf0 ; Clear the bits for timer 0
-0032 4401        61            orl a, #0x01 ; Configure timer 0 as 16-timer
-0034 F589        62            mov TMOD, a
-0036 758CEA      63            mov TH0, #high(TIMER0_RELOAD)
-0039 758AE8      64            mov TL0, #low(TIMER0_RELOAD)
-003C             65            ; Set autoreload value
-003C 75F4EA      66            mov TIMER0_RELOAD_H, #high(TIMER0_RELOAD)
-003F 75F2E8      67            mov TIMER0_RELOAD_L, #low(TIMER0_RELOAD)
-0042             68            ; Enable the timer and interrupts
-0042 D2A9        69       setb ET0  ; Enable timer 0 interrupt
-0044 D28C        70       setb TR0  ; Start timer 0
-0046 22          71            ret
-0047             72   
-0047             73   ;---------------------------------;
-0047             74   ; ISR for timer 0.  Set to execute;
-0047             75   ; every 1/4096Hz to generate a    ;
-0047             76   ; 2048 Hz square wave at pin P3.7 ;
-0047             77   ;---------------------------------;
-0047             78   Timer0_ISR:
-0047             79            ;clr TF0  ; According to the data sheet this is done for us already.
-0047 8000        80            sjmp no_beep
-0049             81   beep_on:
-0049             82            ;cpl SOUND_OUT ; Connect speaker to P3.7!
-0049             83   no_beep:
-0049 32          84            reti
-004A             85   ;---------------------------------;
-004A             86   ; Routine to initialize the ISR   ;
-004A             87   ; for timer 2                     ;
-004A             88   ;---------------------------------;
-004A             89   Timer2_Init:
-004A 75C800      90            mov T2CON, #0 ; Stop timer/counter.  Autoreload mode.
-004D 75CDA9      91            mov TH2, #high(TIMER2_RELOAD)
-0050 75CC9A      92            mov TL2, #low(TIMER2_RELOAD)
-0053             93            ; Set the reload value
-0053 75CBA9      94            mov RCAP2H, #high(TIMER2_RELOAD)
-0056 75CA9A      95            mov RCAP2L, #low(TIMER2_RELOAD)
-0059             96            ; Init One millisecond interrupt counter.  It is a 16-bit variable made with two 8-bit parts
-0059 E4          97            clr a
-005A F530        98            mov Count1ms+0, a
-005C F531        99            mov Count1ms+1, a
-005E            100            ; Enable the timer and interrupts
-005E D2AD       101       setb ET2  ; Enable timer 2 interrupt
-0060 D2CA       102       setb TR2  ; Enable timer 2
-0062 22         103            ret
-0063            104   
-0063            105   ;---------------------------------;
-0063            106   ; ISR for timer 2                 ;
-0063            107   ;---------------------------------;
-0063            108   Timer2_ISR:
-0063 C2CF       109            clr TF2  ; Timer 2 doesn't clear TF2 automatically. Do it in ISR
-0065 B2B6       110            cpl P3.6 ; To check the interrupt rate with oscilloscope. It must be precisely a 1 ms pulse.
-0067            111            
-0067            112            ; The two registers used in the ISR must be saved in the stack
-0067 C0E0       113            push acc
-0069 C0D0       114            push psw
-006B            115            
-006B            116            ; Increment the 16-bit one mili second counter
-006B 0530       117            inc Count1ms+0    ; Increment the low 8-bits first
-006D E530       118            mov a, Count1ms+0
-006F B41003     119            cjne a, #10h, Timer2_ISR_done
-0072 753000     120            mov Count1ms+0, #0h
-0075            121            
-0075            122   Timer2_ISR_done:
-0075 D0D0       123            pop psw
-0077 D0E0       124            pop acc
-0079 32         125            reti
-007A            126            
-007A            127   MainProgram:
-007A 75817F     128       mov SP, #7FH ; Set the stack pointer to the begining of idata
-007D            129       
-007D            130   forever:
-007D 80FE       131            sjmp forever
-007F            132   EN
+0000             17   DUTY_0    EQU 0
+0000             18   DUTY_20   EQU 51   ;256 * 0.2
+0000             19   DUTY_50   EQU 128  ;256 * 0.5
+0000             20   DUTY_100  EQU 255
+0000             21   
+0000             22   org 0x0000
+0000 02004B      23      ljmp MainProgram
+0003             24   
+0003             25   ; External interrupt 0 vector (not used in this code)
+0003             26   org 0x0003
+0003 32          27            reti
+0004             28   
+0004             29   ; Timer/Counter 0 overflow interrupt vector
+000B             30   org 0x000B
+000B 32          31            reti
+000C             32   
+000C             33   ; External interrupt 1 vector (not used in this code)
+0013             34   org 0x0013
+0013 32          35            reti
+0014             36   
+0014             37   ; Timer/Counter 1 overflow interrupt vector (not used in this code)
+001B             38   org 0x001B
+001B 32          39            reti
+001C             40   
+001C             41   ; Serial port receive/transmit interrupt vector (not used in this code)
+0023             42   org 0x0023 
+0023 32          43            reti
+0024             44            
+0024             45   ; Timer/Counter 2 overflow interrupt vector
+002B             46   org 0x002B
+002B 32          47            reti
+002C             48            
+0030             49   DSEG at 0x30
+0030             50   Count1ms:      ds 2 ; Used to determine when half second has passed
+0032             51   x:             ds 4
+0036             52   y:             ds 4
+003A             53   bcd:           ds 5
+003F             54   
+0000             55   BSEG
+0000             56   
+002C             57   CSEG
+002C             58            
+002C             59   ;---------------------------------;
+002C             60   ; Routine to initialize the ISR   ;
+002C             61   ; for timer 1                     ; 
+002C             62   ;---------------------------------;
+002C             63   Timer1_Init:
+002C E589        64            mov a, TMOD
+002E 540F        65            anl a, #00001111B
+0030 4410        66            orl a, #00010000B
+0032 F589        67            mov TMOD, a
+0034             68            
+0034 758D80      69            mov TH1, #DUTY_50             ;Current count value
+0037 758BFF      70            mov TL1, #255                 ;Linear Prescaling
+003A             71            
+003A 75F580      72            mov TIMER1_RELOAD_H, #DUTY_50 ;Duty cycle percentage
+003D 75F3FF      73            mov TIMER1_RELOAD_L, #255     ;Frequency scaling/adjust f_out = f_sys/(256 * (256 - TL))
+0040             74            
+0040 E591        75            mov a, TCONB ;load TCONB for PWM settings
+0042 5400        76            anl a, #00000000B
+0044 4480        77            orl a, #10000000B
+0046 F591        78            mov TCONB, a
+0048             79            
+0048 D28E        80            setb TR1
+004A 32          81            reti
+004B             82            
+004B             83   MainProgram:
+004B 75817F      84       mov SP, #7FH ; Set the stack pointer to the begining of idata
+004E 12002C      85       lcall Timer1_Init
+0051             86       
+0051             87   forever:
+0051 80FE        88            sjmp forever
+0053             89   EN

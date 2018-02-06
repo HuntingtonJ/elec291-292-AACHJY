@@ -66,11 +66,11 @@ Timer1_Init:
 	orl a, #00010000B
 	mov TMOD, a
 	
-	mov TH1, DUTY_50             ;Current count value
-	mov TL1,                     ;Linear Prescaling
+	mov TH1, #DUTY_50             ;Current count value
+	mov TL1, #255                 ;Linear Prescaling
 	
-	mov TIMER1_RELOAD_H, DUTY_50 ;Duty cycle percentage
-	mov TIMER1_RELOAD_L, 255     ;Frequency scaling/adjust f_out = f_sys/(256 * (256 - TL))
+	mov TIMER1_RELOAD_H, #DUTY_50 ;Duty cycle percentage
+	mov TIMER1_RELOAD_L, #255     ;Frequency scaling/adjust f_out = f_sys/(256 * (256 - TL))
 	
 	mov a, TCONB ;load TCONB for PWM settings
 	anl a, #00000000B
