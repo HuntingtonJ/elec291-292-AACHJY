@@ -14,6 +14,11 @@ TIMER0_RELOAD EQU ((65536-(CLK/TIMER0_RATE)))
 TIMER2_RATE   EQU 1000     ; 1000Hz, for a timer tick of 1ms
 TIMER2_RELOAD EQU ((65536-(CLK/TIMER2_RATE)))
 
+DUTY_0    EQU 0
+DUTY_20   EQU 51   ;256 * 0.2
+DUTY_50   EQU 128  ;256 * 0.5
+DUTY_100  EQU 255
+
 org 0x0000
    ljmp MainProgram
 
@@ -66,7 +71,7 @@ Timer0_Init:
 	mov TIMER0_RELOAD_H, #high(TIMER0_RELOAD)
 	mov TIMER0_RELOAD_L, #low(TIMER0_RELOAD)
 	; Enable the timer and interrupts
-    setb ET0  ; Enable timer 0 interrupt
+    setb ET0  ; Enable timer 0 interrupt   
     setb TR0  ; Start timer 0
 	ret
 
@@ -82,17 +87,27 @@ beep_on:
 	;cpl SOUND_OUT ; Connect speaker to P3.7!
 no_beep:
 	reti
+	
+	
+;---------------------------------;
+; Routine to initialize the ISR   ;
+; for timer 1                     ; 
+;---------------------------------;
+Timer1_Init:
+	mov a, TMOD
+	anl a, #00001111B
+	orl a, #00010000B
+	mov TMOD, a
+	
+	mov TH1, DUTY_CYCLE
+	mov TL1, 
+	
+	mov a, TCONB ;load TCONB for PWM settings
+	anl 
+	
+	
 
-Send_BCD mac
-	push ar0
-	mov r0, %0
-	lcall ?Send_BCD
-	mov a, #'\r'
-    lcall putchar
-    mov a, #'\n'
-    lcall putchar
-	pop ar0
-endmac
+
 ;---------------------------------;
 ; Routine to initialize the ISR   ;
 ; for timer 2                     ;

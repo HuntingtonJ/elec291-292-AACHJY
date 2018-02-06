@@ -271,62 +271,51 @@
 0049             82            ;cpl SOUND_OUT ; Connect speaker to P3.7!
 0049             83   no_beep:
 0049 32          84            reti
-004A             85   
-                 86   Send_BCD mac
-                 87   	push ar0
-                 88   	mov r0, %0
-                 89   	lcall ?Send_BCD
-                 90   	mov a, #'\r'
-                 91       lcall putchar
-                 92       mov a, #'\n'
-                 93       lcall putchar
-                 94   	pop ar0
-                 95   endmac
-004A             96   ;---------------------------------;
-004A             97   ; Routine to initialize the ISR   ;
-004A             98   ; for timer 2                     ;
-004A             99   ;---------------------------------;
-004A            100   Timer2_Init:
-004A 75C800     101            mov T2CON, #0 ; Stop timer/counter.  Autoreload mode.
-004D 75CDA9     102            mov TH2, #high(TIMER2_RELOAD)
-0050 75CC9A     103            mov TL2, #low(TIMER2_RELOAD)
-0053            104            ; Set the reload value
-0053 75CBA9     105            mov RCAP2H, #high(TIMER2_RELOAD)
-0056 75CA9A     106            mov RCAP2L, #low(TIMER2_RELOAD)
-0059            107            ; Init One millisecond interrupt counter.  It is a 16-bit variable made with two 8-bit parts
-0059 E4         108            clr a
-005A F530       109            mov Count1ms+0, a
-005C F531       110            mov Count1ms+1, a
-005E            111            ; Enable the timer and interrupts
-005E D2AD       112       setb ET2  ; Enable timer 2 interrupt
-0060 D2CA       113       setb TR2  ; Enable timer 2
-0062 22         114            ret
-0063            115   
-0063            116   ;---------------------------------;
-0063            117   ; ISR for timer 2                 ;
-0063            118   ;---------------------------------;
-0063            119   Timer2_ISR:
-0063 C2CF       120            clr TF2  ; Timer 2 doesn't clear TF2 automatically. Do it in ISR
-0065 B2B6       121            cpl P3.6 ; To check the interrupt rate with oscilloscope. It must be precisely a 1 ms pulse.
-0067            122            
-0067            123            ; The two registers used in the ISR must be saved in the stack
-0067 C0E0       124            push acc
-0069 C0D0       125            push psw
-006B            126            
-006B            127            ; Increment the 16-bit one mili second counter
-006B 0530       128            inc Count1ms+0    ; Increment the low 8-bits first
-006D E530       129            mov a, Count1ms+0
-006F B41003     130            cjne a, #10h, Timer2_ISR_done
-0072 753000     131            mov Count1ms+0, #0h
-0075            132            
-0075            133   Timer2_ISR_done:
-0075 D0D0       134            pop psw
-0077 D0E0       135            pop acc
-0079 32         136            reti
-007A            137            
-007A            138   MainProgram:
-007A 75817F     139       mov SP, #7FH ; Set the stack pointer to the begining of idata
-007D            140       
-007D            141   forever:
-007D 80FE       142            sjmp forever
-007F            143   EN
+004A             85   ;---------------------------------;
+004A             86   ; Routine to initialize the ISR   ;
+004A             87   ; for timer 2                     ;
+004A             88   ;---------------------------------;
+004A             89   Timer2_Init:
+004A 75C800      90            mov T2CON, #0 ; Stop timer/counter.  Autoreload mode.
+004D 75CDA9      91            mov TH2, #high(TIMER2_RELOAD)
+0050 75CC9A      92            mov TL2, #low(TIMER2_RELOAD)
+0053             93            ; Set the reload value
+0053 75CBA9      94            mov RCAP2H, #high(TIMER2_RELOAD)
+0056 75CA9A      95            mov RCAP2L, #low(TIMER2_RELOAD)
+0059             96            ; Init One millisecond interrupt counter.  It is a 16-bit variable made with two 8-bit parts
+0059 E4          97            clr a
+005A F530        98            mov Count1ms+0, a
+005C F531        99            mov Count1ms+1, a
+005E            100            ; Enable the timer and interrupts
+005E D2AD       101       setb ET2  ; Enable timer 2 interrupt
+0060 D2CA       102       setb TR2  ; Enable timer 2
+0062 22         103            ret
+0063            104   
+0063            105   ;---------------------------------;
+0063            106   ; ISR for timer 2                 ;
+0063            107   ;---------------------------------;
+0063            108   Timer2_ISR:
+0063 C2CF       109            clr TF2  ; Timer 2 doesn't clear TF2 automatically. Do it in ISR
+0065 B2B6       110            cpl P3.6 ; To check the interrupt rate with oscilloscope. It must be precisely a 1 ms pulse.
+0067            111            
+0067            112            ; The two registers used in the ISR must be saved in the stack
+0067 C0E0       113            push acc
+0069 C0D0       114            push psw
+006B            115            
+006B            116            ; Increment the 16-bit one mili second counter
+006B 0530       117            inc Count1ms+0    ; Increment the low 8-bits first
+006D E530       118            mov a, Count1ms+0
+006F B41003     119            cjne a, #10h, Timer2_ISR_done
+0072 753000     120            mov Count1ms+0, #0h
+0075            121            
+0075            122   Timer2_ISR_done:
+0075 D0D0       123            pop psw
+0077 D0E0       124            pop acc
+0079 32         125            reti
+007A            126            
+007A            127   MainProgram:
+007A 75817F     128       mov SP, #7FH ; Set the stack pointer to the begining of idata
+007D            129       
+007D            130   forever:
+007D 80FE       131            sjmp forever
+007F            132   EN
