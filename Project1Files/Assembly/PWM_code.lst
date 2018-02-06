@@ -206,73 +206,74 @@
 0000             17   DUTY_0    EQU 0
 0000             18   DUTY_20   EQU 51   ;256 * 0.2
 0000             19   DUTY_50   EQU 128  ;256 * 0.5
-0000             20   DUTY_100  EQU 255
-0000             21   
-0000             22   org 0x0000
-0000 02004B      23      ljmp MainProgram
-0003             24   
-0003             25   ; External interrupt 0 vector (not used in this code)
-0003             26   org 0x0003
-0003 32          27            reti
-0004             28   
-0004             29   ; Timer/Counter 0 overflow interrupt vector
-000B             30   org 0x000B
-000B 32          31            reti
-000C             32   
-000C             33   ; External interrupt 1 vector (not used in this code)
-0013             34   org 0x0013
-0013 32          35            reti
-0014             36   
-0014             37   ; Timer/Counter 1 overflow interrupt vector (not used in this code)
-001B             38   org 0x001B
-001B 32          39            reti
-001C             40   
-001C             41   ; Serial port receive/transmit interrupt vector (not used in this code)
-0023             42   org 0x0023 
-0023 32          43            reti
-0024             44            
-0024             45   ; Timer/Counter 2 overflow interrupt vector
-002B             46   org 0x002B
-002B 32          47            reti
-002C             48            
-0030             49   DSEG at 0x30
-0030             50   Count1ms:      ds 2 ; Used to determine when half second has passed
-0032             51   x:             ds 4
-0036             52   y:             ds 4
-003A             53   bcd:           ds 5
-003F             54   
-0000             55   BSEG
-0000             56   
-002C             57   CSEG
-002C             58            
-002C             59   ;---------------------------------;
-002C             60   ; Routine to initialize the ISR   ;
-002C             61   ; for timer 1                     ; 
-002C             62   ;---------------------------------;
-002C             63   Timer1_Init:
-002C E589        64            mov a, TMOD
-002E 540F        65            anl a, #00001111B
-0030 4410        66            orl a, #00010000B
-0032 F589        67            mov TMOD, a
-0034             68            
-0034 758D80      69            mov TH1, #DUTY_50             ;Current count value
-0037 758BFF      70            mov TL1, #255                 ;Linear Prescaling
-003A             71            
-003A 75F580      72            mov TIMER1_RELOAD_H, #DUTY_50 ;Duty cycle percentage
-003D 75F3FF      73            mov TIMER1_RELOAD_L, #255     ;Frequency scaling/adjust f_out = f_sys/(256 * (256 - TL))
-0040             74            
-0040 E591        75            mov a, TCONB ;load TCONB for PWM settings
-0042 5400        76            anl a, #00000000B
-0044 4480        77            orl a, #10000000B
-0046 F591        78            mov TCONB, a
-0048             79            
-0048 D28E        80            setb TR1
-004A 32          81            reti
-004B             82            
-004B             83   MainProgram:
-004B 75817F      84       mov SP, #7FH ; Set the stack pointer to the begining of idata
-004E 12002C      85       lcall Timer1_Init
-0051             86       
-0051             87   forever:
-0051 80FE        88            sjmp forever
-0053             89   EN
+0000             20   DUTY_80   EQU 204  ;256 * 0.8
+0000             21   DUTY_100  EQU 255
+0000             22   
+0000             23   org 0x0000
+0000 02004B      24      ljmp MainProgram
+0003             25   
+0003             26   ; External interrupt 0 vector (not used in this code)
+0003             27   org 0x0003
+0003 32          28            reti
+0004             29   
+0004             30   ; Timer/Counter 0 overflow interrupt vector
+000B             31   org 0x000B
+000B 32          32            reti
+000C             33   
+000C             34   ; External interrupt 1 vector (not used in this code)
+0013             35   org 0x0013
+0013 32          36            reti
+0014             37   
+0014             38   ; Timer/Counter 1 overflow interrupt vector (not used in this code)
+001B             39   org 0x001B
+001B 32          40            reti
+001C             41   
+001C             42   ; Serial port receive/transmit interrupt vector (not used in this code)
+0023             43   org 0x0023 
+0023 32          44            reti
+0024             45            
+0024             46   ; Timer/Counter 2 overflow interrupt vector
+002B             47   org 0x002B
+002B 32          48            reti
+002C             49            
+0030             50   DSEG at 0x30
+0030             51   Count1ms:      ds 2 ; Used to determine when half second has passed
+0032             52   x:             ds 4
+0036             53   y:             ds 4
+003A             54   bcd:           ds 5
+003F             55   
+0000             56   BSEG
+0000             57   
+002C             58   CSEG
+002C             59            
+002C             60   ;---------------------------------;
+002C             61   ; Routine to initialize the ISR   ;
+002C             62   ; for timer 1                     ; 
+002C             63   ;---------------------------------;
+002C             64   Timer1_Init:
+002C E589        65            mov a, TMOD
+002E 540F        66            anl a, #00001111B
+0030 4410        67            orl a, #00010000B
+0032 F589        68            mov TMOD, a
+0034             69            
+0034 758DCC      70            mov TH1, #DUTY_80             ;Current count value
+0037 758B00      71            mov TL1, #0                 ;Linear Prescaling
+003A             72            
+003A 75F5CC      73            mov TIMER1_RELOAD_H, #DUTY_80 ;Duty cycle percentage
+003D 75F300      74            mov TIMER1_RELOAD_L, #0     ;Frequency scaling/adjust f_out = f_sys/(256 * (256 - TL))
+0040             75            
+0040 E591        76            mov a, TCONB ;load TCONB for PWM settings
+0042 5400        77            anl a, #00000000B
+0044 4480        78            orl a, #10000000B
+0046 F591        79            mov TCONB, a
+0048             80            
+0048 D28E        81            setb TR1
+004A 32          82            reti
+004B             83            
+004B             84   MainProgram:
+004B 75817F      85       mov SP, #7FH ; Set the stack pointer to the begining of idata
+004E 12002C      86       lcall Timer1_Init
+0051             87       
+0051             88   forever:
+0051 80FE        89            sjmp forever
+0053             90   EN
