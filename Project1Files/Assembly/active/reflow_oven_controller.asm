@@ -90,6 +90,11 @@ pwm:            ds 1
 temp:           ds 1
 sec:            ds 1 ; seconds variable for reflow FSM (to be incremented every second)
 cooled_temp:    ds 1
+; 7-segment vars
+Disp1:          ds 1 ; Least significant digit
+Disp2:          ds 1
+Disp3:          ds 1 ; Most significant digit
+seg_state:      ds 1 ; state of 7_seg fsm
 
 
 
@@ -267,7 +272,7 @@ Timer2_ISR:
 	jnz Inc_Done
 	inc Count1ms+1
 	
-				Send_BCD(bcd)
+	Send_BCD(bcd)
 	Inc_Done:
 	; Check if a second has passed
 
@@ -291,6 +296,8 @@ Timer2_ISR:
 	
 	
 Timer2_ISR_done:
+	lcall seg_state_machine
+
 	pop psw
 	pop acc
 	reti
@@ -353,6 +360,7 @@ MainProgram:
     lcall Timer0_Init
 	lcall Timer1_Init
     lcall Timer2_Init
+	lcall seg_state_init
     ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
     mov P0M0, #0
     mov P0M1, #0
