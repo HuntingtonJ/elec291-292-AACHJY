@@ -194,23 +194,28 @@ beep_on:
 	;cpl SOUND_OUT ; Connect speaker to P3.7!
 no_beep:
 	reti
+	
+;---------------------------------;
+; Routine to initialize the ISR   ;
+; for timer 1 in PWM mode         ;
+;---------------------------------;
 
 Timer1_Init:
 	mov a, TMOD
-	anl a, #00001111B
-	orl a, #00010000B
+	anl a, #00001111B       ;Clears timer 1 settings but keeps timer 0 settings
+	orl a, #00010000B       ;Gate = 0, TC1 = 0, mode = 01 (mode 1)
 	mov TMOD, a
 	
+	mov a, TCONB            ;load TCONB for PWM settings
+	anl a, #00000000B       ;clear TCONB
+	orl a, #10000000B       ;Set PWM1 = 1
+	mov TCONB, a
+	
 	mov TH1, #0             ;Current count value
-	mov TL1, #0                  ;Linear Prescaling
+	mov TL1, #0             ;Linear Prescaling
 	
 	mov TIMER1_RELOAD_H, #DUTY_0 ;Duty cycle percentage. Replace this value to change the duty cycle
 	mov TIMER1_RELOAD_L, #0      ;Frequency scaling/adjust f_out = f_sys/(256 * (256 - TL))
-	
-	mov a, TCONB ;load TCONB for PWM settings
-	anl a, #00000000B
-	orl a, #10000000B
-	mov TCONB, a
 	
 	setb TR1
 	reti
