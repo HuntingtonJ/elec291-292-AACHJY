@@ -158,6 +158,10 @@ $NOLIST
 $include(reflow_fsm_a1.asm) ; A copy of Huntington's Lab3 to be used in polling, converting and pushing temp data to SPI
 $LIST
 
+;$NOLIST
+;$include(7_segment.asm) ; A library of 7 segment displays related functions and utility macros
+;$LIST
+
 ;----------------------------------------MACRO LOCATION----------------------------------------------
 
 
