@@ -57,38 +57,39 @@ org 0x003B
 	ljmp Start_stop_ISR
 
 ; These ’EQU’ must match the wiring between the microcontroller and ADC
-SOUND_OUT   EQU P3.7
-CE_ADC      EQU P2.4
-MY_MOSI     EQU P2.5
-MY_MISO     EQU P2.6
-MY_SCLK     EQU P2.7
-UP_BUTTON	EQU P0.0
-DOWN_BUTTON EQU P0.1
+SOUND_OUT     EQU P3.7
+CE_ADC        EQU P2.4
+MY_MOSI       EQU P2.5
+MY_MISO       EQU P2.6
+MY_SCLK       EQU P2.7
+UP_BUTTON	  EQU P0.0
+DOWN_BUTTON   EQU P0.1
 SELECT_BUTTON EQU P0.2
-NEXT_BUTTON EQU P0.3
-BACK_BUTTON EQU p0.4
-MASTER_START EQU p1.0
-MASTER_STOP EQU p1.1
+NEXT_BUTTON   EQU P0.3
+BACK_BUTTON   EQU p0.4
+MASTER_START  EQU p1.0
+MASTER_STOP   EQU p1.1
 
 
 DSEG at 0x30
-Count1ms:      ds 2 ; Used to determine when half second has passed
-Result: ds 2
-Result_Thermo: ds 2
-seconds: ds 1
-x:      ds 4
-y:      ds 4
-bcd:    ds 5
-soaktime: ds 2
-soaktemp: ds 2
-reflowtime: ds 2
-reflowtemp: ds 2
+Count1ms:       ds 2 ; Used to determine when half second has passed
+Result:         ds 2 ; Temp from lm355
+Result_Thermo:  ds 2 ; Temp from Thermocoupler
+BCD_temp:       ds 2 ; Used to diplay temp on the 7-segment display
+seconds:        ds 1
+x:              ds 4 ; Used in math32
+y:              ds 4 ; Used in math32
+bcd:            ds 5
+soaktime:       ds 2
+soaktemp:       ds 2
+reflowtime:     ds 2
+reflowtemp:     ds 2
 soaktemp3digit: ds 2
-reflow_state: ds 1
-pwm: ds 1
-temp: ds 1
-sec: ds 1 		; seconds variable for reflow FSM (to be incremented every second)
-cooled_temp: ds 1
+reflow_state:   ds 1
+pwm:            ds 1
+temp:           ds 1
+sec:            ds 1 ; seconds variable for reflow FSM (to be incremented every second)
+cooled_temp:    ds 1
 
 
 
@@ -96,9 +97,6 @@ BSEG
 mf: dbit 1
 one_second_flag: dbit 1 
 
-$NOLIST
-$include(math32.inc)   ; A library of 32bit math functions
-$LIST
 
 CSEG
 LCD_RS equ P1.2
@@ -156,6 +154,10 @@ $LIST
 
 $NOLIST
 $include(reflow_fsm_a1.asm) ; A copy of Huntington's Lab3 to be used in polling, converting and pushing temp data to SPI
+$LIST
+
+$NOLIST
+$include(math32.inc)   ; A library of 32bit math functions
 $LIST
 
 ;$NOLIST
@@ -354,6 +356,8 @@ MainProgram:
     ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
     mov P0M0, #0
     mov P0M1, #0
+	
+	mov AUXR, #00010001B ; Max memory.  P4.4 is a general purpose IO pin
 
     setb EA   ; Enable Global interrupts
 	
