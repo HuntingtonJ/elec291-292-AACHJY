@@ -266,7 +266,7 @@ Voltage_to_temp_LM355:
 	Load_y(247) ; 24.75*10
 	lcall mul32
 				;---------
-	Load_y(2000) ; 200*10
+	Load_y(2050) ; 205*10
 	lcall div32
 	
 	Load_y(22)
