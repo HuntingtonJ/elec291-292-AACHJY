@@ -8,22 +8,22 @@ TIMER1_RELOAD_L DATA 0xf3
 TIMER0_RELOAD_H DATA 0xf4
 TIMER1_RELOAD_H DATA 0xf5
 
-CLK           EQU 22118400 ; Microcontroller system crystal frequency in Hz
-TIMER0_RATE   EQU 4096     ; 2048Hz squarewave (peak amplitude of CEM-1203 speaker)
-TIMER0_RELOAD EQU ((65536-(CLK/TIMER0_RATE)))
-TIMER2_RATE   EQU 1000     ; 1000Hz, for a timer tick of 1ms
-TIMER2_RELOAD EQU ((65536-(CLK/TIMER2_RATE)))
-MAX_TEMP	  EQU 250
-TIMEOUT_TIME  EQU 60
-BAUD equ 115200
-BRG_VAL equ (0x100-(CLK/(16*BAUD)))
-MILLISECOND_WAIT equ 200		; how many milliseconds between temp samples
+CLK              EQU 22118400 ; Microcontroller system crystal frequency in Hz
+TIMER0_RATE      EQU 4096     ; 2048Hz squarewave (peak amplitude of CEM-1203 speaker)
+TIMER0_RELOAD    EQU ((65536-(CLK/TIMER0_RATE)))
+TIMER2_RATE      EQU 1000     ; 1000Hz, for a timer tick of 1ms
+TIMER2_RELOAD    EQU ((65536-(CLK/TIMER2_RATE)))
+MAX_TEMP	     EQU 250
+TIMEOUT_TIME     EQU 60
+BAUD             EQU 115200
+BRG_VAL          EQU (0x100-(CLK/(16*BAUD)))
+MILLISECOND_WAIT EQU 200		; how many milliseconds between temp samples
 
-DUTY_0    EQU 0
-DUTY_20   EQU 51   ;256 * 0.2
-DUTY_50   EQU 128  ;256 * 0.5
-DUTY_80   EQU 204  ;256 * 0.8
-DUTY_100  EQU 255
+DUTY_0           EQU 0
+DUTY_20          EQU 51   ;256 * 0.2
+DUTY_50          EQU 128  ;256 * 0.5
+DUTY_80          EQU 204  ;256 * 0.8
+DUTY_100         EQU 255
 
 org 0x0000
    ljmp MainProgram
@@ -165,9 +165,9 @@ $NOLIST
 $include(math32.inc)   ; A library of 32bit math functions
 $LIST
 
-;$NOLIST
-;$include(7_segment.asm) ; A library of 7 segment displays related functions and utility macros
-;$LIST
+$NOLIST
+$include(7_segment.asm) ; A library of 7 segment displays related functions and utility macros
+$LIST
 
 ;----------------------------------------MACRO LOCATION----------------------------------------------
 

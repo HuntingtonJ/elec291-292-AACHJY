@@ -1,15 +1,3 @@
-; ISR_example.asm: a) Increments/decrements a BCD variable every half second using
-; an ISR for timer 2; b) Generates a 2kHz square wave at pin P3.7 using
-; an ISR for timer 0; and c) in the 'main' loop it displays the variable
-; incremented/decremented using the ISR for timer 2 on the LCD.  Also resets it to 
-; zero if the 'BOOT' pushbutton connected to P4.5 is pressed.
-$NOLIST
-$MODLP51
-$LIST
-
-; There is a couple of typos in MODLP51 in the definition of the timer 0/1 reload
-; special function registers (SFRs), so:
-
 ; For the 7-segment display
 SEGA equ P0.3
 SEGB equ P0.5
@@ -78,7 +66,7 @@ seg_state_machine:
 	seg_state_done:
 	reti
 
-		
+
 HEX_7SEG: DB 0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90
 
 seg_state_init:

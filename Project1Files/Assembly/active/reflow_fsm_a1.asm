@@ -18,7 +18,7 @@ Reflow_screen mac
 	lcall putchar 					;display current time count of state
 
 	Set_Cursor(2, 12)
-	Send_Constant_String(#secondsss)
+	Send_Constant_String(#seconds)
 
 	Set_Cursor(2, 1)
 	mov a, temp
@@ -33,7 +33,7 @@ endmac
 
 reflow_state_machine: 
 
-	mov a, reflow_state
+	mov a, reflow_state ;Check current state
 
 	state0: ;Menu/Idle
 			cjne a, #0, state1
