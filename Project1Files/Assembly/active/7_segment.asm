@@ -218,17 +218,21 @@ loop_b:
     clr half_seconds_flag ; We clear this flag in the main loop, but it is set in the ISR for timer 2
 	Set_Cursor(1, 14)     ; the place in the LCD where we want the BCD counter value
 	Display_BCD(BCD_counter) ; This macro is also in 'LCD_4bit.inc'
+	
 	mov dptr, #HEX_7SEG
 	mov a, BCD_counter
-	anl a, #0x0f
-	movc a, @a+dptr
-	mov disp1, a
-	mov a, BCD_counter
-	swap a
-	anl a, #0x0f
-	movc a, @a+dptr
-	mov disp2, a
-	mov disp3, #0xff
+	anl a, #0x0f         ;Clear upper 4 bits
+	movc a, @a+dptr      ;Access HEX_7SEG[a]
+	mov disp1, a         ;Move Lowest BCD to display 1
+	mov a, BCD_counter   ;
+	swap a               ;Swaps the high and low nibbles
+	anl a, #0x0f         ;Clear upper 4 bits (which are now the lower 4)
+	movc a, @a+dptr      ;Access HEX_7SEG[a]
+	mov disp2, a         ;Move Second Lowest BCD to display 2
+	mov a, BCD_counter+1 ;Get the upper 2 BCD digits of value being diplayed
+	anl a, #0x0f         ;Clear upper 4 bits
+	movc a, @a+dptr      ;Access HEX_7SEG[a]
+	mov disp3, a         ;Moves 11111111 to diplay 3
 	
     ljmp loop
 END
