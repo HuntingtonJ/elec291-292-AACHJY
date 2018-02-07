@@ -345,6 +345,7 @@ MainProgram:
     mov SP, #7FH ; Set the stack pointer to the begining of idata
     lcall Start_stop_Init
     lcall Timer0_Init
+	lcall Timer1_Init
     lcall Timer2_Init
     ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
     mov P0M0, #0

@@ -35,9 +35,10 @@ reflow_state_machine:
 
 	mov a, reflow_state
 
-	state0:
+	state0: ;Menu/Idle
 			cjne a, #0, state1
 			mov pwm, #0
+			;mov TIMER1_RELOAD_H, #DUTY_0 
 			ljmp Main_Menu_Program
 			jb MASTER_START, state0_done
 			jnb MASTER_START, $ ; Wait for key release
@@ -46,9 +47,10 @@ reflow_state_machine:
 			ljmp forever
 
 
-	state1:
+	state1: ;Ramp To Soak
 			cjne a, #1, state2
 			mov pwm, #100		; Heater on at 100% duty
+			;mov TIMER1_RELOAD_H, #DUTY_100 
 			Reflow_screen(Ramp_to_Soak)
 			mov sec, #0
 			mov a, soaktemp
@@ -60,9 +62,10 @@ reflow_state_machine:
 		state1_done:
 			ljmp forever
 
-	state2:
+	state2: ;Preheat/Soak
 			cjne a, #2, state3
 			mov pwm, #20		;20% duty
+			;mov TIMER1_RELOAD_H, #DUTY_20 
 			Reflow_screen(Soak)
 			mov a, soaktime
 			clr c
@@ -73,9 +76,10 @@ reflow_state_machine:
 		state2_done:
 			ljmp forever
 
-	state3:
+	state3: ;Ramp to Peak
 			cjne a, #3, state4
 			mov pwm, #100		; Heater on at 100% duty
+			;mov TIMER1_RELOAD_H, #DUTY_100 
 			Reflow_screen(Ramp_to_Peak)
 			mov a, reflowtemp
 			clr c
@@ -86,9 +90,10 @@ reflow_state_machine:
 		state3_done:
 			ljmp forever
 
-	state4:
+	state4: ;Reflow/Peak
 			cjne a, #4, state5
 			mov pwm, #20		;20% duty
+			;mov TIMER1_RELOAD_H, #DUTY_20 
 			Reflow_screen(Reflow)
 			mov a, reflowtime
 			clr c
@@ -99,9 +104,10 @@ reflow_state_machine:
 		state4_done:
 			ljmp forever
 
-	state5:
+	state5: ;Cooling
 			cjne a, #5, state6
-			mov pwm, #0			; Heater on at 100% duty
+			mov pwm, #0			; Heater on at 0% duty
+			;mov TIMER1_RELOAD_H, #DUTY_0 
 			Reflow_screen(Cooling)
 			mov a, cooled_temp
 			clr c
@@ -112,7 +118,7 @@ reflow_state_machine:
 		state5_done:
 			ljmp forever
 			
-	state6:
+	state6: ;Back to Menu/Idle
 		ljmp state0
 
 			end
