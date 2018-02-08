@@ -10,7 +10,7 @@ CSEG
 
 Reflow_screen mac
 
-	Set_Cursor(1,9)
+	Set_Cursor(1,1)
 	Send_Constant_String(#%0)		; display current state
 
 	Set_Cursor(2,9)
@@ -23,10 +23,7 @@ Reflow_screen mac
 	Set_Cursor(2, 1)
 	mov a, temp
 	lcall putchar 					;display current temp of state
-
-	Set_Cursor(2, 4)
-	mov a, #11011111b			; trying to display the special "degree" symbol 
-	lcall putchar 	
+	
 endmac
 
 
@@ -36,11 +33,12 @@ reflow_state_machine:
 	mov a, reflow_state ;Check current state
 
 	state0: ;Menu/Idle
+			cjne a, #0x00, state1
 			Set_Cursor(1,1)
-			Send_Constant_String(#Clear_Row)
+			Send_Constant_String(#State_0)
+			
 			Set_Cursor(2,1)
 			Send_Constant_String(#Clear_Row)
-			cjne a, #0, state1
 			mov TIMER1_RELOAD_H, #DUTY_0 
 			;jb MASTER_START, state0_done
 			;jnb MASTER_START, $ ; Wait for key release
@@ -50,7 +48,10 @@ reflow_state_machine:
 
 
 	state1: ;Ramp To Soak
-			cjne a, #1, state2
+		Set_Cursor(1,1)
+			Send_Constant_String(#State_1)
+			jnb UP_BUTTON, $
+			cjne a, #0x01, state2
 			mov TIMER1_RELOAD_H, #DUTY_100 
 			Reflow_screen(Ramp_to_Soak)
 			mov sec, #0
@@ -59,25 +60,25 @@ reflow_state_machine:
 			subb a, temp
 			jnc state1_done 	;if temp>soaktemp then go to state 2 
 			mov seconds, #0			; Reset time 'sec' variable representing elapsed time in each state
-			mov reflow_state, #2
+			mov reflow_state, #0x02
 		state1_done:
 			ljmp forever
 
 	state2: ;Preheat/Soak
-			cjne a, #2, state3
+			cjne a, #0x02, state3
 			mov TIMER1_RELOAD_H, #DUTY_20 
 			Reflow_screen(Soak)
 			mov a, soaktime
 			clr c
 			subb a, seconds
 			jnc state2_done
-			mov reflow_state, #3
+			mov reflow_state, #0x03
 			mov seconds, #0			; reset time for state 3
 		state2_done:
 			ljmp forever
 
 	state3: ;Ramp to Peak
-			cjne a, #3, state4
+			cjne a, #0x03, state4
 			mov TIMER1_RELOAD_H, #DUTY_100 
 			Reflow_screen(Ramp_to_Peak)
 			mov a, reflowtemp
@@ -85,12 +86,12 @@ reflow_state_machine:
 			subb a, temp
 			jnc state3_done 	;if temp>reflowtemp then go to state 4
 			mov seconds, #0			; reset time for state 4
-			mov reflow_state, #4
+			mov reflow_state, #0x04
 		state3_done:
 			ljmp forever
 
 	state4: ;Reflow/Peak
-			cjne a, #4, state5
+			cjne a, #0x04, state5
 			mov pwm, #20		;20% duty
 			;mov TIMER1_RELOAD_H, #DUTY_20 
 			Reflow_screen(Reflow)
@@ -98,13 +99,13 @@ reflow_state_machine:
 			clr c
 			subb a, seconds
 			jnc state4_done
-			mov reflow_state, #5
+			mov reflow_state, #0x05
 			mov seconds, #0		; reset time for state 5
 		state4_done:
 			ljmp forever
 
 	state5: ;Cooling
-			cjne a, #5, state6
+			cjne a, #0x05, state6
 			mov pwm, #0			; Heater on at 0% duty
 			;mov TIMER1_RELOAD_H, #DUTY_0 
 			Reflow_screen(Cooling)
@@ -113,7 +114,7 @@ reflow_state_machine:
 			subb a, temp
 			jnc state5_done 	;if temp>reflowtemp then go to state 4
 			mov seconds, #0			; reset time for state 4
-			mov reflow_state, #0
+			mov reflow_state, #0x00
 		state5_done:
 			ljmp forever
 			

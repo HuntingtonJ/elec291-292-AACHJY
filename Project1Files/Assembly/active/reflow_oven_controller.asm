@@ -114,13 +114,13 @@ LCD_D4 equ P3.2
 LCD_D5 equ P3.3
 LCD_D6 equ P3.4
 LCD_D7 equ P3.6
-
-Ramp_to_Soak: 		db         'Preheat', 0
-Soak: 				db		   'Soak   ', 0
-Ramp_to_Peak: 		db 		   'Ramp2pk', 0
-Reflow: 			db 		   'Reflow ', 0
-Cooling: 			db 		   'Cooling', 0
-secondsss: 			db		   's'		, 0
+		;			 1234567890123456
+Ramp_to_Soak: 	db 	 '         Preheat', 0
+Soak: 			db   '         Soak   ', 0
+Ramp_to_Peak: 	db 	 '         Ramp2pk', 0
+Reflow: 		db 	 '         Reflow ', 0
+Cooling: 		db 	 '         Cooling', 0
+secondsss: 		db   's'		, 0
 ;                     1234567890123456    <- This helps determine the location of the counter
 Welcome: 		  db 'Welcome!        ', 0
 Choose_option: 	  db 'Select option   ', 0
@@ -146,6 +146,10 @@ Error_msg1: 	  db 'Error, profiles ', 0
 Error_msg2:       db 'not loaded      ', 0
 Abort_string: 	  db 'Process aborted ', 0
 Waiting_to_cool:  db 'Wait to cool    ', 0
+ISR_is_running:   db 'ISR is running  ', 0
+
+State_0: db 'State 0', 0
+State_1: db 'State 1', 0
 
 
 $NOLIST
@@ -306,10 +310,10 @@ Timer2_ISR_done:
 ;------------------------------------
 Start_stop_Init: 
 	
-	mov KBMOD, #3	; enable edge triggered for P0.0 and P0.1
-	mov KBLS, #0 	; watch for negative edge (0->1)
-	mov KBE, #3	; enable interrupt for p0.0 and p0.1
-	mov KBF, #3; interrupt active, must clear at start of ISR and setb at end. 
+	mov KBMOD, #0x01	; enable edge triggered for P0.0 and P0.1
+	mov KBLS, #0x00 	; watch for negative edge (0->1)
+	mov KBE, #0x01	; enable interrupt for p0.0 and p0.1
+;	mov KBF, #0x01 ; interrupt active, must clear at start of ISR and setb at end. 
 
 	ret
 
@@ -322,11 +326,12 @@ Start_stop_ISR:
 
 START_ROUTINE: 
 	; We should add some code here that 
-
-
+	clr a
+	Set_cursor(2,1)
+	Send_Constant_String(#ISR_is_running)
 	mov a, reflow_state
-	cjne a, #0, End_master_ISR
-	mov reflow_state, #1
+	;cjne a, #0x00, End_master_ISR
+	mov reflow_state, #0x01
 	sjmp End_master_ISR
 
 
@@ -345,7 +350,7 @@ STOP_ROUTINE:
 
 
 End_master_ISR: 
-	mov KBF, #3		; enables interrupt
+;	mov KBF, #1		; enables interrupt
 	pop acc
 
 	reti
@@ -358,7 +363,7 @@ MainProgram:
 	lcall Timer1_Init
     lcall Timer2_Init
 	;lcall seg_state_init
-	mov reflow_state, #0
+	mov reflow_state, #0x00
     ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
     mov P0M0, #0
     mov P0M1, #0

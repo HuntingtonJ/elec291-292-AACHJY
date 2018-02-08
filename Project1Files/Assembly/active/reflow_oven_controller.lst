@@ -215,7 +215,7 @@
 0000             26   DUTY_100         EQU 255
 0000             27   
 0000             28   org 0x0000
-0000 021428      29      ljmp MainProgram
+0000 021434      29      ljmp MainProgram
 0003             30   
 0003             31   ; External interrupt 0 vector (not used in this code)
 0003             32   org 0x0003
@@ -223,7 +223,7 @@
 0004             34   
 0004             35   ; Timer/Counter 0 overflow interrupt vector
 000B             36   org 0x000B
-000B 021324      37            ljmp Timer0_ISR
+000B 02131C      37            ljmp Timer0_ISR
 000E             38   
 000E             39   ; External interrupt 1 vector (not used in this code)
 0013             40   org 0x0013
@@ -239,11 +239,11 @@
 0024             50            
 0024             51   ; Timer/Counter 2 overflow interrupt vector
 002B             52   org 0x002B
-002B 02135F      53            ljmp Timer2_ISR
+002B 021357      53            ljmp Timer2_ISR
 002E             54   
 002E             55   ;Edge triggered keyboard interrupt vector
 003B             56   org 0x003B
-003B 0213AC      57            ljmp Start_stop_ISR
+003B 0213A1      57            ljmp Start_stop_ISR
 003E             58   
 003E             59   ; These ’EQU’ must match the wiring between the microcontroller and ADC
 003E             60   SOUND_OUT     EQU P3.7
@@ -303,148 +303,168 @@
 003E            114   LCD_D5 equ P3.3
 003E            115   LCD_D6 equ P3.4
 003E            116   LCD_D7 equ P3.6
-003E            117   
-003E 50726568   118   Ramp_to_Soak:            db         'Preheat', 0
+003E            117                    ;                        1234567890123456
+003E 20202020   118   Ramp_to_Soak:    db       '        Preheat', 0
+     20202020
+     50726568
      65617400
-0046 536F616B   119   Soak:                            db                 'Soak   ', 0
+004E 20202020   119   Soak:                    db   '        Soak   ', 0
+     20202020
+     536F616B
      20202000
-004E 52616D70   120   Ramp_to_Peak:            db                 'Ramp2pk', 0
+005E 20202020   120   Ramp_to_Peak:    db       '        Ramp2pk', 0
+     20202020
+     52616D70
      32706B00
-0056 5265666C   121   Reflow:                          db                 'Reflow ', 0
+006E 20202020   121   Reflow:                  db       '        Reflow ', 0
+     20202020
+     5265666C
      6F772000
-005E 436F6F6C   122   Cooling:                         db                 'Cooling', 0
+007E 20202020   122   Cooling:                 db       '        Cooling', 0
+     20202020
+     436F6F6C
      696E6700
-0066 7300       123   secondsss:                       db                 's'          , 0
-0068            124   ;                     1234567890123456    <- This helps determine the location of the counter
-0068 57656C63   125   Welcome:                   db 'Welcome!        ', 0
+008E 7300       123   secondsss:               db   's'                , 0
+0090            124   ;                     1234567890123456    <- This helps determine the location of the counter
+0090 57656C63   125   Welcome:                   db 'Welcome!        ', 0
      6F6D6521
      20202020
      20202020
      00
-0079 53656C65   126   Choose_option:     db 'Select option   ', 0
+00A1 53656C65   126   Choose_option:     db 'Select option   ', 0
      6374206F
      7074696F
      6E202020
      00
-008A 50726573   127   Preset_menu_msg:  db 'Preset Profile  ', 0
+00B2 50726573   127   Preset_menu_msg:  db 'Preset Profile  ', 0
      65742050
      726F6669
      6C652020
      00
-009B 43757374   128   Custom_menu_msg:  db 'Custom Profile  ', 0
+00C3 43757374   128   Custom_menu_msg:  db 'Custom Profile  ', 0
      6F6D2050
      726F6669
      6C652020
      00
-00AC 536F616B   129   Soak_temp:                 db 'Soak Temp       ', 0
+00D4 536F616B   129   Soak_temp:                 db 'Soak Temp       ', 0
      2054656D
      70202020
      20202020
      00
-00BD 536F616B   130   Soak_time:                 db 'Soak Time       ', 0
+00E5 536F616B   130   Soak_time:                 db 'Soak Time       ', 0
      2054696D
      65202020
      20202020
      00
-00CE 5265666C   131   Reflow_time:       db 'Reflow Time     ', 0
+00F6 5265666C   131   Reflow_time:       db 'Reflow Time     ', 0
      6F772054
      696D6520
      20202020
      00
-00DF 5265666C   132   Reflow_temp:       db 'Reflow Temp     ', 0
+0107 5265666C   132   Reflow_temp:       db 'Reflow Temp     ', 0
      6F772054
      656D7020
      20202020
      00
-00F0 53414333   133   Pb_free_solder:    db 'SAC305 solder   ', 0
+0118 53414333   133   Pb_free_solder:    db 'SAC305 solder   ', 0
      30352073
      6F6C6465
      72202020
      00
-0101 50622D73   134   Pb_solder:                 db 'Pb-solder paste ', 0
+0129 50622D73   134   Pb_solder:                 db 'Pb-solder paste ', 0
      6F6C6465
      72207061
      73746520
      00
-0112 53686868   135   Pizza_msg0:        db 'Shhh! No pizza  ', 0
+013A 53686868   135   Pizza_msg0:        db 'Shhh! No pizza  ', 0
      21204E6F
      2070697A
      7A612020
      00
-0123 616C6C6F   136   Pizza_msg1:        db 'allowed in here.', 0
+014B 616C6C6F   136   Pizza_msg1:        db 'allowed in here.', 0
      77656420
      696E2068
      6572652E
      00
-0134 70726F66   137   Profile_loaded:   db 'profile loaded  ', 0
+015C 70726F66   137   Profile_loaded:   db 'profile loaded  ', 0
      696C6520
      6C6F6164
      65642020
      00
-0145 53797374   138   Is_ready:                  db 'System Ready    ', 0
+016D 53797374   138   Is_ready:                  db 'System Ready    ', 0
      656D2052
      65616479
      20202020
      00
-0156 50726573   139   Press_start:       db 'Press Start     ', 0
+017E 50726573   139   Press_start:       db 'Press Start     ', 0
      73205374
      61727420
      20202020
      00
-0167 78782020   140   Set_Value:                 db 'xx              ', 0
+018F 78782020   140   Set_Value:                 db 'xx              ', 0
      20202020
      20202020
      20202020
      00
-0178 20202020   141   Clear_Row:                 db '                ', 0
+01A0 20202020   141   Clear_Row:                 db '                ', 0
      20202020
      20202020
      20202020
      00
-0189 41542050   142   PRESETMENUMSG:     db 'AT PRESET MENU  ', 0
+01B1 41542050   142   PRESETMENUMSG:     db 'AT PRESET MENU  ', 0
      52455345
      54204D45
      4E552020
      00
-019A 41542043   143   CUSTOMMENUMSG:     db 'AT CUSTOM MENU  ', 0
+01C2 41542043   143   CUSTOMMENUMSG:     db 'AT CUSTOM MENU  ', 0
      5553544F
      4D204D45
      4E552020
      00
-01AB 41726520   144   Are_you_sure:      db 'Are you sure?   ', 0
+01D3 41726520   144   Are_you_sure:      db 'Are you sure?   ', 0
      796F7520
      73757265
      3F202020
      00
-01BC 4572726F   145   Error_msg1:        db 'Error, profiles ', 0
+01E4 4572726F   145   Error_msg1:        db 'Error, profiles ', 0
      722C2070
      726F6669
      6C657320
      00
-01CD 6E6F7420   146   Error_msg2:       db 'not loaded      ', 0
+01F5 6E6F7420   146   Error_msg2:       db 'not loaded      ', 0
      6C6F6164
      65642020
      20202020
      00
-01DE 50726F63   147   Abort_string:      db 'Process aborted ', 0
+0206 50726F63   147   Abort_string:      db 'Process aborted ', 0
      65737320
      61626F72
      74656420
      00
-01EF 57616974   148   Waiting_to_cool:  db 'Wait to cool    ', 0
+0217 57616974   148   Waiting_to_cool:  db 'Wait to cool    ', 0
      20746F20
      636F6F6C
      20202020
      00
-0200            149   
-0200            150   
-                152   	$LIST
-02AE            154   
-                156   $LIST
-0A55            158   
+0228 49535220   149   ISR_is_running:   db 'ISR is running  ', 0
+     69732072
+     756E6E69
+     6E672020
+     00
+0239            150   
+0239 53746174   151   State_0: db 'State 0', 0
+     65203000
+0241 53746174   152   State_1: db 'State 1', 0
+     65203100
+0249            153   
+0249            154   
+                156   	$LIST
+02F7            158   
+                160   $LIST
+0A79            162   
                 546   $LIST
                   4   $LIST
-0CC5              6   
+0CE9              6   
                   7   Send_BCD mac
                   8   	push ar0
                   9   	mov r0, %0
@@ -455,78 +475,78 @@
                  14       lcall putchar
                  15   	pop ar0
                  16   endmac
-0CC5             17   
-0CC5             18   ; Configure the serial port and baud rate
-0CC5             19   InitSerialPort:
-0CC5             20       ; Since the reset button bounces, we need to wait a bit before
-0CC5             21       ; sending messages, otherwise we risk displaying gibberish!
-0CC5 79DE        22       mov R1, #222
-0CC7 78A6        23       mov R0, #166
-0CC9 D8FE        24       djnz R0, $   ; 3 cycles->3*45.21123ns*166=22.51519us
-0CCB D9FA        25       djnz R1, $-4 ; 22.51519us*222=4.998ms
-0CCD             26       ; Now we can proceed with the configuration
-0CCD 438780      27            orl     PCON,#0x80
-0CD0 759852      28            mov     SCON,#0x52
-0CD3 759B00      29            mov     BDRCON,#0x00
-0CD6 759AF4      30            mov     BRL,#BRG_VAL
-0CD9 759B1E      31            mov     BDRCON,#0x1E ; BDRCON=BRR|TBCK|RBCK|SPD;
-0CDC 22          32       ret
-0CDD             33   
-0CDD             34   ; Send a character using the serial port
-0CDD             35   putchar:
-0CDD 3099FD      36       jnb TI, putchar
-0CE0 C299        37       clr TI
-0CE2 F599        38       mov SBUF, a
-0CE4 22          39       ret
-0CE5             40   
-0CE5             41   ; Send a constant-zero-terminated string using the serial port
-0CE5             42   SendString:
-0CE5 E4          43       clr A
-0CE6 93          44       movc A, @A+DPTR
-0CE7 6006        45       jz SendStringDone
-0CE9 120CDD      46       lcall putchar
-0CEC A3          47       inc DPTR
-0CED 80F6        48       sjmp SendString
-0CEF             49   SendStringDone:
-0CEF 22          50       ret
-0CF0             51       
-0CF0             52   INIT_SPI:
-0CF0 D2A6        53            setb MY_MISO ; Make MISO an input pin
-0CF2 C2A7        54            clr MY_SCLK ; For mode (0,0) SCLK is zero
-0CF4 22          55            ret
-0CF5             56   
-0CF5             57   DO_SPI_G:
-0CF5 C0E0        58            push acc
-0CF7 7900        59            mov R1, #0 ; Received byte stored in R1
-0CF9 7A08        60            mov R2, #8 ; Loop counter (8-bits)
-0CFB             61   DO_SPI_G_LOOP:
-0CFB E8          62            mov a, R0 ; Byte to write is in R0
-0CFC 33          63            rlc a ; Carry flag has bit to write
-0CFD F8          64            mov R0, a
-0CFE 92A5        65            mov MY_MOSI, c
-0D00 D2A7        66            setb MY_SCLK ; Transmit
-0D02 A2A6        67            mov c, MY_MISO ; Read received bit
-0D04 E9          68            mov a, R1 ; Save received bit in R1
-0D05 33          69            rlc a
-0D06 F9          70            mov R1, a
-0D07 C2A7        71            clr MY_SCLK
-0D09 DAF0        72            djnz R2, DO_SPI_G_LOOP
-0D0B D0E0        73            pop acc
-0D0D 22          74            ret
-0D0E             75    
-0D0E             76   Hello_World:
-0D0E 48656C6C    77       DB  'Hello, World!', '\r', '\n', 0
+0CE9             17   
+0CE9             18   ; Configure the serial port and baud rate
+0CE9             19   InitSerialPort:
+0CE9             20       ; Since the reset button bounces, we need to wait a bit before
+0CE9             21       ; sending messages, otherwise we risk displaying gibberish!
+0CE9 79DE        22       mov R1, #222
+0CEB 78A6        23       mov R0, #166
+0CED D8FE        24       djnz R0, $   ; 3 cycles->3*45.21123ns*166=22.51519us
+0CEF D9FA        25       djnz R1, $-4 ; 22.51519us*222=4.998ms
+0CF1             26       ; Now we can proceed with the configuration
+0CF1 438780      27            orl     PCON,#0x80
+0CF4 759852      28            mov     SCON,#0x52
+0CF7 759B00      29            mov     BDRCON,#0x00
+0CFA 759AF4      30            mov     BRL,#BRG_VAL
+0CFD 759B1E      31            mov     BDRCON,#0x1E ; BDRCON=BRR|TBCK|RBCK|SPD;
+0D00 22          32       ret
+0D01             33   
+0D01             34   ; Send a character using the serial port
+0D01             35   putchar:
+0D01 3099FD      36       jnb TI, putchar
+0D04 C299        37       clr TI
+0D06 F599        38       mov SBUF, a
+0D08 22          39       ret
+0D09             40   
+0D09             41   ; Send a constant-zero-terminated string using the serial port
+0D09             42   SendString:
+0D09 E4          43       clr A
+0D0A 93          44       movc A, @A+DPTR
+0D0B 6006        45       jz SendStringDone
+0D0D 120D01      46       lcall putchar
+0D10 A3          47       inc DPTR
+0D11 80F6        48       sjmp SendString
+0D13             49   SendStringDone:
+0D13 22          50       ret
+0D14             51       
+0D14             52   INIT_SPI:
+0D14 D2A6        53            setb MY_MISO ; Make MISO an input pin
+0D16 C2A7        54            clr MY_SCLK ; For mode (0,0) SCLK is zero
+0D18 22          55            ret
+0D19             56   
+0D19             57   DO_SPI_G:
+0D19 C0E0        58            push acc
+0D1B 7900        59            mov R1, #0 ; Received byte stored in R1
+0D1D 7A08        60            mov R2, #8 ; Loop counter (8-bits)
+0D1F             61   DO_SPI_G_LOOP:
+0D1F E8          62            mov a, R0 ; Byte to write is in R0
+0D20 33          63            rlc a ; Carry flag has bit to write
+0D21 F8          64            mov R0, a
+0D22 92A5        65            mov MY_MOSI, c
+0D24 D2A7        66            setb MY_SCLK ; Transmit
+0D26 A2A6        67            mov c, MY_MISO ; Read received bit
+0D28 E9          68            mov a, R1 ; Save received bit in R1
+0D29 33          69            rlc a
+0D2A F9          70            mov R1, a
+0D2B C2A7        71            clr MY_SCLK
+0D2D DAF0        72            djnz R2, DO_SPI_G_LOOP
+0D2F D0E0        73            pop acc
+0D31 22          74            ret
+0D32             75    
+0D32             76   Hello_World:
+0D32 48656C6C    77       DB  'Hello, World!', '\r', '\n', 0
      6F2C2057
      6F726C64
      210D0A00
-0D1E             78       
-0D1E             79   Delay:
-0D1E 79DE        80            mov R1, #222
-0D20 78A6        81       mov R0, #166
-0D22 D8FE        82       djnz R0, $   ; 3 cycles->3*45.21123ns*166=22.51519us
-0D24 D9FA        83       djnz R1, $-4 ; 22.51519us*222=4.998ms
-0D26 32          84       reti
-0D27             85       
+0D42             78       
+0D42             79   Delay:
+0D42 79DE        80            mov R1, #222
+0D44 78A6        81       mov R0, #166
+0D46 D8FE        82       djnz R0, $   ; 3 cycles->3*45.21123ns*166=22.51519us
+0D48 D9FA        83       djnz R1, $-4 ; 22.51519us*222=4.998ms
+0D4A 32          84       reti
+0D4B             85       
                  86   Left_blank mac
                  87   	mov a, %0
                  88   	anl a, #0xf0
@@ -542,738 +562,751 @@
                  98   Left_blank_%M_b:
                  99   	Display_char(#' ')
                 100   endmac
-0D27            101      
-0D27            102   ; Sends 10-digit BCD number in bcd to the LCD 
-0D27            103   Display_10_digit_BCD:
-0D27 C0E0       104            push acc
-0D29 7407       104            mov a, #7
-0D2B 14         104            dec a
-0D2C 120291     104            lcall ?Set_Cursor_2 ; Select column and row
-0D2F D0E0       104            pop acc
-0D31 C000       105            push ar0
-0D33 A845       105            mov r0, bcd+4
-0D35 120298     105            lcall ?Display_BCD
-0D38 D000       105            pop ar0
-0D3A C000       106            push ar0
-0D3C A844       106            mov r0, bcd+3
-0D3E 120298     106            lcall ?Display_BCD
-0D41 D000       106            pop ar0
-0D43 C000       107            push ar0
-0D45 A843       107            mov r0, bcd+2
-0D47 120298     107            lcall ?Display_BCD
-0D4A D000       107            pop ar0
-0D4C C000       108            push ar0
-0D4E A842       108            mov r0, bcd+1
-0D50 120298     108            lcall ?Display_BCD
-0D53 D000       108            pop ar0
-0D55 C000       109            push ar0
-0D57 A841       109            mov r0, bcd+0
-0D59 120298     109            lcall ?Display_BCD
-0D5C D000       109            pop ar0
-0D5E            110            ; Replace all the zeros to the left with blanks
-0D5E C0E0       111            push acc
-0D60 7407       111            mov a, #7
-0D62 14         111            dec a
-0D63 120291     111            lcall ?Set_Cursor_2 ; Select column and row
-0D66 D0E0       111            pop acc
-0D68 E545       112            mov a, bcd+4
-0D6A 54F0       112            anl a, #0xf0
-0D6C C4         112            swap a
-0D6D 6003       112            jz Left_blank_145_a
-0D6F 020E0C     112            ljmp skip_blank
-0D72            112   Left_blank_145_a:
-0D72 C0E0       112            push acc
-0D74 7420       112            mov a, #' '
-0D76 120250     112            lcall ?WriteData
-0D79 D0E0       112            pop acc
-0D7B E545       112            mov a, bcd+4
-0D7D 540F       112            anl a, #0x0f
-0D7F 6003       112            jz Left_blank_145_b
-0D81 020E0C     112            ljmp skip_blank
-0D84            112   Left_blank_145_b:
-0D84 C0E0       112            push acc
-0D86 7420       112            mov a, #' '
-0D88 120250     112            lcall ?WriteData
-0D8B D0E0       112            pop acc
-0D8D E544       113            mov a, bcd+3
-0D8F 54F0       113            anl a, #0xf0
-0D91 C4         113            swap a
-0D92 6003       113            jz Left_blank_148_a
-0D94 020E0C     113            ljmp skip_blank
-0D97            113   Left_blank_148_a:
-0D97 C0E0       113            push acc
-0D99 7420       113            mov a, #' '
-0D9B 120250     113            lcall ?WriteData
-0D9E D0E0       113            pop acc
-0DA0 E544       113            mov a, bcd+3
-0DA2 540F       113            anl a, #0x0f
-0DA4 6003       113            jz Left_blank_148_b
-0DA6 020E0C     113            ljmp skip_blank
-0DA9            113   Left_blank_148_b:
-0DA9 C0E0       113            push acc
-0DAB 7420       113            mov a, #' '
-0DAD 120250     113            lcall ?WriteData
-0DB0 D0E0       113            pop acc
-0DB2 E543       114            mov a, bcd+2
-0DB4 54F0       114            anl a, #0xf0
-0DB6 C4         114            swap a
-0DB7 6003       114            jz Left_blank_151_a
-0DB9 020E0C     114            ljmp skip_blank
-0DBC            114   Left_blank_151_a:
-0DBC C0E0       114            push acc
-0DBE 7420       114            mov a, #' '
-0DC0 120250     114            lcall ?WriteData
-0DC3 D0E0       114            pop acc
-0DC5 E543       114            mov a, bcd+2
-0DC7 540F       114            anl a, #0x0f
-0DC9 6003       114            jz Left_blank_151_b
-0DCB 020E0C     114            ljmp skip_blank
-0DCE            114   Left_blank_151_b:
-0DCE C0E0       114            push acc
-0DD0 7420       114            mov a, #' '
-0DD2 120250     114            lcall ?WriteData
-0DD5 D0E0       114            pop acc
-0DD7 E542       115            mov a, bcd+1
-0DD9 54F0       115            anl a, #0xf0
-0DDB C4         115            swap a
-0DDC 6003       115            jz Left_blank_154_a
-0DDE 020E0C     115            ljmp skip_blank
-0DE1            115   Left_blank_154_a:
-0DE1 C0E0       115            push acc
-0DE3 7420       115            mov a, #' '
-0DE5 120250     115            lcall ?WriteData
-0DE8 D0E0       115            pop acc
-0DEA E542       115            mov a, bcd+1
-0DEC 540F       115            anl a, #0x0f
-0DEE 6003       115            jz Left_blank_154_b
-0DF0 020E0C     115            ljmp skip_blank
-0DF3            115   Left_blank_154_b:
-0DF3 C0E0       115            push acc
-0DF5 7420       115            mov a, #' '
-0DF7 120250     115            lcall ?WriteData
-0DFA D0E0       115            pop acc
-0DFC E541       116            mov a, bcd+0
-0DFE 54F0       117            anl a, #0f0h
-0E00 C4         118            swap a
-0E01 7009       119            jnz skip_blank
-0E03 C0E0       120            push acc
-0E05 7420       120            mov a, #' '
-0E07 120250     120            lcall ?WriteData
-0E0A D0E0       120            pop acc
-0E0C            121   skip_blank:
-0E0C 22         122            ret
-0E0D            123            
-0E0D            124   Display_10_digit_BCD_2:
-0E0D C0E0       125            push acc
-0E0F 7407       125            mov a, #7
-0E11 14         125            dec a
-0E12 120293     125            lcall ?Set_Cursor_1 ; Select column and row
-0E15 D0E0       125            pop acc
-0E17 C000       126            push ar0
-0E19 A845       126            mov r0, bcd+4
-0E1B 120298     126            lcall ?Display_BCD
-0E1E D000       126            pop ar0
-0E20 C000       127            push ar0
-0E22 A844       127            mov r0, bcd+3
-0E24 120298     127            lcall ?Display_BCD
-0E27 D000       127            pop ar0
-0E29 C000       128            push ar0
-0E2B A843       128            mov r0, bcd+2
-0E2D 120298     128            lcall ?Display_BCD
-0E30 D000       128            pop ar0
-0E32 C000       129            push ar0
-0E34 A842       129            mov r0, bcd+1
-0E36 120298     129            lcall ?Display_BCD
-0E39 D000       129            pop ar0
-0E3B C000       130            push ar0
-0E3D A841       130            mov r0, bcd+0
-0E3F 120298     130            lcall ?Display_BCD
-0E42 D000       130            pop ar0
-0E44            131            ; Replace all the zeros to the left with blanks
-0E44 C0E0       132            push acc
-0E46 7407       132            mov a, #7
-0E48 14         132            dec a
-0E49 120293     132            lcall ?Set_Cursor_1 ; Select column and row
-0E4C D0E0       132            pop acc
-0E4E E545       133            mov a, bcd+4
-0E50 54F0       133            anl a, #0xf0
-0E52 C4         133            swap a
-0E53 6003       133            jz Left_blank_165_a
-0E55 020EF2     133            ljmp skip_blank_2
-0E58            133   Left_blank_165_a:
-0E58 C0E0       133            push acc
-0E5A 7420       133            mov a, #' '
-0E5C 120250     133            lcall ?WriteData
-0E5F D0E0       133            pop acc
-0E61 E545       133            mov a, bcd+4
-0E63 540F       133            anl a, #0x0f
-0E65 6003       133            jz Left_blank_165_b
-0E67 020EF2     133            ljmp skip_blank_2
-0E6A            133   Left_blank_165_b:
-0E6A C0E0       133            push acc
-0E6C 7420       133            mov a, #' '
-0E6E 120250     133            lcall ?WriteData
-0E71 D0E0       133            pop acc
-0E73            133   
-0E73 E544       134            mov a, bcd+3
-0E75 54F0       134            anl a, #0xf0
-0E77 C4         134            swap a
-0E78 6003       134            jz Left_blank_168_a
-0E7A 020EF2     134            ljmp skip_blank_2
-0E7D            134   Left_blank_168_a:
-0E7D C0E0       134            push acc
-0E7F 7420       134            mov a, #' '
-0E81 120250     134            lcall ?WriteData
-0E84 D0E0       134            pop acc
-0E86 E544       134            mov a, bcd+3
-0E88 540F       134            anl a, #0x0f
-0E8A 6003       134            jz Left_blank_168_b
-0E8C 020EF2     134            ljmp skip_blank_2
-0E8F            134   Left_blank_168_b:
-0E8F C0E0       134            push acc
-0E91 7420       134            mov a, #' '
-0E93 120250     134            lcall ?WriteData
-0E96 D0E0       134            pop acc
-0E98 E543       135            mov a, bcd+2
-0E9A 54F0       135            anl a, #0xf0
-0E9C C4         135            swap a
-0E9D 6003       135            jz Left_blank_171_a
-0E9F 020EF2     135            ljmp skip_blank_2
-0EA2            135   Left_blank_171_a:
-0EA2 C0E0       135            push acc
-0EA4 7420       135            mov a, #' '
-0EA6 120250     135            lcall ?WriteData
-0EA9 D0E0       135            pop acc
-0EAB E543       135            mov a, bcd+2
-0EAD 540F       135            anl a, #0x0f
-0EAF 6003       135            jz Left_blank_171_b
-0EB1 020EF2     135            ljmp skip_blank_2
-0EB4            135   Left_blank_171_b:
-0EB4 C0E0       135            push acc
-0EB6 7420       135            mov a, #' '
-0EB8 120250     135            lcall ?WriteData
-0EBB D0E0       135            pop acc
-0EBD E542       136            mov a, bcd+1
-0EBF 54F0       136            anl a, #0xf0
-0EC1 C4         136            swap a
-0EC2 6003       136            jz Left_blank_174_a
-0EC4 020EF2     136            ljmp skip_blank_2
-0EC7            136   Left_blank_174_a:
-0EC7 C0E0       136            push acc
-0EC9 7420       136            mov a, #' '
-0ECB 120250     136            lcall ?WriteData
-0ECE D0E0       136            pop acc
-0ED0 E542       136            mov a, bcd+1
-0ED2 540F       136            anl a, #0x0f
-0ED4 6003       136            jz Left_blank_174_b
-0ED6 020EF2     136            ljmp skip_blank_2
-0ED9            136   Left_blank_174_b:
-0ED9 C0E0       136            push acc
-0EDB 7420       136            mov a, #' '
-0EDD 120250     136            lcall ?WriteData
-0EE0 D0E0       136            pop acc
-0EE2 E541       137            mov a, bcd+0
-0EE4 54F0       138            anl a, #0f0h
-0EE6 C4         139            swap a
-0EE7 7009       140            jnz skip_blank_2
-0EE9 C0E0       141            push acc
-0EEB 7420       141            mov a, #' '
-0EED 120250     141            lcall ?WriteData
-0EF0 D0E0       141            pop acc
-0EF2            142   skip_blank_2:
-0EF2 22         143            ret
-0EF3            144   
-0EF3            145            ; Sends 10-digit BCD number in BCD to the SPI
-0EF3            146   Send_10_digit_BCD:
-0EF3 C000       147            push ar0
-0EF5 A845       147            mov r0, bcd+4
-0EF7 120F53     147            lcall ?Send_BCD
-0EFA 740D       147            mov a, #'\r'
-0EFC 120CDD     147       lcall putchar
-0EFF 740A       147       mov a, #'\n'
-0F01 120CDD     147       lcall putchar
-0F04 D000       147            pop ar0
-0F06 C000       148            push ar0
-0F08 A844       148            mov r0, bcd+3
-0F0A 120F53     148            lcall ?Send_BCD
-0F0D 740D       148            mov a, #'\r'
-0F0F 120CDD     148       lcall putchar
-0F12 740A       148       mov a, #'\n'
-0F14 120CDD     148       lcall putchar
-0F17 D000       148            pop ar0
-0F19 C000       149            push ar0
-0F1B A843       149            mov r0, bcd+2
-0F1D 120F53     149            lcall ?Send_BCD
-0F20 740D       149            mov a, #'\r'
-0F22 120CDD     149       lcall putchar
-0F25 740A       149       mov a, #'\n'
-0F27 120CDD     149       lcall putchar
-0F2A D000       149            pop ar0
-0F2C C000       150            push ar0
-0F2E A842       150            mov r0, bcd+1
-0F30 120F53     150            lcall ?Send_BCD
-0F33 740D       150            mov a, #'\r'
-0F35 120CDD     150       lcall putchar
-0F38 740A       150       mov a, #'\n'
-0F3A 120CDD     150       lcall putchar
-0F3D D000       150            pop ar0
-0F3F C000       151            push ar0
-0F41 A841       151            mov r0, bcd+0
-0F43 120F53     151            lcall ?Send_BCD
-0F46 740D       151            mov a, #'\r'
-0F48 120CDD     151       lcall putchar
-0F4B 740A       151       mov a, #'\n'
-0F4D 120CDD     151       lcall putchar
-0F50 D000       151            pop ar0
-0F52 22         152            ret
-0F53            153   
-0F53            154   ?Send_BCD:
-0F53 C0E0       155            push acc
-0F55            156            ; Write most significant digit
-0F55 E8         157            mov a, r0
-0F56 C4         158            swap a
-0F57 540F       159            anl a, #0fh
-0F59 4430       160            orl a, #30h
-0F5B 120CDD     161            lcall putchar
-0F5E            162            ; write least significant digit
-0F5E E8         163            mov a, r0
-0F5F 540F       164            anl a, #0fh
-0F61 4430       165            orl a, #30h
-0F63 120CDD     166            lcall putchar
-0F66 D0E0       167            pop acc
-0F68 22         168            ret
-0F69            169   
-0F69            170   GET_ADC_TEMP:
-0F69 C2A4       171       clr CE_ADC         ; selects 
-0F6B 7801       172       mov R0, #00000001B ; Start bit: 1
-0F6D 120CF5     173       lcall DO_SPI_G
-0F70            174       
-0F70 7880       175       mov R0, #10000000B ; Read channel 0
-0F72 120CF5     176       lcall DO_SPI_G
-0F75 E9         177       mov a, R1
-0F76 5403       178       anl a, #00000011B
-0F78 F533       179       mov Result+1, a    ; Save high result
-0F7A            180       
-0F7A 7855       181       mov R0, #55H
-0F7C 120CF5     182       lcall DO_SPI_G
-0F7F 8932       183       mov Result, R1     ; Save low result
-0F81            184       
-0F81 D2A4       185       setb CE_ADC        ; deselects
-0F83            186       
-0F83            187       ;V_OUT = ADC_voltage*4.096V/1023
-0F83            188       ;ADC_voltage*4096 = A
-0F83 853239     189       mov x+0, Result
-0F86 85333A     190       mov x+1, Result+1
-0F89 753B00     191       mov x+2, #0
-0F8C 753C00     192       mov x+3, #0
-0F8F            193       
-0F8F 22         194    ret
-0F90            195   
-0F90            196    GET_THERMO_TEMP:
-0F90 C2A4       197       clr CE_ADC         ; selects 
-0F92 7801       198       mov R0, #00000001B ; Start bit: 1
-0F94 120CF5     199       lcall DO_SPI_G
-0F97            200       
-0F97 7890       201       mov R0, #10010000B ; Read channel 1
-0F99 120CF5     202       lcall DO_SPI_G
-0F9C E9         203       mov a, R1
-0F9D 5403       204       anl a, #00000011B
-0F9F F535       205       mov Result_Thermo+1, a    ; Save high result
-0FA1            206       
-0FA1 7855       207       mov R0, #55H
-0FA3 120CF5     208       lcall DO_SPI_G
-0FA6 8934       209       mov Result_Thermo, R1     ; Save low result
-0FA8 D2A4       210       setb CE_ADC        ; deselects
-0FAA            211       
-0FAA            212       ;V_OUT = ADC_voltage*4.096V/1023
-0FAA            213       ;ADC_voltage*4096 = A
-0FAA 853439     214       mov x+0, Result_Thermo
-0FAD 85353A     215       mov x+1, Result_Thermo+1
-0FB0 753B00     216       mov x+2, #0
-0FB3 753C00     217       mov x+3, #0
-0FB6 22         218     ret
-0FB7            219   
-0FB7            220   ;____________________________________
-0FB7            221    ;*************************************
-0FB7            222   
-0FB7            223   ; This is the code that converts the amplified voltage from the the k-type thermocouple 
-0FB7            224   ; to temperature data for use. 
-0FB7            225   ; Current Parameters: 
-0FB7            226   ;                Op-amp gain: ~200
-0FB7            227   ;                Thermocouple conversion: 41 uV/celcius
-0FB7            228   ;                Reference Voltage: 4.096 
-0FB7            229   ; inputs
-0FB7            230   ;*************************************           
-0FB7            231   ;-------------------------------------           
-0FB7            232   
-0FB7            233   Voltage_to_temp_LM355: 
-0FB7 753D00     234            mov y+0, #low (4096 % 0x10000) 
-0FBA 753E10     234            mov y+1, #high(4096 % 0x10000) 
-0FBD 753F00     234            mov y+2, #low (4096 / 0x10000) 
-0FC0 754000     234            mov y+3, #high(4096 / 0x10000) 
-0FC3 120BCF     235                        lcall mul32 ;multiplies x *= y
-0FC6            236                        
-0FC6            237                        ;A/1023 = B
-0FC6 753DFF     238            mov y+0, #low (1023 % 0x10000) 
-0FC9 753E03     238            mov y+1, #high(1023 % 0x10000) 
-0FCC 753F00     238            mov y+2, #low (1023 / 0x10000) 
-0FCF 754000     238            mov y+3, #high(1023 / 0x10000) 
-0FD2 120C5C     239                        lcall div32 ;divides x /= y
-0FD5            240                        
-0FD5            241                        ;B - 2730 = C
-0FD5 753DAA     242            mov y+0, #low (2730 % 0x10000) 
-0FD8 753E0A     242            mov y+1, #high(2730 % 0x10000) 
-0FDB 753F00     242            mov y+2, #low (2730 / 0x10000) 
-0FDE 754000     242            mov y+3, #high(2730 / 0x10000) ;
-0FE1 120B3B     243                        lcall sub32
-0FE4            244                        
-0FE4            245                        ;B/10 = V_OUT
-0FE4 753D0A     246            mov y+0, #low (10 % 0x10000) 
-0FE7 753E00     246            mov y+1, #high(10 % 0x10000) 
-0FEA 753F00     246            mov y+2, #low (10 / 0x10000) 
-0FED 754000     246            mov y+3, #high(10 / 0x10000) ;
-0FF0 120C5C     247                        lcall div32 ;divides x /= y
-0FF3 120A55     248                            lcall hex2bcd
-0FF6 22         249            ret
-0FF7            250   
-0FF7            251   Voltage_to_temp_thermocouple: 
-0FF7            252   
-0FF7            253            ;SPI_REF_VOLTAGE_mul100 equ 4081
-0FF7            254            ;THERMOCOUPLE_CONVERSION_div1000 equ 2475
-0FF7            255            
-0FF7            256            ;
-0FF7            257            ; We are doing the conversion from V--> 10 bit Temp (deg C)
-0FF7            258            ; Start: Amplified Volts, Vin
-0FF7            259            ;
-0FF7            260            ;               Vin*(1 deg C)* (V_REF)*    1    * 1
-0FF7            261            ;                        --------                           ---    ---  - ADC_RESULT
-0FF7            262            ;                       (41 uV )                   OP_AMP_GAIn  1023
-0FF7            263   
-0FF7 753DF1     264            mov y+0, #low (4081 % 0x10000) 
-0FFA 753E0F     264            mov y+1, #high(4081 % 0x10000) 
-0FFD 753F00     264            mov y+2, #low (4081 / 0x10000) 
-1000 754000     264            mov y+3, #high(4081 / 0x10000) ; 4.081*1000=mV
-1003 120BCF     265            lcall mul32
-1006            266            
-1006 753DFF     267            mov y+0, #low (1023 % 0x10000) 
-1009 753E03     267            mov y+1, #high(1023 % 0x10000) 
-100C 753F00     267            mov y+2, #low (1023 / 0x10000) 
-100F 754000     267            mov y+3, #high(1023 / 0x10000) 
-1012 120C5C     268            lcall div32   
-1015            269            
-1015 753DF7     270            mov y+0, #low (247 % 0x10000) 
-1018 753E00     270            mov y+1, #high(247 % 0x10000) 
-101B 753F00     270            mov y+2, #low (247 / 0x10000) 
-101E 754000     270            mov y+3, #high(247 / 0x10000)  ; 24.75*10
-1021 120BCF     271            lcall mul32
-1024            272                                    ;---------
-1024 753D02     273            mov y+0, #low (2050 % 0x10000) 
-1027 753E08     273            mov y+1, #high(2050 % 0x10000) 
-102A 753F00     273            mov y+2, #low (2050 / 0x10000) 
-102D 754000     273            mov y+3, #high(2050 / 0x10000)  ; 205*10
-1030 120C5C     274            lcall div32
-1033            275            
-1033 753D16     276            mov y+0, #low (22 % 0x10000) 
-1036 753E00     276            mov y+1, #high(22 % 0x10000) 
-1039 753F00     276            mov y+2, #low (22 / 0x10000) 
-103C 754000     276            mov y+3, #high(22 / 0x10000) 
-103F            277   
-103F            278   
-103F 120B1A     279            lcall add32
-1042            280            
-1042 120A55     281            lcall hex2bcd
-1045 22         282      ret
-1046            283   
-1046            284   
-1046            285   GET_TEMP_DATA: 
-1046 300111     286            jnb one_second_flag, GET_TEMP_DATA_END
-1049 C201       287            clr one_second_flag ; We clear this flag in the main loop, but it is set in the ISR for timer 2
-104B            288            
-104B            289            ;Gets, displays, and pushes ADC LM355 temp values
-104B 120F69     290            lcall GET_ADC_TEMP
-104E 120FB7     291       lcall Voltage_to_temp_LM355
-1051 120D27     292       lcall Display_10_digit_BCD
-1054            293       
-1054            294       ; Gets, displays, and pushes k-type thermocouple vlaues
-1054 120F90     295            lcall GET_THERMO_TEMP
-1057 120FF7     296       lcall Voltage_to_temp_thermocouple
-105A            297       ;lcall Send_10_digit_BCD
-105A            298       ;lcall Display_10_digit_BCD_2
-105A            299       
-105A            300       ;lcall Delay
-105A            301    GET_TEMP_DATA_END:
-105A 22         302       ret
-105B            303            
-105B            304   
-105B            305   
-105B            306   EN
-                160   $LIST
-105B            162   
+0D4B            101      
+0D4B            102   ; Sends 10-digit BCD number in bcd to the LCD 
+0D4B            103   Display_10_digit_BCD:
+0D4B C0E0       104            push acc
+0D4D 7407       104            mov a, #7
+0D4F 14         104            dec a
+0D50 1202DA     104            lcall ?Set_Cursor_2 ; Select column and row
+0D53 D0E0       104            pop acc
+0D55 C000       105            push ar0
+0D57 A845       105            mov r0, bcd+4
+0D59 1202E1     105            lcall ?Display_BCD
+0D5C D000       105            pop ar0
+0D5E C000       106            push ar0
+0D60 A844       106            mov r0, bcd+3
+0D62 1202E1     106            lcall ?Display_BCD
+0D65 D000       106            pop ar0
+0D67 C000       107            push ar0
+0D69 A843       107            mov r0, bcd+2
+0D6B 1202E1     107            lcall ?Display_BCD
+0D6E D000       107            pop ar0
+0D70 C000       108            push ar0
+0D72 A842       108            mov r0, bcd+1
+0D74 1202E1     108            lcall ?Display_BCD
+0D77 D000       108            pop ar0
+0D79 C000       109            push ar0
+0D7B A841       109            mov r0, bcd+0
+0D7D 1202E1     109            lcall ?Display_BCD
+0D80 D000       109            pop ar0
+0D82            110            ; Replace all the zeros to the left with blanks
+0D82 C0E0       111            push acc
+0D84 7407       111            mov a, #7
+0D86 14         111            dec a
+0D87 1202DA     111            lcall ?Set_Cursor_2 ; Select column and row
+0D8A D0E0       111            pop acc
+0D8C E545       112            mov a, bcd+4
+0D8E 54F0       112            anl a, #0xf0
+0D90 C4         112            swap a
+0D91 6003       112            jz Left_blank_141_a
+0D93 020E30     112            ljmp skip_blank
+0D96            112   Left_blank_141_a:
+0D96 C0E0       112            push acc
+0D98 7420       112            mov a, #' '
+0D9A 120299     112            lcall ?WriteData
+0D9D D0E0       112            pop acc
+0D9F E545       112            mov a, bcd+4
+0DA1 540F       112            anl a, #0x0f
+0DA3 6003       112            jz Left_blank_141_b
+0DA5 020E30     112            ljmp skip_blank
+0DA8            112   Left_blank_141_b:
+0DA8 C0E0       112            push acc
+0DAA 7420       112            mov a, #' '
+0DAC 120299     112            lcall ?WriteData
+0DAF D0E0       112            pop acc
+0DB1 E544       113            mov a, bcd+3
+0DB3 54F0       113            anl a, #0xf0
+0DB5 C4         113            swap a
+0DB6 6003       113            jz Left_blank_144_a
+0DB8 020E30     113            ljmp skip_blank
+0DBB            113   Left_blank_144_a:
+0DBB C0E0       113            push acc
+0DBD 7420       113            mov a, #' '
+0DBF 120299     113            lcall ?WriteData
+0DC2 D0E0       113            pop acc
+0DC4 E544       113            mov a, bcd+3
+0DC6 540F       113            anl a, #0x0f
+0DC8 6003       113            jz Left_blank_144_b
+0DCA 020E30     113            ljmp skip_blank
+0DCD            113   Left_blank_144_b:
+0DCD C0E0       113            push acc
+0DCF 7420       113            mov a, #' '
+0DD1 120299     113            lcall ?WriteData
+0DD4 D0E0       113            pop acc
+0DD6 E543       114            mov a, bcd+2
+0DD8 54F0       114            anl a, #0xf0
+0DDA C4         114            swap a
+0DDB 6003       114            jz Left_blank_147_a
+0DDD 020E30     114            ljmp skip_blank
+0DE0            114   Left_blank_147_a:
+0DE0 C0E0       114            push acc
+0DE2 7420       114            mov a, #' '
+0DE4 120299     114            lcall ?WriteData
+0DE7 D0E0       114            pop acc
+0DE9 E543       114            mov a, bcd+2
+0DEB 540F       114            anl a, #0x0f
+0DED 6003       114            jz Left_blank_147_b
+0DEF 020E30     114            ljmp skip_blank
+0DF2            114   Left_blank_147_b:
+0DF2 C0E0       114            push acc
+0DF4 7420       114            mov a, #' '
+0DF6 120299     114            lcall ?WriteData
+0DF9 D0E0       114            pop acc
+0DFB E542       115            mov a, bcd+1
+0DFD 54F0       115            anl a, #0xf0
+0DFF C4         115            swap a
+0E00 6003       115            jz Left_blank_150_a
+0E02 020E30     115            ljmp skip_blank
+0E05            115   Left_blank_150_a:
+0E05 C0E0       115            push acc
+0E07 7420       115            mov a, #' '
+0E09 120299     115            lcall ?WriteData
+0E0C D0E0       115            pop acc
+0E0E E542       115            mov a, bcd+1
+0E10 540F       115            anl a, #0x0f
+0E12 6003       115            jz Left_blank_150_b
+0E14 020E30     115            ljmp skip_blank
+0E17            115   Left_blank_150_b:
+0E17 C0E0       115            push acc
+0E19 7420       115            mov a, #' '
+0E1B 120299     115            lcall ?WriteData
+0E1E D0E0       115            pop acc
+0E20 E541       116            mov a, bcd+0
+0E22 54F0       117            anl a, #0f0h
+0E24 C4         118            swap a
+0E25 7009       119            jnz skip_blank
+0E27 C0E0       120            push acc
+0E29 7420       120            mov a, #' '
+0E2B 120299     120            lcall ?WriteData
+0E2E D0E0       120            pop acc
+0E30            121   skip_blank:
+0E30 22         122            ret
+0E31            123            
+0E31            124   Display_10_digit_BCD_2:
+0E31 C0E0       125            push acc
+0E33 7407       125            mov a, #7
+0E35 14         125            dec a
+0E36 1202DC     125            lcall ?Set_Cursor_1 ; Select column and row
+0E39 D0E0       125            pop acc
+0E3B C000       126            push ar0
+0E3D A845       126            mov r0, bcd+4
+0E3F 1202E1     126            lcall ?Display_BCD
+0E42 D000       126            pop ar0
+0E44 C000       127            push ar0
+0E46 A844       127            mov r0, bcd+3
+0E48 1202E1     127            lcall ?Display_BCD
+0E4B D000       127            pop ar0
+0E4D C000       128            push ar0
+0E4F A843       128            mov r0, bcd+2
+0E51 1202E1     128            lcall ?Display_BCD
+0E54 D000       128            pop ar0
+0E56 C000       129            push ar0
+0E58 A842       129            mov r0, bcd+1
+0E5A 1202E1     129            lcall ?Display_BCD
+0E5D D000       129            pop ar0
+0E5F C000       130            push ar0
+0E61 A841       130            mov r0, bcd+0
+0E63 1202E1     130            lcall ?Display_BCD
+0E66 D000       130            pop ar0
+0E68            131            ; Replace all the zeros to the left with blanks
+0E68 C0E0       132            push acc
+0E6A 7407       132            mov a, #7
+0E6C 14         132            dec a
+0E6D 1202DC     132            lcall ?Set_Cursor_1 ; Select column and row
+0E70 D0E0       132            pop acc
+0E72 E545       133            mov a, bcd+4
+0E74 54F0       133            anl a, #0xf0
+0E76 C4         133            swap a
+0E77 6003       133            jz Left_blank_161_a
+0E79 020F16     133            ljmp skip_blank_2
+0E7C            133   Left_blank_161_a:
+0E7C C0E0       133            push acc
+0E7E 7420       133            mov a, #' '
+0E80 120299     133            lcall ?WriteData
+0E83 D0E0       133            pop acc
+0E85 E545       133            mov a, bcd+4
+0E87 540F       133            anl a, #0x0f
+0E89 6003       133            jz Left_blank_161_b
+0E8B 020F16     133            ljmp skip_blank_2
+0E8E            133   Left_blank_161_b:
+0E8E C0E0       133            push acc
+0E90 7420       133            mov a, #' '
+0E92 120299     133            lcall ?WriteData
+0E95 D0E0       133            pop acc
+0E97            133   
+0E97 E544       134            mov a, bcd+3
+0E99 54F0       134            anl a, #0xf0
+0E9B C4         134            swap a
+0E9C 6003       134            jz Left_blank_164_a
+0E9E 020F16     134            ljmp skip_blank_2
+0EA1            134   Left_blank_164_a:
+0EA1 C0E0       134            push acc
+0EA3 7420       134            mov a, #' '
+0EA5 120299     134            lcall ?WriteData
+0EA8 D0E0       134            pop acc
+0EAA E544       134            mov a, bcd+3
+0EAC 540F       134            anl a, #0x0f
+0EAE 6003       134            jz Left_blank_164_b
+0EB0 020F16     134            ljmp skip_blank_2
+0EB3            134   Left_blank_164_b:
+0EB3 C0E0       134            push acc
+0EB5 7420       134            mov a, #' '
+0EB7 120299     134            lcall ?WriteData
+0EBA D0E0       134            pop acc
+0EBC E543       135            mov a, bcd+2
+0EBE 54F0       135            anl a, #0xf0
+0EC0 C4         135            swap a
+0EC1 6003       135            jz Left_blank_167_a
+0EC3 020F16     135            ljmp skip_blank_2
+0EC6            135   Left_blank_167_a:
+0EC6 C0E0       135            push acc
+0EC8 7420       135            mov a, #' '
+0ECA 120299     135            lcall ?WriteData
+0ECD D0E0       135            pop acc
+0ECF E543       135            mov a, bcd+2
+0ED1 540F       135            anl a, #0x0f
+0ED3 6003       135            jz Left_blank_167_b
+0ED5 020F16     135            ljmp skip_blank_2
+0ED8            135   Left_blank_167_b:
+0ED8 C0E0       135            push acc
+0EDA 7420       135            mov a, #' '
+0EDC 120299     135            lcall ?WriteData
+0EDF D0E0       135            pop acc
+0EE1 E542       136            mov a, bcd+1
+0EE3 54F0       136            anl a, #0xf0
+0EE5 C4         136            swap a
+0EE6 6003       136            jz Left_blank_170_a
+0EE8 020F16     136            ljmp skip_blank_2
+0EEB            136   Left_blank_170_a:
+0EEB C0E0       136            push acc
+0EED 7420       136            mov a, #' '
+0EEF 120299     136            lcall ?WriteData
+0EF2 D0E0       136            pop acc
+0EF4 E542       136            mov a, bcd+1
+0EF6 540F       136            anl a, #0x0f
+0EF8 6003       136            jz Left_blank_170_b
+0EFA 020F16     136            ljmp skip_blank_2
+0EFD            136   Left_blank_170_b:
+0EFD C0E0       136            push acc
+0EFF 7420       136            mov a, #' '
+0F01 120299     136            lcall ?WriteData
+0F04 D0E0       136            pop acc
+0F06 E541       137            mov a, bcd+0
+0F08 54F0       138            anl a, #0f0h
+0F0A C4         139            swap a
+0F0B 7009       140            jnz skip_blank_2
+0F0D C0E0       141            push acc
+0F0F 7420       141            mov a, #' '
+0F11 120299     141            lcall ?WriteData
+0F14 D0E0       141            pop acc
+0F16            142   skip_blank_2:
+0F16 22         143            ret
+0F17            144   
+0F17            145            ; Sends 10-digit BCD number in BCD to the SPI
+0F17            146   Send_10_digit_BCD:
+0F17 C000       147            push ar0
+0F19 A845       147            mov r0, bcd+4
+0F1B 120F77     147            lcall ?Send_BCD
+0F1E 740D       147            mov a, #'\r'
+0F20 120D01     147       lcall putchar
+0F23 740A       147       mov a, #'\n'
+0F25 120D01     147       lcall putchar
+0F28 D000       147            pop ar0
+0F2A C000       148            push ar0
+0F2C A844       148            mov r0, bcd+3
+0F2E 120F77     148            lcall ?Send_BCD
+0F31 740D       148            mov a, #'\r'
+0F33 120D01     148       lcall putchar
+0F36 740A       148       mov a, #'\n'
+0F38 120D01     148       lcall putchar
+0F3B D000       148            pop ar0
+0F3D C000       149            push ar0
+0F3F A843       149            mov r0, bcd+2
+0F41 120F77     149            lcall ?Send_BCD
+0F44 740D       149            mov a, #'\r'
+0F46 120D01     149       lcall putchar
+0F49 740A       149       mov a, #'\n'
+0F4B 120D01     149       lcall putchar
+0F4E D000       149            pop ar0
+0F50 C000       150            push ar0
+0F52 A842       150            mov r0, bcd+1
+0F54 120F77     150            lcall ?Send_BCD
+0F57 740D       150            mov a, #'\r'
+0F59 120D01     150       lcall putchar
+0F5C 740A       150       mov a, #'\n'
+0F5E 120D01     150       lcall putchar
+0F61 D000       150            pop ar0
+0F63 C000       151            push ar0
+0F65 A841       151            mov r0, bcd+0
+0F67 120F77     151            lcall ?Send_BCD
+0F6A 740D       151            mov a, #'\r'
+0F6C 120D01     151       lcall putchar
+0F6F 740A       151       mov a, #'\n'
+0F71 120D01     151       lcall putchar
+0F74 D000       151            pop ar0
+0F76 22         152            ret
+0F77            153   
+0F77            154   ?Send_BCD:
+0F77 C0E0       155            push acc
+0F79            156            ; Write most significant digit
+0F79 E8         157            mov a, r0
+0F7A C4         158            swap a
+0F7B 540F       159            anl a, #0fh
+0F7D 4430       160            orl a, #30h
+0F7F 120D01     161            lcall putchar
+0F82            162            ; write least significant digit
+0F82 E8         163            mov a, r0
+0F83 540F       164            anl a, #0fh
+0F85 4430       165            orl a, #30h
+0F87 120D01     166            lcall putchar
+0F8A D0E0       167            pop acc
+0F8C 22         168            ret
+0F8D            169   
+0F8D            170   GET_ADC_TEMP:
+0F8D C2A4       171       clr CE_ADC         ; selects 
+0F8F 7801       172       mov R0, #00000001B ; Start bit: 1
+0F91 120D19     173       lcall DO_SPI_G
+0F94            174       
+0F94 7880       175       mov R0, #10000000B ; Read channel 0
+0F96 120D19     176       lcall DO_SPI_G
+0F99 E9         177       mov a, R1
+0F9A 5403       178       anl a, #00000011B
+0F9C F533       179       mov Result+1, a    ; Save high result
+0F9E            180       
+0F9E 7855       181       mov R0, #55H
+0FA0 120D19     182       lcall DO_SPI_G
+0FA3 8932       183       mov Result, R1     ; Save low result
+0FA5            184       
+0FA5 D2A4       185       setb CE_ADC        ; deselects
+0FA7            186       
+0FA7            187       ;V_OUT = ADC_voltage*4.096V/1023
+0FA7            188       ;ADC_voltage*4096 = A
+0FA7 853239     189       mov x+0, Result
+0FAA 85333A     190       mov x+1, Result+1
+0FAD 753B00     191       mov x+2, #0
+0FB0 753C00     192       mov x+3, #0
+0FB3            193       
+0FB3 22         194    ret
+0FB4            195   
+0FB4            196    GET_THERMO_TEMP:
+0FB4 C2A4       197       clr CE_ADC         ; selects 
+0FB6 7801       198       mov R0, #00000001B ; Start bit: 1
+0FB8 120D19     199       lcall DO_SPI_G
+0FBB            200       
+0FBB 7890       201       mov R0, #10010000B ; Read channel 1
+0FBD 120D19     202       lcall DO_SPI_G
+0FC0 E9         203       mov a, R1
+0FC1 5403       204       anl a, #00000011B
+0FC3 F535       205       mov Result_Thermo+1, a    ; Save high result
+0FC5            206       
+0FC5 7855       207       mov R0, #55H
+0FC7 120D19     208       lcall DO_SPI_G
+0FCA 8934       209       mov Result_Thermo, R1     ; Save low result
+0FCC D2A4       210       setb CE_ADC        ; deselects
+0FCE            211       
+0FCE            212       ;V_OUT = ADC_voltage*4.096V/1023
+0FCE            213       ;ADC_voltage*4096 = A
+0FCE 853439     214       mov x+0, Result_Thermo
+0FD1 85353A     215       mov x+1, Result_Thermo+1
+0FD4 753B00     216       mov x+2, #0
+0FD7 753C00     217       mov x+3, #0
+0FDA 22         218     ret
+0FDB            219   
+0FDB            220   ;____________________________________
+0FDB            221    ;*************************************
+0FDB            222   
+0FDB            223   ; This is the code that converts the amplified voltage from the the k-type thermocouple 
+0FDB            224   ; to temperature data for use. 
+0FDB            225   ; Current Parameters: 
+0FDB            226   ;                Op-amp gain: ~200
+0FDB            227   ;                Thermocouple conversion: 41 uV/celcius
+0FDB            228   ;                Reference Voltage: 4.096 
+0FDB            229   ; inputs
+0FDB            230   ;*************************************           
+0FDB            231   ;-------------------------------------           
+0FDB            232   
+0FDB            233   Voltage_to_temp_LM355: 
+0FDB 753D00     234            mov y+0, #low (4096 % 0x10000) 
+0FDE 753E10     234            mov y+1, #high(4096 % 0x10000) 
+0FE1 753F00     234            mov y+2, #low (4096 / 0x10000) 
+0FE4 754000     234            mov y+3, #high(4096 / 0x10000) 
+0FE7 120BF3     235                        lcall mul32 ;multiplies x *= y
+0FEA            236                        
+0FEA            237                        ;A/1023 = B
+0FEA 753DFF     238            mov y+0, #low (1023 % 0x10000) 
+0FED 753E03     238            mov y+1, #high(1023 % 0x10000) 
+0FF0 753F00     238            mov y+2, #low (1023 / 0x10000) 
+0FF3 754000     238            mov y+3, #high(1023 / 0x10000) 
+0FF6 120C80     239                        lcall div32 ;divides x /= y
+0FF9            240                        
+0FF9            241                        ;B - 2730 = C
+0FF9 753DAA     242            mov y+0, #low (2730 % 0x10000) 
+0FFC 753E0A     242            mov y+1, #high(2730 % 0x10000) 
+0FFF 753F00     242            mov y+2, #low (2730 / 0x10000) 
+1002 754000     242            mov y+3, #high(2730 / 0x10000) ;
+1005 120B5F     243                        lcall sub32
+1008            244                        
+1008            245                        ;B/10 = V_OUT
+1008 753D0A     246            mov y+0, #low (10 % 0x10000) 
+100B 753E00     246            mov y+1, #high(10 % 0x10000) 
+100E 753F00     246            mov y+2, #low (10 / 0x10000) 
+1011 754000     246            mov y+3, #high(10 / 0x10000) ;
+1014 120C80     247                        lcall div32 ;divides x /= y
+1017 120A79     248                            lcall hex2bcd
+101A 22         249            ret
+101B            250   
+101B            251   Voltage_to_temp_thermocouple: 
+101B            252   
+101B            253            ;SPI_REF_VOLTAGE_mul100 equ 4081
+101B            254            ;THERMOCOUPLE_CONVERSION_div1000 equ 2475
+101B            255            
+101B            256            ;
+101B            257            ; We are doing the conversion from V--> 10 bit Temp (deg C)
+101B            258            ; Start: Amplified Volts, Vin
+101B            259            ;
+101B            260            ;               Vin*(1 deg C)* (V_REF)*    1    * 1
+101B            261            ;                        --------                           ---    ---  - ADC_RESULT
+101B            262            ;                       (41 uV )                   OP_AMP_GAIn  1023
+101B            263   
+101B 753DF1     264            mov y+0, #low (4081 % 0x10000) 
+101E 753E0F     264            mov y+1, #high(4081 % 0x10000) 
+1021 753F00     264            mov y+2, #low (4081 / 0x10000) 
+1024 754000     264            mov y+3, #high(4081 / 0x10000) ; 4.081*1000=mV
+1027 120BF3     265            lcall mul32
+102A            266            
+102A 753DFF     267            mov y+0, #low (1023 % 0x10000) 
+102D 753E03     267            mov y+1, #high(1023 % 0x10000) 
+1030 753F00     267            mov y+2, #low (1023 / 0x10000) 
+1033 754000     267            mov y+3, #high(1023 / 0x10000) 
+1036 120C80     268            lcall div32   
+1039            269            
+1039 753DF7     270            mov y+0, #low (247 % 0x10000) 
+103C 753E00     270            mov y+1, #high(247 % 0x10000) 
+103F 753F00     270            mov y+2, #low (247 / 0x10000) 
+1042 754000     270            mov y+3, #high(247 / 0x10000)  ; 24.75*10
+1045 120BF3     271            lcall mul32
+1048            272                                    ;---------
+1048 753D02     273            mov y+0, #low (2050 % 0x10000) 
+104B 753E08     273            mov y+1, #high(2050 % 0x10000) 
+104E 753F00     273            mov y+2, #low (2050 / 0x10000) 
+1051 754000     273            mov y+3, #high(2050 / 0x10000)  ; 205*10
+1054 120C80     274            lcall div32
+1057            275            
+1057 753D16     276            mov y+0, #low (22 % 0x10000) 
+105A 753E00     276            mov y+1, #high(22 % 0x10000) 
+105D 753F00     276            mov y+2, #low (22 / 0x10000) 
+1060 754000     276            mov y+3, #high(22 / 0x10000) 
+1063            277   
+1063            278   
+1063 120B3E     279            lcall add32
+1066            280            
+1066 120A79     281            lcall hex2bcd
+1069 22         282      ret
+106A            283   
+106A            284   
+106A            285   GET_TEMP_DATA: 
+106A 300111     286            jnb one_second_flag, GET_TEMP_DATA_END
+106D C201       287            clr one_second_flag ; We clear this flag in the main loop, but it is set in the ISR for timer 2
+106F            288            
+106F            289            ;Gets, displays, and pushes ADC LM355 temp values
+106F 120F8D     290            lcall GET_ADC_TEMP
+1072 120FDB     291       lcall Voltage_to_temp_LM355
+1075 120D4B     292       lcall Display_10_digit_BCD
+1078            293       
+1078            294       ; Gets, displays, and pushes k-type thermocouple vlaues
+1078 120FB4     295            lcall GET_THERMO_TEMP
+107B 12101B     296       lcall Voltage_to_temp_thermocouple
+107E            297       ;lcall Send_10_digit_BCD
+107E            298       ;lcall Display_10_digit_BCD_2
+107E            299       
+107E            300       ;lcall Delay
+107E            301    GET_TEMP_DATA_END:
+107E 22         302       ret
+107F            303            
+107F            304   
+107F            305   
+107F            306   EN
                 164   $LIST
-130B            166   
-130B            167   ;$NOLIST
-130B            168   ;$include(7_segment.asm) ; A library of 7 segment displays related functions and utility macros
-130B            169   ;$LIST
-130B            170   
-130B            171   ;----------------------------------------MACRO LOCATION----------------------------------------------
-130B            172   
-130B            173   
-130B            174   
-130B            175   
-130B            176   ;---------------------------------;
-130B            177   ; Routine to initialize the ISR   ;
-130B            178   ; for timer 0                     ;
-130B            179   ;---------------------------------;
-130B            180   Timer0_Init:
-130B E589       181            mov a, TMOD
-130D 54F0       182            anl a, #0xf0 ; Clear the bits for timer 0
-130F 4401       183            orl a, #0x01 ; Configure timer 0 as 16-timer
-1311 F589       184            mov TMOD, a
-1313 758CEA     185            mov TH0, #high(TIMER0_RELOAD)
-1316 758AE8     186            mov TL0, #low(TIMER0_RELOAD)
-1319            187            ; Set autoreload value
-1319 75F4EA     188            mov TIMER0_RELOAD_H, #high(TIMER0_RELOAD)
-131C 75F2E8     189            mov TIMER0_RELOAD_L, #low(TIMER0_RELOAD)
-131F            190            ; Enable the timer and interrupts
-131F D2A9       191       setb ET0  ; Enable timer 0 interrupt
-1321 D28C       192       setb TR0  ; Start timer 0
-1323 22         193            ret
-1324            194   
-1324            195   ;---------------------------------;
-1324            196   ; ISR for timer 0.  Set to execute;
-1324            197   ; every 1/4096Hz to generate a    ;
-1324            198   ; 2048 Hz square wave at pin P3.7 ;
-1324            199   ;---------------------------------;
-1324            200   Timer0_ISR:
-1324            201            ;clr TF0  ; According to the data sheet this is done for us already.
-1324 8000       202            sjmp no_beep
-1326            203   beep_on:
-1326            204            ;cpl SOUND_OUT ; Connect speaker to P3.7!
-1326            205   no_beep:
-1326 32         206            reti
-1327            207            
-1327            208   ;---------------------------------;
-1327            209   ; Routine to initialize the ISR   ;
-1327            210   ; for timer 1 in PWM mode         ;
-1327            211   ;---------------------------------;
-1327            212   
-1327            213   Timer1_Init:
-1327 E589       214            mov a, TMOD
-1329 540F       215            anl a, #00001111B       ;Clears timer 1 settings but keeps timer 0 settings
-132B 4410       216            orl a, #00010000B       ;Gate = 0, TC1 = 0, mode = 01 (mode 1)
-132D F589       217            mov TMOD, a
-132F            218            
-132F E591       219            mov a, TCONB            ;load TCONB for PWM settings
-1331 5400       220            anl a, #00000000B       ;clear TCONB
-1333 4480       221            orl a, #10000000B       ;Set PWM1 = 1
-1335 F591       222            mov TCONB, a
-1337            223            
-1337 758D00     224            mov TH1, #0             ;Current count value
-133A 758B00     225            mov TL1, #0             ;Linear Prescaling
-133D            226            
-133D 75F500     227            mov TIMER1_RELOAD_H, #DUTY_0 ;Duty cycle percentage. Replace this value to change the duty cycle
-1340 75F300     228            mov TIMER1_RELOAD_L, #0      ;Frequency scaling/adjust f_out = f_sys/(256 * (256 - TL))
-1343            229            
-1343 D28E       230            setb TR1
-1345 32         231            reti
-1346            232   
-1346            233   ;---------------------------------;
-1346            234   ; Routine to initialize the ISR   ;
-1346            235   ; for timer 2                     ;
-1346            236   ;---------------------------------;
-1346            237   Timer2_Init:
-1346 75C800     238            mov T2CON, #0 ; Stop timer/counter.  Autoreload mode.
-1349 75CDA9     239            mov TH2, #high(TIMER2_RELOAD)
-134C 75CC9A     240            mov TL2, #low(TIMER2_RELOAD)
-134F            241            ; Set the reload value
-134F 75CBA9     242            mov RCAP2H, #high(TIMER2_RELOAD)
-1352 75CA9A     243            mov RCAP2L, #low(TIMER2_RELOAD)
-1355            244            ; Init One millisecond interrupt counter.  It is a 16-bit variable made with two 8-bit parts
-1355 E4         245            clr a
-1356 F530       246            mov Count1ms+0, a
-1358 F531       247            mov Count1ms+1, a
-135A            248            ; Enable the timer and interrupts
-135A D2AD       249       setb ET2  ; Enable timer 2 interrupt
-135C D2CA       250       setb TR2  ; Enable timer 2
-135E 22         251            ret
-135F            252   
-135F            253   ;---------------------------------;
-135F            254   ; ISR for timer 2                 ;
-135F            255   ;---------------------------------;
-135F            256   Timer2_ISR:
-135F C2CF       257            clr TF2  ; Timer 2 doesn't clear TF2 automatically. Do it in ISR
-1361            258            
-1361            259            ; The two registers used in the ISR must be saved in the stack
-1361 C0E0       260            push acc
-1363 C0D0       261            push psw
-1365            262            
-1365            263            ; Increment the 16-bit one mili second counter
-1365            264                            ;       inc Count1ms+0    ; Increment the low 8-bits first
-1365            265                                    ;mov a, Count1ms+0
-1365            266                            ;       cjne a, #10h, Timer2_ISR_done
-1365            267                            ;       mov Count1ms+0, #0h
-1365 0530       268            inc Count1ms+0    ; Increment the low 8-bits first
-1367 E530       269            mov a, Count1ms+0 ; If the low 8-bits overflow, then increment high 8-bits
-1369 7015       270            jnz Inc_Done
-136B 0531       271            inc Count1ms+1
-136D            272            
-136D C000       273            push ar0
-136F A841       273            mov r0, bcd
-1371 120F53     273            lcall ?Send_BCD
-1374 740D       273            mov a, #'\r'
-1376 120CDD     273       lcall putchar
-1379 740A       273       mov a, #'\n'
-137B 120CDD     273       lcall putchar
-137E D000       273            pop ar0
-1380            274            Inc_Done:
-1380            275            ; Check if a second has passed
-1380            276   
-1380 E530       277            mov a, Count1ms+0
-1382 B4C815     278            cjne a, #low(MILLISECOND_WAIT), Timer2_ISR_done ; Warning: this instruction changes the carry flag!
-1385 E531       279            mov a, Count1ms+1
-1387 B40010     280            cjne a, #high(MILLISECOND_WAIT), Timer2_ISR_done
-138A            281            
-138A            282            ; 1000 milliseconds have passed.  Set a flag so the main program knows
-138A D201       283            setb one_second_flag ; Let the main program know one second had passed
-138C B28C       284            cpl TR0 ; Enable/disable timer/counter 0. This line creates a beep-silence-beep-silence sound.
-138E            285            ; Reset to zero the milli-seconds counter, it is a 16-bit variable
-138E E4         286            clr a
-138F F530       287            mov Count1ms+0, a
-1391 F531       288            mov Count1ms+1, a
-1393            289            ; Increment the BCD counter
-1393 E538       290            mov a, seconds
-1395 2401       291            add a, #0x01
-1397 D4         292            da a ; Decimal adjust instruction.  Check datasheet for more details!
-1398 F538       293            mov seconds, a
-139A            294            
-139A            295            
-139A            296   Timer2_ISR_done:
-139A            297            ;lcall seg_state_machine
-139A            298   
-139A D0D0       299            pop psw
-139C D0E0       300            pop acc
-139E 32         301            reti
-139F            302   
-139F            303   
-139F            304   ;-------------------------------------
-139F            305   ; To start or ABORT the reflow cycle
-139F            306   ;------------------------------------
-139F            307   Start_stop_Init: 
-139F            308            
-139F 759F03     309            mov KBMOD, #3   ; enable edge triggered for P0.0 and P0.1
-13A2 759C00     310            mov KBLS, #0    ; watch for negative edge (0->1)
-13A5 759D03     311            mov KBE, #3     ; enable interrupt for p0.0 and p0.1
-13A8 759E03     312            mov KBF, #3; interrupt active, must clear at start of ISR and setb at end. 
-13AB            313   
-13AB 22         314            ret
-13AC            315   
-13AC            316   Start_stop_ISR: 
-13AC 759E00     317            mov KBF, #0             ; masks interrupt 
-13AF C0E0       318            push acc
-13B1            319   
-13B1 208512     320   jb MASTER_STOP, endhere_237
-13B4 C002       320            push AR2
-13B6 7A32       320            mov R2, #50
-13B8 12020B     320            lcall ?Wait_Milli_Seconds
-13BB D002       320            pop AR2
-13BD 208506     320   jb MASTER_STOP, endhere_237
-13C0 3085FD     320   jnb MASTER_STOP, $
-13C3 0213E5     320   ljmp STOP_ROUTINE
-13C6            320   
-13C6            320   endhere_237:                             ; if master stop has been pressed, change to state 5
-13C6 209012     321   jb MASTER_START, endhere_239
-13C9 C002       321            push AR2
-13CB 7A32       321            mov R2, #50
-13CD 12020B     321            lcall ?Wait_Milli_Seconds
-13D0 D002       321            pop AR2
-13D2 209006     321   jb MASTER_START, endhere_239
-13D5 3090FD     321   jnb MASTER_START, $
-13D8 0213DB     321   ljmp START_ROUTINE
-13DB            321   
-13DB            321   endhere_239:                      ; if master start has been pressed, change to state 1
-13DB            322   
-13DB            323   START_ROUTINE: 
-13DB            324            ; We should add some code here that 
-13DB            325   
-13DB            326   
-13DB E550       327            mov a, reflow_state
-13DD B40042     328            cjne a, #0, End_master_ISR
-13E0 755001     329            mov reflow_state, #1
-13E3 803D       330            sjmp End_master_ISR
-13E5            331   
-13E5            332   
-13E5            333   
-13E5            334   STOP_ROUTINE: 
-13E5 755005     335            mov reflow_state, #5    
-13E8            336            ; any other things we want to do, ie, statements we want to make 
-13E8            337   
-13E8 C0E0       338            push acc
-13EA 7401       338            mov a, #1
-13EC 14         338            dec a
-13ED 120293     338            lcall ?Set_Cursor_1 ; Select column and row
-13F0 D0E0       338            pop acc
-13F2 C083       339            push dph
-13F4 C082       339            push dpl
-13F6 C0E0       339            push acc
-13F8 9001DE     339            mov dptr, #Abort_string
-13FB 120286     339            lcall ?Send_Constant_String
-13FE D0E0       339            pop acc
-1400 D082       339            pop dpl
-1402 D083       339            pop dph
-1404            340   
-1404 C0E0       341            push acc
-1406 7401       341            mov a, #1
-1408 14         341            dec a
-1409 120291     341            lcall ?Set_Cursor_2 ; Select column and row
-140C D0E0       341            pop acc
-140E C083       342            push dph
-1410 C082       342            push dpl
-1412 C0E0       342            push acc
-1414 9001EF     342            mov dptr, #Waiting_to_cool
-1417 120286     342            lcall ?Send_Constant_String
-141A D0E0       342            pop acc
-141C D082       342            pop dpl
-141E D083       342            pop dph
-1420            343   
-1420 8000       344            sjmp End_master_ISR
-1422            345   
-1422            346   
-1422            347   End_master_ISR: 
-1422 759E03     348            mov KBF, #3             ; enables interrupt
-1425 D0E0       349            pop acc
-1427            350   
-1427 32         351            reti
-1428            352   
-1428            353   
-1428            354   MainProgram:
-1428 75817F     355       mov SP, #7FH ; Set the stack pointer to the begining of idata
-142B 12139F     356       lcall Start_stop_Init
-142E 12130B     357       lcall Timer0_Init
-1431 121327     358            lcall Timer1_Init
-1434 121346     359       lcall Timer2_Init
-1437            360            ;lcall seg_state_init
-1437 755000     361            mov reflow_state, #0
-143A            362       ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
-143A 75E600     363       mov P0M0, #0
-143D 75E700     364       mov P0M1, #0
-1440            365            
-1440 758E11     366            mov AUXR, #00010001B ; Max memory.  P4.4 is a general purpose IO pin
-1443            367   
-1443 D2AF       368       setb EA   ; Enable Global interrupts
-1445            369            
-1445 120CF0     370            lcall INIT_SPI
-1448 12025A     371       lcall LCD_4BIT
-144B            372       
-144B            373   menu_forever:
-144B 0202BB     374       ljmp Main_Menu_Program
-144E            375            
-144E            376            
-144E            377   forever:
-144E 121046     378            lcall GET_TEMP_DATA      ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
-1451 02105B     379            ljmp reflow_state_machine       ; go do some stuff in the state_machine
-1454            380   
-1454            381   
-1454 02144E     382       ljmp forever ; This is equivalent to 'forever: sjmp forever'
-1457            383   
-1457            384       
-1457            385   EN
+107F            166   
+                168   $LIST
+1303            170   
+1303            171   ;$NOLIST
+1303            172   ;$include(7_segment.asm) ; A library of 7 segment displays related functions and utility macros
+1303            173   ;$LIST
+1303            174   
+1303            175   ;----------------------------------------MACRO LOCATION----------------------------------------------
+1303            176   
+1303            177   
+1303            178   
+1303            179   
+1303            180   ;---------------------------------;
+1303            181   ; Routine to initialize the ISR   ;
+1303            182   ; for timer 0                     ;
+1303            183   ;---------------------------------;
+1303            184   Timer0_Init:
+1303 E589       185            mov a, TMOD
+1305 54F0       186            anl a, #0xf0 ; Clear the bits for timer 0
+1307 4401       187            orl a, #0x01 ; Configure timer 0 as 16-timer
+1309 F589       188            mov TMOD, a
+130B 758CEA     189            mov TH0, #high(TIMER0_RELOAD)
+130E 758AE8     190            mov TL0, #low(TIMER0_RELOAD)
+1311            191            ; Set autoreload value
+1311 75F4EA     192            mov TIMER0_RELOAD_H, #high(TIMER0_RELOAD)
+1314 75F2E8     193            mov TIMER0_RELOAD_L, #low(TIMER0_RELOAD)
+1317            194            ; Enable the timer and interrupts
+1317 D2A9       195       setb ET0  ; Enable timer 0 interrupt
+1319 D28C       196       setb TR0  ; Start timer 0
+131B 22         197            ret
+131C            198   
+131C            199   ;---------------------------------;
+131C            200   ; ISR for timer 0.  Set to execute;
+131C            201   ; every 1/4096Hz to generate a    ;
+131C            202   ; 2048 Hz square wave at pin P3.7 ;
+131C            203   ;---------------------------------;
+131C            204   Timer0_ISR:
+131C            205            ;clr TF0  ; According to the data sheet this is done for us already.
+131C 8000       206            sjmp no_beep
+131E            207   beep_on:
+131E            208            ;cpl SOUND_OUT ; Connect speaker to P3.7!
+131E            209   no_beep:
+131E 32         210            reti
+131F            211            
+131F            212   ;---------------------------------;
+131F            213   ; Routine to initialize the ISR   ;
+131F            214   ; for timer 1 in PWM mode         ;
+131F            215   ;---------------------------------;
+131F            216   
+131F            217   Timer1_Init:
+131F E589       218            mov a, TMOD
+1321 540F       219            anl a, #00001111B       ;Clears timer 1 settings but keeps timer 0 settings
+1323 4410       220            orl a, #00010000B       ;Gate = 0, TC1 = 0, mode = 01 (mode 1)
+1325 F589       221            mov TMOD, a
+1327            222            
+1327 E591       223            mov a, TCONB            ;load TCONB for PWM settings
+1329 5400       224            anl a, #00000000B       ;clear TCONB
+132B 4480       225            orl a, #10000000B       ;Set PWM1 = 1
+132D F591       226            mov TCONB, a
+132F            227            
+132F 758D00     228            mov TH1, #0             ;Current count value
+1332 758B00     229            mov TL1, #0             ;Linear Prescaling
+1335            230            
+1335 75F500     231            mov TIMER1_RELOAD_H, #DUTY_0 ;Duty cycle percentage. Replace this value to change the duty cycle
+1338 75F300     232            mov TIMER1_RELOAD_L, #0      ;Frequency scaling/adjust f_out = f_sys/(256 * (256 - TL))
+133B            233            
+133B D28E       234            setb TR1
+133D 32         235            reti
+133E            236   
+133E            237   ;---------------------------------;
+133E            238   ; Routine to initialize the ISR   ;
+133E            239   ; for timer 2                     ;
+133E            240   ;---------------------------------;
+133E            241   Timer2_Init:
+133E 75C800     242            mov T2CON, #0 ; Stop timer/counter.  Autoreload mode.
+1341 75CDA9     243            mov TH2, #high(TIMER2_RELOAD)
+1344 75CC9A     244            mov TL2, #low(TIMER2_RELOAD)
+1347            245            ; Set the reload value
+1347 75CBA9     246            mov RCAP2H, #high(TIMER2_RELOAD)
+134A 75CA9A     247            mov RCAP2L, #low(TIMER2_RELOAD)
+134D            248            ; Init One millisecond interrupt counter.  It is a 16-bit variable made with two 8-bit parts
+134D E4         249            clr a
+134E F530       250            mov Count1ms+0, a
+1350 F531       251            mov Count1ms+1, a
+1352            252            ; Enable the timer and interrupts
+1352 D2AD       253       setb ET2  ; Enable timer 2 interrupt
+1354 D2CA       254       setb TR2  ; Enable timer 2
+1356 22         255            ret
+1357            256   
+1357            257   ;---------------------------------;
+1357            258   ; ISR for timer 2                 ;
+1357            259   ;---------------------------------;
+1357            260   Timer2_ISR:
+1357 C2CF       261            clr TF2  ; Timer 2 doesn't clear TF2 automatically. Do it in ISR
+1359            262            
+1359            263            ; The two registers used in the ISR must be saved in the stack
+1359 C0E0       264            push acc
+135B C0D0       265            push psw
+135D            266            
+135D            267            ; Increment the 16-bit one mili second counter
+135D            268                            ;       inc Count1ms+0    ; Increment the low 8-bits first
+135D            269                                    ;mov a, Count1ms+0
+135D            270                            ;       cjne a, #10h, Timer2_ISR_done
+135D            271                            ;       mov Count1ms+0, #0h
+135D 0530       272            inc Count1ms+0    ; Increment the low 8-bits first
+135F E530       273            mov a, Count1ms+0 ; If the low 8-bits overflow, then increment high 8-bits
+1361 7015       274            jnz Inc_Done
+1363 0531       275            inc Count1ms+1
+1365            276            
+1365 C000       277            push ar0
+1367 A841       277            mov r0, bcd
+1369 120F77     277            lcall ?Send_BCD
+136C 740D       277            mov a, #'\r'
+136E 120D01     277       lcall putchar
+1371 740A       277       mov a, #'\n'
+1373 120D01     277       lcall putchar
+1376 D000       277            pop ar0
+1378            278            Inc_Done:
+1378            279            ; Check if a second has passed
+1378            280   
+1378 E530       281            mov a, Count1ms+0
+137A B4C815     282            cjne a, #low(MILLISECOND_WAIT), Timer2_ISR_done ; Warning: this instruction changes the carry flag!
+137D E531       283            mov a, Count1ms+1
+137F B40010     284            cjne a, #high(MILLISECOND_WAIT), Timer2_ISR_done
+1382            285            
+1382            286            ; 1000 milliseconds have passed.  Set a flag so the main program knows
+1382 D201       287            setb one_second_flag ; Let the main program know one second had passed
+1384 B28C       288            cpl TR0 ; Enable/disable timer/counter 0. This line creates a beep-silence-beep-silence sound.
+1386            289            ; Reset to zero the milli-seconds counter, it is a 16-bit variable
+1386 E4         290            clr a
+1387 F530       291            mov Count1ms+0, a
+1389 F531       292            mov Count1ms+1, a
+138B            293            ; Increment the BCD counter
+138B E538       294            mov a, seconds
+138D 2401       295            add a, #0x01
+138F D4         296            da a ; Decimal adjust instruction.  Check datasheet for more details!
+1390 F538       297            mov seconds, a
+1392            298            
+1392            299            
+1392            300   Timer2_ISR_done:
+1392            301            ;lcall seg_state_machine
+1392            302   
+1392 D0D0       303            pop psw
+1394 D0E0       304            pop acc
+1396 32         305            reti
+1397            306   
+1397            307   
+1397            308   ;-------------------------------------
+1397            309   ; To start or ABORT the reflow cycle
+1397            310   ;------------------------------------
+1397            311   Start_stop_Init: 
+1397            312            
+1397 759F01     313            mov KBMOD, #0x01        ; enable edge triggered for P0.0 and P0.1
+139A 759C00     314            mov KBLS, #0x00         ; watch for negative edge (0->1)
+139D 759D01     315            mov KBE, #0x01  ; enable interrupt for p0.0 and p0.1
+13A0            316   ;        mov KBF, #0x01 ; interrupt active, must clear at start of ISR and setb at end. 
+13A0            317   
+13A0 22         318            ret
+13A1            319   
+13A1            320   Start_stop_ISR: 
+13A1 759E00     321            mov KBF, #0             ; masks interrupt 
+13A4 C0E0       322            push acc
+13A6            323   
+13A6 208512     324   jb MASTER_STOP, endhere_230
+13A9 C002       324            push AR2
+13AB 7A32       324            mov R2, #50
+13AD 120254     324            lcall ?Wait_Milli_Seconds
+13B0 D002       324            pop AR2
+13B2 208506     324   jb MASTER_STOP, endhere_230
+13B5 3085FD     324   jnb MASTER_STOP, $
+13B8 0213F4     324   ljmp STOP_ROUTINE
+13BB            324   
+13BB            324   endhere_230:                             ; if master stop has been pressed, change to state 5
+13BB 209012     325   jb MASTER_START, endhere_232
+13BE C002       325            push AR2
+13C0 7A32       325            mov R2, #50
+13C2 120254     325            lcall ?Wait_Milli_Seconds
+13C5 D002       325            pop AR2
+13C7 209006     325   jb MASTER_START, endhere_232
+13CA 3090FD     325   jnb MASTER_START, $
+13CD 0213D0     325   ljmp START_ROUTINE
+13D0            325   
+13D0            325   endhere_232:                      ; if master start has been pressed, change to state 1
+13D0            326   
+13D0            327   START_ROUTINE: 
+13D0            328            ; We should add some code here that 
+13D0 E4         329            clr a
+13D1 C0E0       330            push acc
+13D3 7401       330            mov a, #1
+13D5 14         330            dec a
+13D6 1202DA     330            lcall ?Set_Cursor_2 ; Select column and row
+13D9 D0E0       330            pop acc
+13DB C083       331            push dph
+13DD C082       331            push dpl
+13DF C0E0       331            push acc
+13E1 900228     331            mov dptr, #ISR_is_running
+13E4 1202CF     331            lcall ?Send_Constant_String
+13E7 D0E0       331            pop acc
+13E9 D082       331            pop dpl
+13EB D083       331            pop dph
+13ED            331   
+13ED E550       332            mov a, reflow_state
+13EF            333            ;cjne a, #0x00, End_master_ISR
+13EF 755001     334            mov reflow_state, #0x01
+13F2 803D       335            sjmp End_master_ISR
+13F4            336   
+13F4            337   
+13F4            338   
+13F4            339   STOP_ROUTINE: 
+13F4 755005     340            mov reflow_state, #5    
+13F7            341            ; any other things we want to do, ie, statements we want to make 
+13F7            342   
+13F7 C0E0       343            push acc
+13F9 7401       343            mov a, #1
+13FB 14         343            dec a
+13FC 1202DC     343            lcall ?Set_Cursor_1 ; Select column and row
+13FF D0E0       343            pop acc
+1401 C083       344            push dph
+1403 C082       344            push dpl
+1405 C0E0       344            push acc
+1407 900206     344            mov dptr, #Abort_string
+140A 1202CF     344            lcall ?Send_Constant_String
+140D D0E0       344            pop acc
+140F D082       344            pop dpl
+1411 D083       344            pop dph
+1413            345   
+1413 C0E0       346            push acc
+1415 7401       346            mov a, #1
+1417 14         346            dec a
+1418 1202DA     346            lcall ?Set_Cursor_2 ; Select column and row
+141B D0E0       346            pop acc
+141D C083       347            push dph
+141F C082       347            push dpl
+1421 C0E0       347            push acc
+1423 900217     347            mov dptr, #Waiting_to_cool
+1426 1202CF     347            lcall ?Send_Constant_String
+1429 D0E0       347            pop acc
+142B D082       347            pop dpl
+142D D083       347            pop dph
+142F            348   
+142F 8000       349            sjmp End_master_ISR
+1431            350   
+1431            351   
+1431            352   End_master_ISR: 
+1431            353   ;        mov KBF, #1             ; enables interrupt
+1431 D0E0       354            pop acc
+1433            355   
+1433 32         356            reti
+1434            357   
+1434            358   
+1434            359   MainProgram:
+1434 75817F     360       mov SP, #7FH ; Set the stack pointer to the begining of idata
+1437 121397     361       lcall Start_stop_Init
+143A 121303     362       lcall Timer0_Init
+143D 12131F     363            lcall Timer1_Init
+1440 12133E     364       lcall Timer2_Init
+1443            365            ;lcall seg_state_init
+1443 755000     366            mov reflow_state, #0x00
+1446            367       ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
+1446 75E600     368       mov P0M0, #0
+1449 75E700     369       mov P0M1, #0
+144C            370            
+144C 758E11     371            mov AUXR, #00010001B ; Max memory.  P4.4 is a general purpose IO pin
+144F            372   
+144F D2AF       373       setb EA   ; Enable Global interrupts
+1451            374            
+1451 120D14     375            lcall INIT_SPI
+1454 1202A3     376       lcall LCD_4BIT
+1457            377       
+1457            378   menu_forever:
+1457 020304     379       ljmp Main_Menu_Program
+145A            380            
+145A            381            
+145A            382   forever:
+145A 12106A     383            lcall GET_TEMP_DATA      ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
+145D 02107F     384            ljmp reflow_state_machine       ; go do some stuff in the state_machine
+1460            385   
+1460            386   
+1460 02145A     387       ljmp forever ; This is equivalent to 'forever: sjmp forever'
+1463            388   
+1463            389       
+1463            390   EN

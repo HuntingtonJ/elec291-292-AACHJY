@@ -101,11 +101,11 @@ Loaded_param:
 	;Then check if the state=1. If so, goto reflow FSM
 ;	mov a, reflow_state
 	;cjne a, #1, state_error
+
+	mov a, #0x01
+	mov reflow_state, a
 	
-	button_jmp(BACK_BUTTON, Choose_menu)
-	button_jmp(MASTER_START, reflow_state_machine)	
-	
-	sjmp Loaded_param
+	ljmp reflow_state_machine
 
 Choose_menu: 
 	Set_Cursor(1,1)
@@ -455,7 +455,7 @@ Custom_menu_loopback:
 	jnb UP_BUTTON, lllaaa
 	ljmp Custom_menu_loopback
 lllaaa:
-	ljmp Custom_menu
+	ljmp system_ready
 ;----------------Custom Menu End----------------;
 
 
