@@ -62,13 +62,16 @@ CE_ADC        EQU P2.4
 MY_MOSI       EQU P2.5
 MY_MISO       EQU P2.6
 MY_SCLK       EQU P2.7
+
 UP_BUTTON	  EQU P0.0
 DOWN_BUTTON   EQU P0.1
 SELECT_BUTTON EQU P0.2
 NEXT_BUTTON   EQU P0.3
 BACK_BUTTON   EQU p0.4
+
 MASTER_START  EQU p1.0
-MASTER_STOP   EQU p1.1
+
+MASTER_STOP   EQU p0.5
 
 
 DSEG at 0x30
@@ -370,7 +373,7 @@ MainProgram:
 	
 	
 forever:
-	lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
+	;lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
 	ljmp reflow_state_machine 	; go do some stuff in the state_machine
 
 

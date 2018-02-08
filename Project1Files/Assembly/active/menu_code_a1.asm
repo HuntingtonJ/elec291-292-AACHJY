@@ -26,21 +26,12 @@ endhere_%M:
 	endmac
 
 Main_Menu_Program:
-	mov SP, #7FH
-	;Configure port 0/1 in bi-directional mode
-	mov P0M0, #0
-    mov P0M1, #0
-    lcall LCD_4BIT
 	;Set all vars initally to zero
 	mov soaktime, #0x00
 	mov soaktemp, #0x00
 	mov reflowtime, #0x00
 	mov reflowtemp, #0x00
-	;display initial menu messages
-
-	Set_Cursor(2, 4)
-	mov a, #11011111b
-	lcall putchar 	
+	;display initial menu messages	
 
 	ljmp Initial_menu	
 
