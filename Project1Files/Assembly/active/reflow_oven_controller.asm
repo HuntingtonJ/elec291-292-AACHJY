@@ -314,12 +314,11 @@ Start_stop_Init:
 	ret
 
 Start_stop_ISR: 
-mov KBF, #0		; masks interrupt 
-push acc
+	mov KBF, #0		; masks interrupt 
+	push acc
 
-button_jmp(MASTER_STOP, STOP_ROUTINE)	; if master stop has been pressed, change to state 5
-
-button_jmp(MASTER_START, START_ROUTINE) ; if master start has been pressed, change to state 1
+	button_jmp(MASTER_STOP, STOP_ROUTINE)	; if master stop has been pressed, change to state 5
+	button_jmp(MASTER_START, START_ROUTINE) ; if master start has been pressed, change to state 1
 
 START_ROUTINE: 
 	; We should add some code here that 
@@ -342,7 +341,7 @@ STOP_ROUTINE:
 	Set_cursor(2,1)
 	Send_Constant_String(#Waiting_to_cool)
 
-sjmp End_master_ISR
+	sjmp End_master_ISR
 
 
 End_master_ISR: 
@@ -370,10 +369,13 @@ MainProgram:
 	
 	lcall INIT_SPI
     lcall LCD_4BIT
+    
+menu_forever:
+    ljmp Main_Menu_Program
 	
 	
 forever:
-	;lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
+	lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
 	ljmp reflow_state_machine 	; go do some stuff in the state_machine
 
 

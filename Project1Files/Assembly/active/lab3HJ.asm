@@ -294,8 +294,8 @@ GET_TEMP_DATA:
     ; Gets, displays, and pushes k-type thermocouple vlaues
 	lcall GET_THERMO_TEMP
     lcall Voltage_to_temp_thermocouple
-    lcall Send_10_digit_BCD
-    lcall Display_10_digit_BCD_2
+    ;lcall Send_10_digit_BCD
+    ;lcall Display_10_digit_BCD_2
     
     ;lcall Delay
  GET_TEMP_DATA_END:
