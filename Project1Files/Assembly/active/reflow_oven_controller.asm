@@ -356,6 +356,7 @@ MainProgram:
 	lcall Timer1_Init
     lcall Timer2_Init
 	lcall seg_state_init
+	mov reflow_state, #0
     ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
     mov P0M0, #0
     mov P0M1, #0

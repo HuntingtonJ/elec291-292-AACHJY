@@ -932,7 +932,7 @@
 100E 120A70     248                            lcall hex2bcd
 1011 22         249            ret
 1012            250   
-1012            251     Voltage_to_temp_thermocouple: 
+1012            251   Voltage_to_temp_thermocouple: 
 1012            252   
 1012            253            ;SPI_REF_VOLTAGE_mul100 equ 4081
 1012            254            ;THERMOCOUPLE_CONVERSION_div1000 equ 2475
@@ -982,7 +982,7 @@
 1061            283   
 1061            284   
 1061            285   GET_TEMP_DATA: 
-1061 3001FD     286            jnb one_second_flag, GET_TEMP_DATA
+1061 300117     286            jnb one_second_flag, GET_TEMP_DATA_END
 1064 C201       287            clr one_second_flag ; We clear this flag in the main loop, but it is set in the ISR for timer 2
 1066            288            
 1066            289            ;Gets, displays, and pushes ADC LM355 temp values
@@ -997,11 +997,12 @@
 1078 120E28     298       lcall Display_10_digit_BCD_2
 107B            299       
 107B            300       ;lcall Delay
-107B 22         301       ret
-107C            302            
-107C            303   
+107B            301    GET_TEMP_DATA_END:
+107B 22         302       ret
+107C            303            
 107C            304   
-107C            305   EN
+107C            305   
+107C            306   EN
                 157   $LIST
 107C            159   
                 161   $LIST
@@ -1246,24 +1247,25 @@
 14A9 12139C     356            lcall Timer1_Init
 14AC 1213BB     357       lcall Timer2_Init
 14AF 121362     358            lcall seg_state_init
-14B2            359       ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
-14B2 75E600     360       mov P0M0, #0
-14B5 75E700     361       mov P0M1, #0
-14B8            362            
-14B8 758E11     363            mov AUXR, #00010001B ; Max memory.  P4.4 is a general purpose IO pin
-14BB            364   
-14BB D2AF       365       setb EA   ; Enable Global interrupts
-14BD            366            
-14BD 120D0B     367            lcall INIT_SPI
-14C0 12025A     368       lcall LCD_4BIT
-14C3            369            
-14C3            370            
-14C3            371   forever:
-14C3 121061     372            lcall GET_TEMP_DATA      ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
-14C6 02107C     373            ljmp reflow_state_machine       ; go do some stuff in the state_machine
-14C9            374   
-14C9            375   
-14C9 0214C3     376       ljmp forever ; This is equivalent to 'forever: sjmp forever'
-14CC            377   
-14CC            378       
-14CC            379   EN
+14B2 755000     359            mov reflow_state, #0
+14B5            360       ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
+14B5 75E600     361       mov P0M0, #0
+14B8 75E700     362       mov P0M1, #0
+14BB            363            
+14BB 758E11     364            mov AUXR, #00010001B ; Max memory.  P4.4 is a general purpose IO pin
+14BE            365   
+14BE D2AF       366       setb EA   ; Enable Global interrupts
+14C0            367            
+14C0 120D0B     368            lcall INIT_SPI
+14C3 12025A     369       lcall LCD_4BIT
+14C6            370            
+14C6            371            
+14C6            372   forever:
+14C6 121061     373            lcall GET_TEMP_DATA      ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
+14C9 02107C     374            ljmp reflow_state_machine       ; go do some stuff in the state_machine
+14CC            375   
+14CC            376   
+14CC 0214C6     377       ljmp forever ; This is equivalent to 'forever: sjmp forever'
+14CF            378   
+14CF            379       
+14CF            380   EN
