@@ -248,7 +248,7 @@ Voltage_to_temp_LM355:
 		   	lcall hex2bcd
     	ret
 
-  Voltage_to_temp_thermocouple: 
+Voltage_to_temp_thermocouple: 
 
 	;SPI_REF_VOLTAGE_mul100 equ 4081
 	;THERMOCOUPLE_CONVERSION_div1000 equ 2475
@@ -283,7 +283,7 @@ Voltage_to_temp_LM355:
 
 
 GET_TEMP_DATA: 
-	jnb one_second_flag, GET_TEMP_DATA
+	jnb one_second_flag, GET_TEMP_DATA_END
 	clr one_second_flag ; We clear this flag in the main loop, but it is set in the ISR for timer 2
 	
 	;Gets, displays, and pushes ADC LM355 temp values
@@ -298,6 +298,7 @@ GET_TEMP_DATA:
     lcall Display_10_digit_BCD_2
     
     ;lcall Delay
+ GET_TEMP_DATA_END:
     ret
 	
 
