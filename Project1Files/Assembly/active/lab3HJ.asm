@@ -1,5 +1,9 @@
 CSEG
 
+$NOLIST
+$include(math32.inc)   ; A library of 32bit math functions
+$LIST
+
 Send_BCD mac
 	push ar0
 	mov r0, %0

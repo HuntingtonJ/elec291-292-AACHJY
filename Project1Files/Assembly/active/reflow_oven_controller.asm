@@ -104,13 +104,13 @@ one_second_flag: dbit 1
 
 
 CSEG
-LCD_RS equ P1.2
-LCD_RW equ P1.3
-LCD_E  equ P3.2
-LCD_D4 equ P3.3
-LCD_D5 equ P3.4
-LCD_D6 equ P3.6
-LCD_D7 equ P3.7
+LCD_RS equ P1.1
+LCD_RW equ P1.2
+LCD_E  equ P1.3
+LCD_D4 equ P3.2
+LCD_D5 equ P3.3
+LCD_D6 equ P3.4
+LCD_D7 equ P3.6
 
 Ramp_to_Soak: 		db         'Preheat', 0
 Soak: 				db		   'Soak   ', 0
@@ -159,10 +159,6 @@ $LIST
 
 $NOLIST
 $include(reflow_fsm_a1.asm) ; A copy of Huntington's Lab3 to be used in polling, converting and pushing temp data to SPI
-$LIST
-
-$NOLIST
-$include(math32.inc)   ; A library of 32bit math functions
 $LIST
 
 $NOLIST
@@ -256,7 +252,6 @@ Timer2_Init:
 ;---------------------------------;
 Timer2_ISR:
 	clr TF2  ; Timer 2 doesn't clear TF2 automatically. Do it in ISR
-	cpl P3.6 ; To check the interrupt rate with oscilloscope. It must be precisely a 1 ms pulse.
 	
 	; The two registers used in the ISR must be saved in the stack
 	push acc
