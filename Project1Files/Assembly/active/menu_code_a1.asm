@@ -25,6 +25,61 @@ ljmp %1
 endhere_%M: 			
 	endmac
 
+;--------------------------------;
+;	Takes a channel byte         ;
+;                                ;
+;   0 - #10000000B               ;
+;   1 - #10010000B               ;
+;   2 - #10100000B               ;
+;   3 - #10110000B               ;
+;   4 - #11000000B               ;
+;   5 - #11010000B               ;
+;   6 - #11100000B               ;
+;   7 - #11110000B               ;
+;                                ;
+;   Stores the value in          ; 
+;   ADC_Result.                  ;
+;   When used with buttons,      ;
+;   just check if the lower      ;
+;   byte is 255.                 ;
+;--------------------------------;
+Get_ADC_Channel mac
+	clr CE_ADC         ; selects 
+    mov R0, #00000001B ; Start bit: 1
+    lcall DO_SPI_G
+    
+    mov R0, %0 ; Read channel 3
+    lcall DO_SPI_G
+    mov a, R1
+    anl a, #00000011B
+    mov ADC_Result, a    ; Save high result
+    
+    mov R0, #55H
+    lcall DO_SPI_G
+    mov ADC_Result+1, R1     ; Save low result
+    
+    setb CE_ADC        ; deselects
+    
+    ;V_OUT = ADC_voltage*4.096V/1023
+    mov x+0, ADC_Result
+    mov x+1, ADC_Result+1
+    mov x+2, #0
+    mov x+3, #0
+    
+    Load_y(4091)
+    lcall mul32 ;multiplies x *= y
+    
+    Load_y(1023)
+    lcall div32 ;divides x /= y
+    
+    Load_y(1000)
+    lcall div32
+    
+    ;lcall hex2bcd
+    ;lcall Display_10_digit_BCD_2
+    ;lcall Delay
+endmac	
+
 Main_Menu_Program:
 	;Set all vars initally to zero
 	mov soaktime, #0x00

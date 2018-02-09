@@ -78,6 +78,7 @@ DSEG at 0x30
 Count1ms:       ds 2 ; Used to determine when half second has passed
 Result:         ds 2 ; Temp from lm355
 Result_Thermo:  ds 2 ; Temp from Thermocoupler
+ADC_Result:     ds 2 ; Temp from ADC channel 2
 BCD_temp:       ds 2 ; Used to diplay temp on the 7-segment display
 seconds:        ds 1
 x:              ds 4 ; Used in math32
