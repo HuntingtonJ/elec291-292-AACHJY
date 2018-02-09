@@ -29,20 +29,17 @@ endhere_%M:
 ;takes a channel byte for Get_ADC_Channel and 
 ;and exit vector/label
 adc_button_jmp mac
-	Get_ADC_Channel(%0)
-	mov a, ADC_Result
-	cjne a, #255, endhere_%M
-	Wait_Milli_Seconds(#50)
-	Get_ADC_Channel(%0)
-	mov a, ADC_Result
-	cjne a, #255, endhere_%M
-wait_release_%M:
-	Get_ADC_Channel(%0)
+	Get_ADC_Channel(%0)  	; loads ADC_Result (16 bit) with voltage value of pressed button 
 	mov a, ADC_Result+1
+	cjne a, #0, wait_release_%M
+		sjmp endhere_%M
+wait_release_%M:
 	cjne a, #0, $
 	ljmp %1
-	endhere_%M
+	endhere_%M:
 endmac
+
+;Pressed value will be greater than ref voltage, resulting in all 10 bits being 1.
 
 ;--------------------------------;
 ;	Takes a channel byte         ;
@@ -71,11 +68,11 @@ Get_ADC_Channel mac
     lcall DO_SPI_G
     mov a, R1
     anl a, #00000011B
-    mov ADC_Result, a    ; Save high result
+    mov ADC_Result+1, a    ; Save high result
     
     mov R0, #55H
     lcall DO_SPI_G
-    mov ADC_Result+1, R1     ; Save low result
+    mov ADC_Result+0, R1     ; Save low result
     
     setb CE_ADC        ; deselects
     

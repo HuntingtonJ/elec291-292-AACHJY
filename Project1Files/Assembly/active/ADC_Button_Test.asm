@@ -77,6 +77,7 @@ LCD_D6 equ P3.4
 LCD_D7 equ P3.6
 
 Initial_Message:  db 'Test String', 0
+msg1: 		  db 'adcjmpgood', 0
 
 $NOLIST
 $include(LCD_4bit.inc) ; A library of LCD related functions and utility macros
@@ -309,25 +310,61 @@ skip_blank_2:
 	pop acc
 	ret
 
+;Similar structure to button_jmp mac
+;takes a channel byte for Get_ADC_Channel and 
+;and exit vector/label
+adc_button_jmp mac
+	Get_ADC_Channel(%0)  	; loads ADC_Result (16 bit) with voltage value of pressed button 
+	mov a, ADC_Result+1
+	cjne a, #0, wait_release_%M
+		sjmp endhere_%M
+wait_release_%M:
+	Get_ADC_Channel(%0)  	; loads ADC_Result (16 bit) with voltage value of pressed button 
+
+	mov a, ADC_Result+1
+	cjne a, #0, wait_release_%M
+	ljmp %1
+	endhere_%M:
+endmac
+
+;Pressed value will be greater than ref voltage, resulting in all 10 bits being 1.
+
+;--------------------------------;
+;	Takes a channel byte         ;
+;                                ;
+;   0 - #10000000B               ;
+;   1 - #10010000B               ;
+;   2 - #10100000B               ;
+;   3 - #10110000B               ;
+;   4 - #11000000B               ;
+;   5 - #11010000B               ;
+;   6 - #11100000B               ;
+;   7 - #11110000B               ;
+;                                ;
+;   Stores the value in          ; 
+;   ADC_Result.                  ;
+;   When used with buttons,      ;
+;   just check if the lower      ;
+;   byte is 255.                 ;
+;--------------------------------;
 Get_ADC_Channel mac
 	clr CE_ADC         ; selects 
     mov R0, #00000001B ; Start bit: 1
     lcall DO_SPI_G
     
-    mov R0, %0 ; Read channel 
+    mov R0, %0 ; Read channel
     lcall DO_SPI_G
     mov a, R1
     anl a, #00000011B
-    mov ADC_Result, a    ; Save high result
+    mov ADC_Result+1, a    ; Save high result
     
     mov R0, #55H
     lcall DO_SPI_G
-    mov ADC_Result+1, R1     ; Save low result
+    mov ADC_Result+0, R1     ; Save low result
     
     setb CE_ADC        ; deselects
     
     ;V_OUT = ADC_voltage*4.096V/1023
-    ;ADC_voltage*4096 = A
     mov x+0, ADC_Result
     mov x+1, ADC_Result+1
     mov x+2, #0
@@ -336,17 +373,15 @@ Get_ADC_Channel mac
     Load_y(4091)
     lcall mul32 ;multiplies x *= y
     
-    ;A/1023 = B
     Load_y(1023)
     lcall div32 ;divides x /= y
     
     Load_y(1000)
     lcall div32
     
-    lcall hex2bcd
-    lcall Display_10_digit_BCD_2
-    
-    lcall Delay
+    ;lcall hex2bcd
+    ;lcall Display_10_digit_BCD_2
+    ;lcall Delay
 endmac	
 
 
@@ -413,6 +448,13 @@ forever:
     lcall Delay
     
     Get_ADC_Channel(#10100000B) ; Channel 2
+
+    adc_button_jmp(#10100000B,test1)
     
     ljmp forever ; This is equivalent to 'forever: sjmp forever'
+
+    test1: 
+    	Set_cursor(1,1)
+   		 Send_Constant_String(#msg1)
+    	ljmp forever
 END
