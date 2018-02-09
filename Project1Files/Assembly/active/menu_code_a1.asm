@@ -24,6 +24,25 @@ ljmp %1
 
 endhere_%M: 			
 	endmac
+	
+;Similar structure to button_jmp mac
+;takes a channel byte for Get_ADC_Channel and 
+;and exit vector/label
+adc_button_jmp mac
+	Get_ADC_Channel(%0)
+	mov a, ADC_Result
+	cjne a, #255, endhere_%M
+	Wait_Milli_Seconds(#50)
+	Get_ADC_Channel(%0)
+	mov a, ADC_Result
+	cjne a, #255, endhere_%M
+wait_release_%M:
+	Get_ADC_Channel(%0)
+	mov a, ADC_Result+1
+	cjne a, #0, $
+	ljmp %1
+	endhere_%M
+endmac
 
 ;--------------------------------;
 ;	Takes a channel byte         ;
@@ -48,7 +67,7 @@ Get_ADC_Channel mac
     mov R0, #00000001B ; Start bit: 1
     lcall DO_SPI_G
     
-    mov R0, %0 ; Read channel 3
+    mov R0, %0 ; Read channel
     lcall DO_SPI_G
     mov a, R1
     anl a, #00000011B
