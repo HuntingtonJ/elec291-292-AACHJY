@@ -63,22 +63,32 @@ MY_MOSI       EQU P2.5
 MY_MISO       EQU P2.6
 MY_SCLK       EQU P2.7
 
-UP_BUTTON	  EQU P0.0
-DOWN_BUTTON   EQU P0.1
-SELECT_BUTTON EQU P0.2
-NEXT_BUTTON   EQU P0.3
-BACK_BUTTON   EQU p0.4
+UP_BUTTON	  EQU #10100000B 
+DOWN_BUTTON   EQU #10110000B
+SELECT_BUTTON equ #11000000B 
+NEXT_BUTTON   equ #11010000B
+BACK_BUTTON   EQU #11110000B
 
 MASTER_START  EQU p1.0
 
 MASTER_STOP   EQU p0.5
 
+; pins to be used on the MPC 3008
+adc_zero 		equ #10000000B               ; LM355 temp sensor 
+adc_one 		equ #10010000B               ; thermocouple
+adc_two 		equ #10100000B               ;	Upbutton
+adc_three 		equ #10110000B               ;	downbutton
+adc_four		equ #11000000B               ;	select button
+adc_five		equ #11010000B               ;	next button
+adc_six			equ #11100000B               ; 	back button
+adc_seven		equ #11110000B
 
 DSEG at 0x30
 Count1ms:       ds 2 ; Used to determine when half second has passed
 Result:         ds 2 ; Temp from lm355
 Result_Thermo:  ds 2 ; Temp from Thermocoupler
 ADC_Result:     ds 2 ; Temp from ADC channel 2
+
 BCD_temp:       ds 2 ; Used to diplay temp on the 7-segment display
 seconds:        ds 1
 x:              ds 4 ; Used in math32

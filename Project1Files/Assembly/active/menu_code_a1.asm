@@ -34,6 +34,8 @@ adc_button_jmp mac
 	cjne a, #0, wait_release_%M
 		sjmp endhere_%M
 wait_release_%M:
+	Get_ADC_Channel(%0)  	; loads ADC_Result (16 bit) with voltage value of pressed button 
+	mov a, ADC_Result+1
 	cjne a, #0, $
 	ljmp %1
 	endhere_%M:
@@ -117,10 +119,10 @@ Initial_menu:
     Send_Constant_String(#Choose_option)
 	
     ;------------- any button being pressed will change the screen
-    button_jmp(SELECT_BUTTON, Choose_menu)
-    button_jmp(NEXT_BUTTON, Choose_menu)
-    button_jmp(UP_BUTTON, Choose_menu)
-    button_jmp(DOWN_BUTTON, Choose_menu)
+    adc_button_jmp(SELECT_BUTTON, Choose_menu)
+    adc_button_jmp(NEXT_BUTTON, Choose_menu)
+    adc_button_jmp(UP_BUTTON, Choose_menu)
+    adc_button_jmp(DOWN_BUTTON, Choose_menu)
     ljmp Initial_menu
 
 system_ready: 
@@ -129,13 +131,13 @@ system_ready:
 	Set_Cursor(2,1)
 	Send_Constant_String(#Press_start)
 
-	button_jmp(BACK_BUTTON, Choose_menu)
+	adc_button_jmp(BACK_BUTTON, Choose_menu)
 	
-	button_jmp(UP_BUTTON, Choose_menu)
+	adc_button_jmp(UP_BUTTON, Choose_menu)
 
-	button_jmp(DOWN_BUTTON, Choose_menu)
-	button_jmp(SELECT_BUTTON, Choose_menu)
-	button_jmp(MASTER_START, Confirm_menu)
+	adc_button_jmp(DOWN_BUTTON, Choose_menu)
+	adc_button_jmp(SELECT_BUTTON, Choose_menu)
+	adc_button_jmp(MASTER_START, Confirm_menu)
 
 ljmp system_ready
 
@@ -185,8 +187,8 @@ Choose_menu:
 	Send_Constant_String(#Custom_menu_msg)
 
 	;!!!!need to have flashing cursor on screen on whichever option is selected !!!
-	button_jmp(UP_BUTTON, Preset_menu_select)
-	button_jmp(DOWN_BUTTON, Custom_menu_select)
+	adc_button_jmp(UP_BUTTON, Preset_menu_select)
+	adc_button_jmp(DOWN_BUTTON, Custom_menu_select)
 	
 	sjmp Choose_menu
 
@@ -197,9 +199,9 @@ Preset_menu_select:
 	Set_Cursor(2,1)
 	Send_Constant_String(#Clear_Row)
 	
-	button_jmp(DOWN_BUTTON, Custom_menu_select)
-	button_jmp(SELECT_BUTTON, Preset_menu)
-	button_jmp(BACK_BUTTON, Choose_menu) ; have we determined if we are using a back button or a next button? What is the purpose of a next button? 
+	adc_button_jmp(DOWN_BUTTON, Custom_menu_select)
+	adc_button_jmp(SELECT_BUTTON, Preset_menu)
+	adc_button_jmp(BACK_BUTTON, Choose_menu) ; have we determined if we are using a back button or a next button? What is the purpose of a next button? 
 
 	sjmp Preset_menu_select
 
@@ -210,9 +212,9 @@ Custom_menu_select:
 	Set_Cursor(2,1)
 	Send_Constant_String(#Clear_Row)
 	
-	button_jmp(UP_BUTTON, Preset_menu_select)
-	button_jmp(SELECT_BUTTON, Custom_menu)
-	button_jmp(BACK_BUTTON, Choose_menu)
+	adc_button_jmp(UP_BUTTON, Preset_menu_select)
+	adc_button_jmp(SELECT_BUTTON, Custom_menu)
+	adc_button_jmp(BACK_BUTTON, Choose_menu)
 
 	sjmp Custom_menu_select
 
@@ -224,23 +226,23 @@ Preset_menu:
 	Send_Constant_String(#Pb_solder)
 
 
-	button_jmp(UP_BUTTON, pb_free_select)
-	button_jmp(DOWN_BUTTON, pb_select)
-	button_jmp(BACK_BUTTON, Choose_menu)
+	adc_button_jmp(UP_BUTTON, pb_free_select)
+	adc_button_jmp(DOWN_BUTTON, pb_select)
+	adc_button_jmp(BACK_BUTTON, Choose_menu)
 
 	ljmp Preset_menu
 
 pb_free_select: 
-	button_jmp(DOWN_BUTTON, pb_select)
-	button_jmp(SELECT_BUTTON, pb_free_solder_set)
-	button_jmp(BACK_BUTTON, Choose_menu)
+	adc_button_jmp(DOWN_BUTTON, pb_select)
+	adc_button_jmp(SELECT_BUTTON, pb_free_solder_set)
+	adc_button_jmp(BACK_BUTTON, Choose_menu)
 
 	sjmp pb_free_select
 
 pb_select: 
-	button_jmp(UP_BUTTON, pb_free_select)
-	button_jmp(SELECT_BUTTON, pb_solder_set)
-	button_jmp(BACK_BUTTON, Choose_menu)
+	adc_button_jmp(UP_BUTTON, pb_free_select)
+	adc_button_jmp(SELECT_BUTTON, pb_solder_set)
+	adc_button_jmp(BACK_BUTTON, Choose_menu)
 
 	sjmp pb_select
 
@@ -320,7 +322,7 @@ Custom_menu:
 	;Wait_Milli_Seconds(#50)
 	;jb SELECT_BUTTON, Forever_loop
 	;jnb SELECT_BUTTON, $
-	BUTTON_jmp(SELECT_BUTTON, Set_Soak_temp)
+	adc_BUTTON_jmp(SELECT_BUTTON, Set_Soak_temp)
 	sjmp Forever_loop
 	;ljmp Set_Soak_temp
 	

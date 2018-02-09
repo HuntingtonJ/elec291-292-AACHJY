@@ -716,300 +716,298 @@
                 320   		sjmp endhere_%M
                 321   wait_release_%M:
                 322   	Get_ADC_Channel(%0)  	; loads ADC_Result (16 bit) with voltage value of pressed button 
-                323   
-                324   	mov a, ADC_Result+1
-                325   	cjne a, #0, wait_release_%M
-                326   	ljmp %1
-                327   	endhere_%M:
-                328   endmac
-0604            329   
-0604            330   ;Pressed value will be greater than ref voltage, resulting in all 10 bits being 1.
-0604            331   
-0604            332   ;--------------------------------;
-0604            333   ;        Takes a channel byte         ;
-0604            334   ;                                ;
-0604            335   ;   0 - #10000000B               ;
-0604            336   ;   1 - #10010000B               ;
-0604            337   ;   2 - #10100000B               ;
-0604            338   ;   3 - #10110000B               ;
-0604            339   ;   4 - #11000000B               ;
-0604            340   ;   5 - #11010000B               ;
-0604            341   ;   6 - #11100000B               ;
-0604            342   ;   7 - #11110000B               ;
-0604            343   ;                                ;
-0604            344   ;   Stores the value in          ; 
-0604            345   ;   ADC_Result.                  ;
-0604            346   ;   When used with buttons,      ;
-0604            347   ;   just check if the lower      ;
-0604            348   ;   byte is 255.                 ;
-0604            349   ;--------------------------------;
-                350   Get_ADC_Channel mac
-                351   	clr CE_ADC         ; selects 
-                352       mov R0, #00000001B ; Start bit: 1
-                353       lcall DO_SPI_G
-                354       
-                355       mov R0, %0 ; Read channel
-                356       lcall DO_SPI_G
-                357       mov a, R1
-                358       anl a, #00000011B
-                359       mov ADC_Result+1, a    ; Save high result
-                360       
-                361       mov R0, #55H
-                362       lcall DO_SPI_G
-                363       mov ADC_Result+0, R1     ; Save low result
-                364       
-                365       setb CE_ADC        ; deselects
-                366       
-                367       ;V_OUT = ADC_voltage*4.096V/1023
-                368       mov x+0, ADC_Result
-                369       mov x+1, ADC_Result+1
-                370       mov x+2, #0
-                371       mov x+3, #0
-                372       
-                373       Load_y(4091)
-                374       lcall mul32 ;multiplies x *= y
-                375       
-                376       Load_y(1023)
-                377       lcall div32 ;divides x /= y
-                378       
-                379       Load_y(1000)
-                380       lcall div32
-                381       
-                382       ;lcall hex2bcd
-                383       ;lcall Display_10_digit_BCD_2
-                384       ;lcall Delay
-                385   endmac	
+                323   	mov a, ADC_Result+1
+                324   	cjne a, #0, wait_release_%M
+                325   	ljmp %1
+                326   	endhere_%M:
+                327   endmac
+0604            328   
+0604            329   ;Pressed value will be greater than ref voltage, resulting in all 10 bits being 1.
+0604            330   
+0604            331   ;--------------------------------;
+0604            332   ;        Takes a channel byte         ;
+0604            333   ;                                ;
+0604            334   ;   0 - #10000000B               ;
+0604            335   ;   1 - #10010000B               ;
+0604            336   ;   2 - #10100000B               ;
+0604            337   ;   3 - #10110000B               ;
+0604            338   ;   4 - #11000000B               ;
+0604            339   ;   5 - #11010000B               ;
+0604            340   ;   6 - #11100000B               ;
+0604            341   ;   7 - #11110000B               ;
+0604            342   ;                                ;
+0604            343   ;   Stores the value in          ; 
+0604            344   ;   ADC_Result.                  ;
+0604            345   ;   When used with buttons,      ;
+0604            346   ;   just check if the lower      ;
+0604            347   ;   byte is 255.                 ;
+0604            348   ;--------------------------------;
+                349   Get_ADC_Channel mac
+                350   	clr CE_ADC         ; selects 
+                351       mov R0, #00000001B ; Start bit: 1
+                352       lcall DO_SPI_G
+                353       
+                354       mov R0, %0 ; Read channel
+                355       lcall DO_SPI_G
+                356       mov a, R1
+                357       anl a, #00000011B
+                358       mov ADC_Result+1, a    ; Save high result
+                359       
+                360       mov R0, #55H
+                361       lcall DO_SPI_G
+                362       mov ADC_Result+0, R1     ; Save low result
+                363       
+                364       setb CE_ADC        ; deselects
+                365       
+                366       ;V_OUT = ADC_voltage*4.096V/1023
+                367       mov x+0, ADC_Result
+                368       mov x+1, ADC_Result+1
+                369       mov x+2, #0
+                370       mov x+3, #0
+                371       
+                372       Load_y(4091)
+                373       lcall mul32 ;multiplies x *= y
+                374       
+                375       Load_y(1023)
+                376       lcall div32 ;divides x /= y
+                377       
+                378       Load_y(1000)
+                379       lcall div32
+                380       
+                381       ;lcall hex2bcd
+                382       ;lcall Display_10_digit_BCD_2
+                383       ;lcall Delay
+                384   endmac	
+0604            385   
 0604            386   
-0604            387   
-0604            388   MainProgram:
-0604 75817F     389       mov SP, #7FH ; Set the stack pointer to the begining of idata
-0607            390       
-0607            391       ;lcall Timer0_Init
-0607 12037F     392       lcall Timer2_Init
-060A            393       ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
-060A 75E600     394       mov P0M0, #0
-060D 75E700     395       mov P0M1, #0
-0610            396       
-0610 D2AF       397       setb EA   ; Enable Global interrupts
-0612            398       
-0612 1203C0     399       lcall InitSerialPort
-0615 900409     400       mov DPTR, #Hello_World
-0618 1203E0     401       lcall SendString
-061B            402       
-061B 1203EB     403       lcall INIT_SPI
-061E 12030F     404       lcall LCD_4BIT
-0621            405       
-0621            406   forever:
-0621 C2A0       407       clr CE_ADC         ; selects 
-0623 7801       408       mov R0, #00000001B ; Start bit: 1
-0625 1203F0     409       lcall DO_SPI_G
-0628            410       
-0628 7880       411       mov R0, #10000000B ; Read channel 0
-062A 1203F0     412       lcall DO_SPI_G
-062D E9         413       mov a, R1
-062E 5403       414       anl a, #00000011B
-0630 F533       415       mov Result+1, a    ; Save high result
-0632            416       
-0632 7855       417       mov R0, #55H
-0634 1203F0     418       lcall DO_SPI_G
-0637 8932       419       mov Result, R1     ; Save low result
-0639            420       
-0639 D2A0       421       setb CE_ADC        ; deselects
-063B            422       
-063B            423       ;V_OUT = ADC_voltage*4.096V/1023
-063B            424       ;ADC_voltage*4096 = A
-063B 853238     425       mov x+0, Result
-063E 853339     426       mov x+1, Result+1
-0641 753A00     427       mov x+2, #0
-0644 753B00     428       mov x+3, #0
-0647            429       
-0647 753CFB     430            mov y+0, #low (4091 % 0x10000) 
-064A 753D0F     430            mov y+1, #high(4091 % 0x10000) 
-064D 753E00     430            mov y+2, #low (4091 / 0x10000) 
-0650 753F00     430            mov y+3, #high(4091 / 0x10000) 
-0653 1201A8     431       lcall mul32 ;multiplies x *= y
-0656            432       
-0656            433       ;A/1023 = B
-0656 753CFF     434            mov y+0, #low (1023 % 0x10000) 
-0659 753D03     434            mov y+1, #high(1023 % 0x10000) 
-065C 753E00     434            mov y+2, #low (1023 / 0x10000) 
-065F 753F00     434            mov y+3, #high(1023 / 0x10000) 
-0662 120235     435       lcall div32 ;divides x /= y
-0665            436       
-0665            437       ;B - 2730 = C
-0665 753CAA     438            mov y+0, #low (2730 % 0x10000) 
-0668 753D0A     438            mov y+1, #high(2730 % 0x10000) 
-066B 753E00     438            mov y+2, #low (2730 / 0x10000) 
-066E 753F00     438            mov y+3, #high(2730 / 0x10000) ;
-0671 120114     439       lcall sub32
-0674            440       
-0674            441       ;B/10 = V_OUT
-0674 753C0A     442            mov y+0, #low (10 % 0x10000) 
-0677 753D00     442            mov y+1, #high(10 % 0x10000) 
-067A 753E00     442            mov y+2, #low (10 / 0x10000) 
-067D 753F00     442            mov y+3, #high(10 / 0x10000) ;
-0680 120235     443       lcall div32 ;divides x /= y
-0683            444       
-0683 12002E     445       lcall hex2bcd
-0686 120422     446       lcall Display_10_digit_BCD
-0689            447       
-0689 120419     448       lcall Delay
-068C            449       
-068C C2A0       450            clr CE_ADC         ; selects 
-068E 7801       450       mov R0, #00000001B ; Start bit: 1
-0690 1203F0     450       lcall DO_SPI_G
-0693            450       
-0693 78A0       450       mov R0, #10100000B ; Read channel
-0695 1203F0     450       lcall DO_SPI_G
-0698 E9         450       mov a, R1
-0699 5403       450       anl a, #00000011B
-069B F537       450       mov ADC_Result+1, a    ; Save high result
-069D            450       
-069D 7855       450       mov R0, #55H
-069F 1203F0     450       lcall DO_SPI_G
-06A2 8936       450       mov ADC_Result+0, R1     ; Save low result
-06A4            450       
-06A4 D2A0       450       setb CE_ADC        ; deselects
-06A6            450       
-06A6            450       ;V_OUT = ADC_voltage*4.096V/1023
-06A6 853638     450       mov x+0, ADC_Result
-06A9 853739     450       mov x+1, ADC_Result+1
-06AC 753A00     450       mov x+2, #0
-06AF 753B00     450       mov x+3, #0
-06B2            450       
-06B2 753CFB     450            mov y+0, #low (4091 % 0x10000) 
-06B5 753D0F     450            mov y+1, #high(4091 % 0x10000) 
-06B8 753E00     450            mov y+2, #low (4091 / 0x10000) 
-06BB 753F00     450            mov y+3, #high(4091 / 0x10000) 
-06BE 1201A8     450       lcall mul32 ;multiplies x *= y
-06C1            450       
-06C1 753CFF     450            mov y+0, #low (1023 % 0x10000) 
-06C4 753D03     450            mov y+1, #high(1023 % 0x10000) 
-06C7 753E00     450            mov y+2, #low (1023 / 0x10000) 
-06CA 753F00     450            mov y+3, #high(1023 / 0x10000) 
-06CD 120235     450       lcall div32 ;divides x /= y
-06D0            450       
-06D0 753CE8     450            mov y+0, #low (1000 % 0x10000) 
-06D3 753D03     450            mov y+1, #high(1000 % 0x10000) 
-06D6 753E00     450            mov y+2, #low (1000 / 0x10000) 
-06D9 753F00     450            mov y+3, #high(1000 / 0x10000) 
-06DC 120235     450       lcall div32
-06DF            450       
-06DF            450       ;lcall hex2bcd
-06DF            450       ;lcall Display_10_digit_BCD_2
-06DF            450       ;lcall Delay ; Channel 2
-06DF            451   
-06DF C2A0       452            clr CE_ADC         ; selects 
-06E1 7801       452       mov R0, #00000001B ; Start bit: 1
-06E3 1203F0     452       lcall DO_SPI_G
-06E6            452       
-06E6 78A0       452       mov R0, #10100000B ; Read channel
-06E8 1203F0     452       lcall DO_SPI_G
-06EB E9         452       mov a, R1
-06EC 5403       452       anl a, #00000011B
-06EE F537       452       mov ADC_Result+1, a    ; Save high result
-06F0            452       
-06F0 7855       452       mov R0, #55H
-06F2 1203F0     452       lcall DO_SPI_G
-06F5 8936       452       mov ADC_Result+0, R1     ; Save low result
-06F7            452       
-06F7 D2A0       452       setb CE_ADC        ; deselects
-06F9            452       
-06F9            452       ;V_OUT = ADC_voltage*4.096V/1023
-06F9 853638     452       mov x+0, ADC_Result
-06FC 853739     452       mov x+1, ADC_Result+1
-06FF 753A00     452       mov x+2, #0
-0702 753B00     452       mov x+3, #0
-0705            452       
-0705 753CFB     452            mov y+0, #low (4091 % 0x10000) 
-0708 753D0F     452            mov y+1, #high(4091 % 0x10000) 
-070B 753E00     452            mov y+2, #low (4091 / 0x10000) 
-070E 753F00     452            mov y+3, #high(4091 / 0x10000) 
-0711 1201A8     452       lcall mul32 ;multiplies x *= y
-0714            452       
-0714 753CFF     452            mov y+0, #low (1023 % 0x10000) 
-0717 753D03     452            mov y+1, #high(1023 % 0x10000) 
-071A 753E00     452            mov y+2, #low (1023 / 0x10000) 
-071D 753F00     452            mov y+3, #high(1023 / 0x10000) 
-0720 120235     452       lcall div32 ;divides x /= y
-0723            452       
-0723 753CE8     452            mov y+0, #low (1000 % 0x10000) 
-0726 753D03     452            mov y+1, #high(1000 % 0x10000) 
-0729 753E00     452            mov y+2, #low (1000 / 0x10000) 
-072C 753F00     452            mov y+3, #high(1000 / 0x10000) 
-072F 120235     452       lcall div32
-0732            452       
-0732            452       ;lcall hex2bcd
-0732            452       ;lcall Display_10_digit_BCD_2
-0732            452       ;lcall Delay         ; loads ADC_Result (16 bit) with voltage value of pressed button 
-0732 E537       452            mov a, ADC_Result+1
-0734 B40002     452            cjne a, #0, wait_release_57
-0737 805B       452                    sjmp endhere_57
-0739            452   wait_release_57:
-0739 C2A0       452            clr CE_ADC         ; selects 
-073B 7801       452       mov R0, #00000001B ; Start bit: 1
-073D 1203F0     452       lcall DO_SPI_G
-0740            452       
-0740 78A0       452       mov R0, #10100000B ; Read channel
-0742 1203F0     452       lcall DO_SPI_G
-0745 E9         452       mov a, R1
-0746 5403       452       anl a, #00000011B
-0748 F537       452       mov ADC_Result+1, a    ; Save high result
-074A            452       
-074A 7855       452       mov R0, #55H
-074C 1203F0     452       lcall DO_SPI_G
-074F 8936       452       mov ADC_Result+0, R1     ; Save low result
-0751            452       
-0751 D2A0       452       setb CE_ADC        ; deselects
-0753            452       
-0753            452       ;V_OUT = ADC_voltage*4.096V/1023
-0753 853638     452       mov x+0, ADC_Result
-0756 853739     452       mov x+1, ADC_Result+1
-0759 753A00     452       mov x+2, #0
-075C 753B00     452       mov x+3, #0
-075F            452       
-075F 753CFB     452            mov y+0, #low (4091 % 0x10000) 
-0762 753D0F     452            mov y+1, #high(4091 % 0x10000) 
-0765 753E00     452            mov y+2, #low (4091 / 0x10000) 
-0768 753F00     452            mov y+3, #high(4091 / 0x10000) 
-076B 1201A8     452       lcall mul32 ;multiplies x *= y
-076E            452       
-076E 753CFF     452            mov y+0, #low (1023 % 0x10000) 
-0771 753D03     452            mov y+1, #high(1023 % 0x10000) 
-0774 753E00     452            mov y+2, #low (1023 / 0x10000) 
-0777 753F00     452            mov y+3, #high(1023 / 0x10000) 
-077A 120235     452       lcall div32 ;divides x /= y
-077D            452       
-077D 753CE8     452            mov y+0, #low (1000 % 0x10000) 
-0780 753D03     452            mov y+1, #high(1000 % 0x10000) 
-0783 753E00     452            mov y+2, #low (1000 / 0x10000) 
-0786 753F00     452            mov y+3, #high(1000 / 0x10000) 
-0789 120235     452       lcall div32
-078C            452       
-078C            452       ;lcall hex2bcd
-078C            452       ;lcall Display_10_digit_BCD_2
-078C            452       ;lcall Delay         ; loads ADC_Result (16 bit) with voltage value of pressed button 
-078C            452   
-078C E537       452            mov a, ADC_Result+1
-078E B400A8     452            cjne a, #0, wait_release_57
-0791 020797     452            ljmp test1
-0794            452            endhere_57:
-0794            453       
-0794 020621     454       ljmp forever ; This is equivalent to 'forever: sjmp forever'
-0797            455   
-0797            456       test1: 
-0797 C0E0       457            push acc
-0799 7401       457            mov a, #1
-079B 14         457            dec a
-079C 120348     457            lcall ?Set_Cursor_1 ; Select column and row
-079F D0E0       457            pop acc
-07A1 C083       458            push dph
-07A3 C082       458            push dpl
-07A5 C0E0       458            push acc
-07A7 9002AA     458            mov dptr, #msg1
-07AA 12033B     458            lcall ?Send_Constant_String
-07AD D0E0       458            pop acc
-07AF D082       458            pop dpl
-07B1 D083       458            pop dph
-07B3 020621     459            ljmp forever
-07B6            460   EN
+0604            387   MainProgram:
+0604 75817F     388       mov SP, #7FH ; Set the stack pointer to the begining of idata
+0607            389       
+0607            390       ;lcall Timer0_Init
+0607 12037F     391       lcall Timer2_Init
+060A            392       ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
+060A 75E600     393       mov P0M0, #0
+060D 75E700     394       mov P0M1, #0
+0610            395       
+0610 D2AF       396       setb EA   ; Enable Global interrupts
+0612            397       
+0612 1203C0     398       lcall InitSerialPort
+0615 900409     399       mov DPTR, #Hello_World
+0618 1203E0     400       lcall SendString
+061B            401       
+061B 1203EB     402       lcall INIT_SPI
+061E 12030F     403       lcall LCD_4BIT
+0621            404       
+0621            405   forever:
+0621 C2A0       406       clr CE_ADC         ; selects 
+0623 7801       407       mov R0, #00000001B ; Start bit: 1
+0625 1203F0     408       lcall DO_SPI_G
+0628            409       
+0628 7880       410       mov R0, #10000000B ; Read channel 0
+062A 1203F0     411       lcall DO_SPI_G
+062D E9         412       mov a, R1
+062E 5403       413       anl a, #00000011B
+0630 F533       414       mov Result+1, a    ; Save high result
+0632            415       
+0632 7855       416       mov R0, #55H
+0634 1203F0     417       lcall DO_SPI_G
+0637 8932       418       mov Result, R1     ; Save low result
+0639            419       
+0639 D2A0       420       setb CE_ADC        ; deselects
+063B            421       
+063B            422       ;V_OUT = ADC_voltage*4.096V/1023
+063B            423       ;ADC_voltage*4096 = A
+063B 853238     424       mov x+0, Result
+063E 853339     425       mov x+1, Result+1
+0641 753A00     426       mov x+2, #0
+0644 753B00     427       mov x+3, #0
+0647            428       
+0647 753CFB     429            mov y+0, #low (4091 % 0x10000) 
+064A 753D0F     429            mov y+1, #high(4091 % 0x10000) 
+064D 753E00     429            mov y+2, #low (4091 / 0x10000) 
+0650 753F00     429            mov y+3, #high(4091 / 0x10000) 
+0653 1201A8     430       lcall mul32 ;multiplies x *= y
+0656            431       
+0656            432       ;A/1023 = B
+0656 753CFF     433            mov y+0, #low (1023 % 0x10000) 
+0659 753D03     433            mov y+1, #high(1023 % 0x10000) 
+065C 753E00     433            mov y+2, #low (1023 / 0x10000) 
+065F 753F00     433            mov y+3, #high(1023 / 0x10000) 
+0662 120235     434       lcall div32 ;divides x /= y
+0665            435       
+0665            436       ;B - 2730 = C
+0665 753CAA     437            mov y+0, #low (2730 % 0x10000) 
+0668 753D0A     437            mov y+1, #high(2730 % 0x10000) 
+066B 753E00     437            mov y+2, #low (2730 / 0x10000) 
+066E 753F00     437            mov y+3, #high(2730 / 0x10000) ;
+0671 120114     438       lcall sub32
+0674            439       
+0674            440       ;B/10 = V_OUT
+0674 753C0A     441            mov y+0, #low (10 % 0x10000) 
+0677 753D00     441            mov y+1, #high(10 % 0x10000) 
+067A 753E00     441            mov y+2, #low (10 / 0x10000) 
+067D 753F00     441            mov y+3, #high(10 / 0x10000) ;
+0680 120235     442       lcall div32 ;divides x /= y
+0683            443       
+0683 12002E     444       lcall hex2bcd
+0686 120422     445       lcall Display_10_digit_BCD
+0689            446       
+0689 120419     447       lcall Delay
+068C            448       
+068C C2A0       449            clr CE_ADC         ; selects 
+068E 7801       449       mov R0, #00000001B ; Start bit: 1
+0690 1203F0     449       lcall DO_SPI_G
+0693            449       
+0693 78A0       449       mov R0, #10100000B ; Read channel
+0695 1203F0     449       lcall DO_SPI_G
+0698 E9         449       mov a, R1
+0699 5403       449       anl a, #00000011B
+069B F537       449       mov ADC_Result+1, a    ; Save high result
+069D            449       
+069D 7855       449       mov R0, #55H
+069F 1203F0     449       lcall DO_SPI_G
+06A2 8936       449       mov ADC_Result+0, R1     ; Save low result
+06A4            449       
+06A4 D2A0       449       setb CE_ADC        ; deselects
+06A6            449       
+06A6            449       ;V_OUT = ADC_voltage*4.096V/1023
+06A6 853638     449       mov x+0, ADC_Result
+06A9 853739     449       mov x+1, ADC_Result+1
+06AC 753A00     449       mov x+2, #0
+06AF 753B00     449       mov x+3, #0
+06B2            449       
+06B2 753CFB     449            mov y+0, #low (4091 % 0x10000) 
+06B5 753D0F     449            mov y+1, #high(4091 % 0x10000) 
+06B8 753E00     449            mov y+2, #low (4091 / 0x10000) 
+06BB 753F00     449            mov y+3, #high(4091 / 0x10000) 
+06BE 1201A8     449       lcall mul32 ;multiplies x *= y
+06C1            449       
+06C1 753CFF     449            mov y+0, #low (1023 % 0x10000) 
+06C4 753D03     449            mov y+1, #high(1023 % 0x10000) 
+06C7 753E00     449            mov y+2, #low (1023 / 0x10000) 
+06CA 753F00     449            mov y+3, #high(1023 / 0x10000) 
+06CD 120235     449       lcall div32 ;divides x /= y
+06D0            449       
+06D0 753CE8     449            mov y+0, #low (1000 % 0x10000) 
+06D3 753D03     449            mov y+1, #high(1000 % 0x10000) 
+06D6 753E00     449            mov y+2, #low (1000 / 0x10000) 
+06D9 753F00     449            mov y+3, #high(1000 / 0x10000) 
+06DC 120235     449       lcall div32
+06DF            449       
+06DF            449       ;lcall hex2bcd
+06DF            449       ;lcall Display_10_digit_BCD_2
+06DF            449       ;lcall Delay ; Channel 2
+06DF            450   
+06DF C2A0       451            clr CE_ADC         ; selects 
+06E1 7801       451       mov R0, #00000001B ; Start bit: 1
+06E3 1203F0     451       lcall DO_SPI_G
+06E6            451       
+06E6 78A0       451       mov R0, #10100000B ; Read channel
+06E8 1203F0     451       lcall DO_SPI_G
+06EB E9         451       mov a, R1
+06EC 5403       451       anl a, #00000011B
+06EE F537       451       mov ADC_Result+1, a    ; Save high result
+06F0            451       
+06F0 7855       451       mov R0, #55H
+06F2 1203F0     451       lcall DO_SPI_G
+06F5 8936       451       mov ADC_Result+0, R1     ; Save low result
+06F7            451       
+06F7 D2A0       451       setb CE_ADC        ; deselects
+06F9            451       
+06F9            451       ;V_OUT = ADC_voltage*4.096V/1023
+06F9 853638     451       mov x+0, ADC_Result
+06FC 853739     451       mov x+1, ADC_Result+1
+06FF 753A00     451       mov x+2, #0
+0702 753B00     451       mov x+3, #0
+0705            451       
+0705 753CFB     451            mov y+0, #low (4091 % 0x10000) 
+0708 753D0F     451            mov y+1, #high(4091 % 0x10000) 
+070B 753E00     451            mov y+2, #low (4091 / 0x10000) 
+070E 753F00     451            mov y+3, #high(4091 / 0x10000) 
+0711 1201A8     451       lcall mul32 ;multiplies x *= y
+0714            451       
+0714 753CFF     451            mov y+0, #low (1023 % 0x10000) 
+0717 753D03     451            mov y+1, #high(1023 % 0x10000) 
+071A 753E00     451            mov y+2, #low (1023 / 0x10000) 
+071D 753F00     451            mov y+3, #high(1023 / 0x10000) 
+0720 120235     451       lcall div32 ;divides x /= y
+0723            451       
+0723 753CE8     451            mov y+0, #low (1000 % 0x10000) 
+0726 753D03     451            mov y+1, #high(1000 % 0x10000) 
+0729 753E00     451            mov y+2, #low (1000 / 0x10000) 
+072C 753F00     451            mov y+3, #high(1000 / 0x10000) 
+072F 120235     451       lcall div32
+0732            451       
+0732            451       ;lcall hex2bcd
+0732            451       ;lcall Display_10_digit_BCD_2
+0732            451       ;lcall Delay         ; loads ADC_Result (16 bit) with voltage value of pressed button 
+0732 E537       451            mov a, ADC_Result+1
+0734 B40002     451            cjne a, #0, wait_release_57
+0737 805B       451                    sjmp endhere_57
+0739            451   wait_release_57:
+0739 C2A0       451            clr CE_ADC         ; selects 
+073B 7801       451       mov R0, #00000001B ; Start bit: 1
+073D 1203F0     451       lcall DO_SPI_G
+0740            451       
+0740 78A0       451       mov R0, #10100000B ; Read channel
+0742 1203F0     451       lcall DO_SPI_G
+0745 E9         451       mov a, R1
+0746 5403       451       anl a, #00000011B
+0748 F537       451       mov ADC_Result+1, a    ; Save high result
+074A            451       
+074A 7855       451       mov R0, #55H
+074C 1203F0     451       lcall DO_SPI_G
+074F 8936       451       mov ADC_Result+0, R1     ; Save low result
+0751            451       
+0751 D2A0       451       setb CE_ADC        ; deselects
+0753            451       
+0753            451       ;V_OUT = ADC_voltage*4.096V/1023
+0753 853638     451       mov x+0, ADC_Result
+0756 853739     451       mov x+1, ADC_Result+1
+0759 753A00     451       mov x+2, #0
+075C 753B00     451       mov x+3, #0
+075F            451       
+075F 753CFB     451            mov y+0, #low (4091 % 0x10000) 
+0762 753D0F     451            mov y+1, #high(4091 % 0x10000) 
+0765 753E00     451            mov y+2, #low (4091 / 0x10000) 
+0768 753F00     451            mov y+3, #high(4091 / 0x10000) 
+076B 1201A8     451       lcall mul32 ;multiplies x *= y
+076E            451       
+076E 753CFF     451            mov y+0, #low (1023 % 0x10000) 
+0771 753D03     451            mov y+1, #high(1023 % 0x10000) 
+0774 753E00     451            mov y+2, #low (1023 / 0x10000) 
+0777 753F00     451            mov y+3, #high(1023 / 0x10000) 
+077A 120235     451       lcall div32 ;divides x /= y
+077D            451       
+077D 753CE8     451            mov y+0, #low (1000 % 0x10000) 
+0780 753D03     451            mov y+1, #high(1000 % 0x10000) 
+0783 753E00     451            mov y+2, #low (1000 / 0x10000) 
+0786 753F00     451            mov y+3, #high(1000 / 0x10000) 
+0789 120235     451       lcall div32
+078C            451       
+078C            451       ;lcall hex2bcd
+078C            451       ;lcall Display_10_digit_BCD_2
+078C            451       ;lcall Delay         ; loads ADC_Result (16 bit) with voltage value of pressed button 
+078C E537       451            mov a, ADC_Result+1
+078E B400A8     451            cjne a, #0, wait_release_57
+0791 020797     451            ljmp test1
+0794            451            endhere_57:
+0794            452       
+0794 020621     453       ljmp forever ; This is equivalent to 'forever: sjmp forever'
+0797            454   
+0797            455       test1: 
+0797 C0E0       456            push acc
+0799 7401       456            mov a, #1
+079B 14         456            dec a
+079C 120348     456            lcall ?Set_Cursor_1 ; Select column and row
+079F D0E0       456            pop acc
+07A1 C083       457            push dph
+07A3 C082       457            push dpl
+07A5 C0E0       457            push acc
+07A7 9002AA     457            mov dptr, #msg1
+07AA 12033B     457            lcall ?Send_Constant_String
+07AD D0E0       457            pop acc
+07AF D082       457            pop dpl
+07B1 D083       457            pop dph
+07B3 020621     458            ljmp forever
+07B6            459   EN

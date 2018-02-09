@@ -320,7 +320,6 @@ adc_button_jmp mac
 		sjmp endhere_%M
 wait_release_%M:
 	Get_ADC_Channel(%0)  	; loads ADC_Result (16 bit) with voltage value of pressed button 
-
 	mov a, ADC_Result+1
 	cjne a, #0, wait_release_%M
 	ljmp %1
