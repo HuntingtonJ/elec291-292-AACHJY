@@ -128,6 +128,7 @@ disp1:          ds 1 ; Least significant digit
 disp2:          ds 1
 disp3:          ds 1 ; Most significant digit
 seg_state:      ds 1 ; state of 7_seg fsm
+display_scratch: ds 1
 
 
 

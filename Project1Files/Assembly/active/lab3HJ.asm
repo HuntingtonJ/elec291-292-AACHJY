@@ -294,6 +294,7 @@ GET_TEMP_DATA:
     ;lcall Send_10_digit_BCD
     ;lcall Display_10_digit_BCD_2
     lcall THERMO_TEMP_TO_BCD
+	lcall set_7_segment_diplay
     
     ;lcall Delay
 GET_TEMP_DATA_END:

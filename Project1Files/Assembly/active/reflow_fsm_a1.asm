@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 CSEG
 
 ; State 0 - menu
@@ -265,4 +264,3 @@ end
 ;shortbeepflag:		dbit 1
 ;longbeepflag:		dbit 1
 ;sixbeepflag:		dbit 1
->>>>>>> 934aac5f180d5c773b65511cfdc024b5a1118b31
