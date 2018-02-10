@@ -30,13 +30,14 @@ endhere_%M:
 ;and exit vector/label
 adc_button_jmp mac
 	Get_ADC_Channel(%0)  	; loads ADC_Result (16 bit) with voltage value of pressed button 
-	mov a, ADC_Result+1
+	mov a, ADC_Result+0
 	cjne a, #0, wait_release_%M
-		sjmp endhere_%M
+
+	sjmp endhere_%M
 wait_release_%M:
 	Get_ADC_Channel(%0)  	; loads ADC_Result (16 bit) with voltage value of pressed button 
-	mov a, ADC_Result+1
-	cjne a, #0, $
+	mov a, ADC_Result+0
+	cjne a, #0,wait_release_%M
 	ljmp %1
 	endhere_%M:
 endmac
@@ -61,41 +62,6 @@ endmac
 ;   just check if the lower      ;
 ;   byte is 255.                 ;
 ;--------------------------------;
-Get_ADC_Channel_milliV mac
-	clr CE_ADC         ; selects 
-    mov R0, #00000001B ; Start bit: 1
-    lcall DO_SPI_G
-    
-    mov R0, %0 ; Read channel
-    lcall DO_SPI_G
-    mov a, R1
-    anl a, #00000011B
-    mov ADC_Result+1, a    ; Save high result
-    
-    mov R0, #55H
-    lcall DO_SPI_G
-    mov ADC_Result+0, R1     ; Save low result
-    
-    setb CE_ADC        ; deselects
-	
-	;V_OUT = ADC_voltage*4.096V/1023
-    mov x+0, ADC_Result
-    mov x+1, ADC_Result+1
-    mov x+2, #0
-    mov x+3, #0
-    
-	;*VREF(1000)
-    Load_y(4091)
-    lcall mul32 ;multiplies x *= y
-    
-	;/1023
-    Load_y(1023)
-    lcall div32 ;divides x /= y
-	
-	mov ADC_Result+0, x+0
-	mov ADC_Result+1, x+1
-endMac
-
 Get_ADC_Channel mac
 	clr CE_ADC         ; selects 
     mov R0, #00000001B ; Start bit: 1
@@ -119,21 +85,19 @@ Get_ADC_Channel mac
     mov x+2, #0
     mov x+3, #0
     
-	;*VREF(1000)
     Load_y(4091)
     lcall mul32 ;multiplies x *= y
     
-	;/1023
     Load_y(1023)
     lcall div32 ;divides x /= y
     
-	;*1000 to account for VREF*1000
     Load_y(1000)
     lcall div32
     
-	mov ADC_Result+0, x+0
-	mov ADC_Result+1, x+1
-endmac	
+    mov ADC_Result+1, x+1
+    mov ADC_Result+0, x+0
+
+endmac
 
 Main_Menu_Program:
 	;Set all vars initally to zero
@@ -156,10 +120,10 @@ Initial_menu:
     Send_Constant_String(#Choose_option)
 	
     ;------------- any button being pressed will change the screen
-    adc_button_jmp(SELECT_BUTTON, Choose_menu)
-    adc_button_jmp(NEXT_BUTTON, Choose_menu)
-    adc_button_jmp(UP_BUTTON, Choose_menu)
-    adc_button_jmp(DOWN_BUTTON, Choose_menu)
+    button_jmp(SELECT_BUTTON, Choose_menu)
+    button_jmp(UP_BUTTON, Choose_menu)
+    button_jmp(DOWN_BUTTON, Choose_menu)
+    adc_button_jmp(BACK_BUTTON, Choose_menu)
     ljmp Initial_menu
 
 system_ready: 
@@ -169,11 +133,7 @@ system_ready:
 	Send_Constant_String(#Press_start)
 
 	adc_button_jmp(BACK_BUTTON, Choose_menu)
-	
-	adc_button_jmp(UP_BUTTON, Choose_menu)
-
-	adc_button_jmp(DOWN_BUTTON, Choose_menu)
-	adc_button_jmp(SELECT_BUTTON, Choose_menu)
+	button_jmp(SELECT_BUTTON, Confirm_menu)
 	adc_button_jmp(MASTER_START, Confirm_menu)
 
 ljmp system_ready
@@ -209,7 +169,7 @@ unloaded:
 Loaded_param: 
 
 	;Then check if the state=1. If so, goto reflow FSM
-;	mov a, reflow_state
+	;mov a, reflow_state
 	;cjne a, #1, state_error
 
 	mov a, #0x01
@@ -223,9 +183,8 @@ Choose_menu:
 	Set_Cursor(2,1)
 	Send_Constant_String(#Custom_menu_msg)
 
-	;!!!!need to have flashing cursor on screen on whichever option is selected !!!
-	adc_button_jmp(UP_BUTTON, Preset_menu_select)
-	adc_button_jmp(DOWN_BUTTON, Custom_menu_select)
+	button_jmp(UP_BUTTON, Preset_menu_select)
+	button_jmp(DOWN_BUTTON, Custom_menu_select)
 	
 	sjmp Choose_menu
 
@@ -236,11 +195,11 @@ Preset_menu_select:
 	Set_Cursor(2,1)
 	Send_Constant_String(#Clear_Row)
 	
-	adc_button_jmp(DOWN_BUTTON, Custom_menu_select)
-	adc_button_jmp(SELECT_BUTTON, Preset_menu)
+	button_jmp(DOWN_BUTTON, Custom_menu_select)
+	button_jmp(SELECT_BUTTON, Preset_menu)
 	adc_button_jmp(BACK_BUTTON, Choose_menu) ; have we determined if we are using a back button or a next button? What is the purpose of a next button? 
 
-	sjmp Preset_menu_select
+	ljmp Preset_menu_select
 
 Custom_menu_select: 
 	;Remove messages when blinking cursor is set up
@@ -249,11 +208,11 @@ Custom_menu_select:
 	Set_Cursor(2,1)
 	Send_Constant_String(#Clear_Row)
 	
-	adc_button_jmp(UP_BUTTON, Preset_menu_select)
-	adc_button_jmp(SELECT_BUTTON, Custom_menu)
+	button_jmp(UP_BUTTON, Preset_menu_select)
+	button_jmp(SELECT_BUTTON, Custom_menu)
 	adc_button_jmp(BACK_BUTTON, Choose_menu)
 
-	sjmp Custom_menu_select
+	ljmp Custom_menu_select
 
 ;------------------ Preset Menu END----------------------------------;
 Preset_menu: 
@@ -263,25 +222,25 @@ Preset_menu:
 	Send_Constant_String(#Pb_solder)
 
 
-	adc_button_jmp(UP_BUTTON, pb_free_select)
-	adc_button_jmp(DOWN_BUTTON, pb_select)
+	button_jmp(UP_BUTTON, pb_free_select)
+	button_jmp(DOWN_BUTTON, pb_select)
 	adc_button_jmp(BACK_BUTTON, Choose_menu)
 
 	ljmp Preset_menu
 
 pb_free_select: 
-	adc_button_jmp(DOWN_BUTTON, pb_select)
-	adc_button_jmp(SELECT_BUTTON, pb_free_solder_set)
+	button_jmp(DOWN_BUTTON, pb_select)
+	button_jmp(SELECT_BUTTON, pb_free_solder_set)
 	adc_button_jmp(BACK_BUTTON, Choose_menu)
 
-	sjmp pb_free_select
+	ljmp pb_free_select
 
 pb_select: 
-	adc_button_jmp(UP_BUTTON, pb_free_select)
-	adc_button_jmp(SELECT_BUTTON, pb_solder_set)
+	button_jmp(UP_BUTTON, pb_free_select)
+	button_jmp(SELECT_BUTTON, pb_solder_set)
 	adc_button_jmp(BACK_BUTTON, Choose_menu)
 
-	sjmp pb_select
+	ljmp pb_select
 
 
 pb_solder_set: 		; for soldering with the Sn63Pb37 alloy	
@@ -306,15 +265,11 @@ pb_free_solder_set: 	;for soldering SAC305 lead-free solder
 	Set_Cursor(2,1)
 	Send_Constant_String(#Profile_loaded)
 	
-;	mov a, #120
-;	da a
 	mov soaktime, #120
 	
-;	mov a, #160
-;	da a
 	mov soaktemp, #160
 	mov a, #15
-;	da a
+
 	mov reflowtime, a
 	
 	mov a, #245
@@ -359,13 +314,14 @@ Custom_menu:
 	;Wait_Milli_Seconds(#50)
 	;jb SELECT_BUTTON, Forever_loop
 	;jnb SELECT_BUTTON, $
-	adc_BUTTON_jmp(SELECT_BUTTON, Set_Soak_temp)
+	
+	BUTTON_jmp(SELECT_BUTTON, Set_Soak_temp)
 	sjmp Forever_loop
 	;ljmp Set_Soak_temp
 	
 Forever_loop:
-	jnb BACK_BUTTON, Custom_to_Choose_menu
-	sjmp Custom_menu	
+	adc_button_jmp(BACK_BUTTON,Custom_to_Choose_menu)
+	ljmp Custom_menu	
 Custom_to_Choose_menu:
 	ljmp Choose_menu
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -412,13 +368,13 @@ Decrease_soaktemp_loop:
 	clr a	
 	ljmp Set_Soak_temp	
 Nextmenu1:
-	jnb NEXT_BUTTON, Set_Soak_time
+	jnb SELECT_BUTTON, Set_Soak_time
 	ljmp Set_Soak_temp	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;			Set Soak Time
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Set_Soak_time:
-	jnb NEXT_BUTTON, $
+	jnb SELECT_BUTTON, $
 	Set_Cursor(1,1)
 	Send_Constant_String(#Soak_time)
 	Set_Cursor(2,1)
@@ -460,13 +416,13 @@ Decrease_soaktime_loop:
 	clr a	
 	ljmp Set_Soak_time	
 Nextmenu2:
-	jnb NEXT_BUTTON, Set_Reflow_temp 
+	jnb SELECT_BUTTON, Set_Reflow_temp 
 	ljmp Set_Soak_time
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;			Set Reflow Temp
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Set_Reflow_temp:
-	jnb NEXT_BUTTON, $
+	jnb SELECT_BUTTON, $
 	Set_Cursor(1,1)
 	Send_Constant_String(#Reflow_temp)
 	Set_Cursor(2,1)
@@ -507,13 +463,13 @@ Decrease_reflowtemp_loop:
 	clr a	
 	ljmp Set_Reflow_temp	
 Nextmenu3:
-	jnb NEXT_BUTTON, Set_Reflow_time 
+	jnb SELECT_BUTTON, Set_Reflow_time 
 	ljmp Set_Reflow_temp
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;			Set Reflow Time
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 Set_Reflow_time:
-	jnb NEXT_BUTTON, $
+	jnb SELECT_BUTTON, $
 	Set_Cursor(1,1)
 	Send_Constant_String(#Reflow_time)
 	Set_Cursor(2,1)
@@ -554,7 +510,7 @@ Decrease_reflowtime_loop:
 	clr a	
 	ljmp Set_Reflow_time
 Nextmenu4:
-	jnb NEXT_BUTTON, Custom_menu_loopback
+	jnb SELECT_BUTTON, Custom_menu_loopback
 	ljmp Set_Reflow_time
 	
 Custom_menu_loopback:

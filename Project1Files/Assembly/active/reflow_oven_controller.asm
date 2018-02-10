@@ -58,30 +58,29 @@ org 0x003B
 
 ; These ’EQU’ must match the wiring between the microcontroller and ADC
 SOUND_OUT     EQU P3.7
-CE_ADC        EQU P2.4
-MY_MOSI       EQU P2.5
-MY_MISO       EQU P2.6
-MY_SCLK       EQU P2.7
+CE_ADC        EQU P2.0
+MY_MOSI       EQU P2.1
+MY_MISO       EQU P2.2
+MY_SCLK       EQU P2.3
 
-UP_BUTTON	  EQU #10100000B 
-DOWN_BUTTON   EQU #10110000B
-SELECT_BUTTON equ #11000000B 
-NEXT_BUTTON   equ #11010000B
+UP_BUTTON	  EQU P2.6 
+DOWN_BUTTON   EQU P2.5
+SELECT_BUTTON equ P2.4
 BACK_BUTTON   EQU #11110000B
 
-MASTER_START  EQU p1.0
+MASTER_START  EQU #10100000B 
 
-MASTER_STOP   EQU p0.5
+MASTER_STOP   EQU #10110000B
 
 ; pins to be used on the MPC 3008
 adc_zero 		equ #10000000B               ; LM355 temp sensor 
 adc_one 		equ #10010000B               ; thermocouple
-adc_two 		equ #10100000B               ;	Upbutton
-adc_three 		equ #10110000B               ;	downbutton
-adc_four		equ #11000000B               ;	select button
-adc_five		equ #11010000B               ;	next button
-adc_six			equ #11100000B               ; 	back button
-adc_seven		equ #11110000B
+adc_two 		equ #10100000B               ;	start
+adc_three 		equ #10110000B               ;	stop
+adc_four		equ #11000000B               ;	
+adc_five		equ #11010000B               ;	
+adc_six			equ #11100000B               ; 
+adc_seven		equ #11110000B				 ; back
 
 DSEG at 0x30
 Count1ms:       ds 2 ; Used to determine when half second has passed
@@ -168,6 +167,10 @@ $include(LCD_4bit.inc) ; A library of LCD related functions and utility macros
 $LIST
 
 $NOLIST
+$include(math32.inc)   ; A library of 32bit math functions
+$LIST
+
+$NOLIST
 $include(menu_code_a1.asm) ; A library of LCD related functions and utility macros
 $LIST
 
@@ -178,6 +181,7 @@ $LIST
 $NOLIST
 $include(reflow_fsm_a1.asm) ; A copy of Huntington's Lab3 to be used in polling, converting and pushing temp data to SPI
 $LIST
+
 
 ;$NOLIST
 ;$include(7_segment.asm) ; A library of 7 segment displays related functions and utility macros
@@ -332,8 +336,8 @@ Start_stop_ISR:
 	mov KBF, #0		; masks interrupt 
 	push acc
 
-	button_jmp(MASTER_STOP, STOP_ROUTINE)	; if master stop has been pressed, change to state 5
-	button_jmp(MASTER_START, START_ROUTINE) ; if master start has been pressed, change to state 1
+	adc_button_jmp(MASTER_STOP, STOP_ROUTINE)	; if master stop has been pressed, change to state 5
+	adc_button_jmp(MASTER_START, START_ROUTINE) ; if master start has been pressed, change to state 1
 
 START_ROUTINE: 
 	; We should add some code here that 
