@@ -124,9 +124,9 @@ temp:           ds 1
 sec:            ds 1 ; seconds variable for reflow FSM (to be incremented every second)
 cooled_temp:    ds 1
 ; 7-segment vars
-Disp1:          ds 1 ; Least significant digit
-Disp2:          ds 1
-Disp3:          ds 1 ; Most significant digit
+disp1:          ds 1 ; Least significant digit
+disp2:          ds 1
+disp3:          ds 1 ; Most significant digit
 seg_state:      ds 1 ; state of 7_seg fsm
 
 
@@ -177,6 +177,8 @@ ISR_is_running:   db 'ISR is running  ', 0
 State_0: db 'State 0', 0
 State_1: db 'State 1', 0
 
+HEX_7SEG: DB 0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90
+
 
 $NOLIST
 $include(LCD_4bit.inc) ; A library of LCD related functions and utility macros
@@ -197,7 +199,6 @@ $LIST
 $NOLIST
 $include(reflow_fsm_a1.asm) ; A copy of Huntington's Lab3 to be used in polling, converting and pushing temp data to SPI
 $LIST
-
 
 $NOLIST
 $include(7_segment.asm) ; A library of 7 segment displays related functions and utility macros
@@ -290,7 +291,7 @@ Timer2_Init:
 ;---------------------------------;
 Timer2_ISR:
 	clr TF2  ; Timer 2 doesn't clear TF2 automatically. Do it in ISR
-	cpl p1.0
+
 	; The two registers used in the ISR must be saved in the stack
 	push acc
 	push psw
@@ -405,13 +406,11 @@ MainProgram:
     lcall LCD_4BIT
     
 menu_forever:
-    ljmp Main_Menu_Program
-	lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
+    ljmp Main_Menu_Program 
 	
 forever:
 	lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
 	ljmp reflow_state_machine 	; go do some stuff in the state_machine
-
 
     ljmp forever ; This is equivalent to 'forever: sjmp forever'
 
