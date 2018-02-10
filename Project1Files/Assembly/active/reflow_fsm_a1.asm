@@ -27,7 +27,6 @@ Reflow_screen mac
 endmac
 
 
-
 reflow_state_machine: 
 
 	mov a, reflow_state ;Check current state
@@ -48,10 +47,10 @@ reflow_state_machine:
 
 
 	state1: ;Ramp To Soak
-		Set_Cursor(1,1)
-			Send_Constant_String(#State_1)
-			jnb UP_BUTTON, $
 			cjne a, #0x01, state2
+			setb shortbeepflag			;set flag to choose which beep in isr
+			;lcall Timer0_ISR
+			clr shortbeepflag	
 			mov TIMER1_RELOAD_H, #DUTY_100 
 			Reflow_screen(Ramp_to_Soak)
 			mov sec, #0
@@ -62,10 +61,14 @@ reflow_state_machine:
 			mov seconds, #0			; Reset time 'sec' variable representing elapsed time in each state
 			mov reflow_state, #0x02
 		state1_done:
+			
 			ljmp forever
 
 	state2: ;Preheat/Soak
 			cjne a, #0x02, state3
+			setb shortbeepflag			;set flag to choose which beep in isr
+			lcall Timer0_ISR
+			clr shortbeepflag
 			mov TIMER1_RELOAD_H, #DUTY_20 
 			Reflow_screen(Soak)
 			mov a, soaktime
@@ -79,6 +82,9 @@ reflow_state_machine:
 
 	state3: ;Ramp to Peak
 			cjne a, #0x03, state4
+			setb shortbeepflag			;set flag to choose which beep in isr
+			lcall Timer0_ISR
+			clr shortbeepflag
 			mov TIMER1_RELOAD_H, #DUTY_100 
 			Reflow_screen(Ramp_to_Peak)
 			mov a, reflowtemp
@@ -90,8 +96,11 @@ reflow_state_machine:
 		state3_done:
 			ljmp forever
 
-	state4: ;Reflow/Peak
+	state4: ;Reflow/Peak 
 			cjne a, #0x04, state5
+			setb shortbeepflag			;set flag to choose which beep in isr
+			lcall Timer0_ISR
+			clr shortbeepflag
 			mov pwm, #20		;20% duty
 			;mov TIMER1_RELOAD_H, #DUTY_20 
 			Reflow_screen(Reflow)
@@ -104,14 +113,16 @@ reflow_state_machine:
 		state4_done:
 			ljmp forever
 
-	state5: ;Cooling
+	state5: ;Cooling -> at end of cooling give 6 beeps
 			cjne a, #0x05, state6
+			setb longbeepflag			;set flag to choose which beep in isr
+			lcall Timer0_ISR
+			clr longbeepflag
 			mov pwm, #0			; Heater on at 0% duty
 			;mov TIMER1_RELOAD_H, #DUTY_0 
 			Reflow_screen(Cooling)
-			mov a, cooled_temp
-			clr c
-			subb a, temp
+			mov a, temp
+			subb a, cooled_temp 
 			jnc state5_done 	;if temp>reflowtemp then go to state 4
 			mov seconds, #0			; reset time for state 4
 			mov reflow_state, #0x00
@@ -119,6 +130,13 @@ reflow_state_machine:
 			ljmp forever
 			
 	state6: ;Back to Menu/Idle
+		setb sixbeepflag			;set flag to choose which beep in isr
+		lcall Timer0_ISR
+		clr sixbeepflag
 		ljmp menu_forever
 
-			end
+end
+
+;shortbeepflag:		dbit 1
+;longbeepflag:		dbit 1
+;sixbeepflag:		dbit 1
