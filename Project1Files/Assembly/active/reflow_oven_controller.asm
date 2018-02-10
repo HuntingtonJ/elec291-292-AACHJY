@@ -67,10 +67,30 @@ UP_BUTTON	  EQU P2.6
 DOWN_BUTTON   EQU P2.5
 SELECT_BUTTON equ P2.4
 BACK_BUTTON   EQU #11110000B
-
 MASTER_START  EQU #10100000B 
-
 MASTER_STOP   EQU #10110000B
+
+; For the 7-segment display
+SEGA equ P0.3
+SEGB equ P0.5
+SEGC equ P0.7
+SEGD equ P4.4
+SEGE equ P4.5
+SEGF equ P0.4
+SEGG equ P0.6
+SEGP equ P2.7
+CA1  equ P0.1
+CA2  equ P0.0
+CA3  equ P0.2
+
+; For the LCD
+LCD_RS equ P1.1
+LCD_RW equ P1.2
+LCD_E  equ P1.3
+LCD_D4 equ P3.2
+LCD_D5 equ P3.3
+LCD_D6 equ P3.4
+LCD_D7 equ P3.6
 
 ; pins to be used on the MPC 3008
 adc_zero 		equ #10000000B               ; LM355 temp sensor 
@@ -114,16 +134,12 @@ seg_state:      ds 1 ; state of 7_seg fsm
 BSEG
 mf: dbit 1
 one_second_flag: dbit 1 
+shortbeepflag: dbit 1
+longbeepflag: dbit 1
+sixbeepflag: dbit 1
 
 
 CSEG
-LCD_RS equ P1.1
-LCD_RW equ P1.2
-LCD_E  equ P1.3
-LCD_D4 equ P3.2
-LCD_D5 equ P3.3
-LCD_D6 equ P3.4
-LCD_D7 equ P3.6
 		;			 1234567890123456
 Ramp_to_Soak: 	db 	 '         Preheat', 0
 Soak: 			db   '         Soak   ', 0
@@ -274,11 +290,11 @@ Timer2_Init:
 ;---------------------------------;
 Timer2_ISR:
 	clr TF2  ; Timer 2 doesn't clear TF2 automatically. Do it in ISR
-	
+	cpl p1.0
 	; The two registers used in the ISR must be saved in the stack
 	push acc
 	push psw
-	
+	lcall seg_state_machine
 	; Increment the 16-bit one mili second counter
 			;	inc Count1ms+0    ; Increment the low 8-bits first
 				;mov a, Count1ms+0
@@ -311,10 +327,7 @@ Timer2_ISR:
 	da a ; Decimal adjust instruction.  Check datasheet for more details!
 	mov seconds, a
 	
-	
 Timer2_ISR_done:
-	lcall seg_state_machine
-
 	pop psw
 	pop acc
 	reti
@@ -374,10 +387,11 @@ End_master_ISR:
 MainProgram:
     mov SP, #7FH ; Set the stack pointer to the begining of idata
     lcall Start_stop_Init
+	lcall seg_state_init
     lcall Timer0_Init
 	lcall Timer1_Init
     lcall Timer2_Init
-	lcall seg_state_init
+	
 	mov reflow_state, #0x00
     ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
     mov P0M0, #0

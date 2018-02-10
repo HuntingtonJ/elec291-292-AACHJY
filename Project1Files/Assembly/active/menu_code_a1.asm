@@ -175,7 +175,7 @@ Loaded_param:
 	mov a, #0x01
 	mov reflow_state, a
 	
-	ljmp reflow_state_machine
+	ljmp forever
 
 Choose_menu: 
 	Set_Cursor(1,1)

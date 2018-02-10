@@ -88,13 +88,14 @@ LCD_E  equ P1.3
 LCD_D4 equ P3.2
 LCD_D5 equ P3.3
 LCD_D6 equ P3.4
-LCD_D7 equ P3.5
+LCD_D7 equ P3.6
 $NOLIST
 $include(LCD_4bit.inc) ; A library of LCD related functions and utility macros
 $LIST
 
 ;                     1234567890123456    <- This helps determine the location of the counter
 Initial_Message:  db 'BCD_counter: xx ', 0
+HEX_7SEG: DB 0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90
 
 ;---------------------------------;
 ; Routine to initialize the ISR   ;
@@ -244,8 +245,6 @@ Timer2_ISR_done:
 	pop psw
 	pop acc
 	reti
-
-HEX_7SEG: DB 0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90
 
 ;---------------------------------;
 ; Main program. Includes hardware ;
