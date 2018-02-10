@@ -48,9 +48,8 @@ reflow_state_machine:
 
 
 	state1: ;Ramp To Soak
-		Set_Cursor(1,1)
+			Set_Cursor(1,1)
 			Send_Constant_String(#State_1)
-			jnb UP_BUTTON, $
 			cjne a, #0x01, state2
 			mov TIMER1_RELOAD_H, #DUTY_100 
 			Reflow_screen(Ramp_to_Soak)

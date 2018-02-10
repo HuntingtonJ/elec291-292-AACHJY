@@ -99,6 +99,25 @@ Get_ADC_Channel mac
 
 endmac
 
+;---------------------------
+;Function to get BCD from 8 bit number stored in accumulator 
+; input: accumulator 
+; output: R1 R0 BCD 
+;---------------------------
+BCD_from_8_bits: 
+mov b, #100
+div a, b 
+mov r1, a 
+mov a, b 
+mov b, #10
+div a, b
+swap a 
+orl a, b 
+mov r0, a
+
+ret
+
+
 Main_Menu_Program:
 	;Set all vars initally to zero
 	mov soaktime, #0x00
@@ -166,7 +185,8 @@ unloaded:
 	mov reflow_state, #0		; reset state to zero (as it is set to 1 by the start_button ISR)
 	ljmp Initial_menu
 
-Loaded_param: 
+
+Loaded_param: 			; All parameters are loaded correctly, time to start!
 
 	;Then check if the state=1. If so, goto reflow FSM
 	;mov a, reflow_state
@@ -175,7 +195,10 @@ Loaded_param:
 	mov a, #0x01
 	mov reflow_state, a
 	
-	ljmp reflow_state_machine
+	ljmp forever 		; jumps to main loop to grab temp data so the state machine is not operating with garbage values
+
+
+	;------------------------------Menu options below----------------------------
 
 Choose_menu: 
 	Set_Cursor(1,1)
