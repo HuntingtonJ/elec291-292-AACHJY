@@ -106,16 +106,43 @@ endmac
 ;---------------------------
 BCD_from_8_bits: 
 mov b, #100
-div a, b 
-mov r1, a 
+div ab 
+mov R1, a 
 mov a, b 
 mov b, #10
-div a, b
+div ab
 swap a 
 orl a, b 
-mov r0, a
+mov R0, a
 
 ret
+
+;-------------------------------------
+; A macro to be used in custom menu to display the 3 digit value of the 
+; input;  variable name
+; outputs a display on the LCD screen at (2, 1) to (2, 4)
+; ------------------------------------
+
+display_param mac
+mov a, %0
+mov b, #100
+div ab 
+mov R1, a 
+mov a, b 
+mov b, #10
+div ab
+swap a 
+orl a, b 
+mov R0, a
+mov display_scratch, r1
+
+	Set_Cursor(2,1)
+	Display_BCD(display_scratch)
+
+	mov display_scratch, r0
+	Set_Cursor(2,3)
+	Display_BCD(display_scratch)
+endmac
 
 
 Main_Menu_Program:
@@ -126,7 +153,7 @@ Main_Menu_Program:
 	mov reflowtemp, #0x00
 	;display initial menu messages	
 
-	ljmp Initial_menu	
+	sjmp Initial_menu	
 
 
 ;----------------Main Menu Logic----------------;
@@ -237,7 +264,7 @@ Custom_menu_select:
 
 	ljmp Custom_menu_select
 
-;------------------ Preset Menu END----------------------------------;
+;------------------ Preset Menu start----------------------------------;
 Preset_menu: 
 	Set_Cursor(1,1)
 	Send_Constant_String(#Pb_free_solder)
@@ -271,11 +298,7 @@ pb_solder_set: 		; for soldering with the Sn63Pb37 alloy
 	Send_Constant_String(#Pb_solder)
 	Set_Cursor(2,1)
 	Send_Constant_String(#Profile_loaded)
-	;mov a, #120
-	;da a 
 	mov soaktime, #120
-;	mov a, #150
-	;da a
 	mov soaktemp, #150
 	mov reflowtime, #20
 	mov reflowtemp, #230
@@ -295,9 +318,7 @@ pb_free_solder_set: 	;for soldering SAC305 lead-free solder
 
 	mov reflowtime, a
 	
-	mov a, #245
-;	da a
-	mov reflowtemp, a
+	mov reflowtemp, #245
 	ljmp system_ready
 
 Pb_free_secret_pizza: 				; can we include this as a joke/bonus pls???
@@ -323,6 +344,9 @@ Pb_free_secret_pizza: 				; can we include this as a joke/bonus pls???
 	ljmp system_ready
 	
 ;------------------ Preset Menu END----------------------------------;	
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;			Custom Menu Begin
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -353,8 +377,11 @@ Custom_to_Choose_menu:
 Set_Soak_temp:	
 	Set_Cursor(1,1)
 	Send_Constant_String(#Soak_temp)
-	Set_Cursor(2,1)
-	Display_BCD(soaktemp)
+
+	; display soaktemp as 3 digit bcd from 8 bit value
+	display_param(soaktemp) 
+
+
 	;if up/down buttons pressed branch and inc/dec params
 	jb UP_BUTTON, Decrease_soaktemp
 	Wait_Milli_Seconds(#50)
@@ -362,8 +389,7 @@ Set_Soak_temp:
 	jnb UP_BUTTON, $
 	mov a, soaktemp
 	add a, #0x01
-	da a
-	cjne a, #0x99, Increase_soaktemp_loop
+	cjne a, #0xff, Increase_soaktemp_loop
 	clr a 
 	mov soaktemp, a
 	ljmp Set_Soak_temp
@@ -379,8 +405,7 @@ Decrease_soaktemp:
 	jb DOWN_BUTTON, Nextmenu1
 	jnb DOWN_BUTTON, $	
 	mov a, soaktemp
-	add a, #0x99
-	da a
+	add a, #0xff
 	cjne a, #0x00, Decrease_soaktemp_loop
 	clr a 
 	mov soaktemp, a
@@ -400,18 +425,16 @@ Set_Soak_time:
 	jnb SELECT_BUTTON, $
 	Set_Cursor(1,1)
 	Send_Constant_String(#Soak_time)
-	Set_Cursor(2,1)
-	Display_BCD(soaktime)
-	;Button_jmp(UP_BUTTON,Decrease_soaktime)
+	display_param(soaktime) 
 	;if up/down buttons pressed branch and inc/dec params
+
 	jb UP_BUTTON, Decrease_soaktime
 	Wait_Milli_Seconds(#50)
 	jb UP_BUTTON, Decrease_soaktime
 	jnb UP_BUTTON, $
 	mov a, soaktime
 	add a, #0x01
-	da a
-	cjne a, #0x99, Increase_soaktime_loop
+	cjne a, #0xff, Increase_soaktime_loop
 	clr a 
 	mov soaktime, a
 	ljmp Set_Soak_time
@@ -427,8 +450,7 @@ Decrease_soaktime:
 	jb DOWN_BUTTON, Nextmenu2
 	jnb DOWN_BUTTON, $	
 	mov a, soaktime
-	add a, #0x99
-	da a
+	add a, #0xff
 	cjne a, #0x00, Decrease_soaktime_loop
 	clr a 
 	mov soaktime, a
@@ -448,8 +470,8 @@ Set_Reflow_temp:
 	jnb SELECT_BUTTON, $
 	Set_Cursor(1,1)
 	Send_Constant_String(#Reflow_temp)
-	Set_Cursor(2,1)
-	Display_BCD(reflowtemp)
+	display_param(reflowtemp) 
+
 	;if up/down buttons pressed branch and inc/dec params
 	jb UP_BUTTON, Decrease_reflowtemp
 	Wait_Milli_Seconds(#50)
@@ -457,8 +479,7 @@ Set_Reflow_temp:
 	jnb UP_BUTTON, $
 	mov a, reflowtemp
 	add a, #0x01
-	da a
-	cjne a, #0x99, Increase_reflowtemp_loop
+	cjne a, #0xff, Increase_reflowtemp_loop
 	clr a 
 	mov reflowtemp, a
 	ljmp Set_Reflow_temp
@@ -474,8 +495,7 @@ Decrease_reflowtemp:
 	jb DOWN_BUTTON, Nextmenu3
 	jnb DOWN_BUTTON, $	
 	mov a, reflowtemp
-	add a, #0x99
-	da a
+	add a, #0xff
 	cjne a, #0x00, Decrease_reflowtemp_loop
 	clr a 
 	mov reflowtemp, a
@@ -495,8 +515,8 @@ Set_Reflow_time:
 	jnb SELECT_BUTTON, $
 	Set_Cursor(1,1)
 	Send_Constant_String(#Reflow_time)
-	Set_Cursor(2,1)
-	Display_BCD(reflowtime)
+	display_param(reflowtime) 
+
 	;if up/down buttons pressed branch and inc/dec params
 	jb UP_BUTTON, Decrease_reflowtime
 	Wait_Milli_Seconds(#50)
@@ -504,8 +524,7 @@ Set_Reflow_time:
 	jnb UP_BUTTON, $
 	mov a, reflowtime
 	add a, #0x01
-	da a
-	cjne a, #0x99, Increase_reflowtime_loop
+	cjne a, #0xff, Increase_reflowtime_loop
 	clr a 
 	mov reflowtime, a
 	ljmp Set_Reflow_time
@@ -521,8 +540,7 @@ Decrease_reflowtime:
 	jb DOWN_BUTTON, Nextmenu4
 	jnb DOWN_BUTTON, $	
 	mov a, reflowtime
-	add a, #0x99
-	da a
+	add a, #0xff
 	cjne a, #0x00, Decrease_reflowtime_loop
 	clr a 
 	mov reflowtime, a

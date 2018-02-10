@@ -1,17 +1,3 @@
-; For the 7-segment display
-SEGA equ P0.3
-SEGB equ P0.5
-SEGC equ P0.7
-SEGD equ P4.4
-SEGE equ P4.5
-SEGF equ P0.4
-SEGG equ P0.6
-SEGP equ P2.7
-CA1  equ P0.1
-CA2  equ P0.0
-CA3  equ P0.2
-
-cseg
 
 ; Pattern to load passed in accumulator
 load_segments:
@@ -32,6 +18,7 @@ load_segments:
 	mov c, acc.7
 	mov SEGP, c
 	ret
+	
 seg_state_machine:
 	; Turn all displays off
 	setb CA1
@@ -39,7 +26,7 @@ seg_state_machine:
 	setb CA3
 
 	mov a, seg_state ; Load current state value
-	
+			
 	seg_state0: ;Display LED 1
 		cjne a, #0, seg_state1
 		mov a, disp1
@@ -64,14 +51,18 @@ seg_state_machine:
 	seg_state_reset: ;Back to LED 1
 		mov seg_state, #0
 	seg_state_done:
-	reti
-
-
-HEX_7SEG: DB 0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90
+	ret
 
 seg_state_init:
-	mov seg_state, #0 ;set 7_seg 7_seg_state to 0
-	reti
+	mov a, #0
+	mov seg_state, a  ;set 7_seg 7_seg_state to 0
+	mov a, #00010001b
+	mov BCD_temp+0, a
+	mov a, #00000001b
+	mov BCD_temp+1, a
+	
+	lcall set_7_segment_diplay
+	ret
 
 set_7_segment_diplay:
 	mov dptr, #HEX_7SEG
@@ -91,8 +82,7 @@ set_7_segment_diplay:
 	anl a, #0x0f         ;Clear upper 4 bits
 	movc a, @a+dptr      ;Access HEX_7SEG[a]
 	mov disp3, a         ;Moves highest bcd digit to diplay 3
-	
-	reti
+	ret
 
 
 END

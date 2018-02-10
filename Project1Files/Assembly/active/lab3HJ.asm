@@ -267,6 +267,18 @@ GET_THERMO_TEMP:
     mov Result_Thermo+1, x+1
   	ret		
 
+THERMO_TEMP_TO_BCD:
+	mov x+0, Result_Thermo+0
+	mov x+1, Result_Thermo+0
+	mov x+2, #0
+	mov x+3, #0
+	
+	lcall hex2bcd
+	
+	mov BCD_temp+0, bcd+0
+	mov BCD_temp+1, bcd+1
+	
+	ret
 
 
 GET_TEMP_DATA: 
@@ -281,9 +293,10 @@ GET_TEMP_DATA:
 	lcall GET_THERMO_TEMP
     ;lcall Send_10_digit_BCD
     ;lcall Display_10_digit_BCD_2
+    lcall THERMO_TEMP_TO_BCD
     
     ;lcall Delay
- GET_TEMP_DATA_END:
+GET_TEMP_DATA_END:
     ret
 	
 
