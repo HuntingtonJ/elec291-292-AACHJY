@@ -167,55 +167,26 @@ Send_10_digit_BCD:
 	pop acc
 	ret
 
-GET_ADC_TEMP:
-    clr CE_ADC         ; selects 
-    mov R0, #00000001B ; Start bit: 1
-    lcall DO_SPI_G
+;LM355
+;Temp = 100(V_Out - 2.73) = 100*V_Out - 273
+GET_LM355_TEMP:
+    Get_ADC_Channel(#10000000b)
     
-    mov R0, #10000000B ; Read channel 0
-    lcall DO_SPI_G
-    mov a, R1
-    anl a, #00000011B
-    mov Result+1, a    ; Save high result
-    
-    mov R0, #55H
-    lcall DO_SPI_G
-    mov Result, R1     ; Save low result
-    
-    setb CE_ADC        ; deselects
-    
-    ;V_OUT = ADC_voltage*4.096V/1023
-    ;ADC_voltage*4096 = A
-    mov x+0, Result
-    mov x+1, Result+1
+    mov x+0, ADC_Result+0
+    mov x+1, ADC_Result+1
     mov x+2, #0
-    mov x+3, #0
+    mov x+1, #0
     
- ret
-
- GET_THERMO_TEMP:
-    clr CE_ADC         ; selects 
-    mov R0, #00000001B ; Start bit: 1
-    lcall DO_SPI_G
+    Load_y(100)
+    lcall mul32
     
-    mov R0, #10010000B ; Read channel 1
-    lcall DO_SPI_G
-    mov a, R1
-    anl a, #00000011B
-    mov Result_Thermo+1, a    ; Save high result
+    Load_y(273)
+    lcall sub32
     
-    mov R0, #55H
-    lcall DO_SPI_G
-    mov Result_Thermo, R1     ; Save low result
-    setb CE_ADC        ; deselects
-    
-    ;V_OUT = ADC_voltage*4.096V/1023
-    ;ADC_voltage*4096 = A
-    mov x+0, Result_Thermo
-    mov x+1, Result_Thermo+1
-    mov x+2, #0
-    mov x+3, #0
-  ret
+    ;Store the LM355 Temp in Result
+    mov Result+0, x+0
+    mov Result+1, x+1
+ 	ret
 
 ;____________________________________
  ;*************************************
@@ -228,58 +199,39 @@ GET_ADC_TEMP:
 ; 		Reference Voltage: 4.096 
 ; inputs
 ;*************************************		
-;------------------------------------- 		
-
-Voltage_to_temp_LM355: 
-		  	Load_y(4096)
-		    lcall mul32 ;multiplies x *= y
-		    
-		    ;A/1023 = B
-		    Load_y(1023)
-		    lcall div32 ;divides x /= y
-		    
-		    ;B - 2730 = C
-		    Load_y(2730);
-		    lcall sub32
-		    
-		    ;B/10 = V_OUT
-		    Load_y(10);
-		    lcall div32 ;divides x /= y
-		   	lcall hex2bcd
-    	ret
-
-Voltage_to_temp_thermocouple: 
-
-	;SPI_REF_VOLTAGE_mul100 equ 4081
-	;THERMOCOUPLE_CONVERSION_div1000 equ 2475
-	
-	;
-	; We are doing the conversion from V--> 10 bit Temp (deg C)
-	; Start: Amplified Volts, Vin
-	;
-	; 		Vin*(1 deg C)* (V_REF)*    1    * 1
-	;			 --------			    ---    ---  - ADC_RESULT
-	; 			(41 uV )		   OP_AMP_GAIn  1023
-
-	Load_y(4081); 4.081*1000=mV
-	lcall mul32
-	
-	Load_y(1023)
-	lcall div32   
-	
-	Load_y(247) ; 24.75*10
-	lcall mul32
-				;---------
-	Load_y(2050) ; 205*10
-	lcall div32
-	
-	Load_y(22)
-
-
-	lcall add32
-  	
-   	lcall hex2bcd
-   ret
+;------------------------------------- 
+GET_THERMO_TEMP:
+    Get_ADC_Channel_milliV(#10010000b)
+    
+    ;Move thermo milli_voltage
+    mov x+0, ADC_Result+0
+    mov x+1, ADC_Result+1
+    mov x+2, #0
+    mov x+3, #0
+    
+    ;Multiply by inverse 41uV = 24390 (div 10 see lower step)
+    Load_y(2439)
+    lcall mul32
+    
+    ;Divide by gain
+    Load_y(205)
+    lcall div32
+    
+    ;Divide by 1000 (x10 see upper step) to adjust for milli_v
+    Load_y(100)
+    lcall div32
+    
+    ;Add the temp from the LM355
+    mov y+0, Result+0
+    mov y+1, Result+1
+    mov y+2, Result+2
+    mov y+3, Result+3
+    lcall add32
+    
+    ;Store the Thermo coupler result for later use
+    mov Result_Thermo+0, x+0
+    mov Result_Thermo+1, x+1
+  	ret		
 
 
 GET_TEMP_DATA: 
@@ -287,13 +239,11 @@ GET_TEMP_DATA:
 	clr one_second_flag ; We clear this flag in the main loop, but it is set in the ISR for timer 2
 	
 	;Gets, displays, and pushes ADC LM355 temp values
-	lcall GET_ADC_TEMP
-    lcall Voltage_to_temp_LM355
-    lcall Display_10_digit_BCD
+	lcall GET_LM355_TEMP
+    ;lcall Display_10_digit_BCD
     
     ; Gets, displays, and pushes k-type thermocouple vlaues
 	lcall GET_THERMO_TEMP
-    lcall Voltage_to_temp_thermocouple
     ;lcall Send_10_digit_BCD
     ;lcall Display_10_digit_BCD_2
     

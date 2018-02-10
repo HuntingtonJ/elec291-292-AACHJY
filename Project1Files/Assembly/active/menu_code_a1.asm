@@ -61,6 +61,41 @@ endmac
 ;   just check if the lower      ;
 ;   byte is 255.                 ;
 ;--------------------------------;
+Get_ADC_Channel_milliV mac
+	clr CE_ADC         ; selects 
+    mov R0, #00000001B ; Start bit: 1
+    lcall DO_SPI_G
+    
+    mov R0, %0 ; Read channel
+    lcall DO_SPI_G
+    mov a, R1
+    anl a, #00000011B
+    mov ADC_Result+1, a    ; Save high result
+    
+    mov R0, #55H
+    lcall DO_SPI_G
+    mov ADC_Result+0, R1     ; Save low result
+    
+    setb CE_ADC        ; deselects
+	
+	;V_OUT = ADC_voltage*4.096V/1023
+    mov x+0, ADC_Result
+    mov x+1, ADC_Result+1
+    mov x+2, #0
+    mov x+3, #0
+    
+	;*VREF(1000)
+    Load_y(4091)
+    lcall mul32 ;multiplies x *= y
+    
+	;/1023
+    Load_y(1023)
+    lcall div32 ;divides x /= y
+	
+	mov ADC_Result+0, x+0
+	mov ADC_Result+1, x+1
+endMac
+
 Get_ADC_Channel mac
 	clr CE_ADC         ; selects 
     mov R0, #00000001B ; Start bit: 1
@@ -84,18 +119,20 @@ Get_ADC_Channel mac
     mov x+2, #0
     mov x+3, #0
     
+	;*VREF(1000)
     Load_y(4091)
     lcall mul32 ;multiplies x *= y
     
+	;/1023
     Load_y(1023)
     lcall div32 ;divides x /= y
     
+	;*1000 to account for VREF*1000
     Load_y(1000)
     lcall div32
     
-    ;lcall hex2bcd
-    ;lcall Display_10_digit_BCD_2
-    ;lcall Delay
+	mov ADC_Result+0, x+0
+	mov ADC_Result+1, x+1
 endmac	
 
 Main_Menu_Program:

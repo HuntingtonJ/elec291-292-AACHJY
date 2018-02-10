@@ -377,6 +377,9 @@ Get_ADC_Channel mac
     
     Load_y(1000)
     lcall div32
+	
+	mov ADC_Result+0, x+0
+	mov ADC_Result+1, x+1
     
     ;lcall hex2bcd
     ;lcall Display_10_digit_BCD_2
