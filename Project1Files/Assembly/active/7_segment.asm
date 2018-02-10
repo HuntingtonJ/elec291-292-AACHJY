@@ -71,6 +71,8 @@ HEX_7SEG: DB 0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90
 
 seg_state_init:
 	mov seg_state, #0 ;set 7_seg 7_seg_state to 0
+	mov BCD_temp+0, #0
+	mov BCD_temp+1, #0
 	reti
 
 set_7_segment_diplay:

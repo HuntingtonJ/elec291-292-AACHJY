@@ -183,9 +183,9 @@ $include(reflow_fsm_a1.asm) ; A copy of Huntington's Lab3 to be used in polling,
 $LIST
 
 
-;$NOLIST
-;$include(7_segment.asm) ; A library of 7 segment displays related functions and utility macros
-;$LIST
+$NOLIST
+$include(7_segment.asm) ; A library of 7 segment displays related functions and utility macros
+$LIST
 
 ;----------------------------------------MACRO LOCATION----------------------------------------------
 
@@ -313,7 +313,7 @@ Timer2_ISR:
 	
 	
 Timer2_ISR_done:
-	;lcall seg_state_machine
+	lcall seg_state_machine
 
 	pop psw
 	pop acc
@@ -377,7 +377,7 @@ MainProgram:
     lcall Timer0_Init
 	lcall Timer1_Init
     lcall Timer2_Init
-	;lcall seg_state_init
+	lcall seg_state_init
 	mov reflow_state, #0x00
     ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
     mov P0M0, #0
@@ -392,7 +392,7 @@ MainProgram:
     
 menu_forever:
     ljmp Main_Menu_Program
-	
+	lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
 	
 forever:
 	lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
