@@ -174,6 +174,7 @@ Error_msg2:       db 'not loaded      ', 0
 Abort_string: 	  db 'Process aborted ', 0
 Waiting_to_cool:  db 'Wait to cool    ', 0
 ISR_is_running:   db 'ISR is running  ', 0
+abort_msg: 		  db 'Reflow Aborted! ', 0
 
 State_0: db 'State 0', 0
 State_1: db 'State 1', 0
@@ -406,10 +407,6 @@ MainProgram:
 	lcall InitSerialPort
 	lcall INIT_SPI
     lcall LCD_4BIT
-    
-    
-menu_forever:
-    ljmp Main_Menu_Program 
 	
 forever:
 	lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
