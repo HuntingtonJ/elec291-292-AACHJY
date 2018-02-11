@@ -133,6 +133,9 @@ seg_state:      ds 1 ; state of 7_seg fsm
 display_scratch: ds 1
 seconds_state4: ds 1
 ;sec_check: ds 1
+;Beep Machine vars
+beep_state:     ds 1
+one_beep_count: ds 1
 
 
 BSEG
@@ -211,6 +214,9 @@ $NOLIST
 $include(7_segment.asm) ; A library of 7 segment displays related functions and utility macros
 $LIST
 
+$NOLIST
+$include(beep_sm.asm) ; A library of 7 segment displays related functions and utility macros
+$LIST
 ;----------------------------------------MACRO LOCATION----------------------------------------------
 
 
@@ -246,10 +252,10 @@ Timer0_ISR:
 	
 	
 	
-	sjmp no_beep
-beep_on:
-	;cpl SOUND_OUT ; Connect speaker to P3.7!
-no_beep:
+	;sjmp no_beep
+;beep_on:
+	cpl SOUND_OUT ; Connect speaker to P3.7!
+;no_beep:
 	reti
 	
 ;---------------------------------;
@@ -331,8 +337,6 @@ Timer2_ISR:
 
 	setb polling_flag
 	
-	
-	;cpl TR0 ; Enable/disable timer/counter 0. This line creates a beep-silence-beep-silence sound.
 	; Reset to zero the milli-seconds counter, it is a 16-bit variable
 	clr a
 	mov Count1ms+0, a
@@ -367,6 +371,7 @@ MainProgram:
     lcall Timer0_Init
 	lcall Timer1_Init
     lcall Timer2_Init
+	lcall beep_machine_init
 	clr shortbeepflag
 	clr longbeepflag
 	clr sixbeepflag
@@ -388,6 +393,7 @@ MainProgram:
 	
 forever:
 	lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
+	lcall beep_state_machine
 	ljmp reflow_state_machine 	; go do some stuff in the state_machine
     sjmp forever ; This is equivalent to 'forever: sjmp forever'
 
