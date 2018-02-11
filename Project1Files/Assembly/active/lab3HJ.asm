@@ -1,6 +1,3 @@
-CSEG
-
-
 Send_BCD mac
 	push ar0
 	mov r0, %0
@@ -81,9 +78,6 @@ DO_SPI_G_LOOP:
  	djnz R2, DO_SPI_G_LOOP
  	pop acc
  	ret
- 
-Hello_World:
-    DB  'Hello, World!', '\r', '\n', 0
     
 Delay:
 	mov R1, #222
@@ -164,7 +158,12 @@ Send_10_digit_BCD:
     lcall putchar
 	ret
 
-
+;--------------------------------------------------;
+;  Get_ADC_Channel_milliV(channel_byte)            ;
+;                                                  ;
+;  Takes a channel byte and returns the millivolts ;
+;  to ADC_result for use by another function       ;
+;--------------------------------------------------;
 Get_ADC_Channel_milliV mac
  	clr CE_ADC         ; selects 
      mov R0, #00000001B ; Start bit: 1
@@ -189,7 +188,7 @@ Get_ADC_Channel_milliV mac
      mov x+3, #0
     
  	;*VREF(1000)
-     Load_y(4091)
+     Load_y(4093)
      lcall mul32 ;multiplies x *= y
      
  	;/1023
@@ -201,9 +200,11 @@ Get_ADC_Channel_milliV mac
  endMac
  
 
-
-;LM355
-;Temp = 100(V_Out - 2.73) = 100*V_Out - 273
+;--------------------------------------------------;
+;  GET_LM355_TEMPLM355()                           ;
+;                                                  ;
+;  Temp = 100(V_Out - 2.73) = 100*V_Out - 273      ;
+;--------------------------------------------------;
 GET_LM355_TEMP:
     clr CE_ADC         ; selects 
     mov R0, #00000001B ; Start bit: 1
@@ -237,7 +238,7 @@ GET_LM355_TEMP:
     Load_y(10);
     lcall div32 ;divides x /= y
     
-    ;B - 2730 = C
+    ;B - 273 = C
     Load_y(273);
     lcall sub32    
     
@@ -245,22 +246,19 @@ GET_LM355_TEMP:
 	mov Result+0, x+0
     mov Result+1, x+1
 	
-	lcall Delay
-	
  	ret
 
-;____________________________________
- ;*************************************
-
-; This is the code that converts the amplified voltage from the the k-type thermocouple 
-; to temperature data for use. 
-; Current Parameters: 
-;		Op-amp gain: ~200
-;		Thermocouple conversion: 41 uV/celcius
-; 		Reference Voltage: 4.096 
-; inputs
-;*************************************		
-;------------------------------------- 
+;--------------------------------------------------;
+;  GET_THERMO_TEMP()                               ;
+;                                                  ;
+;  This is the code that converts the amplified    ;
+;  voltage from the the k-type thermocouple        ;
+;  to temperature.                                 ;
+;  Current Parameters:                             ;
+;		Op-amp gain: ~205                          ;
+;		Thermocouple conversion: 41 uV/celcius     ;
+; 		Reference Voltage: 4.093                   ;
+;--------------------------------------------------;
 GET_THERMO_TEMP:
     Get_ADC_Channel_milliV(#10010000b)
     
@@ -294,6 +292,12 @@ GET_THERMO_TEMP:
     mov Result_Thermo+1, x+1
   	ret		
 
+;--------------------------------------------------;
+;  THERMO_TEMP_TO_BCD()                            ;
+;                                                  ;
+;  Convert 32-bit thermocoupler temp to BCD        ;
+;  and stores in in BCD_temp.                      ;
+;--------------------------------------------------;
 THERMO_TEMP_TO_BCD:
 	mov x+0, Result_Thermo+0
 	mov x+1, Result_Thermo+1
@@ -306,11 +310,20 @@ THERMO_TEMP_TO_BCD:
 	mov BCD_temp+1, bcd+1
 	
 	ret
-
+	
+;-------------------------------------------------;
+;  GET_TEMP_DATA()                                ;
+;                                                 ;
+;  Called to update temperature data.             ;
+;  First gets the LM355 temp.                     ;
+;  Then gets the thermocoupler temp.              ;
+;  Converts thermo-c temp to BCD for either       ;
+;  LCD or 7-seg LED displays and for Seriel Out.  ;
+;-------------------------------------------------;
 
 GET_TEMP_DATA: 
-	jnb one_second_flag, GET_TEMP_DATA_END
-	clr one_second_flag ; We clear this flag in the main loop, but it is set in the ISR for timer 2
+	jnb polling_flag, GET_TEMP_DATA_END ; Check if the polling flag is set.
+	clr polling_flag                    ; If it is, clear it and get temp data.
 	
 	;Gets, displays, and pushes ADC LM355 temp values
 	lcall GET_LM355_TEMP
@@ -320,9 +333,9 @@ GET_TEMP_DATA:
 	lcall THERMO_TEMP_TO_BCD
 	lcall Display_10_digit_BCD
 	
+	; Send the thermocoupler temp to the 7-segment display
 	lcall set_7_segment_diplay
-    
-    ;lcall Delay
+
 GET_TEMP_DATA_END:
     ret
 	
