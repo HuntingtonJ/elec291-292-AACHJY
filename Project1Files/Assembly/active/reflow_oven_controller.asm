@@ -307,7 +307,7 @@ Timer2_ISR:
 	jnz Inc_Done
 	inc Count1ms+1
 	
-	Send_BCD(bcd)
+	;Send_BCD(bcd)
 	Inc_Done:
 	; Check if a second has passed
 
@@ -402,9 +402,11 @@ MainProgram:
 	mov AUXR, #00010001B ; Max memory.  P4.4 is a general purpose IO pin
 
     setb EA   ; Enable Global interrupts
-	
+    
+	lcall InitSerialPort
 	lcall INIT_SPI
     lcall LCD_4BIT
+    
     
 menu_forever:
     ljmp Main_Menu_Program 
@@ -412,8 +414,7 @@ menu_forever:
 forever:
 	lcall GET_TEMP_DATA	 ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
 	ljmp reflow_state_machine 	; go do some stuff in the state_machine
-
-    ljmp forever ; This is equivalent to 'forever: sjmp forever'
+    sjmp forever ; This is equivalent to 'forever: sjmp forever'
 
     
 END

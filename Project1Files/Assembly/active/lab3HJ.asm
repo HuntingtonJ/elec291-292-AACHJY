@@ -5,13 +5,25 @@ Send_BCD mac
 	push ar0
 	mov r0, %0
 	lcall ?Send_BCD
-	mov a, #'\r'
-    lcall putchar
-    mov a, #'\n'
-    lcall putchar
 	pop ar0
 endmac
 
+?Send_BCD:
+	push acc
+	; Write most significant digit
+	mov a, r0
+	swap a
+	anl a, #0fh
+	orl a, #30h
+	lcall putchar
+	; write least significant digit
+	mov a, r0
+	anl a, #0fh
+	orl a, #30h
+	lcall putchar
+	pop acc
+	ret
+	
 ; Configure the serial port and baud rate
 InitSerialPort:
     ; Since the reset button bounces, we need to wait a bit before
@@ -146,23 +158,12 @@ Send_10_digit_BCD:
 	Send_BCD(bcd+2)
 	Send_BCD(bcd+1)
 	Send_BCD(bcd+0)
+	mov a, #'\r'
+    lcall putchar
+    mov a, #'\n'
+    lcall putchar
 	ret
 
-?Send_BCD:
-	push acc
-	; Write most significant digit
-	mov a, r0
-	swap a
-	anl a, #0fh
-	orl a, #30h
-	lcall putchar
-	; write least significant digit
-	mov a, r0
-	anl a, #0fh
-	orl a, #30h
-	lcall putchar
-	pop acc
-	ret
 
 Get_ADC_Channel_milliV mac
  	clr CE_ADC         ; selects 
@@ -204,22 +205,48 @@ Get_ADC_Channel_milliV mac
 ;LM355
 ;Temp = 100(V_Out - 2.73) = 100*V_Out - 273
 GET_LM355_TEMP:
-    Get_ADC_Channel(#10000000b)
+    clr CE_ADC         ; selects 
+    mov R0, #00000001B ; Start bit: 1
+    lcall DO_SPI_G
     
-    mov x+0, ADC_Result+0
-    mov x+1, ADC_Result+1
+    mov R0, #10000000B ; Read channel 0
+    lcall DO_SPI_G
+    mov a, R1
+    anl a, #00000011B
+    mov Result+1, a    ; Save high result
+    
+    mov R0, #55H
+    lcall DO_SPI_G
+    mov Result, R1     ; Save low result
+    
+    setb CE_ADC        ; deselects
+    
+    mov x+0, Result
+    mov x+1, Result+1
     mov x+2, #0
-    mov x+1, #0
+    mov x+3, #0
     
-    Load_y(100)
-    lcall mul32
+    Load_y(4093)
+    lcall mul32 ;multiplies x *= y
     
-    Load_y(273)
-    lcall sub32
+    ;A/1023 = B
+    Load_y(1023)
+    lcall div32 ;divides x /= y
+	
+	;B/10 = V_OUT
+    Load_y(10);
+    lcall div32 ;divides x /= y
+    
+    ;B - 2730 = C
+    Load_y(273);
+    lcall sub32    
     
     ;Store the LM355 Temp in Result
-    mov Result+0, x+0
+	mov Result+0, x+0
     mov Result+1, x+1
+	
+	lcall Delay
+	
  	ret
 
 ;____________________________________
@@ -258,9 +285,9 @@ GET_THERMO_TEMP:
     ;Add the temp from the LM355
     mov y+0, Result+0
     mov y+1, Result+1
-    mov y+2, Result+2
-    mov y+3, Result+3
-    lcall add32
+    mov y+2, #0
+    mov y+3, #0
+    lcall sub32
     
     ;Store the Thermo coupler result for later use
     mov Result_Thermo+0, x+0
@@ -269,7 +296,7 @@ GET_THERMO_TEMP:
 
 THERMO_TEMP_TO_BCD:
 	mov x+0, Result_Thermo+0
-	mov x+1, Result_Thermo+0
+	mov x+1, Result_Thermo+1
 	mov x+2, #0
 	mov x+3, #0
 	
@@ -287,13 +314,12 @@ GET_TEMP_DATA:
 	
 	;Gets, displays, and pushes ADC LM355 temp values
 	lcall GET_LM355_TEMP
-    ;lcall Display_10_digit_BCD
-    
+
     ; Gets, displays, and pushes k-type thermocouple vlaues
 	lcall GET_THERMO_TEMP
-    ;lcall Send_10_digit_BCD
-    ;lcall Display_10_digit_BCD_2
-    lcall THERMO_TEMP_TO_BCD
+	lcall THERMO_TEMP_TO_BCD
+	lcall Display_10_digit_BCD
+	
 	lcall set_7_segment_diplay
     
     ;lcall Delay

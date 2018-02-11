@@ -180,7 +180,7 @@ reflow_state_machine:
 			mov sec, #0
 			mov a, soaktemp
 			clr c
-			subb a, temp
+			subb a, Result_Thermo
 			jnc state1_done 	;if temp>soaktemp then go to state 2 
 			mov seconds, #0			; Reset time 'sec' variable representing elapsed time in each state
 			mov reflow_state, #0x02
@@ -213,7 +213,7 @@ reflow_state_machine:
 			Reflow_screen(Ramp_to_Peak)
 			mov a, reflowtemp
 			clr c
-			subb a, temp
+			subb a, Result_Thermo
 			jnc state3_done 	;if temp>reflowtemp then go to state 4
 			mov seconds, #0			; reset time for state 4
 			mov reflow_state, #0x04
@@ -245,7 +245,7 @@ reflow_state_machine:
 			mov pwm, #0			; Heater on at 0% duty
 			;mov TIMER1_RELOAD_H, #DUTY_0 
 			Reflow_screen(Cooling)
-			mov a, temp
+			mov a, Result_Thermo
 			subb a, cooled_temp 
 			jnc state5_done 	;if temp>reflowtemp then go to state 4
 			mov seconds, #0			; reset time for state 4

@@ -205,7 +205,7 @@ INIT_SPI:
 	setb MY_MISO ; Make MISO an input pin
  	clr MY_SCLK ; For mode (0,0) SCLK is zero
  	ret
-
+	
 DO_SPI_G:
  	push acc
  	mov R1, #0 ; Received byte stored in R1

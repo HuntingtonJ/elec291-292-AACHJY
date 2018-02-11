@@ -215,7 +215,7 @@
 0000             26   DUTY_100         EQU 255
 0000             27   
 0000             28   org 0x0000
-0000 021D15      29      ljmp MainProgram
+0000 021CBF      29      ljmp MainProgram
 0003             30   
 0003             31   ; External interrupt 0 vector (not used in this code)
 0003             32   org 0x0003
@@ -223,7 +223,7 @@
 0004             34   
 0004             35   ; Timer/Counter 0 overflow interrupt vector
 000B             36   org 0x000B
-000B 021AA2      37            ljmp Timer0_ISR
+000B 021A5F      37            ljmp Timer0_ISR
 000E             38   
 000E             39   ; External interrupt 1 vector (not used in this code)
 0013             40   org 0x0013
@@ -239,11 +239,11 @@
 0024             50            
 0024             51   ; Timer/Counter 2 overflow interrupt vector
 002B             52   org 0x002B
-002B 021ADD      53            ljmp Timer2_ISR
+002B 021A9A      53            ljmp Timer2_ISR
 002E             54   
 002E             55   ;Edge triggered keyboard interrupt vector
 003B             56   org 0x003B
-003B 021B2A      57            ljmp Start_stop_ISR
+003B 021AD4      57            ljmp Start_stop_ISR
 003E             58   
 003E             59   ; These ’EQU’ must match the wiring between the microcontroller and ADC
 003E             60   SOUND_OUT     EQU P3.7
@@ -502,450 +502,444 @@
                 193   $LIST
 1397            195   
                 197   $LIST
-1786            199   
+1743            199   
                 201   $LIST
-1A07            203   
+19C4            203   
                 205   $LIST
-1A89            207   
-1A89            208   ;----------------------------------------MACRO LOCATION----------------------------------------------
-1A89            209   
-1A89            210   
-1A89            211   
-1A89            212   
-1A89            213   ;---------------------------------;
-1A89            214   ; Routine to initialize the ISR   ;
-1A89            215   ; for timer 0                     ;
-1A89            216   ;---------------------------------;
-1A89            217   Timer0_Init:
-1A89 E589       218            mov a, TMOD
-1A8B 54F0       219            anl a, #0xf0 ; Clear the bits for timer 0
-1A8D 4401       220            orl a, #0x01 ; Configure timer 0 as 16-timer
-1A8F F589       221            mov TMOD, a
-1A91 758CEA     222            mov TH0, #high(TIMER0_RELOAD)
-1A94 758AE8     223            mov TL0, #low(TIMER0_RELOAD)
-1A97            224            ; Set autoreload value
-1A97 75F4EA     225            mov TIMER0_RELOAD_H, #high(TIMER0_RELOAD)
-1A9A 75F2E8     226            mov TIMER0_RELOAD_L, #low(TIMER0_RELOAD)
-1A9D            227            ; Enable the timer and interrupts
-1A9D D2A9       228       setb ET0  ; Enable timer 0 interrupt
-1A9F D28C       229       setb TR0  ; Start timer 0
-1AA1 22         230            ret
-1AA2            231   
-1AA2            232   ;---------------------------------;
-1AA2            233   ; ISR for timer 0.  Set to execute;
-1AA2            234   ; every 1/4096Hz to generate a    ;
-1AA2            235   ; 2048 Hz square wave at pin P3.7 ;
-1AA2            236   ;---------------------------------;
-1AA2            237   Timer0_ISR:
-1AA2            238            ;clr TF0  ; According to the data sheet this is done for us already.
-1AA2 8000       239            sjmp no_beep
-1AA4            240   beep_on:
-1AA4            241            ;cpl SOUND_OUT ; Connect speaker to P3.7!
-1AA4            242   no_beep:
-1AA4 32         243            reti
-1AA5            244            
-1AA5            245   ;---------------------------------;
-1AA5            246   ; Routine to initialize the ISR   ;
-1AA5            247   ; for timer 1 in PWM mode         ;
-1AA5            248   ;---------------------------------;
-1AA5            249   
-1AA5            250   Timer1_Init:
-1AA5 E589       251            mov a, TMOD
-1AA7 540F       252            anl a, #00001111B       ;Clears timer 1 settings but keeps timer 0 settings
-1AA9 4410       253            orl a, #00010000B       ;Gate = 0, TC1 = 0, mode = 01 (mode 1)
-1AAB F589       254            mov TMOD, a
-1AAD            255            
-1AAD E591       256            mov a, TCONB            ;load TCONB for PWM settings
-1AAF 5400       257            anl a, #00000000B       ;clear TCONB
-1AB1 4480       258            orl a, #10000000B       ;Set PWM1 = 1
-1AB3 F591       259            mov TCONB, a
-1AB5            260            
-1AB5 758D00     261            mov TH1, #0             ;Current count value
-1AB8 758B00     262            mov TL1, #0             ;Linear Prescaling
-1ABB            263            
-1ABB 75F500     264            mov TIMER1_RELOAD_H, #DUTY_0 ;Duty cycle percentage. Replace this value to change the duty cycle
-1ABE 75F300     265            mov TIMER1_RELOAD_L, #0      ;Frequency scaling/adjust f_out = f_sys/(256 * (256 - TL))
-1AC1            266            
-1AC1 D28E       267            setb TR1
-1AC3 32         268            reti
-1AC4            269   
-1AC4            270   ;---------------------------------;
-1AC4            271   ; Routine to initialize the ISR   ;
-1AC4            272   ; for timer 2                     ;
-1AC4            273   ;---------------------------------;
-1AC4            274   Timer2_Init:
-1AC4 75C800     275            mov T2CON, #0 ; Stop timer/counter.  Autoreload mode.
-1AC7 75CDA9     276            mov TH2, #high(TIMER2_RELOAD)
-1ACA 75CC9A     277            mov TL2, #low(TIMER2_RELOAD)
-1ACD            278            ; Set the reload value
-1ACD 75CBA9     279            mov RCAP2H, #high(TIMER2_RELOAD)
-1AD0 75CA9A     280            mov RCAP2L, #low(TIMER2_RELOAD)
-1AD3            281            ; Init One millisecond interrupt counter.  It is a 16-bit variable made with two 8-bit parts
-1AD3 E4         282            clr a
-1AD4 F530       283            mov Count1ms+0, a
-1AD6 F531       284            mov Count1ms+1, a
-1AD8            285            ; Enable the timer and interrupts
-1AD8 D2AD       286       setb ET2  ; Enable timer 2 interrupt
-1ADA D2CA       287       setb TR2  ; Enable timer 2
-1ADC 22         288            ret
-1ADD            289   
-1ADD            290   ;---------------------------------;
-1ADD            291   ; ISR for timer 2                 ;
-1ADD            292   ;---------------------------------;
-1ADD            293   Timer2_ISR:
-1ADD C2CF       294            clr TF2  ; Timer 2 doesn't clear TF2 automatically. Do it in ISR
-1ADF            295   
-1ADF            296            ; The two registers used in the ISR must be saved in the stack
-1ADF C0E0       297            push acc
-1AE1 C0D0       298            push psw
-1AE3 121A28     299            lcall seg_state_machine
-1AE6            300            ; Increment the 16-bit one mili second counter
-1AE6            301                            ;       inc Count1ms+0    ; Increment the low 8-bits first
-1AE6            302                                    ;mov a, Count1ms+0
-1AE6            303                            ;       cjne a, #10h, Timer2_ISR_done
-1AE6            304                            ;       mov Count1ms+0, #0h
-1AE6 0530       305            inc Count1ms+0    ; Increment the low 8-bits first
-1AE8 E530       306            mov a, Count1ms+0 ; If the low 8-bits overflow, then increment high 8-bits
-1AEA 7015       307            jnz Inc_Done
-1AEC 0531       308            inc Count1ms+1
-1AEE            309            
-1AEE C000       310            push ar0
-1AF0 A843       310            mov r0, bcd
-1AF2 121625     310            lcall ?Send_BCD
-1AF5 740D       310            mov a, #'\r'
-1AF7 1213AF     310       lcall putchar
-1AFA 740A       310       mov a, #'\n'
-1AFC 1213AF     310       lcall putchar
-1AFF D000       310            pop ar0
-1B01            311            Inc_Done:
-1B01            312            ; Check if a second has passed
-1B01            313   
-1B01 E530       314            mov a, Count1ms+0
-1B03 B4C815     315            cjne a, #low(MILLISECOND_WAIT), Timer2_ISR_done ; Warning: this instruction changes the carry flag!
-1B06 E531       316            mov a, Count1ms+1
-1B08 B40010     317            cjne a, #high(MILLISECOND_WAIT), Timer2_ISR_done
-1B0B            318            
-1B0B            319            ; 1000 milliseconds have passed.  Set a flag so the main program knows
-1B0B D201       320            setb one_second_flag ; Let the main program know one second had passed
-1B0D B28C       321            cpl TR0 ; Enable/disable timer/counter 0. This line creates a beep-silence-beep-silence sound.
-1B0F            322            ; Reset to zero the milli-seconds counter, it is a 16-bit variable
-1B0F E4         323            clr a
-1B10 F530       324            mov Count1ms+0, a
-1B12 F531       325            mov Count1ms+1, a
-1B14            326            ; Increment the BCD counter
-1B14 E53A       327            mov a, seconds
-1B16 2401       328            add a, #0x01
-1B18 D4         329            da a ; Decimal adjust instruction.  Check datasheet for more details!
-1B19 F53A       330            mov seconds, a
-1B1B            331            
-1B1B            332   Timer2_ISR_done:
-1B1B D0D0       333            pop psw
-1B1D D0E0       334            pop acc
-1B1F 32         335            reti
-1B20            336   
-1B20            337   
-1B20            338   ;-------------------------------------
-1B20            339   ; To start or ABORT the reflow cycle
-1B20            340   ;------------------------------------
-1B20            341   Start_stop_Init: 
-1B20            342            
-1B20 759F01     343            mov KBMOD, #0x01        ; enable edge triggered for P0.0 and P0.1
-1B23 759C00     344            mov KBLS, #0x00         ; watch for negative edge (0->1)
-1B26 759D01     345            mov KBE, #0x01  ; enable interrupt for p0.0 and p0.1
-1B29            346   ;        mov KBF, #0x01 ; interrupt active, must clear at start of ISR and setb at end. 
-1B29            347   
-1B29 22         348            ret
-1B2A            349   
-1B2A            350   Start_stop_ISR: 
-1B2A 759E00     351            mov KBF, #0             ; masks interrupt 
-1B2D C0E0       352            push acc
-1B2F            353   
-1B2F C2A0       354            clr CE_ADC         ; selects 
-1B31 7801       354       mov R0, #00000001B ; Start bit: 1
-1B33 1213C7     354       lcall DO_SPI_G
-1B36            354       
-1B36 78B0       354       mov R0, MASTER_STOP ; Read channel
-1B38 1213C7     354       lcall DO_SPI_G
-1B3B E9         354       mov a, R1
-1B3C 5403       354       anl a, #00000011B
-1B3E F537       354       mov ADC_Result+1, a    ; Save high result
+1A46            207   
+1A46            208   ;----------------------------------------MACRO LOCATION----------------------------------------------
+1A46            209   
+1A46            210   
+1A46            211   
+1A46            212   
+1A46            213   ;---------------------------------;
+1A46            214   ; Routine to initialize the ISR   ;
+1A46            215   ; for timer 0                     ;
+1A46            216   ;---------------------------------;
+1A46            217   Timer0_Init:
+1A46 E589       218            mov a, TMOD
+1A48 54F0       219            anl a, #0xf0 ; Clear the bits for timer 0
+1A4A 4401       220            orl a, #0x01 ; Configure timer 0 as 16-timer
+1A4C F589       221            mov TMOD, a
+1A4E 758CEA     222            mov TH0, #high(TIMER0_RELOAD)
+1A51 758AE8     223            mov TL0, #low(TIMER0_RELOAD)
+1A54            224            ; Set autoreload value
+1A54 75F4EA     225            mov TIMER0_RELOAD_H, #high(TIMER0_RELOAD)
+1A57 75F2E8     226            mov TIMER0_RELOAD_L, #low(TIMER0_RELOAD)
+1A5A            227            ; Enable the timer and interrupts
+1A5A D2A9       228       setb ET0  ; Enable timer 0 interrupt
+1A5C D28C       229       setb TR0  ; Start timer 0
+1A5E 22         230            ret
+1A5F            231   
+1A5F            232   ;---------------------------------;
+1A5F            233   ; ISR for timer 0.  Set to execute;
+1A5F            234   ; every 1/4096Hz to generate a    ;
+1A5F            235   ; 2048 Hz square wave at pin P3.7 ;
+1A5F            236   ;---------------------------------;
+1A5F            237   Timer0_ISR:
+1A5F            238            ;clr TF0  ; According to the data sheet this is done for us already.
+1A5F 8000       239            sjmp no_beep
+1A61            240   beep_on:
+1A61            241            ;cpl SOUND_OUT ; Connect speaker to P3.7!
+1A61            242   no_beep:
+1A61 32         243            reti
+1A62            244            
+1A62            245   ;---------------------------------;
+1A62            246   ; Routine to initialize the ISR   ;
+1A62            247   ; for timer 1 in PWM mode         ;
+1A62            248   ;---------------------------------;
+1A62            249   
+1A62            250   Timer1_Init:
+1A62 E589       251            mov a, TMOD
+1A64 540F       252            anl a, #00001111B       ;Clears timer 1 settings but keeps timer 0 settings
+1A66 4410       253            orl a, #00010000B       ;Gate = 0, TC1 = 0, mode = 01 (mode 1)
+1A68 F589       254            mov TMOD, a
+1A6A            255            
+1A6A E591       256            mov a, TCONB            ;load TCONB for PWM settings
+1A6C 5400       257            anl a, #00000000B       ;clear TCONB
+1A6E 4480       258            orl a, #10000000B       ;Set PWM1 = 1
+1A70 F591       259            mov TCONB, a
+1A72            260            
+1A72 758D00     261            mov TH1, #0             ;Current count value
+1A75 758B00     262            mov TL1, #0             ;Linear Prescaling
+1A78            263            
+1A78 75F500     264            mov TIMER1_RELOAD_H, #DUTY_0 ;Duty cycle percentage. Replace this value to change the duty cycle
+1A7B 75F300     265            mov TIMER1_RELOAD_L, #0      ;Frequency scaling/adjust f_out = f_sys/(256 * (256 - TL))
+1A7E            266            
+1A7E D28E       267            setb TR1
+1A80 32         268            reti
+1A81            269   
+1A81            270   ;---------------------------------;
+1A81            271   ; Routine to initialize the ISR   ;
+1A81            272   ; for timer 2                     ;
+1A81            273   ;---------------------------------;
+1A81            274   Timer2_Init:
+1A81 75C800     275            mov T2CON, #0 ; Stop timer/counter.  Autoreload mode.
+1A84 75CDA9     276            mov TH2, #high(TIMER2_RELOAD)
+1A87 75CC9A     277            mov TL2, #low(TIMER2_RELOAD)
+1A8A            278            ; Set the reload value
+1A8A 75CBA9     279            mov RCAP2H, #high(TIMER2_RELOAD)
+1A8D 75CA9A     280            mov RCAP2L, #low(TIMER2_RELOAD)
+1A90            281            ; Init One millisecond interrupt counter.  It is a 16-bit variable made with two 8-bit parts
+1A90 E4         282            clr a
+1A91 F530       283            mov Count1ms+0, a
+1A93 F531       284            mov Count1ms+1, a
+1A95            285            ; Enable the timer and interrupts
+1A95 D2AD       286       setb ET2  ; Enable timer 2 interrupt
+1A97 D2CA       287       setb TR2  ; Enable timer 2
+1A99 22         288            ret
+1A9A            289   
+1A9A            290   ;---------------------------------;
+1A9A            291   ; ISR for timer 2                 ;
+1A9A            292   ;---------------------------------;
+1A9A            293   Timer2_ISR:
+1A9A C2CF       294            clr TF2  ; Timer 2 doesn't clear TF2 automatically. Do it in ISR
+1A9C            295   
+1A9C            296            ; The two registers used in the ISR must be saved in the stack
+1A9C C0E0       297            push acc
+1A9E C0D0       298            push psw
+1AA0 1219E5     299            lcall seg_state_machine
+1AA3            300            ; Increment the 16-bit one mili second counter
+1AA3            301                            ;       inc Count1ms+0    ; Increment the low 8-bits first
+1AA3            302                                    ;mov a, Count1ms+0
+1AA3            303                            ;       cjne a, #10h, Timer2_ISR_done
+1AA3            304                            ;       mov Count1ms+0, #0h
+1AA3 0530       305            inc Count1ms+0    ; Increment the low 8-bits first
+1AA5 E530       306            mov a, Count1ms+0 ; If the low 8-bits overflow, then increment high 8-bits
+1AA7 7002       307            jnz Inc_Done
+1AA9 0531       308            inc Count1ms+1
+1AAB            309            
+1AAB            310            ;Send_BCD(bcd)
+1AAB            311            Inc_Done:
+1AAB            312            ; Check if a second has passed
+1AAB            313   
+1AAB E530       314            mov a, Count1ms+0
+1AAD B4C815     315            cjne a, #low(MILLISECOND_WAIT), Timer2_ISR_done ; Warning: this instruction changes the carry flag!
+1AB0 E531       316            mov a, Count1ms+1
+1AB2 B40010     317            cjne a, #high(MILLISECOND_WAIT), Timer2_ISR_done
+1AB5            318            
+1AB5            319            ; 1000 milliseconds have passed.  Set a flag so the main program knows
+1AB5 D201       320            setb one_second_flag ; Let the main program know one second had passed
+1AB7 B28C       321            cpl TR0 ; Enable/disable timer/counter 0. This line creates a beep-silence-beep-silence sound.
+1AB9            322            ; Reset to zero the milli-seconds counter, it is a 16-bit variable
+1AB9 E4         323            clr a
+1ABA F530       324            mov Count1ms+0, a
+1ABC F531       325            mov Count1ms+1, a
+1ABE            326            ; Increment the BCD counter
+1ABE E53A       327            mov a, seconds
+1AC0 2401       328            add a, #0x01
+1AC2 D4         329            da a ; Decimal adjust instruction.  Check datasheet for more details!
+1AC3 F53A       330            mov seconds, a
+1AC5            331            
+1AC5            332   Timer2_ISR_done:
+1AC5 D0D0       333            pop psw
+1AC7 D0E0       334            pop acc
+1AC9 32         335            reti
+1ACA            336   
+1ACA            337   
+1ACA            338   ;-------------------------------------
+1ACA            339   ; To start or ABORT the reflow cycle
+1ACA            340   ;------------------------------------
+1ACA            341   Start_stop_Init: 
+1ACA            342            
+1ACA 759F01     343            mov KBMOD, #0x01        ; enable edge triggered for P0.0 and P0.1
+1ACD 759C00     344            mov KBLS, #0x00         ; watch for negative edge (0->1)
+1AD0 759D01     345            mov KBE, #0x01  ; enable interrupt for p0.0 and p0.1
+1AD3            346   ;        mov KBF, #0x01 ; interrupt active, must clear at start of ISR and setb at end. 
+1AD3            347   
+1AD3 22         348            ret
+1AD4            349   
+1AD4            350   Start_stop_ISR: 
+1AD4 759E00     351            mov KBF, #0             ; masks interrupt 
+1AD7 C0E0       352            push acc
+1AD9            353   
+1AD9 C2A0       354            clr CE_ADC         ; selects 
+1ADB 7801       354       mov R0, #00000001B ; Start bit: 1
+1ADD 1213DD     354       lcall DO_SPI_G
+1AE0            354       
+1AE0 78B0       354       mov R0, MASTER_STOP ; Read channel
+1AE2 1213DD     354       lcall DO_SPI_G
+1AE5 E9         354       mov a, R1
+1AE6 5403       354       anl a, #00000011B
+1AE8 F537       354       mov ADC_Result+1, a    ; Save high result
+1AEA            354       
+1AEA 7855       354       mov R0, #55H
+1AEC 1213DD     354       lcall DO_SPI_G
+1AEF 8936       354       mov ADC_Result+0, R1     ; Save low result
+1AF1            354       
+1AF1 D2A0       354       setb CE_ADC        ; deselects
+1AF3            354       
+1AF3            354       ;V_OUT = ADC_voltage*4.096V/1023
+1AF3 85363B     354       mov x+0, ADC_Result
+1AF6 85373C     354       mov x+1, ADC_Result+1
+1AF9 753D00     354       mov x+2, #0
+1AFC 753E00     354       mov x+3, #0
+1AFF            354       
+1AFF 753FFB     354            mov y+0, #low (4091 % 0x10000) 
+1B02 75400F     354            mov y+1, #high(4091 % 0x10000) 
+1B05 754100     354            mov y+2, #low (4091 / 0x10000) 
+1B08 754200     354            mov y+3, #high(4091 / 0x10000) 
+1B0B 120480     354       lcall mul32 ;multiplies x *= y
+1B0E            354       
+1B0E 753FFF     354            mov y+0, #low (1023 % 0x10000) 
+1B11 754003     354            mov y+1, #high(1023 % 0x10000) 
+1B14 754100     354            mov y+2, #low (1023 / 0x10000) 
+1B17 754200     354            mov y+3, #high(1023 / 0x10000) 
+1B1A 12050D     354       lcall div32 ;divides x /= y
+1B1D            354       
+1B1D 753FE8     354            mov y+0, #low (1000 % 0x10000) 
+1B20 754003     354            mov y+1, #high(1000 % 0x10000) 
+1B23 754100     354            mov y+2, #low (1000 / 0x10000) 
+1B26 754200     354            mov y+3, #high(1000 / 0x10000) 
+1B29 12050D     354       lcall div32
+1B2C            354       
+1B2C 853C37     354       mov ADC_Result+1, x+1
+1B2F 853B36     354       mov ADC_Result+0, x+0
+1B32            354            ; loads ADC_Result (16 bit) with voltage value of pressed button 
+1B32 E536       354            mov a, ADC_Result+0
+1B34 B40002     354            cjne a, #0, wait_release_303
+1B37            354   
+1B37 8061       354            sjmp endhere_303
+1B39            354   wait_release_303:
+1B39 C2A0       354            clr CE_ADC         ; selects 
+1B3B 7801       354       mov R0, #00000001B ; Start bit: 1
+1B3D 1213DD     354       lcall DO_SPI_G
 1B40            354       
-1B40 7855       354       mov R0, #55H
-1B42 1213C7     354       lcall DO_SPI_G
-1B45 8936       354       mov ADC_Result+0, R1     ; Save low result
-1B47            354       
-1B47 D2A0       354       setb CE_ADC        ; deselects
-1B49            354       
-1B49            354       ;V_OUT = ADC_voltage*4.096V/1023
-1B49 85363B     354       mov x+0, ADC_Result
-1B4C 85373C     354       mov x+1, ADC_Result+1
-1B4F 753D00     354       mov x+2, #0
-1B52 753E00     354       mov x+3, #0
-1B55            354       
-1B55 753FFB     354            mov y+0, #low (4091 % 0x10000) 
-1B58 75400F     354            mov y+1, #high(4091 % 0x10000) 
-1B5B 754100     354            mov y+2, #low (4091 / 0x10000) 
-1B5E 754200     354            mov y+3, #high(4091 / 0x10000) 
-1B61 120480     354       lcall mul32 ;multiplies x *= y
-1B64            354       
-1B64 753FFF     354            mov y+0, #low (1023 % 0x10000) 
-1B67 754003     354            mov y+1, #high(1023 % 0x10000) 
-1B6A 754100     354            mov y+2, #low (1023 / 0x10000) 
-1B6D 754200     354            mov y+3, #high(1023 / 0x10000) 
-1B70 12050D     354       lcall div32 ;divides x /= y
-1B73            354       
-1B73 753FE8     354            mov y+0, #low (1000 % 0x10000) 
-1B76 754003     354            mov y+1, #high(1000 % 0x10000) 
-1B79 754100     354            mov y+2, #low (1000 / 0x10000) 
-1B7C 754200     354            mov y+3, #high(1000 / 0x10000) 
-1B7F 12050D     354       lcall div32
-1B82            354       
-1B82 853C37     354       mov ADC_Result+1, x+1
-1B85 853B36     354       mov ADC_Result+0, x+0
-1B88            354            ; loads ADC_Result (16 bit) with voltage value of pressed button 
-1B88 E536       354            mov a, ADC_Result+0
-1B8A B40002     354            cjne a, #0, wait_release_306
-1B8D            354   
-1B8D 8061       354            sjmp endhere_306
-1B8F            354   wait_release_306:
-1B8F C2A0       354            clr CE_ADC         ; selects 
-1B91 7801       354       mov R0, #00000001B ; Start bit: 1
-1B93 1213C7     354       lcall DO_SPI_G
-1B96            354       
-1B96 78B0       354       mov R0, MASTER_STOP ; Read channel
-1B98 1213C7     354       lcall DO_SPI_G
-1B9B E9         354       mov a, R1
-1B9C 5403       354       anl a, #00000011B
-1B9E F537       354       mov ADC_Result+1, a    ; Save high result
-1BA0            354       
-1BA0 7855       354       mov R0, #55H
-1BA2 1213C7     354       lcall DO_SPI_G
-1BA5 8936       354       mov ADC_Result+0, R1     ; Save low result
-1BA7            354       
-1BA7 D2A0       354       setb CE_ADC        ; deselects
-1BA9            354       
-1BA9            354       ;V_OUT = ADC_voltage*4.096V/1023
-1BA9 85363B     354       mov x+0, ADC_Result
-1BAC 85373C     354       mov x+1, ADC_Result+1
-1BAF 753D00     354       mov x+2, #0
-1BB2 753E00     354       mov x+3, #0
-1BB5            354       
-1BB5 753FFB     354            mov y+0, #low (4091 % 0x10000) 
-1BB8 75400F     354            mov y+1, #high(4091 % 0x10000) 
-1BBB 754100     354            mov y+2, #low (4091 / 0x10000) 
-1BBE 754200     354            mov y+3, #high(4091 / 0x10000) 
-1BC1 120480     354       lcall mul32 ;multiplies x *= y
-1BC4            354       
-1BC4 753FFF     354            mov y+0, #low (1023 % 0x10000) 
-1BC7 754003     354            mov y+1, #high(1023 % 0x10000) 
-1BCA 754100     354            mov y+2, #low (1023 / 0x10000) 
-1BCD 754200     354            mov y+3, #high(1023 / 0x10000) 
-1BD0 12050D     354       lcall div32 ;divides x /= y
-1BD3            354       
-1BD3 753FE8     354            mov y+0, #low (1000 % 0x10000) 
-1BD6 754003     354            mov y+1, #high(1000 % 0x10000) 
-1BD9 754100     354            mov y+2, #low (1000 / 0x10000) 
-1BDC 754200     354            mov y+3, #high(1000 / 0x10000) 
-1BDF 12050D     354       lcall div32
-1BE2            354       
-1BE2 853C37     354       mov ADC_Result+1, x+1
-1BE5 853B36     354       mov ADC_Result+0, x+0
-1BE8            354            ; loads ADC_Result (16 bit) with voltage value of pressed button 
-1BE8 E536       354            mov a, ADC_Result+0
-1BEA B400A2     354            cjne a, #0,wait_release_306
-1BED 021CD5     354            ljmp STOP_ROUTINE
-1BF0            354            endhere_306:    ; if master stop has been pressed, change to state 5
-1BF0 C2A0       355            clr CE_ADC         ; selects 
-1BF2 7801       355       mov R0, #00000001B ; Start bit: 1
-1BF4 1213C7     355       lcall DO_SPI_G
-1BF7            355       
-1BF7 78A0       355       mov R0, MASTER_START ; Read channel
-1BF9 1213C7     355       lcall DO_SPI_G
-1BFC E9         355       mov a, R1
-1BFD 5403       355       anl a, #00000011B
-1BFF F537       355       mov ADC_Result+1, a    ; Save high result
+1B40 78B0       354       mov R0, MASTER_STOP ; Read channel
+1B42 1213DD     354       lcall DO_SPI_G
+1B45 E9         354       mov a, R1
+1B46 5403       354       anl a, #00000011B
+1B48 F537       354       mov ADC_Result+1, a    ; Save high result
+1B4A            354       
+1B4A 7855       354       mov R0, #55H
+1B4C 1213DD     354       lcall DO_SPI_G
+1B4F 8936       354       mov ADC_Result+0, R1     ; Save low result
+1B51            354       
+1B51 D2A0       354       setb CE_ADC        ; deselects
+1B53            354       
+1B53            354       ;V_OUT = ADC_voltage*4.096V/1023
+1B53 85363B     354       mov x+0, ADC_Result
+1B56 85373C     354       mov x+1, ADC_Result+1
+1B59 753D00     354       mov x+2, #0
+1B5C 753E00     354       mov x+3, #0
+1B5F            354       
+1B5F 753FFB     354            mov y+0, #low (4091 % 0x10000) 
+1B62 75400F     354            mov y+1, #high(4091 % 0x10000) 
+1B65 754100     354            mov y+2, #low (4091 / 0x10000) 
+1B68 754200     354            mov y+3, #high(4091 / 0x10000) 
+1B6B 120480     354       lcall mul32 ;multiplies x *= y
+1B6E            354       
+1B6E 753FFF     354            mov y+0, #low (1023 % 0x10000) 
+1B71 754003     354            mov y+1, #high(1023 % 0x10000) 
+1B74 754100     354            mov y+2, #low (1023 / 0x10000) 
+1B77 754200     354            mov y+3, #high(1023 / 0x10000) 
+1B7A 12050D     354       lcall div32 ;divides x /= y
+1B7D            354       
+1B7D 753FE8     354            mov y+0, #low (1000 % 0x10000) 
+1B80 754003     354            mov y+1, #high(1000 % 0x10000) 
+1B83 754100     354            mov y+2, #low (1000 / 0x10000) 
+1B86 754200     354            mov y+3, #high(1000 / 0x10000) 
+1B89 12050D     354       lcall div32
+1B8C            354       
+1B8C 853C37     354       mov ADC_Result+1, x+1
+1B8F 853B36     354       mov ADC_Result+0, x+0
+1B92            354            ; loads ADC_Result (16 bit) with voltage value of pressed button 
+1B92 E536       354            mov a, ADC_Result+0
+1B94 B400A2     354            cjne a, #0,wait_release_303
+1B97 021C7F     354            ljmp STOP_ROUTINE
+1B9A            354            endhere_303:    ; if master stop has been pressed, change to state 5
+1B9A C2A0       355            clr CE_ADC         ; selects 
+1B9C 7801       355       mov R0, #00000001B ; Start bit: 1
+1B9E 1213DD     355       lcall DO_SPI_G
+1BA1            355       
+1BA1 78A0       355       mov R0, MASTER_START ; Read channel
+1BA3 1213DD     355       lcall DO_SPI_G
+1BA6 E9         355       mov a, R1
+1BA7 5403       355       anl a, #00000011B
+1BA9 F537       355       mov ADC_Result+1, a    ; Save high result
+1BAB            355       
+1BAB 7855       355       mov R0, #55H
+1BAD 1213DD     355       lcall DO_SPI_G
+1BB0 8936       355       mov ADC_Result+0, R1     ; Save low result
+1BB2            355       
+1BB2 D2A0       355       setb CE_ADC        ; deselects
+1BB4            355       
+1BB4            355       ;V_OUT = ADC_voltage*4.096V/1023
+1BB4 85363B     355       mov x+0, ADC_Result
+1BB7 85373C     355       mov x+1, ADC_Result+1
+1BBA 753D00     355       mov x+2, #0
+1BBD 753E00     355       mov x+3, #0
+1BC0            355       
+1BC0 753FFB     355            mov y+0, #low (4091 % 0x10000) 
+1BC3 75400F     355            mov y+1, #high(4091 % 0x10000) 
+1BC6 754100     355            mov y+2, #low (4091 / 0x10000) 
+1BC9 754200     355            mov y+3, #high(4091 / 0x10000) 
+1BCC            355   
+1BCC 120480     355       lcall mul32 ;multiplies x *= y
+1BCF            355       
+1BCF 753FFF     355            mov y+0, #low (1023 % 0x10000) 
+1BD2 754003     355            mov y+1, #high(1023 % 0x10000) 
+1BD5 754100     355            mov y+2, #low (1023 / 0x10000) 
+1BD8 754200     355            mov y+3, #high(1023 / 0x10000) 
+1BDB 12050D     355       lcall div32 ;divides x /= y
+1BDE            355       
+1BDE 753FE8     355            mov y+0, #low (1000 % 0x10000) 
+1BE1 754003     355            mov y+1, #high(1000 % 0x10000) 
+1BE4 754100     355            mov y+2, #low (1000 / 0x10000) 
+1BE7 754200     355            mov y+3, #high(1000 / 0x10000) 
+1BEA 12050D     355       lcall div32
+1BED            355       
+1BED 853C37     355       mov ADC_Result+1, x+1
+1BF0 853B36     355       mov ADC_Result+0, x+0
+1BF3            355            ; loads ADC_Result (16 bit) with voltage value of pressed button 
+1BF3 E536       355            mov a, ADC_Result+0
+1BF5 B40002     355            cjne a, #0, wait_release_312
+1BF8            355   
+1BF8 8061       355            sjmp endhere_312
+1BFA            355   wait_release_312:
+1BFA C2A0       355            clr CE_ADC         ; selects 
+1BFC 7801       355       mov R0, #00000001B ; Start bit: 1
+1BFE 1213DD     355       lcall DO_SPI_G
 1C01            355       
-1C01 7855       355       mov R0, #55H
-1C03 1213C7     355       lcall DO_SPI_G
-1C06 8936       355       mov ADC_Result+0, R1     ; Save low result
-1C08            355       
-1C08 D2A0       355       setb CE_ADC        ; deselects
-1C0A            355       
-1C0A            355       ;V_OUT = ADC_voltage*4.096V/1023
-1C0A 85363B     355       mov x+0, ADC_Result
-1C0D 85373C     355       mov x+1, ADC_Result+1
-1C10 753D00     355       mov x+2, #0
-1C13 753E00     355       mov x+3, #0
-1C16            355       
-1C16 753FFB     355            mov y+0, #low (4091 % 0x10000) 
-1C19 75400F     355            mov y+1, #high(4091 % 0x10000) 
-1C1C 754100     355            mov y+2, #low (4091 / 0x10000) 
-1C1F 754200     355            mov y+3, #high(4091 / 0x10000) 
-1C22            355   
-1C22 120480     355       lcall mul32 ;multiplies x *= y
-1C25            355       
-1C25 753FFF     355            mov y+0, #low (1023 % 0x10000) 
-1C28 754003     355            mov y+1, #high(1023 % 0x10000) 
-1C2B 754100     355            mov y+2, #low (1023 / 0x10000) 
-1C2E 754200     355            mov y+3, #high(1023 / 0x10000) 
-1C31 12050D     355       lcall div32 ;divides x /= y
-1C34            355       
-1C34 753FE8     355            mov y+0, #low (1000 % 0x10000) 
-1C37 754003     355            mov y+1, #high(1000 % 0x10000) 
-1C3A 754100     355            mov y+2, #low (1000 / 0x10000) 
-1C3D 754200     355            mov y+3, #high(1000 / 0x10000) 
-1C40 12050D     355       lcall div32
-1C43            355       
-1C43 853C37     355       mov ADC_Result+1, x+1
-1C46 853B36     355       mov ADC_Result+0, x+0
-1C49            355            ; loads ADC_Result (16 bit) with voltage value of pressed button 
-1C49 E536       355            mov a, ADC_Result+0
-1C4B B40002     355            cjne a, #0, wait_release_315
-1C4E            355   
-1C4E 8061       355            sjmp endhere_315
-1C50            355   wait_release_315:
-1C50 C2A0       355            clr CE_ADC         ; selects 
-1C52 7801       355       mov R0, #00000001B ; Start bit: 1
-1C54 1213C7     355       lcall DO_SPI_G
-1C57            355       
-1C57 78A0       355       mov R0, MASTER_START ; Read channel
-1C59 1213C7     355       lcall DO_SPI_G
-1C5C E9         355       mov a, R1
-1C5D 5403       355       anl a, #00000011B
-1C5F F537       355       mov ADC_Result+1, a    ; Save high result
-1C61            355       
-1C61 7855       355       mov R0, #55H
-1C63 1213C7     355       lcall DO_SPI_G
-1C66 8936       355       mov ADC_Result+0, R1     ; Save low result
-1C68            355       
-1C68 D2A0       355       setb CE_ADC        ; deselects
-1C6A            355       
-1C6A            355       ;V_OUT = ADC_voltage*4.096V/1023
-1C6A 85363B     355       mov x+0, ADC_Result
-1C6D 85373C     355       mov x+1, ADC_Result+1
-1C70 753D00     355       mov x+2, #0
-1C73 753E00     355       mov x+3, #0
-1C76            355       
-1C76 753FFB     355            mov y+0, #low (4091 % 0x10000) 
-1C79 75400F     355            mov y+1, #high(4091 % 0x10000) 
-1C7C 754100     355            mov y+2, #low (4091 / 0x10000) 
-1C7F 754200     355            mov y+3, #high(4091 / 0x10000) 
-1C82            355   
-1C82 120480     355       lcall mul32 ;multiplies x *= y
-1C85            355       
-1C85 753FFF     355            mov y+0, #low (1023 % 0x10000) 
-1C88 754003     355            mov y+1, #high(1023 % 0x10000) 
-1C8B 754100     355            mov y+2, #low (1023 / 0x10000) 
-1C8E 754200     355            mov y+3, #high(1023 / 0x10000) 
-1C91 12050D     355       lcall div32 ;divides x /= y
-1C94            355       
-1C94 753FE8     355            mov y+0, #low (1000 % 0x10000) 
-1C97 754003     355            mov y+1, #high(1000 % 0x10000) 
-1C9A 754100     355            mov y+2, #low (1000 / 0x10000) 
-1C9D 754200     355            mov y+3, #high(1000 / 0x10000) 
-1CA0 12050D     355       lcall div32
-1CA3            355       
-1CA3 853C37     355       mov ADC_Result+1, x+1
-1CA6 853B36     355       mov ADC_Result+0, x+0
-1CA9            355            ; loads ADC_Result (16 bit) with voltage value of pressed button 
-1CA9 E536       355            mov a, ADC_Result+0
-1CAB B400A2     355            cjne a, #0,wait_release_315
-1CAE 021CB1     355            ljmp START_ROUTINE
-1CB1            355            endhere_315: ; if master start has been pressed, change to state 1
-1CB1            356   
-1CB1            357   START_ROUTINE: 
-1CB1            358            ; We should add some code here that 
-1CB1 E4         359            clr a
-1CB2 C0E0       360            push acc
-1CB4 7401       360            mov a, #1
-1CB6 14         360            dec a
-1CB7 1202E9     360            lcall ?Set_Cursor_2 ; Select column and row
-1CBA D0E0       360            pop acc
-1CBC C083       361            push dph
-1CBE C082       361            push dpl
-1CC0 C0E0       361            push acc
-1CC2 90022D     361            mov dptr, #ISR_is_running
-1CC5 1202DE     361            lcall ?Send_Constant_String
-1CC8 D0E0       361            pop acc
-1CCA D082       361            pop dpl
-1CCC D083       361            pop dph
-1CCE E552       362            mov a, reflow_state
-1CD0            363            ;cjne a, #0x00, End_master_ISR
-1CD0 755201     364            mov reflow_state, #0x01
-1CD3 803D       365            sjmp End_master_ISR
-1CD5            366   
-1CD5            367   
-1CD5            368   
-1CD5            369   STOP_ROUTINE: 
-1CD5 755205     370            mov reflow_state, #5    
-1CD8            371            ; any other things we want to do, ie, statements we want to make 
-1CD8            372   
-1CD8 C0E0       373            push acc
-1CDA 7401       373            mov a, #1
-1CDC 14         373            dec a
-1CDD 1202EB     373            lcall ?Set_Cursor_1 ; Select column and row
-1CE0 D0E0       373            pop acc
-1CE2 C083       374            push dph
-1CE4 C082       374            push dpl
-1CE6 C0E0       374            push acc
-1CE8 90020B     374            mov dptr, #Abort_string
-1CEB 1202DE     374            lcall ?Send_Constant_String
-1CEE D0E0       374            pop acc
-1CF0 D082       374            pop dpl
-1CF2 D083       374            pop dph
-1CF4            375   
-1CF4 C0E0       376            push acc
-1CF6 7401       376            mov a, #1
-1CF8 14         376            dec a
-1CF9 1202E9     376            lcall ?Set_Cursor_2 ; Select column and row
-1CFC D0E0       376            pop acc
-1CFE C083       377            push dph
-1D00 C082       377            push dpl
-1D02 C0E0       377            push acc
-1D04 90021C     377            mov dptr, #Waiting_to_cool
-1D07 1202DE     377            lcall ?Send_Constant_String
-1D0A D0E0       377            pop acc
-1D0C D082       377            pop dpl
-1D0E D083       377            pop dph
-1D10            378   
-1D10 8000       379            sjmp End_master_ISR
-1D12            380   
-1D12            381   
-1D12            382   End_master_ISR: 
-1D12            383   ;        mov KBF, #1             ; enables interrupt
-1D12 D0E0       384            pop acc
-1D14            385   
-1D14 32         386            reti
-1D15            387   
-1D15            388   
-1D15            389   MainProgram:
-1D15 75817F     390       mov SP, #7FH ; Set the stack pointer to the begining of idata
-1D18 121B20     391       lcall Start_stop_Init
-1D1B 121A5F     392            lcall seg_state_init
-1D1E 121A89     393       lcall Timer0_Init
-1D21 121AA5     394            lcall Timer1_Init
-1D24 121AC4     395       lcall Timer2_Init
-1D27            396            
-1D27 755200     397            mov reflow_state, #0x00
-1D2A            398       ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
-1D2A 75E600     399       mov P0M0, #0
-1D2D 75E700     400       mov P0M1, #0
-1D30            401            
-1D30 758E11     402            mov AUXR, #00010001B ; Max memory.  P4.4 is a general purpose IO pin
-1D33            403   
-1D33 D2AF       404       setb EA   ; Enable Global interrupts
-1D35            405            
-1D35 1213C2     406            lcall INIT_SPI
-1D38 1202B2     407       lcall LCD_4BIT
-1D3B            408       
-1D3B            409   menu_forever:
-1D3B 020593     410       ljmp Main_Menu_Program 
-1D3E            411            
-1D3E            412   forever:
-1D3E 121774     413            lcall GET_TEMP_DATA      ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
-1D41 021786     414            ljmp reflow_state_machine       ; go do some stuff in the state_machine
-1D44            415   
-1D44 021D3E     416       ljmp forever ; This is equivalent to 'forever: sjmp forever'
-1D47            417   
-1D47            418       
-1D47            419   EN
+1C01 78A0       355       mov R0, MASTER_START ; Read channel
+1C03 1213DD     355       lcall DO_SPI_G
+1C06 E9         355       mov a, R1
+1C07 5403       355       anl a, #00000011B
+1C09 F537       355       mov ADC_Result+1, a    ; Save high result
+1C0B            355       
+1C0B 7855       355       mov R0, #55H
+1C0D 1213DD     355       lcall DO_SPI_G
+1C10 8936       355       mov ADC_Result+0, R1     ; Save low result
+1C12            355       
+1C12 D2A0       355       setb CE_ADC        ; deselects
+1C14            355       
+1C14            355       ;V_OUT = ADC_voltage*4.096V/1023
+1C14 85363B     355       mov x+0, ADC_Result
+1C17 85373C     355       mov x+1, ADC_Result+1
+1C1A 753D00     355       mov x+2, #0
+1C1D 753E00     355       mov x+3, #0
+1C20            355       
+1C20 753FFB     355            mov y+0, #low (4091 % 0x10000) 
+1C23 75400F     355            mov y+1, #high(4091 % 0x10000) 
+1C26 754100     355            mov y+2, #low (4091 / 0x10000) 
+1C29 754200     355            mov y+3, #high(4091 / 0x10000) 
+1C2C            355   
+1C2C 120480     355       lcall mul32 ;multiplies x *= y
+1C2F            355       
+1C2F 753FFF     355            mov y+0, #low (1023 % 0x10000) 
+1C32 754003     355            mov y+1, #high(1023 % 0x10000) 
+1C35 754100     355            mov y+2, #low (1023 / 0x10000) 
+1C38 754200     355            mov y+3, #high(1023 / 0x10000) 
+1C3B 12050D     355       lcall div32 ;divides x /= y
+1C3E            355       
+1C3E 753FE8     355            mov y+0, #low (1000 % 0x10000) 
+1C41 754003     355            mov y+1, #high(1000 % 0x10000) 
+1C44 754100     355            mov y+2, #low (1000 / 0x10000) 
+1C47 754200     355            mov y+3, #high(1000 / 0x10000) 
+1C4A 12050D     355       lcall div32
+1C4D            355       
+1C4D 853C37     355       mov ADC_Result+1, x+1
+1C50 853B36     355       mov ADC_Result+0, x+0
+1C53            355            ; loads ADC_Result (16 bit) with voltage value of pressed button 
+1C53 E536       355            mov a, ADC_Result+0
+1C55 B400A2     355            cjne a, #0,wait_release_312
+1C58 021C5B     355            ljmp START_ROUTINE
+1C5B            355            endhere_312: ; if master start has been pressed, change to state 1
+1C5B            356   
+1C5B            357   START_ROUTINE: 
+1C5B            358            ; We should add some code here that 
+1C5B E4         359            clr a
+1C5C C0E0       360            push acc
+1C5E 7401       360            mov a, #1
+1C60 14         360            dec a
+1C61 1202E9     360            lcall ?Set_Cursor_2 ; Select column and row
+1C64 D0E0       360            pop acc
+1C66 C083       361            push dph
+1C68 C082       361            push dpl
+1C6A C0E0       361            push acc
+1C6C 90022D     361            mov dptr, #ISR_is_running
+1C6F 1202DE     361            lcall ?Send_Constant_String
+1C72 D0E0       361            pop acc
+1C74 D082       361            pop dpl
+1C76 D083       361            pop dph
+1C78 E552       362            mov a, reflow_state
+1C7A            363            ;cjne a, #0x00, End_master_ISR
+1C7A 755201     364            mov reflow_state, #0x01
+1C7D 803D       365            sjmp End_master_ISR
+1C7F            366   
+1C7F            367   
+1C7F            368   
+1C7F            369   STOP_ROUTINE: 
+1C7F 755205     370            mov reflow_state, #5    
+1C82            371            ; any other things we want to do, ie, statements we want to make 
+1C82            372   
+1C82 C0E0       373            push acc
+1C84 7401       373            mov a, #1
+1C86 14         373            dec a
+1C87 1202EB     373            lcall ?Set_Cursor_1 ; Select column and row
+1C8A D0E0       373            pop acc
+1C8C C083       374            push dph
+1C8E C082       374            push dpl
+1C90 C0E0       374            push acc
+1C92 90020B     374            mov dptr, #Abort_string
+1C95 1202DE     374            lcall ?Send_Constant_String
+1C98 D0E0       374            pop acc
+1C9A D082       374            pop dpl
+1C9C D083       374            pop dph
+1C9E            375   
+1C9E C0E0       376            push acc
+1CA0 7401       376            mov a, #1
+1CA2 14         376            dec a
+1CA3 1202E9     376            lcall ?Set_Cursor_2 ; Select column and row
+1CA6 D0E0       376            pop acc
+1CA8 C083       377            push dph
+1CAA C082       377            push dpl
+1CAC C0E0       377            push acc
+1CAE 90021C     377            mov dptr, #Waiting_to_cool
+1CB1 1202DE     377            lcall ?Send_Constant_String
+1CB4 D0E0       377            pop acc
+1CB6 D082       377            pop dpl
+1CB8 D083       377            pop dph
+1CBA            378   
+1CBA 8000       379            sjmp End_master_ISR
+1CBC            380   
+1CBC            381   
+1CBC            382   End_master_ISR: 
+1CBC            383   ;        mov KBF, #1             ; enables interrupt
+1CBC D0E0       384            pop acc
+1CBE            385   
+1CBE 32         386            reti
+1CBF            387   
+1CBF            388   
+1CBF            389   MainProgram:
+1CBF 75817F     390       mov SP, #7FH ; Set the stack pointer to the begining of idata
+1CC2 121ACA     391       lcall Start_stop_Init
+1CC5 121A1C     392            lcall seg_state_init
+1CC8 121A46     393       lcall Timer0_Init
+1CCB 121A62     394            lcall Timer1_Init
+1CCE 121A81     395       lcall Timer2_Init
+1CD1            396            
+1CD1 755200     397            mov reflow_state, #0x00
+1CD4            398       ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
+1CD4 75E600     399       mov P0M0, #0
+1CD7 75E700     400       mov P0M1, #0
+1CDA            401            
+1CDA 758E11     402            mov AUXR, #00010001B ; Max memory.  P4.4 is a general purpose IO pin
+1CDD            403   
+1CDD D2AF       404       setb EA   ; Enable Global interrupts
+1CDF            405       
+1CDF 1213AD     406            lcall InitSerialPort
+1CE2 1213D8     407            lcall INIT_SPI
+1CE5 1202B2     408       lcall LCD_4BIT
+1CE8            409       
+1CE8            410       
+1CE8            411   menu_forever:
+1CE8 020593     412       ljmp Main_Menu_Program 
+1CEB            413            
+1CEB            414   forever:
+1CEB 12172E     415            lcall GET_TEMP_DATA      ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
+1CEE 021743     416            ljmp reflow_state_machine       ; go do some stuff in the state_machine
+1CF1 80F8       417       sjmp forever ; This is equivalent to 'forever: sjmp forever'
+1CF3            418   
+1CF3            419       
+1CF3            420   EN
