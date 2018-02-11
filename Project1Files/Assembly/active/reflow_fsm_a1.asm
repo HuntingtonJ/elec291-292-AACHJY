@@ -30,6 +30,7 @@ endmac
 reflow_state_machine: 
 	Get_ADC_Channel(MASTER_STOP) ; master stop voltage in ADC_Result
 	mov a, ADC_Result				; stop high when pressed 
+	cpl TR0
 	cjne a, #0, abort_reflow
 	sjmp start_fsm
 	
@@ -45,7 +46,6 @@ reflow_state_machine:
 			cjne a, #0x00, state1
 			Set_Cursor(1,1)
 			Send_Constant_String(#State_0)
-			
 			Set_Cursor(2,1)
 			Send_Constant_String(#Clear_Row)
 			mov TIMER1_RELOAD_H, #DUTY_0 
@@ -59,6 +59,7 @@ reflow_state_machine:
 
 	state1: ;Ramp To Soak
 			cjne a, #0x01, state2
+			;cpl TR0
 			setb shortbeepflag			;set flag to choose which beep in isr
 			;lcall Timer0_ISR
 			clr shortbeepflag	
@@ -93,9 +94,11 @@ reflow_state_machine:
 
 	state3: ;Ramp to Peak
 			cjne a, #0x03, state4
-			setb shortbeepflag			;set flag to choose which beep in isr
-			lcall Timer0_ISR
-			clr shortbeepflag
+			;setb shortbeepflag			;set flag to choose which beep in isr
+			;lcall Timer0_ISR
+			;clr shortbeepflag
+			Set_Cursor(2,5)
+			Display_BCD(#seconds_state4)
 			mov TIMER1_RELOAD_H, #DUTY_100 
 			Reflow_screen(Ramp_to_Peak)
 			mov a, reflowtemp
@@ -109,22 +112,27 @@ reflow_state_machine:
 
 	state4: ;Reflow/Peak 
 			cjne a, #0x04, state5
-			setb shortbeepflag			;set flag to choose which beep in isr
-			lcall Timer0_ISR
-			clr shortbeepflag
+			;setb shortbeepflag			;set flag to choose which beep in isr
+			;lcall Timer0_ISR
+			;clr shortbeepflag
 			mov TIMER1_RELOAD_H, #DUTY_20 
 			Reflow_screen(Reflow)
 			mov a, reflowtime
 			clr c
-			subb a, seconds
+			setb state4_flag
+			subb a, seconds_state4
 			jnc state4_done
+			clr state4_flag
 			mov reflow_state, #0x05
 			mov seconds, #0		; reset time for state 5
+			
 		state4_done:
 			ljmp forever
 
 	state5: ;Cooling -> at end of cooling give 6 beeps
+			
 			cjne a, #0x05, state6
+			;clr state4_flag
 			setb longbeepflag			;set flag to choose which beep in isr
 			lcall Timer0_ISR
 			clr longbeepflag

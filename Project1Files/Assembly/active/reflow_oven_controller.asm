@@ -17,7 +17,7 @@ MAX_TEMP	     EQU 250
 TIMEOUT_TIME     EQU 60
 BAUD             EQU 115200
 BRG_VAL          EQU (0x100-(CLK/(16*BAUD)))
-MILLISECOND_WAIT EQU 200		; how many milliseconds between temp samples
+MILLISECOND_WAIT EQU 1000		; how many milliseconds between temp samples
 
 DUTY_0           EQU 0
 DUTY_20          EQU 51   ;256 * 0.2
@@ -129,7 +129,8 @@ disp2:          ds 1
 disp3:          ds 1 ; Most significant digit
 seg_state:      ds 1 ; state of 7_seg fsm
 display_scratch: ds 1
-
+seconds_state4: ds 1
+;sec_check: ds 1
 
 
 BSEG
@@ -138,6 +139,7 @@ one_second_flag: dbit 1
 shortbeepflag: dbit 1
 longbeepflag: dbit 1
 sixbeepflag: dbit 1
+state4_flag: dbit 1
 
 
 CSEG
@@ -227,7 +229,7 @@ Timer0_Init:
 	mov TIMER0_RELOAD_L, #low(TIMER0_RELOAD)
 	; Enable the timer and interrupts
     setb ET0  ; Enable timer 0 interrupt
-    setb TR0  ; Start timer 0
+	;setb TR0  ; Start timer 0
 	ret
 
 ;---------------------------------;
@@ -237,6 +239,10 @@ Timer0_Init:
 ;---------------------------------;
 Timer0_ISR:
 	;clr TF0  ; According to the data sheet this is done for us already.
+	;jb sho
+	
+	
+	
 	sjmp no_beep
 beep_on:
 	;cpl SOUND_OUT ; Connect speaker to P3.7!
@@ -319,7 +325,7 @@ Timer2_ISR:
 	
 	; 1000 milliseconds have passed.  Set a flag so the main program knows
 	setb one_second_flag ; Let the main program know one second had passed
-	cpl TR0 ; Enable/disable timer/counter 0. This line creates a beep-silence-beep-silence sound.
+	;cpl TR0 ; Enable/disable timer/counter 0. This line creates a beep-silence-beep-silence sound.
 	; Reset to zero the milli-seconds counter, it is a 16-bit variable
 	clr a
 	mov Count1ms+0, a
@@ -329,6 +335,11 @@ Timer2_ISR:
 	add a, #0x01
 	da a ; Decimal adjust instruction.  Check datasheet for more details!
 	mov seconds, a
+	jnb state4_flag, Timer2_ISR_done
+	mov a, seconds_state4
+	add a, #0x01
+	da a ; Decimal adjust instruction.  Check datasheet for more details!
+	mov seconds_state4, a
 	
 Timer2_ISR_done:
 	pop psw
@@ -394,7 +405,11 @@ MainProgram:
     lcall Timer0_Init
 	lcall Timer1_Init
     lcall Timer2_Init
-	
+	clr shortbeepflag
+	clr longbeepflag
+	clr sixbeepflag
+	;mov seconds, #0x00
+	mov seconds_state4, #0x00
 	mov reflow_state, #0x00
     ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
     mov P0M0, #0
