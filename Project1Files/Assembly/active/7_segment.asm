@@ -1,5 +1,9 @@
-
-; Pattern to load passed in accumulator
+;---------------------------------------------;
+;  load_segments()                            ;
+;                                             ;
+;  Pattern to load passed in accumulator      ;
+;  Called in the seq_state_machine.           ;
+;---------------------------------------------;
 load_segments:
 	mov c, acc.0
 	mov SEGA, c
@@ -18,7 +22,13 @@ load_segments:
 	mov c, acc.7
 	mov SEGP, c
 	ret
-	
+
+;---------------------------------------------;
+;  seg_state_machine()                        ;
+;                                             ;
+;  7-seg state machine. Called in the         ;
+;  timer2 isr.                                ;
+;---------------------------------------------;
 seg_state_machine:
 	; Turn all displays off
 	setb CA1
@@ -53,6 +63,11 @@ seg_state_machine:
 	seg_state_done:
 	ret
 
+;--------------------------------------------;
+;  seg_state_init()                          ;
+;                                            ;
+;  called to initializ 7-seg display         ;
+;--------------------------------------------;
 seg_state_init:
 	mov a, #0
 	mov seg_state, a  ;set 7_seg 7_seg_state to 0
@@ -64,6 +79,14 @@ seg_state_init:
 	lcall set_7_segment_diplay
 	ret
 
+;--------------------------------------------;
+;  set_7_segment_diplay()                    ;
+;                                            ;
+;  sets the 7-seg display to the current     ;
+;  BCD_temp value.                           ;
+;  Should be called after temp data is       ;
+;  updated.                                  ;
+;--------------------------------------------;
 set_7_segment_diplay:
 	mov dptr, #HEX_7SEG
 	
