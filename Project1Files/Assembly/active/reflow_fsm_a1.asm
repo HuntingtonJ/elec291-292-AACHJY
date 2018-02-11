@@ -120,7 +120,7 @@ reflow_state_machine:
 			mov a, reflowtime
 			clr c
 			setb state4_flag
-			subb a, seconds_state4
+			subb a, seconds
 			jnc state4_done
 			clr state4_flag
 			mov reflow_state, #0x05
@@ -132,13 +132,13 @@ reflow_state_machine:
 	state5: ;Cooling -> at end of cooling give 6 beeps
 			
 			cjne a, #0x05, state6
-			;clr state4_flag
 			setb longbeepflag			;set flag to choose which beep in isr
 			lcall Timer0_ISR
 			clr longbeepflag
 			mov TIMER1_RELOAD_H, #DUTY_0 
 			Reflow_screen(Cooling)
 			mov a, Result_Thermo
+			clr c
 			subb a, cooled_temp 
 			jnc state5_done 	;if temp>reflowtemp then go to state 4
 			mov seconds, #0			; reset time for state 4

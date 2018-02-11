@@ -300,7 +300,7 @@ pb_solder_set: 		; for soldering with the Sn63Pb37 alloy
 	Send_Constant_String(#Profile_loaded)
 	mov soaktime, #120
 	mov soaktemp, #150
-	mov reflowtime, #20
+	mov reflowtime, #0x20
 	mov reflowtemp, #230
 
 	ljmp system_ready
@@ -312,12 +312,8 @@ pb_free_solder_set: 	;for soldering SAC305 lead-free solder
 	Send_Constant_String(#Profile_loaded)
 	
 	mov soaktime, #120
-	
 	mov soaktemp, #160
-	mov a, #15
-
-	mov reflowtime, a
-	
+	mov reflowtime, #0x15
 	mov reflowtemp, #245
 	ljmp system_ready
 

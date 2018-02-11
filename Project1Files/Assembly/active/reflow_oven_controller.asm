@@ -17,7 +17,8 @@ MAX_TEMP	     EQU 250
 TIMEOUT_TIME     EQU 60
 BAUD             EQU 115200
 BRG_VAL          EQU (0x100-(CLK/(16*BAUD)))
-MILLISECOND_WAIT EQU 1000		; how many milliseconds between temp samples
+MILLISECOND_WAIT EQU 200		; how many milliseconds between temp samples, needs to be a number evenly divisible into 1000
+Seconds_coeff	 equ (1000/MILLISECOND_WAIT)
 
 DUTY_0           EQU 0
 DUTY_20          EQU 51   ;256 * 0.2
@@ -54,7 +55,7 @@ org 0x002B
 
 ;Edge triggered keyboard interrupt vector
 org 0x003B
-	ljmp Start_stop_ISR
+	reti
 
 ; These ’EQU’ must match the wiring between the microcontroller and ADC
 SOUND_OUT     EQU P3.7
@@ -110,6 +111,7 @@ ADC_Result:     ds 2 ; Temp from ADC channel 2
 
 BCD_temp:       ds 2 ; Used to diplay temp on the 7-segment display
 seconds:        ds 1
+polling_time: 	ds 1
 x:              ds 4 ; Used in math32
 y:              ds 4 ; Used in math32
 bcd:            ds 5
@@ -136,6 +138,7 @@ seconds_state4: ds 1
 BSEG
 mf: dbit 1
 one_second_flag: dbit 1 
+polling_flag: dbit 1
 shortbeepflag: dbit 1
 longbeepflag: dbit 1
 sixbeepflag: dbit 1
@@ -197,7 +200,7 @@ $include(menu_code_a1.asm) ; A library of LCD related functions and utility macr
 $LIST
 
 $NOLIST
-$include(lab3HJ.asm) ; A copy of Huntington's Lab3 to be used in polling, converting and pushing temp data to SPI
+$include(get_temp.asm) ; A copy of Huntington's Lab3 to be used in polling, converting and pushing temp data to SPI
 $LIST
 
 $NOLIST
@@ -289,6 +292,7 @@ Timer2_Init:
 	clr a
 	mov Count1ms+0, a
 	mov Count1ms+1, a
+	mov polling_time, a 	; a variable used to increment one second as well as 200 ms
 	; Enable the timer and interrupts
     setb ET2  ; Enable timer 2 interrupt
     setb TR2  ; Enable timer 2
@@ -323,14 +327,24 @@ Timer2_ISR:
 	mov a, Count1ms+1
 	cjne a, #high(MILLISECOND_WAIT), Timer2_ISR_done
 	
-	; 1000 milliseconds have passed.  Set a flag so the main program knows
-	setb one_second_flag ; Let the main program know one second had passed
+	; 200 milliseconds have passed.  Set a flag so the main program knows
+
+	setb polling_flag
+	
+	
 	;cpl TR0 ; Enable/disable timer/counter 0. This line creates a beep-silence-beep-silence sound.
 	; Reset to zero the milli-seconds counter, it is a 16-bit variable
 	clr a
 	mov Count1ms+0, a
 	mov Count1ms+1, a
-	; Increment the BCD counter
+	
+	;Checks if 1 second has passed (by checking if Seconds_coeff*Millisecond_wait interrupts have occured)
+	inc polling_time
+	mov a, polling_time
+	cjne a, #Seconds_coeff, Timer2_ISR_done 
+	mov polling_time, #0x00
+	setb one_second_flag
+	; Increment the BCD seconds counter
 	mov a, seconds
 	add a, #0x01
 	da a ; Decimal adjust instruction.  Check datasheet for more details!
@@ -346,61 +360,9 @@ Timer2_ISR_done:
 	pop acc
 	reti
 
-
-;-------------------------------------
-; To start or ABORT the reflow cycle
-;------------------------------------
-Start_stop_Init: 
-	
-	mov KBMOD, #0x01	; enable edge triggered for P0.0 and P0.1
-	mov KBLS, #0x00 	; watch for negative edge (0->1)
-	mov KBE, #0x01	; enable interrupt for p0.0 and p0.1
-;	mov KBF, #0x01 ; interrupt active, must clear at start of ISR and setb at end. 
-
-	ret
-
-Start_stop_ISR: 
-	mov KBF, #0		; masks interrupt 
-	push acc
-
-	adc_button_jmp(MASTER_STOP, STOP_ROUTINE)	; if master stop has been pressed, change to state 5
-	adc_button_jmp(MASTER_START, START_ROUTINE) ; if master start has been pressed, change to state 1
-
-START_ROUTINE: 
-	; We should add some code here that 
-	clr a
-	Set_cursor(2,1)
-	Send_Constant_String(#ISR_is_running)
-	mov a, reflow_state
-	;cjne a, #0x00, End_master_ISR
-	mov reflow_state, #0x01
-	sjmp End_master_ISR
-
-
-
-STOP_ROUTINE: 
-	mov reflow_state, #5	
-	; any other things we want to do, ie, statements we want to make 
-
-	Set_cursor(1,1)
-	Send_Constant_String(#Abort_string)
-
-	Set_cursor(2,1)
-	Send_Constant_String(#Waiting_to_cool)
-
-	sjmp End_master_ISR
-
-
-End_master_ISR: 
-;	mov KBF, #1		; enables interrupt
-	pop acc
-
-	reti
-
-
 MainProgram:
     mov SP, #7FH ; Set the stack pointer to the begining of idata
-    lcall Start_stop_Init
+
 	lcall seg_state_init
     lcall Timer0_Init
 	lcall Timer1_Init
@@ -408,9 +370,10 @@ MainProgram:
 	clr shortbeepflag
 	clr longbeepflag
 	clr sixbeepflag
-	;mov seconds, #0x00
+	mov seconds, #0x00
 	mov seconds_state4, #0x00
 	mov reflow_state, #0x00
+	mov cooled_temp, #0x60
     ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
     mov P0M0, #0
     mov P0M1, #0
