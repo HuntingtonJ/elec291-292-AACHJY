@@ -15,14 +15,14 @@ Reflow_screen mac
 
 	Set_Cursor(2,9)
 	mov a, seconds
-	lcall putchar 					;display current time count of state
+	;lcall putchar 					;display current time count of state
 
 	Set_Cursor(2, 12)
 	Send_Constant_String(#secondsss)
 
 	Set_Cursor(2, 1)
 	mov a, temp
-	lcall putchar 					;display current temp of state
+	;lcall putchar 					;display current temp of state
 	
 endmac
 

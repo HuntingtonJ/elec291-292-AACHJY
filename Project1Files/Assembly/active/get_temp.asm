@@ -335,6 +335,8 @@ GET_TEMP_DATA:
 	
 	; Send the thermocoupler temp to the 7-segment display
 	lcall set_7_segment_diplay
+	
+	lcall Send_10_digit_BCD
 
 GET_TEMP_DATA_END:
     ret
