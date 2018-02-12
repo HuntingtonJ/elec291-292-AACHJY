@@ -238,7 +238,7 @@ Loaded_param: 			; All parameters are loaded correctly, time to start!
 
 	mov a, #0x01
 	mov reflow_state, a
-	lcall one_beep
+	one_beep(#40)
 	
 	ljmp forever 		; jumps to main loop to grab temp data so the state machine is not operating with garbage values
 

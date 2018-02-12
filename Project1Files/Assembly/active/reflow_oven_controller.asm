@@ -137,6 +137,8 @@ seconds_state4: ds 1
 ;Beep Machine vars
 beep_state:     ds 1
 one_beep_count: ds 1
+six_beep_state: ds 1
+six_beep_count: ds 1
 
 
 BSEG
@@ -190,6 +192,9 @@ State_1: db 'State 1', 0
 
 HEX_7SEG: DB 0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90
 
+$NOLIST
+$include(beep_sm.asm) ; A library of 7 segment displays related functions and utility macros
+$LIST
 
 $NOLIST
 $include(LCD_4bit.inc) ; A library of LCD related functions and utility macros
@@ -213,10 +218,6 @@ $LIST
 
 $NOLIST
 $include(7_segment.asm) ; A library of 7 segment displays related functions and utility macros
-$LIST
-
-$NOLIST
-$include(beep_sm.asm) ; A library of 7 segment displays related functions and utility macros
 $LIST
 ;----------------------------------------MACRO LOCATION----------------------------------------------
 
