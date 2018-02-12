@@ -145,9 +145,6 @@ BSEG
 mf: dbit 1
 one_second_flag: dbit 1 
 polling_flag: dbit 1
-shortbeepflag: dbit 1
-longbeepflag: dbit 1
-sixbeepflag: dbit 1
 state4_flag: dbit 1
 
 
@@ -366,9 +363,6 @@ MainProgram:
 	lcall Timer1_Init
     lcall Timer2_Init
 	lcall beep_machine_init
-	clr shortbeepflag
-	clr longbeepflag
-	clr sixbeepflag
 	mov seconds, #0x00
 	mov seconds_state4, #0x00
 	mov reflow_state, #0x00
