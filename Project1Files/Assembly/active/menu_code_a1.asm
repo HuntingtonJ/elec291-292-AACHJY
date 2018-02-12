@@ -240,6 +240,50 @@ Loaded_param: 			; All parameters are loaded correctly, time to start!
 	mov reflow_state, a
 	one_beep(#40)
 	
+	; Sends parameters to the python program
+	
+	; Sends 00000001
+	Load_x(0x01)
+	lcall hex2bcd
+	lcall Send_10_digit_BCD
+	
+	; Sends soaktime
+	mov x+0, soaktime+0
+	mov x+1, #0
+	mov x+2, #0
+	mov x+3, #0
+	lcall hex2bcd
+	lcall Send_10_digit_BCD
+	
+	; Sends soaktemp
+	mov x+0, soaktemp+0
+	mov x+1, #0
+	mov x+2, #0
+	mov x+3, #0
+	lcall hex2bcd
+	lcall Send_10_digit_BCD
+	
+	; Sends reflowtime
+	mov x+0, reflowtime+0
+	mov x+1, #0
+	mov x+2, #0
+	mov x+3, #0
+	lcall hex2bcd
+	lcall Send_10_digit_BCD
+	
+	; Sends reflowtime
+	mov x+0, reflowtemp+0
+	mov x+1, #0
+	mov x+2, #0
+	mov x+3, #0
+	lcall hex2bcd
+	lcall Send_10_digit_BCD
+	
+	; Sends 00000000
+	Load_x(0x00)
+	lcall hex2bcd
+	lcall Send_10_digit_BCD
+	
 	ljmp forever 		; jumps to main loop to grab temp data so the state machine is not operating with garbage values
 
 
