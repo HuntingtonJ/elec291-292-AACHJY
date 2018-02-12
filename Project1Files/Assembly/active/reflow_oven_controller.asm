@@ -249,15 +249,7 @@ Timer0_Init:
 ; 2048 Hz square wave at pin P3.7 ;
 ;---------------------------------;
 Timer0_ISR:
-	;clr TF0  ; According to the data sheet this is done for us already.
-	;jb sho
-	
-	
-	
-	;sjmp no_beep
-;beep_on:
 	cpl SOUND_OUT ; Connect speaker to P3.7!
-;no_beep:
 	reti
 	
 ;---------------------------------;
