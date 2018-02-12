@@ -84,7 +84,7 @@ Delay:
     mov R0, #166
     djnz R0, $   ; 3 cycles->3*45.21123ns*166=22.51519us
     djnz R1, $-4 ; 22.51519us*222=4.998ms
-    reti
+    ret
     
 Left_blank mac
 	mov a, %0

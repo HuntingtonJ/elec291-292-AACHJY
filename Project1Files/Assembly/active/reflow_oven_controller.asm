@@ -19,6 +19,8 @@ BAUD             EQU 115200
 BRG_VAL          EQU (0x100-(CLK/(16*BAUD)))
 MILLISECOND_WAIT EQU 200		; how many milliseconds between temp samples, needs to be a number evenly divisible into 1000
 Seconds_coeff	 equ (1000/MILLISECOND_WAIT)
+ABORT_TIME		 EQU 60
+ABORT_TEMP		 EQU 50
 
 DUTY_0           EQU 0
 DUTY_20          EQU 51   ;256 * 0.2
@@ -342,14 +344,7 @@ Timer2_ISR:
 	setb one_second_flag
 	; Increment the BCD seconds counter
 	inc seconds
-	;add a, #0x01
-	;da a ; Decimal adjust instruction.  Check datasheet for more details!
-	;mov seconds, a
-	;jnb state4_flag, Timer2_ISR_done
-	;mov a, seconds_state4
-	;add a, #0x01
-	;da a ; Decimal adjust instruction.  Check datasheet for more details!
-;mov seconds_state4, a
+
 	
 Timer2_ISR_done:
 	pop psw

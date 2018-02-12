@@ -246,6 +246,10 @@ Loaded_param: 			; All parameters are loaded correctly, time to start!
 	Load_x(0x01)
 	lcall hex2bcd
 	lcall Send_10_digit_BCD
+	; Sends 00000001
+	Load_x(0x01)
+	lcall hex2bcd
+	lcall Send_10_digit_BCD
 	
 	; Sends soaktime
 	mov x+0, soaktime+0
