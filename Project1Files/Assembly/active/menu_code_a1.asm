@@ -125,12 +125,12 @@ ret
 
 Display_8bit_to_BCD mac
 mov a, %0
-lcall BCD_from_8_bits
-Set_Cursor(2, 1)
+lcall BCD_from_8_bits		; BCD results stored in r1, R0
 mov a, r1
+Set_Cursor(2, 1)
 Display_BCD(a)
-Set_Cursor(2, 3)
 mov a, r0
+Set_Cursor(2, 3)
 Display_BCD(a)
 endmac
 
@@ -233,9 +233,9 @@ unloaded:
 Loaded_param: 			; All parameters are loaded correctly, time to start!
 
 	;Then check if the state=1. If so, goto reflow FSM
-	;mov a, reflow_state
-	;cjne a, #1, state_error
-
+	Set_Cursor(2,1)
+	Send_Constant_String(#Clear_Row)
+	mov seconds, #0x00
 	mov a, #0x01
 	mov reflow_state, a
 	one_beep(#40)
@@ -251,6 +251,7 @@ Choose_menu:
 	Set_Cursor(2,1)
 	Send_Constant_String(#Custom_menu_msg)
 
+
 	button_jmp(UP_BUTTON, Preset_menu_select)
 	button_jmp(DOWN_BUTTON, Custom_menu_select)
 	
@@ -262,6 +263,8 @@ Preset_menu_select:
 	Send_Constant_String(#PRESETMENUMSG)
 	Set_Cursor(2,1)
 	Send_Constant_String(#Clear_Row)
+	Set_Cursor(1,16)
+	Send_Constant_String(#choose)
 	
 	button_jmp(DOWN_BUTTON, Custom_menu_select)
 	button_jmp(SELECT_BUTTON, Preset_menu)
@@ -275,6 +278,8 @@ Custom_menu_select:
 	Send_Constant_String(#CUSTOMMENUMSG)
 	Set_Cursor(2,1)
 	Send_Constant_String(#Clear_Row)
+	Set_Cursor(1,16)
+	Send_Constant_String(#choose)
 	
 	button_jmp(UP_BUTTON, Preset_menu_select)
 	button_jmp(SELECT_BUTTON, Custom_menu)
@@ -300,6 +305,10 @@ pb_free_select:
 	button_jmp(DOWN_BUTTON, pb_select)
 	button_jmp(SELECT_BUTTON, pb_free_solder_set)
 	adc_button_jmp(BACK_BUTTON, Choose_menu)
+	Set_Cursor(1,16)
+	Send_Constant_String(#choose)
+	Set_Cursor(2,16)
+	Send_Constant_String(#clear_row)
 
 	ljmp pb_free_select
 
@@ -307,6 +316,11 @@ pb_select:
 	button_jmp(UP_BUTTON, pb_free_select)
 	button_jmp(SELECT_BUTTON, pb_solder_set)
 	adc_button_jmp(BACK_BUTTON, Choose_menu)
+	Set_Cursor(2,16)
+	Send_Constant_String(#choose)
+	Set_Cursor(1,16)
+	Send_Constant_String(#clear_row)
+
 
 	ljmp pb_select
 
@@ -316,6 +330,7 @@ pb_solder_set: 		; for soldering with the Sn63Pb37 alloy
 	Send_Constant_String(#Pb_solder)
 	Set_Cursor(2,1)
 	Send_Constant_String(#Profile_loaded)
+
 	mov soaktime, #120
 	mov soaktemp, #150
 	mov reflowtime, #20
@@ -573,7 +588,7 @@ Custom_menu_loopback:
 	Send_Constant_String(#Are_you_sure)
 	Set_Cursor(2,1)
 	Send_Constant_String(#Clear_Row)
-	jnb UP_BUTTON, lllaaa
+	jnb SELECT_BUTTON, lllaaa
 	ljmp Custom_menu_loopback
 lllaaa:
 	ljmp system_ready

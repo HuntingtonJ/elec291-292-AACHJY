@@ -159,14 +159,14 @@ secondsss: 		db   's'		, 0
 ;                     1234567890123456    <- This helps determine the location of the counter
 Welcome: 		  db 'Welcome!        ', 0
 Choose_option: 	  db 'Select option   ', 0
-Preset_menu_msg:  db 'Preset Profile  ', 0
-Custom_menu_msg:  db 'Custom Profile  ', 0
+Preset_menu_msg:  db 'Preset Profile ', 0
+Custom_menu_msg:  db 'Custom Profile ', 0
 Soak_temp:		  db 'Soak Temp       ', 0
 Soak_time:		  db 'Soak Time       ', 0
 Reflow_time: 	  db 'Reflow Time     ', 0
 Reflow_temp:	  db 'Reflow Temp     ', 0
-Pb_free_solder:	  db 'SAC305 solder   ', 0
-Pb_solder:		  db 'Pb-solder paste ', 0
+Pb_free_solder:	  db 'SAC305 solder  ', 0
+Pb_solder:		  db 'Pb-solder paste', 0
 Pizza_msg0: 	  db 'Shhh! No pizza  ', 0
 Pizza_msg1: 	  db 'allowed in here.', 0
 Profile_loaded:   db 'profile loaded  ', 0
@@ -183,6 +183,7 @@ Abort_string: 	  db 'Process aborted ', 0
 Waiting_to_cool:  db 'Wait to cool    ', 0
 ISR_is_running:   db 'ISR is running  ', 0
 abort_msg: 		  db 'Reflow Aborted! ', 0
+choose: 		  db '?'			   , 0
 
 State_0: db 'State 0', 0
 State_1: db 'State 1', 0
@@ -363,7 +364,7 @@ MainProgram:
 	lcall Timer1_Init
     lcall Timer2_Init
 	lcall beep_machine_init
-	mov seconds, #0x00
+	
 	mov seconds_state4, #0x00
 	mov reflow_state, #0x00
 	mov cooled_temp, #60

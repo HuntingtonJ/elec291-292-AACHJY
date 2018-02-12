@@ -13,17 +13,11 @@ Reflow_screen mac
 	Set_Cursor(1,1)
 	Send_Constant_String(#%0)		; display current state
 
-	Set_Cursor(2,9)
-	mov a, seconds
-	;lcall putchar 					;display current time count of state
-
-	Set_Cursor(2, 12)
+	Set_Cursor(2, 5)
 	Send_Constant_String(#secondsss)
 
-	Set_Cursor(2, 1)
-	mov a, temp
-	;lcall putchar 					;display current temp of state
-	
+	Display_8bit_to_BCD(seconds)
+
 endmac
 
 
@@ -55,7 +49,12 @@ reflow_state_machine:
 
 
 	state1: ;Ramp To Soak
-			cjne a, #0x01, state2
+			cjne a, #0x01, state2jmp
+			sjmp state1go
+
+		state2jmp: 
+			ljmp state2
+		state1go: 
 			mov TIMER1_RELOAD_H, #DUTY_100 
 			Reflow_screen(Ramp_to_Soak)
 			mov sec, #0
@@ -78,7 +77,6 @@ reflow_state_machine:
 		state2go:
 			mov TIMER1_RELOAD_H, #DUTY_20 
 			Reflow_screen(Soak)
-			Display_8bit_to_BCD(seconds)
 			mov a, soaktime
 			clr c
 			subb a, seconds
@@ -95,7 +93,6 @@ reflow_state_machine:
 		state4jmp: 
 			ljmp state4
 		state3go:
-			Display_8bit_to_BCD(seconds)
 			mov TIMER1_RELOAD_H, #DUTY_100 
 			Reflow_screen(Ramp_to_Peak)
 			mov a, reflowtemp
@@ -117,7 +114,6 @@ reflow_state_machine:
 		state4go:
 			mov TIMER1_RELOAD_H, #DUTY_20 
 			Reflow_screen(Reflow)
-			Display_8bit_to_BCD(seconds)
 			mov a, reflowtime
 			clr c
 			setb state4_flag
@@ -139,7 +135,6 @@ reflow_state_machine:
 		state5go: 
 			mov TIMER1_RELOAD_H, #DUTY_0 
 			Reflow_screen(Cooling)
-			Display_8bit_to_BCD(seconds)
 			mov a, Result_Thermo
 			clr c
 			subb a, cooled_temp 
