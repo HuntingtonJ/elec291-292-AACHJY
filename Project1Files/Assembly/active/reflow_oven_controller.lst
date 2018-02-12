@@ -218,7 +218,7 @@
 0000             29   DUTY_100         EQU 255
 0000             30   
 0000             31   org 0x0000
-0000 021D89      32      ljmp MainProgram
+0000 021E4C      32      ljmp MainProgram
 0003             33   
 0003             34   ; External interrupt 0 vector (not used in this code)
 0003             35   org 0x0003
@@ -226,7 +226,7 @@
 0004             37   
 0004             38   ; Timer/Counter 0 overflow interrupt vector
 000B             39   org 0x000B
-000B 021D17      40            ljmp Timer0_ISR
+000B 021DD4      40            ljmp Timer0_ISR
 000E             41   
 000E             42   ; External interrupt 1 vector (not used in this code)
 0013             43   org 0x0013
@@ -242,7 +242,7 @@
 0024             53            
 0024             54   ; Timer/Counter 2 overflow interrupt vector
 002B             55   org 0x002B
-002B 021D54      56            ljmp Timer2_ISR
+002B 021E11      56            ljmp Timer2_ISR
 002E             57   
 002E             58   ;Edge triggered keyboard interrupt vector
 003B             59   org 0x003B
@@ -324,362 +324,370 @@
 005B            135   seg_state:      ds 1 ; state of 7_seg fsm
 005C            136   display_scratch: ds 1
 005D            137   seconds_state4: ds 1
-005E            138   ;sec_check: ds 1
-005E            139   ;Beep Machine vars
-005E            140   beep_state:     ds 1
-005F            141   one_beep_count: ds 1
-0060            142   six_beep_state: ds 1
-0061            143   six_beep_count: ds 1
-0062            144   
-0062            145   
-0000            146   BSEG
-0000            147   mf: dbit 1
-0001            148   one_second_flag: dbit 1 
-0002            149   polling_flag: dbit 1
-0003            150   state4_flag: dbit 1
-0004            151   
-0004            152   
-003C            153   CSEG
-003C            154                    ;                        1234567890123456
-003C 20202020   155   Ramp_to_Soak:    db       '         Preheat', 0
+005E            138   load_state:     ds 1
+005F            139   load_circle:    ds 3
+0062            140   ;sec_check: ds 1
+0062            141   ;Beep Machine vars
+0062            142   beep_state:     ds 1
+0063            143   one_beep_count: ds 1
+0064            144   six_beep_state: ds 1
+0065            145   six_beep_count: ds 1
+0066            146   
+0066            147   
+0000            148   BSEG
+0000            149   mf: dbit 1
+0001            150   one_second_flag: dbit 1 
+0002            151   polling_flag: dbit 1
+0003            152   state4_flag: dbit 1
+0004            153   load: dbit 1
+0005            154   
+0005            155   
+003C            156   CSEG
+003C            157                    ;                        1234567890123456
+003C 20202020   158   Ramp_to_Soak:    db       '         Preheat', 0
      20202020
      20507265
      68656174
      00
-004D 20202020   156   Soak:                    db   '         Soak   ', 0
+004D 20202020   159   Soak:                    db   '         Soak   ', 0
      20202020
      20536F61
      6B202020
      00
-005E 20202020   157   Ramp_to_Peak:    db       '         Ramp2pk', 0
+005E 20202020   160   Ramp_to_Peak:    db       '         Ramp2pk', 0
      20202020
      2052616D
      7032706B
      00
-006F 20202020   158   Reflow:                  db       '         Reflow ', 0
+006F 20202020   161   Reflow:                  db       '         Reflow ', 0
      20202020
      20526566
      6C6F7720
      00
-0080 20202020   159   Cooling:                 db       '         Cooling', 0
+0080 20202020   162   Cooling:                 db       '         Cooling', 0
      20202020
      20436F6F
      6C696E67
      00
-0091 7300       160   secondsss:               db   's'                , 0
-0093            161   ;                     1234567890123456    <- This helps determine the location of the counter
-0093 57656C63   162   Welcome:                   db 'Welcome!        ', 0
+0091 7300       163   secondsss:               db   's'                , 0
+0093            164   ;                     1234567890123456    <- This helps determine the location of the counter
+0093 57656C63   165   Welcome:                   db 'Welcome!        ', 0
      6F6D6521
      20202020
      20202020
      00
-00A4 53656C65   163   Choose_option:     db 'Select option   ', 0
+00A4 53656C65   166   Choose_option:     db 'Select option   ', 0
      6374206F
      7074696F
      6E202020
      00
-00B5 50726573   164   Preset_menu_msg:  db 'Preset Profile ', 0
+00B5 50726573   167   Preset_menu_msg:  db 'Preset Profile ', 0
      65742050
      726F6669
      6C652000
-00C5 43757374   165   Custom_menu_msg:  db 'Custom Profile ', 0
+00C5 43757374   168   Custom_menu_msg:  db 'Custom Profile ', 0
      6F6D2050
      726F6669
      6C652000
-00D5 536F616B   166   Soak_temp:                 db 'Soak Temp       ', 0
+00D5 536F616B   169   Soak_temp:                 db 'Soak Temp       ', 0
      2054656D
      70202020
      20202020
      00
-00E6 536F616B   167   Soak_time:                 db 'Soak Time       ', 0
+00E6 536F616B   170   Soak_time:                 db 'Soak Time       ', 0
      2054696D
      65202020
      20202020
      00
-00F7 5265666C   168   Reflow_time:       db 'Reflow Time     ', 0
+00F7 5265666C   171   Reflow_time:       db 'Reflow Time     ', 0
      6F772054
      696D6520
      20202020
      00
-0108 5265666C   169   Reflow_temp:       db 'Reflow Temp     ', 0
+0108 5265666C   172   Reflow_temp:       db 'Reflow Temp     ', 0
      6F772054
      656D7020
      20202020
      00
-0119 53414333   170   Pb_free_solder:    db 'SAC305 solder  ', 0
+0119 53414333   173   Pb_free_solder:    db 'SAC305 solder  ', 0
      30352073
      6F6C6465
      72202000
-0129 50622D73   171   Pb_solder:                 db 'Pb-solder paste', 0
+0129 50622D73   174   Pb_solder:                 db 'Pb-solder paste', 0
      6F6C6465
      72207061
      73746500
-0139 53686868   172   Pizza_msg0:        db 'Shhh! No pizza  ', 0
+0139 53686868   175   Pizza_msg0:        db 'Shhh! No pizza  ', 0
      21204E6F
      2070697A
      7A612020
      00
-014A 616C6C6F   173   Pizza_msg1:        db 'allowed in here.', 0
+014A 616C6C6F   176   Pizza_msg1:        db 'allowed in here.', 0
      77656420
      696E2068
      6572652E
      00
-015B 70726F66   174   Profile_loaded:   db 'profile loaded  ', 0
+015B 70726F66   177   Profile_loaded:   db 'profile loaded  ', 0
      696C6520
      6C6F6164
      65642020
      00
-016C 53797374   175   Is_ready:                  db 'System Ready    ', 0
+016C 53797374   178   Is_ready:                  db 'System Ready    ', 0
      656D2052
      65616479
      20202020
      00
-017D 50726573   176   Press_start:       db 'Press Start     ', 0
+017D 50726573   179   Press_start:       db 'Press Start     ', 0
      73205374
      61727420
      20202020
      00
-018E 78782020   177   Set_Value:                 db 'xx              ', 0
+018E 78782020   180   Set_Value:                 db 'xx              ', 0
      20202020
      20202020
      20202020
      00
-019F 20202020   178   Clear_Row:                 db '                ', 0
+019F 20202020   181   Clear_Row:                 db '                ', 0
      20202020
      20202020
      20202020
      00
-01B0 41542050   179   PRESETMENUMSG:     db 'AT PRESET MENU  ', 0
+01B0 41542050   182   PRESETMENUMSG:     db 'AT PRESET MENU  ', 0
      52455345
      54204D45
      4E552020
      00
-01C1 41542043   180   CUSTOMMENUMSG:     db 'AT CUSTOM MENU  ', 0
+01C1 41542043   183   CUSTOMMENUMSG:     db 'AT CUSTOM MENU  ', 0
      5553544F
      4D204D45
      4E552020
      00
-01D2 41726520   181   Are_you_sure:      db 'Are you sure?   ', 0
+01D2 41726520   184   Are_you_sure:      db 'Are you sure?   ', 0
      796F7520
      73757265
      3F202020
      00
-01E3 4572726F   182   Error_msg1:        db 'Error, profiles ', 0
+01E3 4572726F   185   Error_msg1:        db 'Error, profiles ', 0
      722C2070
      726F6669
      6C657320
      00
-01F4 6E6F7420   183   Error_msg2:       db 'not loaded      ', 0
+01F4 6E6F7420   186   Error_msg2:       db 'not loaded      ', 0
      6C6F6164
      65642020
      20202020
      00
-0205 50726F63   184   Abort_string:      db 'Process aborted ', 0
+0205 50726F63   187   Abort_string:      db 'Process aborted ', 0
      65737320
      61626F72
      74656420
      00
-0216 57616974   185   Waiting_to_cool:  db 'Wait to cool    ', 0
+0216 57616974   188   Waiting_to_cool:  db 'Wait to cool    ', 0
      20746F20
      636F6F6C
      20202020
      00
-0227 49535220   186   ISR_is_running:   db 'ISR is running  ', 0
+0227 49535220   189   ISR_is_running:   db 'ISR is running  ', 0
      69732072
      756E6E69
      6E672020
      00
-0238 5265666C   187   abort_msg:                 db 'Reflow Aborted! ', 0
+0238 5265666C   190   abort_msg:                 db 'Reflow Aborted! ', 0
      6F772041
      626F7274
      65642120
      00
-0249 3F00       188   choose:                    db '?'                           , 0
-024B            189   
-024B 53746174   190   State_0: db 'State 0', 0
+0249 3F00       191   choose:                    db '?'                           , 0
+024B            192   
+024B 53746174   193   State_0: db 'State 0', 0
      65203000
-0253 53746174   191   State_1: db 'State 1', 0
+0253 53746174   194   State_1: db 'State 1', 0
      65203100
-025B            192   
-025B C0F9A4B0   193   HEX_7SEG: DB 0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90
+025B            195   
+025B C0F9A4B0   196   HEX_7SEG: DB 0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90
      999282F8
      8090
-0265            194   
-                196   $LIST
-02B4            198   
-                200   	$LIST
-0362            202   
+0265            197   
+                199   $LIST
+02B4            201   
+                203   	$LIST
+0362            205   
                 546   $LIST
-                204   $LIST
-05D2            206   
-                208   $LIST
-153F            210   
-                212   $LIST
-18DB            214   
-                216   $LIST
-1C7E            218   
-                220   $LIST
-1D00            222   ;----------------------------------------MACRO LOCATION----------------------------------------------
-1D00            223   
-1D00            224   
-1D00            225   
-1D00            226   
-1D00            227   ;---------------------------------;
-1D00            228   ; Routine to initialize the ISR   ;
-1D00            229   ; for timer 0                     ;
-1D00            230   ;---------------------------------;
-1D00            231   Timer0_Init:
-1D00 E589       232            mov a, TMOD
-1D02 54F0       233            anl a, #0xf0 ; Clear the bits for timer 0
-1D04 4401       234            orl a, #0x01 ; Configure timer 0 as 16-timer
-1D06 F589       235            mov TMOD, a
-1D08 758CEA     236            mov TH0, #high(TIMER0_RELOAD)
-1D0B 758AE8     237            mov TL0, #low(TIMER0_RELOAD)
-1D0E            238            ; Set autoreload value
-1D0E 75F4EA     239            mov TIMER0_RELOAD_H, #high(TIMER0_RELOAD)
-1D11 75F2E8     240            mov TIMER0_RELOAD_L, #low(TIMER0_RELOAD)
-1D14            241            ; Enable the timer and interrupts
-1D14 D2A9       242       setb ET0  ; Enable timer 0 interrupt
-1D16            243            ;setb TR0  ; Start timer 0
-1D16 22         244            ret
-1D17            245   
-1D17            246   ;---------------------------------;
-1D17            247   ; ISR for timer 0.  Set to execute;
-1D17            248   ; every 1/4096Hz to generate a    ;
-1D17            249   ; 2048 Hz square wave at pin P3.7 ;
-1D17            250   ;---------------------------------;
-1D17            251   Timer0_ISR:
-1D17 B2B7       252            cpl SOUND_OUT ; Connect speaker to P3.7!
-1D19 32         253            reti
-1D1A            254            
-1D1A            255   ;---------------------------------;
-1D1A            256   ; Routine to initialize the ISR   ;
-1D1A            257   ; for timer 1 in PWM mode         ;
-1D1A            258   ;---------------------------------;
-1D1A            259   
-1D1A            260   Timer1_Init:
-1D1A E589       261            mov a, TMOD
-1D1C 540F       262            anl a, #00001111B       ;Clears timer 1 settings but keeps timer 0 settings
-1D1E 4410       263            orl a, #00010000B       ;Gate = 0, TC1 = 0, mode = 01 (mode 1)
-1D20 F589       264            mov TMOD, a
-1D22            265            
-1D22 E591       266            mov a, TCONB            ;load TCONB for PWM settings
-1D24 5400       267            anl a, #00000000B       ;clear TCONB
-1D26 4480       268            orl a, #10000000B       ;Set PWM1 = 1
-1D28 F591       269            mov TCONB, a
-1D2A            270            
-1D2A 758D00     271            mov TH1, #0             ;Current count value
-1D2D 758B00     272            mov TL1, #0             ;Linear Prescaling
-1D30            273            
-1D30 75F500     274            mov TIMER1_RELOAD_H, #DUTY_0 ;Duty cycle percentage. Replace this value to change the duty cycle
-1D33 75F300     275            mov TIMER1_RELOAD_L, #0      ;Frequency scaling/adjust f_out = f_sys/(256 * (256 - TL))
-1D36            276            
-1D36 D28E       277            setb TR1
-1D38 32         278            reti
-1D39            279   
-1D39            280   ;---------------------------------;
-1D39            281   ; Routine to initialize the ISR   ;
-1D39            282   ; for timer 2                     ;
-1D39            283   ;---------------------------------;
-1D39            284   Timer2_Init:
-1D39 75C800     285            mov T2CON, #0 ; Stop timer/counter.  Autoreload mode.
-1D3C 75CDA9     286            mov TH2, #high(TIMER2_RELOAD)
-1D3F 75CC9A     287            mov TL2, #low(TIMER2_RELOAD)
-1D42            288            ; Set the reload value
-1D42 75CBA9     289            mov RCAP2H, #high(TIMER2_RELOAD)
-1D45 75CA9A     290            mov RCAP2L, #low(TIMER2_RELOAD)
-1D48            291            ; Init One millisecond interrupt counter.  It is a 16-bit variable made with two 8-bit parts
-1D48 E4         292            clr a
-1D49 F530       293            mov Count1ms+0, a
-1D4B F531       294            mov Count1ms+1, a
-1D4D F53B       295            mov polling_time, a     ; a variable used to increment one second as well as 200 ms
-1D4F            296            ; Enable the timer and interrupts
-1D4F D2AD       297       setb ET2  ; Enable timer 2 interrupt
-1D51 D2CA       298       setb TR2  ; Enable timer 2
-1D53 22         299            ret
-1D54            300   
-1D54            301   ;---------------------------------;
-1D54            302   ; ISR for timer 2                 ;
-1D54            303   ;---------------------------------;
-1D54            304   Timer2_ISR:
-1D54 C2CF       305            clr TF2  ; Timer 2 doesn't clear TF2 automatically. Do it in ISR
-1D56            306   
-1D56            307            ; The two registers used in the ISR must be saved in the stack
-1D56 C0E0       308            push acc
-1D58 C0D0       309            push psw
-1D5A 121C9F     310            lcall seg_state_machine
-1D5D            311            ; Increment the 16-bit one mili second counter
-1D5D            312                            ;       inc Count1ms+0    ; Increment the low 8-bits first
-1D5D            313                                    ;mov a, Count1ms+0
-1D5D            314                            ;       cjne a, #10h, Timer2_ISR_done
-1D5D            315                            ;       mov Count1ms+0, #0h
-1D5D 0530       316            inc Count1ms+0    ; Increment the low 8-bits first
-1D5F E530       317            mov a, Count1ms+0 ; If the low 8-bits overflow, then increment high 8-bits
-1D61 7002       318            jnz Inc_Done
-1D63 0531       319            inc Count1ms+1
-1D65            320            
-1D65            321            ;Send_BCD(bcd)
-1D65            322            Inc_Done:
-1D65            323            ; Check if a second has passed
-1D65            324   
-1D65 E530       325            mov a, Count1ms+0
-1D67 B4C81A     326            cjne a, #low(MILLISECOND_WAIT), Timer2_ISR_done ; Warning: this instruction changes the carry flag!
-1D6A E531       327            mov a, Count1ms+1
-1D6C B40015     328            cjne a, #high(MILLISECOND_WAIT), Timer2_ISR_done
-1D6F            329            
-1D6F            330            ; 200 milliseconds have passed.  Set a flag so the main program knows
-1D6F            331   
-1D6F D202       332            setb polling_flag
-1D71            333            
-1D71            334            ; Reset to zero the milli-seconds counter, it is a 16-bit variable
-1D71 E4         335            clr a
-1D72 F530       336            mov Count1ms+0, a
-1D74 F531       337            mov Count1ms+1, a
-1D76            338            
-1D76            339            ;Checks if 1 second has passed (by checking if Seconds_coeff*Millisecond_wait interrupts have occured)
-1D76 053B       340            inc polling_time
-1D78 E53B       341            mov a, polling_time
-1D7A B40507     342            cjne a, #Seconds_coeff, Timer2_ISR_done 
-1D7D 753B00     343            mov polling_time, #0x00
-1D80 D201       344            setb one_second_flag
-1D82            345            ; Increment the BCD seconds counter
-1D82 053A       346            inc seconds
-1D84            347   
-1D84            348            
-1D84            349   Timer2_ISR_done:
-1D84 D0D0       350            pop psw
-1D86 D0E0       351            pop acc
-1D88 32         352            reti
-1D89            353   
-1D89            354   MainProgram:
-1D89 75817F     355       mov SP, #7FH ; Set the stack pointer to the begining of idata
-1D8C            356   
-1D8C 121CD6     357            lcall seg_state_init
-1D8F 121D00     358       lcall Timer0_Init
-1D92 121D1A     359            lcall Timer1_Init
-1D95 121D39     360       lcall Timer2_Init
-1D98 120274     361            lcall beep_machine_init
-1D9B            362            
-1D9B 755D00     363            mov seconds_state4, #0x00
-1D9E 755300     364            mov reflow_state, #0x00
-1DA1 75573C     365            mov cooled_temp, #60
-1DA4            366       ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
-1DA4 75E600     367       mov P0M0, #0
-1DA7 75E700     368       mov P0M1, #0
-1DAA            369            
-1DAA 758E11     370            mov AUXR, #00010001B ; Max memory.  P4.4 is a general purpose IO pin
-1DAD            371   
-1DAD D2AF       372       setb EA   ; Enable Global interrupts
-1DAF            373       
-1DAF 121555     374            lcall InitSerialPort
-1DB2 121580     375            lcall INIT_SPI
-1DB5 12030E     376       lcall LCD_4BIT
-1DB8            377            
-1DB8            378   forever:
-1DB8 1218C3     379            lcall GET_TEMP_DATA      ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
-1DBB 12027D     380            lcall beep_state_machine
-1DBE 0218DB     381            ljmp reflow_state_machine       ; go do some stuff in the state_machine
-1DC1 80F5       382       sjmp forever ; This is equivalent to 'forever: sjmp forever'
-1DC3            383   
-1DC3            384       
-1DC3            385   EN
+                207   $LIST
+05D2            209   
+                211   $LIST
+1542            213   
+                215   $LIST
+18DE            217   
+                219   $LIST
+1C81            221   
+                223   $LIST
+1DBD            225   ;----------------------------------------MACRO LOCATION----------------------------------------------
+1DBD            226   
+1DBD            227   
+1DBD            228   
+1DBD            229   
+1DBD            230   ;---------------------------------;
+1DBD            231   ; Routine to initialize the ISR   ;
+1DBD            232   ; for timer 0                     ;
+1DBD            233   ;---------------------------------;
+1DBD            234   Timer0_Init:
+1DBD E589       235            mov a, TMOD
+1DBF 54F0       236            anl a, #0xf0 ; Clear the bits for timer 0
+1DC1 4401       237            orl a, #0x01 ; Configure timer 0 as 16-timer
+1DC3 F589       238            mov TMOD, a
+1DC5 758CEA     239            mov TH0, #high(TIMER0_RELOAD)
+1DC8 758AE8     240            mov TL0, #low(TIMER0_RELOAD)
+1DCB            241            ; Set autoreload value
+1DCB 75F4EA     242            mov TIMER0_RELOAD_H, #high(TIMER0_RELOAD)
+1DCE 75F2E8     243            mov TIMER0_RELOAD_L, #low(TIMER0_RELOAD)
+1DD1            244            ; Enable the timer and interrupts
+1DD1 D2A9       245       setb ET0  ; Enable timer 0 interrupt
+1DD3            246            ;setb TR0  ; Start timer 0
+1DD3 22         247            ret
+1DD4            248   
+1DD4            249   ;---------------------------------;
+1DD4            250   ; ISR for timer 0.  Set to execute;
+1DD4            251   ; every 1/4096Hz to generate a    ;
+1DD4            252   ; 2048 Hz square wave at pin P3.7 ;
+1DD4            253   ;---------------------------------;
+1DD4            254   Timer0_ISR:
+1DD4 B2B7       255            cpl SOUND_OUT ; Connect speaker to P3.7!
+1DD6 32         256            reti
+1DD7            257            
+1DD7            258   ;---------------------------------;
+1DD7            259   ; Routine to initialize the ISR   ;
+1DD7            260   ; for timer 1 in PWM mode         ;
+1DD7            261   ;---------------------------------;
+1DD7            262   
+1DD7            263   Timer1_Init:
+1DD7 E589       264            mov a, TMOD
+1DD9 540F       265            anl a, #00001111B       ;Clears timer 1 settings but keeps timer 0 settings
+1DDB 4410       266            orl a, #00010000B       ;Gate = 0, TC1 = 0, mode = 01 (mode 1)
+1DDD F589       267            mov TMOD, a
+1DDF            268            
+1DDF E591       269            mov a, TCONB            ;load TCONB for PWM settings
+1DE1 5400       270            anl a, #00000000B       ;clear TCONB
+1DE3 4480       271            orl a, #10000000B       ;Set PWM1 = 1
+1DE5 F591       272            mov TCONB, a
+1DE7            273            
+1DE7 758D00     274            mov TH1, #0             ;Current count value
+1DEA 758B00     275            mov TL1, #0             ;Linear Prescaling
+1DED            276            
+1DED 75F500     277            mov TIMER1_RELOAD_H, #DUTY_0 ;Duty cycle percentage. Replace this value to change the duty cycle
+1DF0 75F300     278            mov TIMER1_RELOAD_L, #0      ;Frequency scaling/adjust f_out = f_sys/(256 * (256 - TL))
+1DF3            279            
+1DF3 D28E       280            setb TR1
+1DF5 32         281            reti
+1DF6            282   
+1DF6            283   ;---------------------------------;
+1DF6            284   ; Routine to initialize the ISR   ;
+1DF6            285   ; for timer 2                     ;
+1DF6            286   ;---------------------------------;
+1DF6            287   Timer2_Init:
+1DF6 75C800     288            mov T2CON, #0 ; Stop timer/counter.  Autoreload mode.
+1DF9 75CDA9     289            mov TH2, #high(TIMER2_RELOAD)
+1DFC 75CC9A     290            mov TL2, #low(TIMER2_RELOAD)
+1DFF            291            ; Set the reload value
+1DFF 75CBA9     292            mov RCAP2H, #high(TIMER2_RELOAD)
+1E02 75CA9A     293            mov RCAP2L, #low(TIMER2_RELOAD)
+1E05            294            ; Init One millisecond interrupt counter.  It is a 16-bit variable made with two 8-bit parts
+1E05 E4         295            clr a
+1E06 F530       296            mov Count1ms+0, a
+1E08 F531       297            mov Count1ms+1, a
+1E0A F53B       298            mov polling_time, a     ; a variable used to increment one second as well as 200 ms
+1E0C            299            ; Enable the timer and interrupts
+1E0C D2AD       300       setb ET2  ; Enable timer 2 interrupt
+1E0E D2CA       301       setb TR2  ; Enable timer 2
+1E10 22         302            ret
+1E11            303   
+1E11            304   ;---------------------------------;
+1E11            305   ; ISR for timer 2                 ;
+1E11            306   ;---------------------------------;
+1E11            307   Timer2_ISR:
+1E11 C2CF       308            clr TF2  ; Timer 2 doesn't clear TF2 automatically. Do it in ISR
+1E13            309   
+1E13            310            ; The two registers used in the ISR must be saved in the stack
+1E13 C0E0       311            push acc
+1E15 C0D0       312            push psw
+1E17            313            ; Increment the 16-bit one mili second counter
+1E17            314                            ;       inc Count1ms+0    ; Increment the low 8-bits first
+1E17            315                                    ;mov a, Count1ms+0
+1E17            316                            ;       cjne a, #10h, Timer2_ISR_done
+1E17            317                            ;       mov Count1ms+0, #0h
+1E17 0530       318            inc Count1ms+0    ; Increment the low 8-bits first
+1E19 E530       319            mov a, Count1ms+0 ; If the low 8-bits overflow, then increment high 8-bits
+1E1B 7002       320            jnz Inc_Done
+1E1D 0531       321            inc Count1ms+1
+1E1F            322            
+1E1F            323            ;Send_BCD(bcd)
+1E1F            324            Inc_Done:
+1E1F            325            ; Check if a second has passed
+1E1F            326   
+1E1F E530       327            mov a, Count1ms+0
+1E21 B4C820     328            cjne a, #low(MILLISECOND_WAIT), Timer2_ISR_done ; Warning: this instruction changes the carry flag!
+1E24 E531       329            mov a, Count1ms+1
+1E26 B4001B     330            cjne a, #high(MILLISECOND_WAIT), Timer2_ISR_done
+1E29            331            
+1E29            332            ; 200 milliseconds have passed.  Set a flag so the main program knows
+1E29            333   
+1E29 D202       334            setb polling_flag
+1E2B            335            
+1E2B 300403     336            jnb load, no_load
+1E2E 121D0C     337            lcall load_sm
+1E31            338   no_load:
+1E31            339            
+1E31            340            ; Reset to zero the milli-seconds counter, it is a 16-bit variable
+1E31 E4         341            clr a
+1E32 F530       342            mov Count1ms+0, a
+1E34 F531       343            mov Count1ms+1, a
+1E36            344            
+1E36            345            ;Checks if 1 second has passed (by checking if Seconds_coeff*Millisecond_wait interrupts have occured)
+1E36 053B       346            inc polling_time
+1E38 E53B       347            mov a, polling_time
+1E3A B40507     348            cjne a, #Seconds_coeff, Timer2_ISR_done 
+1E3D 753B00     349            mov polling_time, #0x00
+1E40 D201       350            setb one_second_flag
+1E42            351            ; Increment the BCD seconds counter
+1E42 053A       352            inc seconds
+1E44            353   
+1E44            354            
+1E44            355   Timer2_ISR_done:
+1E44 121CA2     356            lcall seg_state_machine
+1E47 D0D0       357            pop psw
+1E49 D0E0       358            pop acc
+1E4B 32         359            reti
+1E4C            360   
+1E4C            361   MainProgram:
+1E4C 75817F     362       mov SP, #7FH ; Set the stack pointer to the begining of idata
+1E4F            363   
+1E4F 121CD9     364            lcall seg_state_init
+1E52 121D03     365            lcall load_sm_init
+1E55 121DBD     366       lcall Timer0_Init
+1E58 121DD7     367            lcall Timer1_Init
+1E5B 121DF6     368       lcall Timer2_Init
+1E5E 120274     369            lcall beep_machine_init
+1E61            370            
+1E61 755D00     371            mov seconds_state4, #0x00
+1E64 755300     372            mov reflow_state, #0x00
+1E67 75573C     373            mov cooled_temp, #60
+1E6A            374       ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
+1E6A 75E600     375       mov P0M0, #0
+1E6D 75E700     376       mov P0M1, #0
+1E70            377            
+1E70 758E11     378            mov AUXR, #00010001B ; Max memory.  P4.4 is a general purpose IO pin
+1E73            379   
+1E73 D2AF       380       setb EA   ; Enable Global interrupts
+1E75            381       
+1E75 121558     382            lcall InitSerialPort
+1E78 121583     383            lcall INIT_SPI
+1E7B 12030E     384       lcall LCD_4BIT
+1E7E            385            
+1E7E            386   forever:
+1E7E 1218C6     387            lcall GET_TEMP_DATA      ;This is the lab3 derivative loop that grabs the data from the thermocouple, 
+1E81 12027D     388            lcall beep_state_machine
+1E84 0218DE     389            ljmp reflow_state_machine       ; go do some stuff in the state_machine
+1E87 80F5       390       sjmp forever ; This is equivalent to 'forever: sjmp forever'
+1E89            391   
+1E89            392       
+1E89            393   EN

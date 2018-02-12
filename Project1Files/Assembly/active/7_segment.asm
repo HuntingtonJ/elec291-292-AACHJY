@@ -122,7 +122,7 @@ load_sm:
 	load_state0:
 		cjne a, #0, load_state1 ; _ _ _
 		mov disp1, #0xF0        ;|     |
-		mov disp2, #0x7F        ;|_   _|
+		mov disp2, #0xFE        ;|_   _|
 		mov disp3, #0xC6
 		mov load_state, #1
 		ljmp load_sm_end
