@@ -106,6 +106,89 @@ set_7_segment_diplay:
 	movc a, @a+dptr      ;Access HEX_7SEG[a]
 	mov disp3, a         ;Moves highest bcd digit to diplay 3
 	ret
+	
+load_sm_init:
+	mov load_state, #0
+	setb load
+	ret
+	
+load_sm_off:
+	clr load
+	ret
+	
+load_sm:
+	mov a, load_state
+	
+	load_state0:
+		cjne a, #0, load_state1 ; _ _ _
+		mov disp1, #0xF0        ;|     |
+		mov disp2, #0x7F        ;|_   _|
+		mov disp3, #0xC6
+		mov load_state, #1
+		ljmp load_sm_end
+	load_state1:
+		cjne a, #1, load_state2 ; _ _ _
+		mov disp1, #0xF0        ;|     |
+		mov disp2, #0xF6        ;|  _ _|
+		mov disp3, #0xCE
+		mov load_state, #2
+		ljmp load_sm_end
+	load_state2:
+		cjne a, #2, load_state3 ; _ _ _
+		mov disp1, #0xF0        ;|     |
+		mov disp2, #0xF6        ; _ _ _|
+		mov disp3, #0xD6
+		mov load_state, #3
+		ljmp load_sm_end
+	load_state3:
+		cjne a, #3, load_state4 ; _ _ _
+		mov disp1, #0xF0        ;      |
+		mov disp2, #0xF6        ;|_ _ _|
+		mov disp3, #0xE6
+		mov load_state, #4
+		ljmp load_sm_end
+	load_state4:
+		cjne a, #4, load_state5 ;   _ _
+		mov disp1, #0xF0        ;|     |
+		mov disp2, #0xF6        ;|_ _ _|
+		mov disp3, #0xC7
+		mov load_state, #5
+		ljmp load_sm_end
+	load_state5:
+		cjne a, #5, load_state6 ; _   _
+		mov disp1, #0xF0        ;|     |
+		mov disp2, #0xF7        ;|_ _ _|
+		mov disp3, #0xC6
+		mov load_state, #6
+		ljmp load_sm_end
+	load_state6:
+		cjne a, #6, load_state7 ; _ _  
+		mov disp1, #0xF1        ;|     |
+		mov disp2, #0xF6        ;|_ _ _|
+		mov disp3, #0xC6
+		mov load_state, #7
+		ljmp load_sm_end
+	load_state7:
+		cjne a, #7, load_state8 ; _ _ _
+		mov disp1, #0xF2        ;|      
+		mov disp2, #0xF6        ;|_ _ _|
+		mov disp3, #0xC6
+		mov load_state, #8
+		ljmp load_sm_end
+	load_state8:
+		cjne a, #8, load_state9 ; _ _ _
+		mov disp1, #0xF4        ;|     |
+		mov disp2, #0xF6        ;|_ _ _
+		mov disp3, #0xC6
+		mov load_state, #9
+		ljmp load_sm_end
+	load_state9:                ; _ _ _
+		mov disp1, #0xF8        ;|     |
+		mov disp2, #0xF6        ;|_ _  |
+		mov disp3, #0xC6
+		mov load_state, #0
 
+	load_sm_end:
+	ret
 
 END

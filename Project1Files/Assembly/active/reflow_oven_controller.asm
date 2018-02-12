@@ -133,6 +133,8 @@ disp3:          ds 1 ; Most significant digit
 seg_state:      ds 1 ; state of 7_seg fsm
 display_scratch: ds 1
 seconds_state4: ds 1
+load_state:     ds 1
+load_circle:    ds 3
 ;sec_check: ds 1
 ;Beep Machine vars
 beep_state:     ds 1
@@ -146,6 +148,7 @@ mf: dbit 1
 one_second_flag: dbit 1 
 polling_flag: dbit 1
 state4_flag: dbit 1
+load: dbit 1
 
 
 CSEG
@@ -305,7 +308,6 @@ Timer2_ISR:
 	; The two registers used in the ISR must be saved in the stack
 	push acc
 	push psw
-	lcall seg_state_machine
 	; Increment the 16-bit one mili second counter
 			;	inc Count1ms+0    ; Increment the low 8-bits first
 				;mov a, Count1ms+0
@@ -328,6 +330,10 @@ Timer2_ISR:
 	; 200 milliseconds have passed.  Set a flag so the main program knows
 
 	setb polling_flag
+	
+	jnb load, no_load
+	lcall load_sm
+no_load:
 	
 	; Reset to zero the milli-seconds counter, it is a 16-bit variable
 	clr a
@@ -352,6 +358,7 @@ Timer2_ISR:
 ;mov seconds_state4, a
 	
 Timer2_ISR_done:
+	lcall seg_state_machine
 	pop psw
 	pop acc
 	reti
@@ -360,6 +367,7 @@ MainProgram:
     mov SP, #7FH ; Set the stack pointer to the begining of idata
 
 	lcall seg_state_init
+	lcall load_sm_init
     lcall Timer0_Init
 	lcall Timer1_Init
     lcall Timer2_Init

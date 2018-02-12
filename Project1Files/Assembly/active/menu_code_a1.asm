@@ -284,6 +284,8 @@ Loaded_param: 			; All parameters are loaded correctly, time to start!
 	lcall hex2bcd
 	lcall Send_10_digit_BCD
 	
+	lcall load_sm_off
+	
 	ljmp forever 		; jumps to main loop to grab temp data so the state machine is not operating with garbage values
 
 
