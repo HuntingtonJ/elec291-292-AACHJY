@@ -126,6 +126,7 @@ temp:           ds 1
 sec:            ds 1 ; seconds variable for reflow FSM (to be incremented every second)
 cooled_temp:    ds 1
 ; 7-segment vars
+
 disp1:          ds 1 ; Least significant digit
 disp2:          ds 1
 disp3:          ds 1 ; Most significant digit
@@ -345,15 +346,15 @@ Timer2_ISR:
 	mov polling_time, #0x00
 	setb one_second_flag
 	; Increment the BCD seconds counter
-	mov a, seconds
-	add a, #0x01
-	da a ; Decimal adjust instruction.  Check datasheet for more details!
-	mov seconds, a
-	jnb state4_flag, Timer2_ISR_done
-	mov a, seconds_state4
-	add a, #0x01
-	da a ; Decimal adjust instruction.  Check datasheet for more details!
-	mov seconds_state4, a
+	inc seconds
+	;add a, #0x01
+	;da a ; Decimal adjust instruction.  Check datasheet for more details!
+	;mov seconds, a
+	;jnb state4_flag, Timer2_ISR_done
+	;mov a, seconds_state4
+	;add a, #0x01
+	;da a ; Decimal adjust instruction.  Check datasheet for more details!
+;mov seconds_state4, a
 	
 Timer2_ISR_done:
 	pop psw
@@ -373,7 +374,7 @@ MainProgram:
 	mov seconds, #0x00
 	mov seconds_state4, #0x00
 	mov reflow_state, #0x00
-	mov cooled_temp, #0x60
+	mov cooled_temp, #60
     ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
     mov P0M0, #0
     mov P0M1, #0

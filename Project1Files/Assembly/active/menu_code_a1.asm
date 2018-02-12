@@ -117,6 +117,23 @@ mov R0, a
 
 ret
 
+;-------------------------------------------
+;Macro to display binary number as BCD 
+; Input: 8 bit binary number, either in variable or direct
+; Output: display at specified location 
+;---------------------------------------------
+
+Display_8bit_to_BCD mac
+mov a, %0
+lcall BCD_from_8_bits
+Set_Cursor(2, 1)
+mov a, r1
+Display_BCD(a)
+Set_Cursor(2, 3)
+mov a, r0
+Display_BCD(a)
+endmac
+
 ;-------------------------------------
 ; A macro to be used in custom menu to display the 3 digit value of the 
 ; input;  variable name
@@ -300,7 +317,7 @@ pb_solder_set: 		; for soldering with the Sn63Pb37 alloy
 	Send_Constant_String(#Profile_loaded)
 	mov soaktime, #120
 	mov soaktemp, #150
-	mov reflowtime, #0x20
+	mov reflowtime, #20
 	mov reflowtemp, #230
 
 	ljmp system_ready
@@ -313,7 +330,7 @@ pb_free_solder_set: 	;for soldering SAC305 lead-free solder
 	
 	mov soaktime, #120
 	mov soaktemp, #160
-	mov reflowtime, #0x15
+	mov reflowtime, #15
 	mov reflowtemp, #245
 	ljmp system_ready
 
