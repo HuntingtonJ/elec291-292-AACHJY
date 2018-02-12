@@ -13,6 +13,9 @@ Reflow_screen mac
 	Set_Cursor(1,1)
 	Send_Constant_String(#%0)		; display current state
 
+	;Set_Cursor(2,16)		
+	;WriteData(#248)
+
 	Set_Cursor(2, 5)
 	Send_Constant_String(#secondsss)
 
@@ -47,7 +50,6 @@ reflow_state_machine:
 		state0_done:
 			ljmp forever
 
-
 	state1: ;Ramp To Soak
 			cjne a, #0x01, state2jmp
 			sjmp state1go
@@ -57,6 +59,27 @@ reflow_state_machine:
 		state1go: 
 			mov TIMER1_RELOAD_H, #DUTY_100 
 			Reflow_screen(Ramp_to_Soak)
+		
+			mov a, seconds
+				cjne a, #60,  state1_continue
+
+			mov a, #50
+			clr c
+			subb a, Result_Thermo
+			jnc abort_jmp
+			sjmp state1_continue
+
+		abort_jmp:
+			mov reflow_state, #0x00
+			Set_Cursor(1,1)
+			Send_Constant_String(#abort_msg)
+			lcall delay
+
+			ljmp forever
+
+
+
+		state1_continue:
 			mov sec, #0
 			mov a, soaktemp
 			clr c
