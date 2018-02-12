@@ -238,8 +238,7 @@ Loaded_param: 			; All parameters are loaded correctly, time to start!
 	mov seconds, #0x00
 	mov a, #0x01
 	mov reflow_state, a
-	one_beep(#40)
-	
+	one_beep(#60)
 	; Sends parameters to the python program
 	
 	; Sends 00000001

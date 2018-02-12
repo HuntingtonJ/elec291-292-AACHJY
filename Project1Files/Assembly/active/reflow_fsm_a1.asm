@@ -87,7 +87,7 @@ reflow_state_machine:
 			jnc state1_done 	;if temp>soaktemp then go to state 2 
 			mov seconds, #0			; Reset time 'sec' variable representing elapsed time in each state
 			mov reflow_state, #0x02
-			one_beep(#40)
+			one_beep(#60)
 		state1_done:
 			
 			ljmp forever
@@ -164,17 +164,18 @@ reflow_state_machine:
 			jnc state5_done 	;if temp>reflowtemp then go to state 4
 			mov seconds, #0			; reset time for state 4
 			mov reflow_state, #0x06
-			one_beep(#40)
+			lcall six_beep	
+			lcall load_sm_init
 		state5_done:
 			ljmp forever
 			
 	state6: ;Back to Menu/Idle
+		;lcall WaitHalfSec
+		mov a, beep_state
+		cjne a, #0, state5_done
 		mov reflow_state, #0x00
-
 		ljmp forever
+		
+
 
 end
-
-;shortbeepflag:		dbit 1
-;longbeepflag:		dbit 1
-;sixbeepflag:		dbit 1
