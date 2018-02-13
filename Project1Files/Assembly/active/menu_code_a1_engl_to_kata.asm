@@ -176,30 +176,34 @@ Main_Menu_Program:
 ;----------------Main Menu Logic----------------;
 
 
-Initial_menu_jap: 
+Initial_menu: 
 	Set_Cursor(1, 1)
-    Send_Constant_String(#Welcome_jap)
+    Send_Constant_String(#Welcome)
     Set_Cursor(2, 1)
-    Send_Constant_String(#Choose_option_jap)
+    Send_Constant_String(#Choose_option)
 	
     ;------------- any button being pressed will change the screen
     button_jmp(SELECT_BUTTON, Choose_menu)
     button_jmp(UP_BUTTON, Choose_menu)
     button_jmp(DOWN_BUTTON, Choose_menu)
     adc_button_jmp(BACK_BUTTON, Choose_menu)
-    adc_button_jmp(MASTER_STOP, Initial_menu)
+    adc_button_jmp(MASTER_STOP, Initial_menu_jap)
+
     ljmp Initial_menu
 
-system_ready_jap: 
+
+
+
+system_ready: 
 	Set_Cursor(1,1)
-	Send_Constant_String(#Is_ready_jap)
+	Send_Constant_String(#Is_ready)
 	Set_Cursor(2,1)
-	Send_Constant_String(#Press_start_jap)
+	Send_Constant_String(#Press_start)
 
 	adc_button_jmp(BACK_BUTTON, Choose_menu)
 	button_jmp(SELECT_BUTTON, Confirm_menu)
 	adc_button_jmp(MASTER_START, Confirm_menu)
-	adc_button_jmp(MASTER_STOP, system_ready)
+	adc_button_jmp(MASTER_STOP, system_ready_jap)
 
 ljmp system_ready
 
@@ -223,22 +227,22 @@ three_good:
 	CJNE a, #0, Loaded_param
 	sjmp unloaded
 
-unloaded_jap: 
+unloaded: 
 	Set_Cursor(1,1)
-	Send_Constant_String(#Error_msg1_jap)
+	Send_Constant_String(#Error_msg1)
 	Set_Cursor(2,1)
-	Send_Constant_String(#Error_msg2_jap)
+	Send_Constant_String(#Error_msg2)
+	adc_button_jmp(MASTER_STOP,unloaded_jap)
 	mov reflow_state, #0		; reset state to zero (as it is set to 1 by the start_button ISR)
-	adc_button_jmp(MASTER_STOP, unloaded)
 	ljmp Initial_menu
 
 
-Loaded_param_jap: 			; All parameters are loaded correctly, time to start!
+Loaded_param: 			; All parameters are loaded correctly, time to start!
 
 	;Then check if the state=1. If so, goto reflow FSM
 	Set_Cursor(2,1)
-	Send_Constant_String(#Clear_Row_jap)
-	adc_button_jmp(MASTER_STOP, Loaded_param)
+	Send_Constant_String(#Clear_Row)
+	adc_button_jmp(MASTER_STOP, Loaded_param_jap)
 	mov seconds, #0x00
 	mov a, #0x01
 	mov reflow_state, a
@@ -298,97 +302,98 @@ Loaded_param_jap: 			; All parameters are loaded correctly, time to start!
 
 	;------------------------------Menu options below----------------------------
 
-Choose_menu_jap: 
+Choose_menu: 
 	Set_Cursor(1,1)
-	Send_Constant_String(#Preset_menu_msg_jap)
+	Send_Constant_String(#Preset_menu_msg)
 	Set_Cursor(2,1)
-	Send_Constant_String(#Custom_menu_msg_jap)
+	Send_Constant_String(#Custom_menu_msg)
 
 
 	button_jmp(UP_BUTTON, Preset_menu_select)
 	button_jmp(DOWN_BUTTON, Custom_menu_select)
-	adc_button_jmp(MASTER_STOP, Choose_menu)
+	adc_button_jmp(MASTER_STOP, Choose_menu_jap)
 	
 	sjmp Choose_menu
 
-Preset_menu_select_jap:
+Preset_menu_select:
 	;Remove messages when blinking cursor is set up
 	Set_Cursor(1,1)
-	Send_Constant_String(#PRESETMENUMSG_jap)
+	Send_Constant_String(#PRESETMENUMSG)
 	Set_Cursor(2,1)
-	Send_Constant_String(#Clear_Row_jap)
+	Send_Constant_String(#Clear_Row)
 	Set_Cursor(1,16)
-	Send_Constant_String(#choose_jap)
+	Send_Constant_String(#choose)
 	
 	button_jmp(DOWN_BUTTON, Custom_menu_select)
 	button_jmp(SELECT_BUTTON, Preset_menu)
 	adc_button_jmp(BACK_BUTTON, Choose_menu) ; have we determined if we are using a back button or a next button? What is the purpose of a next button? 
-        adc_button_jmp(MASTER_STOP,Preset_menu_select)
+	adc_button_jmp(MASTER_STOP,Preset_menu_select)
+
 	ljmp Preset_menu_select
 
-Custom_menu_select_jap: 
+Custom_menu_select: 
 	;Remove messages when blinking cursor is set up
 	Set_Cursor(1,1)
-	Send_Constant_String(#CUSTOMMENUMSG_jap)
+	Send_Constant_String(#CUSTOMMENUMSG)
 	Set_Cursor(2,1)
-	Send_Constant_String(#Clear_Row_jap)
+	Send_Constant_String(#Clear_Row)
 	Set_Cursor(1,16)
-	Send_Constant_String(#choose_jap)
+	Send_Constant_String(#choose)
 	
 	button_jmp(UP_BUTTON, Preset_menu_select)
 	button_jmp(SELECT_BUTTON, Custom_menu)
 	adc_button_jmp(BACK_BUTTON, Choose_menu)
-	adc_button_jmp(MASTER_STOP, Custom_meny_select)
+	adc_button_jmp(MASTER_STOP, Custom_menu_select_jap)
 
 	ljmp Custom_menu_select
 
 ;------------------ Preset Menu start----------------------------------;
-Preset_menu_jap: 
+Preset_menu: 
 	Set_Cursor(1,1)
-	Send_Constant_String(#Pb_free_solder_jap)
+	Send_Constant_String(#Pb_free_solder)
 	Set_Cursor(2,1)
-	Send_Constant_String(#Pb_solder_jap)
+	Send_Constant_String(#Pb_solder)
 
 
 	button_jmp(UP_BUTTON, pb_free_select)
 	button_jmp(DOWN_BUTTON, pb_select)
 	adc_button_jmp(BACK_BUTTON, Choose_menu)
-	adc_button_jmp(MASTER_STOP, Preset_meny_jap)
+	adc_button_jmp(MASTER_STOP, Preset_menu_jap)
 
 	ljmp Preset_menu
 
-pb_free_select_jap: 
+pb_free_select: 
 	button_jmp(DOWN_BUTTON, pb_select)
 	button_jmp(SELECT_BUTTON, pb_free_solder_set)
 	adc_button_jmp(BACK_BUTTON, Choose_menu)
 	Set_Cursor(1,16)
-	Send_Constant_String(#choose_jap)
+	Send_Constant_String(#choose)
 	Set_Cursor(2,16)
-	Send_Constant_String(#clear_row_jap)
-	adc_button_jmp(MASTER_STOP,pb_free_select)
+	Send_Constant_String(#clear_row)
+	adc_button_jmp(MASTER_STOP, pb_freee_select_jap)
 
 	ljmp pb_free_select
 
-pb_select_jap: 
+pb_select: 
 	button_jmp(UP_BUTTON, pb_free_select)
 	button_jmp(SELECT_BUTTON, pb_solder_set)
 	adc_button_jmp(BACK_BUTTON, Choose_menu)
 	Set_Cursor(2,16)
-	Send_Constant_String(#choose_jap)
+	Send_Constant_String(#choose)
 	Set_Cursor(1,16)
-	Send_Constant_String(#clear_row_jap)
+	Send_Constant_String(#clear_row)
 	adc_button_jmp(MASTER_STOP, pb_select)
 
 
 	ljmp pb_select
 
 
-pb_solder_set_jap: 		; for soldering with the Sn63Pb37 alloy	
+pb_solder_set: 		; for soldering with the Sn63Pb37 alloy	
 	Set_Cursor(1,1)
-	Send_Constant_String(#Pb_solder_jap)
+	Send_Constant_String(#Pb_solder)
 	Set_Cursor(2,1)
-	Send_Constant_String(#Profile_loaded_jap)
-	adc_button_jmp(MASTER_STOP, pb_solder_set)
+	Send_Constant_String(#Profile_loaded)
+	adc_button_jmp(MASTER_STOP, pb_solder_set_jap)
 
 	mov soaktime, #120
 	mov soaktemp, #150
@@ -397,12 +402,12 @@ pb_solder_set_jap: 		; for soldering with the Sn63Pb37 alloy
 
 	ljmp system_ready
 
-pb_free_solder_set_jap: 	;for soldering SAC305 lead-free solder 
+pb_free_solder_set: 	;for soldering SAC305 lead-free solder 
 	Set_Cursor(1,1)
-	Send_Constant_String(#Pb_free_solder_jap)
+	Send_Constant_String(#Pb_free_solder)
 	Set_Cursor(2,1)
-	Send_Constant_String(#Profile_loaded_jap)
-	adc_button_jmp(MASTER_STOP,pb_free_solder_set)
+	Send_Constant_String(#Profile_loaded)
+	adc_button_jmp(MASTER_STOP, pb_free_solder_set_jap)
 	
 	mov soaktime, #120
 	mov soaktemp, #160
@@ -410,12 +415,12 @@ pb_free_solder_set_jap: 	;for soldering SAC305 lead-free solder
 	mov reflowtemp, #245
 	ljmp system_ready
 
-Pb_free_secret_pizza_jap: 				; can we include this as a joke/bonus pls???
+Pb_free_secret_pizza: 				; can we include this as a joke/bonus pls???
 	Set_Cursor(1,1)
-	Send_Constant_String(#Pizza_msg0_jap)
+	Send_Constant_String(#Pizza_msg0)
 	Set_Cursor(2,1)
-	Send_Constant_String(#Pizza_msg1_jap)
-	adc_button_jmp(MASTER_STOP, Pb_free_secret_pizza)
+	Send_Constant_String(#Pizza_msg1)
+	adc_button_jmp(MASTER_STOP, Pb_free_secret_pizza_jap)
 
 	mov a, #30
 ;	da a
@@ -440,12 +445,11 @@ Pb_free_secret_pizza_jap: 				; can we include this as a joke/bonus pls???
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;			Custom Menu Begin
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-Custom_menu_jap: 
+Custom_menu: 
 	Set_Cursor(1, 1)
-    Send_Constant_String(#Custom_menu_msg_jap)
+    Send_Constant_String(#Custom_menu_msg)
     Set_Cursor(2, 1)
-    Send_Constant_String(#Clear_Row_jap)
-    adc_button_jmp(MASTER_STOP, Custom_menu)
+    Send_Constant_String(#Clear_Row)
 	;Wait until select button is pressed then loop to options
 	;button_jmp(SELECT_BUTTON, Forever_loop)
 	;jb SELECT_BUTTON, Forever_loop
@@ -454,6 +458,7 @@ Custom_menu_jap:
 	;jnb SELECT_BUTTON, $
 	
 	BUTTON_jmp(SELECT_BUTTON, Set_Soak_temp)
+	adc_button_jmp(MASTER_STOP, Custom_menu_jap)
 	sjmp Forever_loop
 	;ljmp Set_Soak_temp
 	
@@ -465,10 +470,10 @@ Custom_to_Choose_menu:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;			Set Soak Temp
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
-Set_Soak_temp_jap:	
+Set_Soak_temp:	
 	Set_Cursor(1,1)
-	Send_Constant_String(#Soak_temp_jap)
-	adc_button_jmp(MASTER_STOP, Set_Soak_temp)
+	Send_Constant_String(#Soak_temp)
+	adc_button_jmp(MASTER_STOP, Set_Soak_temp_jap)
 
 	; display soaktemp as 3 digit bcd from 8 bit value
 	display_param(soaktemp) 
@@ -513,12 +518,12 @@ Nextmenu1:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;			Set Soak Time
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-Set_Soak_time_jap:
+Set_Soak_time:
 	jnb SELECT_BUTTON, $
 	Set_Cursor(1,1)
-	Send_Constant_String(#Soak_time_jap)
+	Send_Constant_String(#Soak_time)
 	display_param(soaktime) 
-	adc_button_jmp(MASTER_STOP, Set_Soak_time)
+	adc_button_jmp(MASTER_STOP, Set_Soak_time_jap)
 	;if up/down buttons pressed branch and inc/dec params
 
 	jb UP_BUTTON, Decrease_soaktime
@@ -559,12 +564,12 @@ Nextmenu2:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;			Set Reflow Temp
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-Set_Reflow_temp_jap:
+Set_Reflow_temp:
 	jnb SELECT_BUTTON, $
 	Set_Cursor(1,1)
-	Send_Constant_String(#Reflow_temp_jap)
+	Send_Constant_String(#Reflow_temp)
+	adc_button_jmp(MASTER_STOP, Set_Reflow_temp_jap)
 	display_param(reflowtemp) 
-	adc_button_jmp(MASTER_STOP, Set_Reflow_temp)
 
 	;if up/down buttons pressed branch and inc/dec params
 	jb UP_BUTTON, Decrease_reflowtemp
@@ -605,12 +610,12 @@ Nextmenu3:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;			Set Reflow Time
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
-Set_Reflow_time_jap:
+Set_Reflow_time:
 	jnb SELECT_BUTTON, $
 	Set_Cursor(1,1)
-	Send_Constant_String(#Reflow_time_jap)
+	Send_Constant_String(#Reflow_time)
 	display_param(reflowtime) 
-	adc_button_jmp(MASTER_STOP, Set_Reflow_time)
+	adc_button_jmp(MASTER_STOP, Set_Reflow_time_jap)
 
 	;if up/down buttons pressed branch and inc/dec params
 	jb UP_BUTTON, Decrease_reflowtime
@@ -649,13 +654,13 @@ Nextmenu4:
 	jnb SELECT_BUTTON, Custom_menu_loopback
 	ljmp Set_Reflow_time
 	
-Custom_menu_loopback_jap:
+Custom_menu_loopback:
 	Set_Cursor(1,1)
-	Send_Constant_String(#Are_you_sure_jap)
+	Send_Constant_String(#Are_you_sure)
 	Set_Cursor(2,1)
-	Send_Constant_String(#Clear_Row_jap)
-	jnb SELECT_BUTTON, lllaaa
+	Send_Constant_String(#Clear_Row)
 	adc_button_jmp(MASTER_STOP, Custom_menu_loopback)
+	jnb SELECT_BUTTON, lllaaa
 	ljmp Custom_menu_loopback
 lllaaa:
 	ljmp system_ready

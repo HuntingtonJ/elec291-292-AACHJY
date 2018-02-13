@@ -42,6 +42,13 @@ wait_release_%M:
 	endhere_%M:
 endmac
 
+adc_switch_jmp mac
+	Get_ADC_Channel(%0)
+	mov a, ADC_Result+0
+	cjne a, #0, %1
+endmac
+	
+
 ;Pressed value will be greater than ref voltage, resulting in all 10 bits being 1.
 
 ;--------------------------------;
@@ -461,18 +468,29 @@ Set_Soak_temp:
 
 
 	;if up/down buttons pressed branch and inc/dec params
-	jb UP_BUTTON, Decrease_soaktemp
+	jb UP_BUTTON, Decrease_soaktemp_a
 	Wait_Milli_Seconds(#50)
-	jb UP_BUTTON, Decrease_soaktemp
+	jb UP_BUTTON, Decrease_soaktemp_a
 	jnb UP_BUTTON, $
+	sjmp Check_soaktemp_multiplier
+Decrease_soaktemp_a:
+	ljmp Decrease_soaktemp_b
+Check_soaktemp_multiplier:
+	adc_switch_jmp(adc_five, Soak_temp_inc_100)
+	adc_switch_jmp(adc_four, Soak_temp_inc_10)
+	sjmp Soak_temp_inc_1
+Soak_temp_inc_100:
 	mov a, soaktemp
-	
-	
-	add a, #0x64
-	
-	add a, #0x0a
-	
-	add a, #0x01
+	add a, #01100100b ;100
+	sjmp Soak_temp_inc_done
+Soak_temp_inc_10:
+	mov a, soaktemp
+	add a, #00001010b ; 10
+	sjmp Soak_temp_inc_done
+Soak_temp_inc_1:
+	mov a, soaktemp
+	add a, #00000001b ; 1
+Soak_temp_inc_done:
 	cjne a, #0xff, Increase_soaktemp_loop
 	clr a 
 	mov soaktemp, a
@@ -483,13 +501,14 @@ Increase_soaktemp_loop:
 	clr a	
 	ljmp Set_Soak_temp	
 	
-Decrease_soaktemp:
+Decrease_soaktemp_b:
 	jb DOWN_BUTTON, Nextmenu1
 	Wait_Milli_Seconds(#50)
 	jb DOWN_BUTTON, Nextmenu1
 	jnb DOWN_BUTTON, $	
 	mov a, soaktemp
-	add a, #0xff
+	clr c
+	subb a, #0x01
 	cjne a, #0x00, Decrease_soaktemp_loop
 	clr a 
 	mov soaktemp, a
@@ -512,12 +531,29 @@ Set_Soak_time:
 	display_param(soaktime) 
 	;if up/down buttons pressed branch and inc/dec params
 
-	jb UP_BUTTON, Decrease_soaktime
+	jb UP_BUTTON, Decrease_soaktime_a
 	Wait_Milli_Seconds(#50)
-	jb UP_BUTTON, Decrease_soaktime
+	jb UP_BUTTON, Decrease_soaktime_a
 	jnb UP_BUTTON, $
+	sjmp Check_soaktime_multiplier
+Decrease_soaktime_a:
+	ljmp Decrease_soaktime_b
+Check_soaktime_multiplier:
+	adc_switch_jmp(adc_five, Soak_time_inc_100)
+	adc_switch_jmp(adc_four, Soak_time_inc_10)
+	sjmp Soak_time_inc_1
+Soak_time_inc_100:
 	mov a, soaktime
-	add a, #0x01
+	add a, #01100100b ;100
+	sjmp Soak_time_inc_done
+Soak_time_inc_10:
+	mov a, soaktime
+	add a, #00001010b ; 10
+	sjmp Soak_time_inc_done
+Soak_time_inc_1:
+	mov a, soaktime
+	add a, #00000001b ; 1
+Soak_time_inc_done:
 	cjne a, #0xff, Increase_soaktime_loop
 	clr a 
 	mov soaktime, a
@@ -528,7 +564,7 @@ Increase_soaktime_loop:
 	clr a	
 	ljmp Set_Soak_time	
 	
-Decrease_soaktime:
+Decrease_soaktime_b:
 	jb DOWN_BUTTON, Nextmenu2
 	Wait_Milli_Seconds(#50)
 	jb DOWN_BUTTON, Nextmenu2
@@ -557,12 +593,29 @@ Set_Reflow_temp:
 	display_param(reflowtemp) 
 
 	;if up/down buttons pressed branch and inc/dec params
-	jb UP_BUTTON, Decrease_reflowtemp
+	jb UP_BUTTON, Decrease_reflowtemp_a
 	Wait_Milli_Seconds(#50)
-	jb UP_BUTTON, Decrease_reflowtemp
+	jb UP_BUTTON, Decrease_reflowtemp_a
 	jnb UP_BUTTON, $
+	sjmp Check_reflowtemp_multiplier
+Decrease_reflowtemp_a:
+	ljmp Decrease_reflowtemp_b
+Check_reflowtemp_multiplier:
+	adc_switch_jmp(adc_five, Reflow_temp_inc_100)
+	adc_switch_jmp(adc_four, Reflow_temp_inc_10)
+	sjmp Reflow_temp_inc_1
+Reflow_temp_inc_100:
 	mov a, reflowtemp
-	add a, #0x01
+	add a, #01100100b ;100
+	sjmp Reflow_temp_inc_done
+Reflow_temp_inc_10:
+	mov a, reflowtemp
+	add a, #00001010b ; 10
+	sjmp Reflow_temp_inc_done
+Reflow_temp_inc_1:
+	mov a, reflowtemp
+	add a, #00000001b ; 1
+Reflow_temp_inc_done:
 	cjne a, #0xff, Increase_reflowtemp_loop
 	clr a 
 	mov reflowtemp, a
@@ -573,7 +626,7 @@ Increase_reflowtemp_loop:
 	clr a	
 	ljmp Set_Reflow_temp	
 	
-Decrease_reflowtemp:
+Decrease_reflowtemp_b:
 	jb DOWN_BUTTON, Nextmenu3
 	Wait_Milli_Seconds(#50)
 	jb DOWN_BUTTON, Nextmenu3
@@ -602,12 +655,29 @@ Set_Reflow_time:
 	display_param(reflowtime) 
 
 	;if up/down buttons pressed branch and inc/dec params
-	jb UP_BUTTON, Decrease_reflowtime
+	jb UP_BUTTON, Decrease_reflowtime_a
 	Wait_Milli_Seconds(#50)
-	jb UP_BUTTON, Decrease_reflowtime
+	jb UP_BUTTON, Decrease_reflowtime_a
 	jnb UP_BUTTON, $
+	sjmp Check_reflowtime_multiplier
+Decrease_reflowtime_a:
+	ljmp Decrease_reflowtime_b
+Check_reflowtime_multiplier:
+	adc_switch_jmp(adc_five, Reflow_time_inc_100)
+	adc_switch_jmp(adc_four, Reflow_time_inc_10)
+	sjmp Reflow_time_inc_1
+Reflow_time_inc_100:
 	mov a, reflowtime
-	add a, #0x01
+	add a, #01100100b ;100
+	sjmp Reflow_time_inc_done
+Reflow_time_inc_10:
+	mov a, reflowtime
+	add a, #00001010b ; 10
+	sjmp Reflow_time_inc_done
+Reflow_time_inc_1:
+	mov a, reflowtime
+	add a, #00000001b ; 1
+Reflow_time_inc_done:
 	cjne a, #0xff, Increase_reflowtime_loop
 	clr a 
 	mov reflowtime, a
@@ -618,7 +688,7 @@ Increase_reflowtime_loop:
 	clr a	
 	ljmp Set_Reflow_time
 	
-Decrease_reflowtime:
+Decrease_reflowtime_b:
 	jb DOWN_BUTTON, Nextmenu4
 	Wait_Milli_Seconds(#50)
 	jb DOWN_BUTTON, Nextmenu4
