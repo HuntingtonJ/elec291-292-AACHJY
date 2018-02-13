@@ -413,7 +413,7 @@ MainProgram:
 	lcall Timer1_Init
     lcall Timer2_Init
 	lcall beep_machine_init
-	mov average_count, #0x05
+	mov average_count, #0x0a
 	mov Mean_temp+0, #0x00	
 	mov Mean_temp+1, #0x00
 	

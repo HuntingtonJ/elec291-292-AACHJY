@@ -367,15 +367,13 @@ Average_temp:
 		jnz average_exit
 
 	average_done: 
-		mov average_count, #0x05		; reset average count 
+		mov average_count, #0x0a		; reset average count 
 
 		Load_y(5)
 		lcall div32
 
 		mov Result_Thermo+0, x+0
 		mov Result_Thermo+1, x+1
-		
-
 
 					; Reset Mean_temp
 		mov Mean_temp+0, #0x00	

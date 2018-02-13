@@ -393,7 +393,7 @@ pb_solder_set: 		; for soldering with the Sn63Pb37 alloy
 	Set_Cursor(2,1)
 	Send_Constant_String(#Profile_loaded)
 
-	mov soaktime, #120
+	mov soaktime, #80
 	mov soaktemp, #150
 	mov reflowtime, #20
 	mov reflowtemp, #230
