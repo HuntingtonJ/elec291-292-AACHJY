@@ -17,7 +17,7 @@ MAX_TEMP	     EQU 250
 TIMEOUT_TIME     EQU 60
 BAUD             EQU 115200
 BRG_VAL          EQU (0x100-(CLK/(16*BAUD)))
-MILLISECOND_WAIT EQU 200		; how many milliseconds between temp samples, needs to be a number evenly divisible into 1000
+MILLISECOND_WAIT EQU 100		; how many milliseconds between temp samples, needs to be a number evenly divisible into 1000
 Seconds_coeff	 equ (1000/MILLISECOND_WAIT)
 ABORT_TIME		 EQU 60
 ABORT_TEMP		 EQU 50
@@ -109,6 +109,7 @@ DSEG at 0x30
 Count1ms:       ds 2 ; Used to determine when half second has passed
 Result:         ds 2 ; Temp from lm355
 Result_Thermo:  ds 2 ; Temp from Thermocoupler
+Result_Thermo_temp: ds 2
 ADC_Result:     ds 2 ; Temp from ADC channel 2
 
 BCD_temp:       ds 2 ; Used to diplay temp on the 7-segment display
@@ -134,7 +135,6 @@ disp2:          ds 1
 disp3:          ds 1 ; Most significant digit
 seg_state:      ds 1 ; state of 7_seg fsm
 display_scratch: ds 1
-seconds_state4: ds 1
 load_state:     ds 1
 load_circle:    ds 3
 ;sec_check: ds 1
@@ -143,6 +143,8 @@ beep_state:     ds 1
 one_beep_count: ds 1
 six_beep_state: ds 1
 six_beep_count: ds 1
+average_count: ds 1
+Mean_temp: ds 2
 
 
 BSEG
@@ -346,6 +348,8 @@ no_load:
 	inc polling_time
 	mov a, polling_time
 	cjne a, #Seconds_coeff, Timer2_ISR_done 
+	
+	
 	mov polling_time, #0x00
 	setb one_second_flag
 	; Increment the BCD seconds counter
@@ -367,8 +371,10 @@ MainProgram:
 	lcall Timer1_Init
     lcall Timer2_Init
 	lcall beep_machine_init
+	mov average_count, #0x05
+	mov Mean_temp+0, #0x00	
+	mov Mean_temp+1, #0x00
 	
-	mov seconds_state4, #0x00
 	mov reflow_state, #0x00
 	mov cooled_temp, #60
     ; In case you decide to use the pins of P0, configure the port in bidirectional mode:

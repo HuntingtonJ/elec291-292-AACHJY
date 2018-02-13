@@ -179,7 +179,7 @@ while Graph_Flag==2:
     handshake= (ser.readline())
     #handshake.decode('ascii')
     print(handshake.decode('ascii'));
-    #print(type(handshake.decode('ascii')));
+    print(type(handshake.decode('ascii')));
     fat= int (handshake)
     if fat==1:
         Graph_Flag=0
@@ -215,4 +215,3 @@ while (Graph_Flag==1) :#BELOW HERE, IMPLEMENT THE GRAPH
     # spurious lines to appear when resizing the stripchart.
     ani = animation.FuncAnimation(fig, run, data_gen, blit=False, interval=100, repeat=False)
     plt.show()
-    animation.FuncAnimation

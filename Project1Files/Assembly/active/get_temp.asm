@@ -288,8 +288,8 @@ GET_THERMO_TEMP:
     lcall add32
     
     ;Store the Thermo coupler result for later use
-    mov Result_Thermo+0, x+0
-    mov Result_Thermo+1, x+1
+    mov Result_Thermo_temp+0, x+0
+    mov Result_Thermo_temp+1, x+1
   	ret		
 
 ;--------------------------------------------------;
@@ -322,7 +322,7 @@ THERMO_TEMP_TO_BCD:
 ;-------------------------------------------------;
 
 GET_TEMP_DATA: 
-	jnb polling_flag, GET_TEMP_DATA_END ; Check if the polling flag is set.
+	jnb polling_flag, GET_TEMP_DATA_END ; Check if the polling flag is set, set every MILLISECOND_WAIT ms
 	clr polling_flag                    ; If it is, clear it and get temp data.
 	
 	;Gets, displays, and pushes ADC LM355 temp values
@@ -330,8 +330,10 @@ GET_TEMP_DATA:
 
     ; Gets, displays, and pushes k-type thermocouple vlaues
 	lcall GET_THERMO_TEMP
+	lcall Average_temp
 	lcall THERMO_TEMP_TO_BCD
 	lcall Display_10_digit_BCD
+
 	
 	; Send the thermocoupler temp to the 7-segment display
 	lcall set_7_segment_diplay
@@ -341,6 +343,45 @@ GET_TEMP_DATA:
 GET_TEMP_DATA_END:
     ret
 	
+Average_temp: 
+		push acc
+		clr c
+		Mov x+0, Mean_temp+0
+		mov x+1, Mean_temp+1
+		mov x+2, #0
+		mov x+3, #0
 
+		mov y+0, Result_Thermo_temp+0
+		mov y+1, Result_Thermo_temp+1
+		mov y+2, #0
+		mov y+3, #0
+
+		lcall add32	; result in x
+
+		mov Mean_temp+0, x+0
+		mov Mean_temp+1, x+1
+
+
+		dec average_count		; decrement average count, checks if 5 averages have been done yet. 
+		mov a, average_count
+		jnz average_exit
+
+	average_done: 
+		mov average_count, #0x05		; reset average count 
+
+		Load_y(5)
+		lcall div32
+
+		mov Result_Thermo+0, x+0
+		mov Result_Thermo+1, x+1
+		
+
+
+					; Reset Mean_temp
+		mov Mean_temp+0, #0x00	
+		mov Mean_temp+1, #0x00
+	average_exit: 
+	pop acc
+	ret
 
 END
