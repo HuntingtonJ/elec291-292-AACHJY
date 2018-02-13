@@ -790,7 +790,7 @@
 421A 124199     413            lcall Timer1_Init
 421D 1241B8     414       lcall Timer2_Init
 4220 1203F6     415            lcall beep_machine_init
-4223 756705     416            mov average_count, #0x05
+4223 75670A     416            mov average_count, #0x0a
 4226 756800     417            mov Mean_temp+0, #0x00  
 4229 756900     418            mov Mean_temp+1, #0x00
 422C            419            

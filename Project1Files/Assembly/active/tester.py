@@ -13,8 +13,9 @@ import serial.tools.list_ports
 PORT = 'COM3'
 
 Graph_Flag=2
-endtime=50
-xsize=800
+endtime=850
+xsize=850
+
 ysize=300
 filename='foo.png'
 subject = 'Hello!'
@@ -75,7 +76,7 @@ def run(data):
     if t==endtime:
         fig.savefig('foo.png')
     if t==endtime+1:
-        email_helper('nice.txt','Reflow_Email',email_send)   
+        email_helper('foo.png','Reflow_Email',email_send)   
         twitter_helper()
         
     return line, line1
@@ -97,6 +98,7 @@ def twitter_helper():
         f=filename.readlines()
         filename.close()
         for line in f:
+            
             api.update_status(status=line)  
     except:
         print('Tweet Failed to send')

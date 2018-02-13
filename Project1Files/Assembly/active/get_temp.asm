@@ -331,14 +331,13 @@ GET_TEMP_DATA:
     ; Gets, displays, and pushes k-type thermocouple vlaues
 	lcall GET_THERMO_TEMP
 	lcall Average_temp
-	lcall THERMO_TEMP_TO_BCD
-	lcall Display_10_digit_BCD
+	
 
 	
 	; Send the thermocoupler temp to the 7-segment display
 	lcall set_7_segment_diplay
 	
-	lcall Send_10_digit_BCD
+	
 
 GET_TEMP_DATA_END:
     ret
@@ -374,6 +373,10 @@ Average_temp:
 
 		mov Result_Thermo+0, x+0
 		mov Result_Thermo+1, x+1
+		lcall THERMO_TEMP_TO_BCD
+		lcall Display_10_digit_BCD
+
+		lcall Send_10_digit_BCD
 
 					; Reset Mean_temp
 		mov Mean_temp+0, #0x00	
