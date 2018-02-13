@@ -368,7 +368,7 @@ Average_temp:
 	average_done: 
 		mov average_count, #0x0a		; reset average count 
 
-		Load_y(5)
+		Load_y(10)
 		lcall div32
 
 		mov Result_Thermo+0, x+0
