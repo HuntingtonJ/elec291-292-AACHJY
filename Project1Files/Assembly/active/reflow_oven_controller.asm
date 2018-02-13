@@ -100,8 +100,8 @@ adc_zero 		equ #10000000B               ; LM355 temp sensor
 adc_one 		equ #10010000B               ; thermocouple
 adc_two 		equ #10100000B               ;	start
 adc_three 		equ #10110000B               ;	stop
-adc_four		equ #11000000B               ;	
-adc_five		equ #11010000B               ;	
+adc_four		equ #11000000B               ;	x10
+adc_five		equ #11010000B               ;	x100
 adc_six			equ #11100000B               ; 
 adc_seven		equ #11110000B				 ; back
 
