@@ -309,6 +309,7 @@ Choose_menu:
 
 
 	button_jmp(UP_BUTTON, Preset_menu_select)
+	button_jmp(SELECT_BUTTON, Preset_menu_select)
 	button_jmp(DOWN_BUTTON, Custom_menu_select)
 	adc_button_jmp(MASTER_STOP, system_ready_jap_jmp)
 
@@ -357,6 +358,7 @@ Preset_menu:
 
 	button_jmp(UP_BUTTON, pb_free_select)
 	button_jmp(DOWN_BUTTON, pb_select)
+	button_jmp(SELECT_BUTTON, pb_free_select)
 	adc_button_jmp(BACK_BUTTON, Choose_menu)
 
 	ljmp Preset_menu
