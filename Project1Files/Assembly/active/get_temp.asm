@@ -285,7 +285,7 @@ GET_THERMO_TEMP:
     mov y+1, Result+1
     mov y+2, #0
     mov y+3, #0
-    lcall sub32
+    lcall add32
     
     ;Store the Thermo coupler result for later use
     mov Result_Thermo+0, x+0

@@ -74,7 +74,7 @@ MASTER_START  EQU #10100000B
 MASTER_STOP   EQU #10110000B
 
 ; For the 7-segment display
-SEGA equ P0.3
+SEGA equ P0.3  
 SEGB equ P0.5
 SEGC equ P0.7
 SEGD equ P4.4

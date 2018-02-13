@@ -466,6 +466,12 @@ Set_Soak_temp:
 	jb UP_BUTTON, Decrease_soaktemp
 	jnb UP_BUTTON, $
 	mov a, soaktemp
+	
+	
+	add a, #0x64
+	
+	add a, #0x0a
+	
 	add a, #0x01
 	cjne a, #0xff, Increase_soaktemp_loop
 	clr a 
