@@ -310,8 +310,12 @@ Choose_menu:
 
 	button_jmp(UP_BUTTON, Preset_menu_select)
 	button_jmp(DOWN_BUTTON, Custom_menu_select)
+	adc_button_jmp(MASTER_STOP, system_ready_jap_jmp)
+
 	
-	sjmp Choose_menu
+	ljmp Choose_menu
+system_ready_jap_jmp: 
+	ljmp system_ready_jap
 
 Preset_menu_select:
 	;Remove messages when blinking cursor is set up
