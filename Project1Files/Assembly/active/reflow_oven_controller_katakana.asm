@@ -57,7 +57,7 @@ org 0x002B
 org 0x003B
 	reti
 
-; These ’EQU’ must match the wiring between the microcontroller and ADC
+; These â€™EQUâ€™ must match the wiring between the microcontroller and ADC
 SOUND_OUT     EQU P3.7
 CE_ADC        EQU P2.0
 MY_MOSI       EQU P2.1
@@ -203,7 +203,7 @@ $include(math32.inc)   ; A library of 32bit math functions
 $LIST
 
 $NOLIST
-$include(menu_code_a1.asm) ; A library of LCD related functions and utility macros
+$include(menu_code_a1_katakana.asm) ; A library of LCD related functions and utility macros
 $LIST
 
 $NOLIST
