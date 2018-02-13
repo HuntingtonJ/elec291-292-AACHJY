@@ -281,7 +281,7 @@ Loaded_param: 			; All parameters are loaded correctly, time to start!
 	lcall hex2bcd
 	lcall Send_10_digit_BCD
 	
-	; Sends reflowtime
+	; Sends reflowtemp
 	mov x+0, reflowtemp+0
 	mov x+1, #0
 	mov x+2, #0
@@ -404,10 +404,10 @@ pb_free_solder_set: 	;for soldering SAC305 lead-free solder
 	Set_Cursor(2,1)
 	Send_Constant_String(#Profile_loaded)
 	
-	mov soaktime, #120
-	mov soaktemp, #160
-	mov reflowtime, #15
-	mov reflowtemp, #245
+	mov soaktime, #80
+	mov soaktemp, #150
+	mov reflowtime, #30
+	mov reflowtemp, #225
 	ljmp system_ready
 
 Pb_free_secret_pizza: 				; can we include this as a joke/bonus pls???

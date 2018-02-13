@@ -22,13 +22,13 @@ email_send=''#Email
 
 
 # Bounds for Profile
-b1 = 50
-b2 = 100
-b3 = 150
-b4 = 200
+b1 = 2000
+b2 = 2700
+b3 = 3000
+b4 = 3300
 b5 = 250
 
-m1 = 1
+m1 = (1/1000) * (220 - 25 ) / 210 
 m2 = 2
 m3 = 2
 
@@ -53,23 +53,22 @@ def run(data):
         xdata.append(t)
         ydata.append(y)
         
-        if t>xsize: # Scroll to the left.
-            ax.set_xlim(t-xsize, t)
-        
-        '''
-        if (0 < t < b1):
-            bdata.append(m1*t)         # Add a second Graph
-        elif (b1 <= t < b2):
-            bdata.append(b1)
-        elif (b2 <= t < b3):
-            bdata.append(m2*t + b1 - m2*b2)
-        elif (b3 <= t < b4):
-            bdata.append(-m3*t + m2*b3+b1-m2*b2+m3*b3)
-        else:
-            bdata.append(0)
-          '''
-        line.set_data(xdata, ydata)          
-       # line1.set_data(xdata, bdata)
+    if t>xsize: # Scroll to the left.
+        ax.set_xlim(t-xsize, t)
+    
+    if (0 < t < 1400):
+        bdata.append((230-23)/(1333)*t+22)         # Add a second Graph
+    elif (b1 <= t < 2333):
+        bdata.append((230-23)/(1333)*t+22)
+    elif (b2 <= t < 2666):
+        bdata.append((230-23)/(1333)*t+22)
+    elif (b3 <= t < b4):
+        bdata.append(-m3*t + m2*b3+b1-m2*b2+m3*b3)
+    else:
+        bdata.append(0)
+      
+    line.set_data(xdata, ydata)          
+    line1.set_data(xdata, bdata)
         
     if t==endtime:
         fig.savefig('foo.png')
@@ -77,7 +76,7 @@ def run(data):
         email_helper(filename,subject,email_send)   
         twitter_helper()
         
-    return line,# line1
+    return line, line1
     
 def on_close_figure(event):
     sys.exit(0)
@@ -179,7 +178,7 @@ while Graph_Flag==2:
     handshake= (ser.readline())
     #handshake.decode('ascii')
     print(handshake.decode('ascii'));
-    print(type(handshake.decode('ascii')));
+    #print(type(handshake.decode('ascii')));
     fat= int (handshake)
     if fat==1:
         Graph_Flag=0
@@ -192,9 +191,17 @@ while (Graph_Flag==0): #Gets parameters for the 2nd graph
     fat= int(paramters_array[count])
     if fat==0:
         Graph_Flag=1
+
         
     count+=1
+    
 print  (paramters_array)
+soak_time = int(paramters_array[1]) - int(paramters_array[0])
+soak_temp = int(paramters_array[2])
+reflow_time = int(paramters_array[3])
+reflow_temp = int(paramters_array[4])
+
+
 while (Graph_Flag==1) :#BELOW HERE, IMPLEMENT THE GRAPH
     strin =  (ser.readline());
     print(strin.decode('ascii'));
@@ -206,10 +213,11 @@ while (Graph_Flag==1) :#BELOW HERE, IMPLEMENT THE GRAPH
     fig.canvas.mpl_connect('close_event', on_close_figure)
     ax = fig.add_subplot(111)
     line, = ax.plot([], [], lw=2)
+    line1, = ax.plot([], [], 'g--', lw=2)
     ax.set_ylim(-5, 300)
     ax.set_xlim(0, xsize)
     ax.grid()
-    xdata, ydata = [], []
+    xdata, ydata, bdata = [], [], []
 
     # Important: Although blit=True makes graphing faster, we need blit=False to prevent
     # spurious lines to appear when resizing the stripchart.
