@@ -187,10 +187,10 @@ reflow_time = int(paramters_array[3])
 reflow_temp = int(paramters_array[4])
 
 # Some Constants
-preheat_time, preheat_temp = 150, 160
-soak_time, soak_temp       = 70, 160 
-ramp2pk_time, ramp2pk_temp = 100, 245
-reflow_time, reflow_temp   = 60, 245
+preheat_time, preheat_temp = 160, 160
+soak_time, soak_temp       = 80, 160 
+ramp2pk_time, ramp2pk_temp = 145, 230
+reflow_time, reflow_temp   = 30, 230
 time = np.linspace(0,800, 800)
 
 t1 = preheat_time
@@ -200,11 +200,11 @@ t4 = t3 + reflow_time
 
 
 def f(x):
- if   (0<=x<t1):                   return 0 + preheat_temp/preheat_time * x
+ if   (0<=x<t1): return 22 + (preheat_temp-22)/preheat_time * x
  elif (t1<=x<t2):  return soak_temp
  elif (t2<=x<t3):   return soak_temp + (x-t2)*(reflow_temp-soak_temp)/ramp2pk_time
  elif (t3<=x<t4): return reflow_temp
- elif (t4<=x<800): return np.exp(-(1/10)*(x-t4))*reflow_temp
+ elif (t4<=x<800): return np.exp(-(1/20)*(x-t4))*reflow_temp
  else: return 0
 
 x = np.arange(0., 800, 0.2)
@@ -241,7 +241,8 @@ while (Graph_Flag==1) :#BELOW HERE, IMPLEMENT THE GRAPH
     fig.canvas.mpl_connect('close_event', on_close_figure)
     ax = fig.add_subplot(111)
     line, = ax.plot([], [], lw=2)
-    line1, = ax.plot(x, y, 'g--', lw=2)
+    line1, = ax.plot(x, y
+                     , 'g--', lw=2)
     ax.set_ylim (-5, 300)
     ax.set_xlim(0, xsize)
     ax.grid()
