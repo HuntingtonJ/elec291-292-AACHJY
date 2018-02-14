@@ -1,3 +1,4 @@
+
 $MODLP51
 
 ; There is a couple of typos in MODLP51 in the definition of the timer 0/1 reload
@@ -146,6 +147,8 @@ six_beep_count: ds 1
 average_count: ds 1
 Mean_temp: ds 2
 
+cool_msg_count: ds 1;
+
 
 BSEG
 mf: dbit 1
@@ -162,6 +165,7 @@ Soak: 			db   '         Soak   ', 0
 Ramp_to_Peak: 	db 	 '         Ramp2pk', 0
 Reflow: 		db 	 '         Reflow ', 0
 Cooling: 		db 	 '         Cooling', 0
+PCB_touch_ready:db   ' PCB touch ready', 0
 secondsss: 		db   's'		, 0
 ;                     1234567890123456    <- This helps determine the location of the counter
 Welcome: 		  db 'Welcome!        ', 0
@@ -396,6 +400,12 @@ no_load:
 	setb one_second_flag
 	; Increment the BCD seconds counter
 	inc seconds
+	mov a, cool_msg_count
+	cjne a, #0, dec_cool_msg
+	sjmp Timer2_ISR_done
+	
+	dec_cool_msg:
+		dec cool_msg_count
 
 	
 Timer2_ISR_done:
@@ -419,6 +429,7 @@ MainProgram:
 	
 	mov reflow_state, #0x00
 	mov cooled_temp, #60
+	mov cool_msg_count, #0
     ; In case you decide to use the pins of P0, configure the port in bidirectional mode:
     mov P0M0, #0
     mov P0M1, #0
