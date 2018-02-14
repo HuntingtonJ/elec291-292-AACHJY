@@ -14,7 +14,7 @@ PORT = 'COM3'
 
 Graph_Flag=2
 endtime=20
-xsize=5000
+xsize=800
 ysize=300
 filename='foo.png'
 subject = 'Hello!'
@@ -22,15 +22,6 @@ email_send=''#Email
 
 
 # Bounds for Profile
-b1 = 2000
-b2 = 2700
-b3 = 3000
-b4 = 3300
-b5 = 250
-
-m1 = (1/1000) * (220 - 25 ) / 210 
-m2 = 2
-m3 = 2
 
 
 
@@ -49,26 +40,33 @@ def data_gen():
 def run(data):
     # update the data
     t,y = data
+
+    # Update Graph
     if t>-1:
         xdata.append(t)
         ydata.append(y)
-        
+        b = ydata[0]
+
+     # Allow Graph Scrolling
     if t>xsize: # Scroll to the left.
         ax.set_xlim(t-xsize, t)
-    
-    if (0 < t < 1400):
-        bdata.append((230-23)/(1333)*t+22)         # Add a second Graph
-    elif (b1 <= t < 2333):
+
+    # Plot Graph 2 - piecewise function
+    if (0 < t < 110):                           #Preheat
+        bdata.append((160-b)/(110)*t+b)        
+    elif (110 <= t < 210):                      #Soak
+        bdata.append(150)
+    elif (210 <= t < 310):                      #Ramp2Peak
         bdata.append((230-23)/(1333)*t+22)
-    elif (b2 <= t < 2666):
-        bdata.append((230-23)/(1333)*t+22)
-    elif (b3 <= t < b4):
-        bdata.append(-m3*t + m2*b3+b1-m2*b2+m3*b3)
-    else:
-        bdata.append(0)
+    elif (310 <= t < 350):                      #Reflow
+        bdata.append(240)
+    else:                                       #Cooling
+        bdata.append((np.exp(-10*t + 240)))
       
     line.set_data(xdata, ydata)          
     line1.set_data(xdata, bdata)
+    print(t,y)
+    
         
     if t==endtime:
         fig.savefig('foo.png')
@@ -188,6 +186,7 @@ while (Graph_Flag==0): #Gets parameters for the 2nd graph
     paramters_array.append(ser.readline()) ;             
     print(paramters_array[count].decode('ascii')); #Testing to see if right paramters are beng sent    
     print('nice')
+    
     fat= int(paramters_array[count])
     if fat==0:
         Graph_Flag=1
@@ -218,6 +217,9 @@ while (Graph_Flag==1) :#BELOW HERE, IMPLEMENT THE GRAPH
     ax.set_xlim(0, xsize)
     ax.grid()
     xdata, ydata, bdata = [], [], []
+    plt.xlabel('Time (s)')
+    plt.ylabel('Temperature (C) ')
+    plt.title('Reflow Oven Temperature')
 
     # Important: Although blit=True makes graphing faster, we need blit=False to prevent
     # spurious lines to appear when resizing the stripchart.

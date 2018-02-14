@@ -22,17 +22,6 @@ subject = 'Hello!'
 email_send='elhosaryabdelrahman@gmail.com'#Email
 
 
-# Bounds for Profile
-b1 = 2000
-b2 = 2700
-b3 = 3000
-b4 = 3300
-b5 = 250
-
-m1 = (1/1000) * (220 - 25 ) / 210 
-m2 = 2
-m3 = 2
-
 
 
 file = open('reflowdata.txt','w')
@@ -49,28 +38,20 @@ def data_gen():
        yield t, y
 
 def run(data):
+
+
     # update the data
     t,y = data
     if t>-1:
         xdata.append(t)
         ydata.append(y)
+        b = ydata[0]            # Find a y-intercept
         
     if t>xsize: # Scroll to the left.
         ax.set_xlim(t-xsize, t)
-    '''
-    if (0 < t < 1400):
-        bdata.append((230-23)/(1333)*t+22)         # Add a second Graph
-    elif (b1 <= t < 2333):
-        bdata.append((230-23)/(1333)*t+22)
-    elif (b2 <= t < 2666):
-        bdata.append((230-23)/(1333)*t+22)
-    elif (b3 <= t < b4):
-        bdata.append(-m3*t + m2*b3+b1-m2*b2+m3*b3)
-    else:
-        bdata.append(0)
-     ''' 
+    
     line.set_data(xdata, ydata)          
-    #line1.set_data(xdata, bdata)
+   
     print(t,int(y))
         
     if t==endtime:
@@ -79,7 +60,7 @@ def run(data):
         email_helper('foo.png','Reflow_Email',email_send)   
         twitter_helper()
         
-    return line, line1
+    return line,
     
 def on_close_figure(event):
     sys.exit(0)
@@ -205,7 +186,36 @@ soak_temp = int(paramters_array[2])
 reflow_time = int(paramters_array[3])
 reflow_temp = int(paramters_array[4])
 
+# Some Constants
+preheat_time, preheat_temp = 150, 160
+soak_time, soak_temp       = 70, 160 
+ramp2pk_time, ramp2pk_temp = 100, 245
+reflow_time, reflow_temp   = 60, 245
+time = np.linspace(0,800, 800)
 
+t1 = preheat_time
+t2 = t1 + soak_time
+t3 = t2 + ramp2pk_time
+t4 = t3 + reflow_time
+
+
+def f(x):
+ if   (0<=x<t1):                   return 0 + preheat_temp/preheat_time * x
+ elif (t1<=x<t2):  return soak_temp
+ elif (t2<=x<t3):   return soak_temp + (x-t2)*(reflow_temp-soak_temp)/ramp2pk_time
+ elif (t3<=x<t4): return reflow_temp
+ elif (t4<=x<800): return np.exp(-(1/10)*(x-t4))*reflow_temp
+ else: return 0
+
+x = np.arange(0., 800, 0.2)
+
+y = []
+for i in range(len(x)):
+    
+   y.append(f(x[i]))
+
+ 
+    
 while (Graph_Flag==1) :#BELOW HERE, IMPLEMENT THE GRAPH
     data_array=[]
     counter=0
@@ -231,11 +241,12 @@ while (Graph_Flag==1) :#BELOW HERE, IMPLEMENT THE GRAPH
     fig.canvas.mpl_connect('close_event', on_close_figure)
     ax = fig.add_subplot(111)
     line, = ax.plot([], [], lw=2)
-    line1, = ax.plot([], [], 'g--', lw=2)
+    line1, = ax.plot(x, y, 'g--', lw=2)
     ax.set_ylim (-5, 300)
     ax.set_xlim(0, xsize)
     ax.grid()
     xdata, ydata = [], []
+
 
     # Important: Although blit=True makes graphing faster, we need blit=False to prevent
     # spurious lines to appear when resizing the stripchart.
