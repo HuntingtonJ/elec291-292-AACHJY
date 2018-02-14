@@ -118,14 +118,13 @@ seconds:        ds 1
 polling_time: 	ds 1
 x:              ds 4 ; Used in math32
 y:              ds 4 ; Used in math32
-bcd:            ds 5
-soaktime:       ds 2
-soaktemp:       ds 2
-reflowtime:     ds 2
-reflowtemp:     ds 2
-soaktemp3digit: ds 2
-reflow_state:   ds 1
-pwm:            ds 1
+bcd:            ds 5 ; Used in hex to BCD conversions
+soaktime:       ds 2 ; Soak duration
+soaktemp:       ds 2 ; Soak temperature
+reflowtime:     ds 2 ; Reflow duration
+reflowtemp:     ds 2 ; Reflow temperature
+soaktemp3digit: ds 2 ; 
+reflow_state:   ds 1 ; Current state of the reflow state machine
 temp:           ds 1
 sec:            ds 1 ; seconds variable for reflow FSM (to be incremented every second)
 cooled_temp:    ds 1
@@ -136,18 +135,18 @@ disp2:          ds 1
 disp3:          ds 1 ; Most significant digit
 seg_state:      ds 1 ; state of 7_seg fsm
 display_scratch: ds 1
-load_state:     ds 1
-load_circle:    ds 3
+load_state:     ds 1 ; state of the loading circle state machine
+load_circle:    ds 3 ; holds the hex data for the loading circle
 ;sec_check: ds 1
 ;Beep Machine vars
-beep_state:     ds 1
-one_beep_count: ds 1
+beep_state:     ds 1 ; Current state of the beep state machine
+one_beep_count: ds 1 
 six_beep_state: ds 1
 six_beep_count: ds 1
 average_count: ds 1
 Mean_temp: ds 2
 
-cool_msg_count: ds 1;
+cool_msg_count: ds 1 ; Count used for displaying cooled down message
 
 
 BSEG
@@ -291,7 +290,6 @@ Timer0_Init:
 	mov TIMER0_RELOAD_L, #low(TIMER0_RELOAD)
 	; Enable the timer and interrupts
     setb ET0  ; Enable timer 0 interrupt
-	;setb TR0  ; Start timer 0
 	ret
 
 ;---------------------------------;
@@ -358,17 +356,12 @@ Timer2_ISR:
 	; The two registers used in the ISR must be saved in the stack
 	push acc
 	push psw
-	; Increment the 16-bit one mili second counter
-			;	inc Count1ms+0    ; Increment the low 8-bits first
-				;mov a, Count1ms+0
-			;	cjne a, #10h, Timer2_ISR_done
-			;	mov Count1ms+0, #0h
+
 	inc Count1ms+0    ; Increment the low 8-bits first
 	mov a, Count1ms+0 ; If the low 8-bits overflow, then increment high 8-bits
 	jnz Inc_Done
 	inc Count1ms+1
 	
-	;Send_BCD(bcd)
 	Inc_Done:
 	; Check if a second has passed
 
