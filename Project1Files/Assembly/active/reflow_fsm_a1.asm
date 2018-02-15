@@ -39,29 +39,35 @@ reflow_state_machine:
 	start_fsm:
 	mov a, reflow_state ;Check current state
 
+	;-----------------;
+	;    Menu/Idle    ;
+	;-----------------;
 	state0: ;Menu/Idle
-			cjne a, #0x00, state1
-			Set_Cursor(1,1)
+			cjne a, #0x00, state1             ; Checks state
+			Set_Cursor(1,1)                   ; Displays state information
 			Send_Constant_String(#State_0)
 			Set_Cursor(2,1)
 			Send_Constant_String(#Clear_Row)
-			mov TIMER1_RELOAD_H, #DUTY_0 
-			ljmp Main_Menu_Program 
+			mov TIMER1_RELOAD_H, #DUTY_0      ; Duty cycle set to 0%
+			ljmp Main_Menu_Program            ;Jumps to the main menu program/state machine
 		state0_done:
-			ljmp forever
+			ljmp forever                      ;jumps back to the main forever loop
 
-	state1: ;Ramp To Soak
+	;-----------------;
+	;   Ramp To Soak  ;
+	;-----------------;
+	state1: 
 			cjne a, #0x01, state2jmp
 			sjmp state1go
 
 		state2jmp: 
 			ljmp state2
 		state1go: 
-			mov TIMER1_RELOAD_H, #DUTY_100 
-			Reflow_screen(Ramp_to_Soak)
+			mov TIMER1_RELOAD_H, #DUTY_100   ; Duty cycle set to 100%
+			Reflow_screen(Ramp_to_Soak)      ; Display state information
 		
 			mov a, seconds
-				cjne a, #60,  state1_continue
+				cjne a, #60, state1_continue 
 
 			mov a, #50
 			clr c
@@ -70,8 +76,8 @@ reflow_state_machine:
 			sjmp state1_continue
 
 		abort_jmp:
-			mov reflow_state, #0x00
-			Set_Cursor(1,1)
+			mov reflow_state, #0x05          ; when aborting ramp to soak, goes to cooling state
+			Set_Cursor(1,1)                  ; displays abort message for a short period of time
 			Send_Constant_String(#abort_msg)
 			lcall delay
 
@@ -84,8 +90,8 @@ reflow_state_machine:
 			mov a, soaktemp
 			clr c
 			subb a, Result_Thermo
-			jnc state1_done 	;if temp>soaktemp then go to state 2 
-			mov seconds, #0			; Reset time 'sec' variable representing elapsed time in each state
+			jnc state1_done 	             ;if temp>soaktemp then go to state 2 
+			mov seconds, #0			         ; Reset time 'sec' variable representing elapsed time in each state
 			mov reflow_state, #0x02
 			one_beep(#60)
 		state1_done:
@@ -164,12 +170,26 @@ reflow_state_machine:
 			jnc state5_done 	;if temp>reflowtemp then go to state 4
 			mov seconds, #0			; reset time for state 4
 			mov reflow_state, #0x06
+			mov cool_msg_count, #10
 			lcall six_beep	
 			lcall load_sm_init
 		state5_done:
 			ljmp forever
 			
-	state6: ;Back to Menu/Idle
+	state6:
+		cjne a, #0x06, state7
+		mov a, cool_msg_count
+		cjne a, #0, show_cooling_message
+		mov reflow_state, #0x07
+		ljmp forever
+		
+		show_cooling_message:
+			Reflow_screen(PCB_Touch_Ready)
+			ljmp forever
+			
+		
+			
+	state7: ;Back to Menu/Idle
 		;lcall WaitHalfSec
 		mov a, beep_state
 		cjne a, #0, state5_done
