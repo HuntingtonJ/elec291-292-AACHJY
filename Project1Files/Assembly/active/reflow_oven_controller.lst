@@ -390,11 +390,11 @@
      7074696F
      6E202020
      00
-00C6 50726573   172   Preset_menu_msg:  db 'Preset Profile ', 0
+00C6 50726573   172   Preset_menu_msg:  db 'Preset Profile ',  0
      65742050
      726F6669
      6C652000
-00D6 43757374   173   Custom_menu_msg:  db 'Custom Profile ', 0
+00D6 43757374   173   Custom_menu_msg:  db 'Custom Profile ',  0
      6F6D2050
      726F6669
      6C652000
@@ -418,11 +418,11 @@
      656D7020
      20202020
      00
-012A 53414333   178   Pb_free_solder:    db 'SAC305 solder  ', 0
+012A 53414333   178   Pb_free_solder:    db 'SAC305 solder  ',  0
      30352073
      6F6C6465
      72202000
-013A 50622D73   179   Pb_solder:                 db 'Pb-solder paste', 0
+013A 50622D73   179   Pb_solder:                 db 'Pb-solder paste',  0
      6F6C6465
      72207061
      73746500
