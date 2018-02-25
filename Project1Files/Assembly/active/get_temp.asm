@@ -206,21 +206,21 @@ Get_ADC_Channel_milliV mac
 ;  Temp = 100(V_Out - 2.73) = 100*V_Out - 273      ;
 ;--------------------------------------------------;
 GET_LM355_TEMP:
-    clr CE_ADC         ; selects 
+    clr CE_ADC         ; selects ADC. Select_true = 0
     mov R0, #00000001B ; Start bit: 1
     lcall DO_SPI_G
     
-    mov R0, #10000000B ; Read channel 0
+    mov R0, #10000000B ; Bit 1: Input Configuration. Bit 2,3,4: channel select 
     lcall DO_SPI_G
     mov a, R1
-    anl a, #00000011B
-    mov Result+1, a    ; Save high result
+    anl a, #00000011B  ; Clear upper 6 bits and save lower 2
+    mov Result+1, a    ; Save high result of the output value
     
-    mov R0, #55H
+    mov R0, #55H       ; Sends 8-bit garbage value
     lcall DO_SPI_G
     mov Result, R1     ; Save low result
     
-    setb CE_ADC        ; deselects
+    setb CE_ADC        ; deselects. Select_false = 1
     
     mov x+0, Result
     mov x+1, Result+1
@@ -361,7 +361,7 @@ Average_temp:
 		mov Mean_temp+1, x+1
 
 
-		dec average_count		; decrement average count, checks if 5 averages have been done yet. 
+		dec average_count		; decrement average count, checks if 10 averages have been done yet. 
 		mov a, average_count
 		jnz average_exit
 

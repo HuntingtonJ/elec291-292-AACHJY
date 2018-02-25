@@ -92,7 +92,7 @@ Get_ADC_Channel mac
     mov x+2, #0
     mov x+3, #0
     
-    Load_y(4091)
+    Load_y(4093)
     lcall mul32 ;multiplies x *= y
     
     Load_y(1023)
