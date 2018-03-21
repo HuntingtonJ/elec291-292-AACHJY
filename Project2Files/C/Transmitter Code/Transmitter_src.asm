@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
-; This file was generated Mon Mar 19 21:15:58 2018
+; This file was generated Tue Mar 20 21:17:16 2018
 ;--------------------------------------------------------
 $name Transmitter_src
 $optc51 --model-small
@@ -34,6 +34,7 @@ $optc51 --model-small
 	public _LCD_pulse
 	public _waitms
 	public _Timer3us
+	public _Tcom_init
 	public _getCommand
 	public _PWMon
 	public _PWMoff
@@ -43,13 +44,21 @@ $optc51 --model-small
 	public _reloadToFrequency
 	public _frequencyToReload
 	public _setDutyCycle
+	public _sendCommandS
+	public _sendCommand
+	public _Timer4_ISR
+	public _Timer4_init
 	public _Timer2_ISR
 	public _Timer2_init
+	public _getchar1
+	public _putchar1
+	public _UART1_Init
 	public _LCDprint_PARM_3
 	public _reload_flag
 	public _getsn_PARM_2
 	public _LCDprint_PARM_2
 	public _setDutyCycle_PARM_2
+	public _sendCommand_PARM_2
 	public _duty_cycle1
 	public _duty_cycle0
 	public _pwm_count
@@ -507,15 +516,21 @@ _duty_cycle0:
 	ds 1
 _duty_cycle1:
 	ds 1
+_sendCommand_PARM_2:
+	ds 1
+_sendCommandS_op_1_84:
+	ds 1
+_sendCommandS_d_1_84:
+	ds 1
 _setDutyCycle_PARM_2:
 	ds 1
-_setDutyCycle_duty_1_69:
+_setDutyCycle_duty_1_87:
 	ds 2
-_setFrequency_frequency_1_77:
+_setFrequency_frequency_1_95:
 	ds 2
-_setReload_reload_1_79:
+_setReload_reload_1_97:
 	ds 2
-_setRotation_duty_1_81:
+_setRotation_duty_1_99:
 	ds 2
 _getCommand_sloc0_1_0:
 	ds 2
@@ -523,15 +538,17 @@ _LCDprint_PARM_2:
 	ds 1
 _getsn_PARM_2:
 	ds 2
-_getsn_buff_1_113:
+_getsn_buff_1_134:
 	ds 3
 _getsn_sloc0_1_0:
 	ds 2
-_main_buffer_1_119:
+_main_buffer_1_140:
 	ds 16
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
+	rseg	R_OSEG
+	rseg	R_OSEG
 	rseg	R_OSEG
 ;--------------------------------------------------------
 ; indirectly addressable internal ram data
@@ -577,6 +594,8 @@ _LCDprint_PARM_3:
 	ljmp	_crt0
 	CSEG at 0x002b
 	ljmp	_Timer2_ISR
+	CSEG at 0x008b
+	ljmp	_Timer4_ISR
 ;--------------------------------------------------------
 ; global & static initialisations
 ;--------------------------------------------------------
@@ -587,13 +606,13 @@ _LCDprint_PARM_3:
 ; data variables initialization
 ;--------------------------------------------------------
 	rseg R_DINIT
-;	Tcom.h:10: volatile unsigned char pwm_count = 0;
+;	Tcom.h:15: volatile unsigned char pwm_count = 0;
 	mov	_pwm_count,#0x00
-;	Tcom.h:11: volatile unsigned char duty_cycle0 = 0;
-	mov	_duty_cycle0,#0x00
-;	Tcom.h:12: volatile unsigned char duty_cycle1 = 0;
+;	Tcom.h:16: volatile unsigned char duty_cycle0 = 50;
+	mov	_duty_cycle0,#0x32
+;	Tcom.h:17: volatile unsigned char duty_cycle1 = 0;
 	mov	_duty_cycle1,#0x00
-;	Tcom.h:14: bit reload_flag = 0;
+;	Tcom.h:19: bit reload_flag = 0;
 	clr	_reload_flag
 	; The linker places a 'ret' at the end of segment R_DINIT.
 ;--------------------------------------------------------
@@ -601,35 +620,164 @@ _LCDprint_PARM_3:
 ;--------------------------------------------------------
 	rseg R_CSEG
 ;------------------------------------------------------------
+;Allocation info for local variables in function 'UART1_Init'
+;------------------------------------------------------------
+;baudrate                  Allocated to registers r2 r3 r4 r5 
+;------------------------------------------------------------
+;	EFM8UART1lib.h:11: void UART1_Init (unsigned long baudrate)
+;	-----------------------------------------
+;	 function UART1_Init
+;	-----------------------------------------
+_UART1_Init:
+	using	0
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+;	EFM8UART1lib.h:13: SFRPAGE = 0x20;
+	mov	_SFRPAGE,#0x20
+;	EFM8UART1lib.h:14: SMOD1 = 0x0C; // no parity, 8 data bits, 1 stop bit
+	mov	_SMOD1,#0x0C
+;	EFM8UART1lib.h:15: SCON1 = 0x10; //Receive fifo overrun flag = 0; Parity Error Flag = 0; 0; Receive enable flag = 1; TBX = 0; RBX = 0; Transmit Interrupt Flag = 0; Receive Interrupt FLag = 0;
+	mov	_SCON1,#0x10
+;	EFM8UART1lib.h:16: SBCON1 =0x00;   // disable baud rate generator
+	mov	_SBCON1,#0x00
+;	EFM8UART1lib.h:17: SBRL1 = 0x10000L-((SYSCLK/baudrate)/(12L*2L));  //Baud rate reload
+	mov	__divulong_PARM_2,r2
+	mov	(__divulong_PARM_2 + 1),r3
+	mov	(__divulong_PARM_2 + 2),r4
+	mov	(__divulong_PARM_2 + 3),r5
+	mov	dptr,#0xA200
+	mov	b,#0x4A
+	mov	a,#0x04
+	lcall	__divulong
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	mov	__divulong_PARM_2,#0x18
+	clr	a
+	mov	(__divulong_PARM_2 + 1),a
+	mov	(__divulong_PARM_2 + 2),a
+	mov	(__divulong_PARM_2 + 3),a
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
+	lcall	__divulong
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	clr	a
+	clr	c
+	subb	a,r2
+	mov	r2,a
+	clr	a
+	subb	a,r3
+	mov	r3,a
+	mov	a,#0x01
+	subb	a,r4
+	clr	a
+	subb	a,r5
+	mov	_SBRL1,r2
+	mov	(_SBRL1 >> 8),r3
+;	EFM8UART1lib.h:18: TI1 = 1; // indicate ready for TX
+	setb	_TI1
+;	EFM8UART1lib.h:19: SBCON1 |= 0x40;   // enable baud rate generator
+	orl	_SBCON1,#0x40
+;	EFM8UART1lib.h:20: SFRPAGE = 0x00;
+	mov	_SFRPAGE,#0x00
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'putchar1'
+;------------------------------------------------------------
+;c                         Allocated to registers r2 
+;------------------------------------------------------------
+;	EFM8UART1lib.h:23: void putchar1 (char c) 
+;	-----------------------------------------
+;	 function putchar1
+;	-----------------------------------------
+_putchar1:
+	mov	r2,dpl
+;	EFM8UART1lib.h:25: SFRPAGE = 0x20;
+	mov	_SFRPAGE,#0x20
+;	EFM8UART1lib.h:26: if (c == '\n') 
+	cjne	r2,#0x0A,L003006?
+;	EFM8UART1lib.h:28: while (!TI1);
+L003001?:
+;	EFM8UART1lib.h:29: TI1=0;
+	jbc	_TI1,L003017?
+	sjmp	L003001?
+L003017?:
+;	EFM8UART1lib.h:30: SBUF1 = '\r';
+	mov	_SBUF1,#0x0D
+;	EFM8UART1lib.h:32: while (!TI1);
+L003006?:
+;	EFM8UART1lib.h:33: TI1=0;
+	jbc	_TI1,L003018?
+	sjmp	L003006?
+L003018?:
+;	EFM8UART1lib.h:34: SBUF1 = c;
+	mov	_SBUF1,r2
+;	EFM8UART1lib.h:35: SFRPAGE = 0x00;
+	mov	_SFRPAGE,#0x00
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'getchar1'
+;------------------------------------------------------------
+;c                         Allocated to registers 
+;------------------------------------------------------------
+;	EFM8UART1lib.h:38: char getchar1 (void)
+;	-----------------------------------------
+;	 function getchar1
+;	-----------------------------------------
+_getchar1:
+;	EFM8UART1lib.h:41: SFRPAGE = 0x20;
+	mov	_SFRPAGE,#0x20
+;	EFM8UART1lib.h:42: while (!RI1);
+L004001?:
+;	EFM8UART1lib.h:43: RI1=0;
+	jbc	_RI1,L004008?
+	sjmp	L004001?
+L004008?:
+;	EFM8UART1lib.h:45: SCON1&=0b_0011_1111;
+	anl	_SCON1,#0x3F
+;	EFM8UART1lib.h:46: c = SBUF1;
+	mov	dpl,_SBUF1
+;	EFM8UART1lib.h:47: SFRPAGE = 0x00;
+	mov	_SFRPAGE,#0x00
+;	EFM8UART1lib.h:48: return (c);
+	ret
+;------------------------------------------------------------
 ;Allocation info for local variables in function 'Timer2_init'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	Tcom.h:16: void Timer2_init(void) {
+;	Tcom.h:21: void Timer2_init(void) {
 ;	-----------------------------------------
 ;	 function Timer2_init
 ;	-----------------------------------------
 _Timer2_init:
-	using	0
-;	Tcom.h:17: TMR2CN0=0b_0000_0000;   // Stop Timer2; Clear TF2; T2XCLK uses Sysclk/12
+;	Tcom.h:22: TMR2CN0=0b_0000_0000;   // Stop Timer2; Clear TF2; T2XCLK uses Sysclk/12
 	mov	_TMR2CN0,#0x00
-;	Tcom.h:18: CKCON0|=0b_0000_0000; // Timer 2 uses the system clock; Timer2 uses T2XCLK
+;	Tcom.h:23: CKCON0|=0b_0000_0000; // Timer 2 uses the system clock; Timer2 uses T2XCLK
 	mov	_CKCON0,_CKCON0
-;	Tcom.h:19: TMR2RL=64936; //Initilizes reload value for 100hz;
+;	Tcom.h:24: TMR2RL=64936; //Initilizes reload value for 100hz;
 	mov	_TMR2RL,#0xA8
 	mov	(_TMR2RL >> 8),#0xFD
-;	Tcom.h:20: TMR2=0xffff;   // Set to reload immediately
+;	Tcom.h:25: TMR2=0xffff;   // Set to reload immediately
 	mov	_TMR2,#0xFF
 	mov	(_TMR2 >> 8),#0xFF
-;	Tcom.h:21: ET2=1;         // Enable Timer2 interrupts
+;	Tcom.h:26: ET2=1;         // Enable Timer2 interrupts
 	setb	_ET2
-;	Tcom.h:22: TR2=1;         // Start Timer2 (TMR2CN is bit addressable)
+;	Tcom.h:27: TR2=1;         // Start Timer2 (TMR2CN is bit addressable)
 	setb	_TR2
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Timer2_ISR'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	Tcom.h:25: void Timer2_ISR (void) interrupt 5 {
+;	Tcom.h:30: void Timer2_ISR (void) interrupt 5 {
 ;	-----------------------------------------
 ;	 function Timer2_ISR
 ;	-----------------------------------------
@@ -637,33 +785,28 @@ _Timer2_ISR:
 	push	acc
 	push	psw
 	mov	psw,#0x00
-;	Tcom.h:26: reload_flag = 1;
+;	Tcom.h:31: SFRPAGE=0x00;
+	mov	_SFRPAGE,#0x00
+;	Tcom.h:32: reload_flag = 1;
 	setb	_reload_flag
-;	Tcom.h:27: TF2H = 0; // Clear Timer2 interrupt flag
+;	Tcom.h:33: TF2H = 0; // Clear Timer2 interrupt flag
 	clr	_TF2H
-;	Tcom.h:29: pwm_count++;
+;	Tcom.h:35: pwm_count++;
 	inc	_pwm_count
-;	Tcom.h:30: if(pwm_count>100) pwm_count=0;
+;	Tcom.h:36: if(pwm_count>100) pwm_count=0;
 	mov	a,_pwm_count
 	add	a,#0xff - 0x64
-	jnc	L003002?
+	jnc	L006002?
 	mov	_pwm_count,#0x00
-L003002?:
-;	Tcom.h:32: OUT0=pwm_count>duty_cycle0?0:1;
+L006002?:
+;	Tcom.h:38: OUT0=pwm_count>duty_cycle0?0:1;
 	clr	c
 	mov	a,_duty_cycle0
 	subb	a,_pwm_count
 	mov  _Timer2_ISR_sloc0_1_0,c
 	cpl	c
 	mov	_P2_0,c
-;	Tcom.h:33: OUT1=pwm_count>duty_cycle1?0:1;
-	clr	c
-	mov	a,_duty_cycle1
-	subb	a,_pwm_count
-	mov  _Timer2_ISR_sloc0_1_0,c
-	cpl	c
-	mov	_P1_7,c
-;	Tcom.h:34: reload_flag = 0;
+;	Tcom.h:39: reload_flag = 0;
 	clr	_reload_flag
 	pop	psw
 	pop	acc
@@ -672,13 +815,206 @@ L003002?:
 ;	eliminated unneeded push/pop dph
 ;	eliminated unneeded push/pop b
 ;------------------------------------------------------------
+;Allocation info for local variables in function 'Timer4_init'
+;------------------------------------------------------------
+;------------------------------------------------------------
+;	Tcom.h:42: void Timer4_init(void) {
+;	-----------------------------------------
+;	 function Timer4_init
+;	-----------------------------------------
+_Timer4_init:
+;	Tcom.h:43: SFRPAGE=0x10;
+	mov	_SFRPAGE,#0x10
+;	Tcom.h:44: TMR4CN0=0b_0000_0000;
+	mov	_TMR4CN0,#0x00
+;	Tcom.h:45: TMR4CN1=0b_0110_0000;
+	mov	_TMR4CN1,#0x60
+;	Tcom.h:47: TMR4RL=59536; //reload = 2^16 - (SYSCLK/12)/(F*2);
+	mov	_TMR4RL,#0x90
+	mov	(_TMR4RL >> 8),#0xE8
+;	Tcom.h:48: TMR4=0xffff;
+	mov	_TMR4,#0xFF
+	mov	(_TMR4 >> 8),#0xFF
+;	Tcom.h:50: EIE2|=0b_0000_0100;
+	orl	_EIE2,#0x04
+;	Tcom.h:51: TR4=1;
+	setb	_TR4
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'Timer4_ISR'
+;------------------------------------------------------------
+;------------------------------------------------------------
+;	Tcom.h:54: void Timer4_ISR(void) interrupt INTERRUPT_TIMER4 {
+;	-----------------------------------------
+;	 function Timer4_ISR
+;	-----------------------------------------
+_Timer4_ISR:
+;	Tcom.h:55: TF4H = 0;
+	clr	_TF4H
+;	Tcom.h:57: OUT1 = !OUT1;
+	cpl	_P1_6
+	reti
+;	eliminated unneeded push/pop psw
+;	eliminated unneeded push/pop dpl
+;	eliminated unneeded push/pop dph
+;	eliminated unneeded push/pop b
+;	eliminated unneeded push/pop acc
+;------------------------------------------------------------
+;Allocation info for local variables in function 'sendCommand'
+;------------------------------------------------------------
+;value                     Allocated with name '_sendCommand_PARM_2'
+;op                        Allocated to registers r2 
+;------------------------------------------------------------
+;	Tcom.h:60: void sendCommand(unsigned char op, unsigned char value) {
+;	-----------------------------------------
+;	 function sendCommand
+;	-----------------------------------------
+_sendCommand:
+	mov	r2,dpl
+;	Tcom.h:61: if (op < 0b_1000 && value < 0b_100000) {
+	cjne	r2,#0x08,L009009?
+L009009?:
+	jnc	L009002?
+	mov	a,#0x100 - 0x20
+	add	a,_sendCommand_PARM_2
+	jc	L009002?
+;	Tcom.h:62: putchar1(op*0b_100000 + value);
+	mov	a,r2
+	swap	a
+	rl	a
+	anl	a,#0xe0
+	mov	r3,a
+	mov	a,_sendCommand_PARM_2
+	add	a,r3
+	mov	dpl,a
+	push	ar2
+	lcall	_putchar1
+	pop	ar2
+;	Tcom.h:63: printf("Sent: %d\r\n", op*0b_100000 + value);
+	mov	a,r2
+	mov	b,#0x20
+	mul	ab
+	mov	r2,a
+	mov	r3,b
+	mov	r4,_sendCommand_PARM_2
+	mov	r5,#0x00
+	mov	a,r4
+	add	a,r2
+	mov	r2,a
+	mov	a,r5
+	addc	a,r3
+	mov	r3,a
+	push	ar2
+	push	ar3
+	mov	a,#__str_0
+	push	acc
+	mov	a,#(__str_0 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	mov	a,sp
+	add	a,#0xfb
+	mov	sp,a
+	ret
+L009002?:
+;	Tcom.h:65: printf("c err\r\n");
+	mov	a,#__str_1
+	push	acc
+	mov	a,#(__str_1 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	dec	sp
+	dec	sp
+	dec	sp
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'sendCommandS'
+;------------------------------------------------------------
+;input                     Allocated to registers r2 r3 r4 
+;op                        Allocated with name '_sendCommandS_op_1_84'
+;d                         Allocated with name '_sendCommandS_d_1_84'
+;------------------------------------------------------------
+;	Tcom.h:69: void sendCommandS(char* input) {
+;	-----------------------------------------
+;	 function sendCommandS
+;	-----------------------------------------
+_sendCommandS:
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+;	Tcom.h:73: sscanf(input, "%*s %c %c", &op, &d);
+	mov	a,#_sendCommandS_d_1_84
+	push	acc
+	mov	a,#(_sendCommandS_d_1_84 >> 8)
+	push	acc
+	mov	a,#0x40
+	push	acc
+	mov	a,#_sendCommandS_op_1_84
+	push	acc
+	mov	a,#(_sendCommandS_op_1_84 >> 8)
+	push	acc
+	mov	a,#0x40
+	push	acc
+	mov	a,#__str_2
+	push	acc
+	mov	a,#(__str_2 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	push	ar2
+	push	ar3
+	push	ar4
+	lcall	_sscanf
+	mov	a,sp
+	add	a,#0xf4
+	mov	sp,a
+;	Tcom.h:75: switch(op) {
+	mov	r2,_sendCommandS_op_1_84
+	cjne	r2,#0x66,L010011?
+	sjmp	L010002?
+L010011?:
+	mov	ar3,r2
+	cjne	r3,#0x72,L010012?
+	sjmp	L010003?
+L010012?:
+	cjne	r2,#0x73,L010004?
+;	Tcom.h:77: op = 0;
+	mov	_sendCommandS_op_1_84,#0x00
+;	Tcom.h:78: break;
+;	Tcom.h:79: case 'f':
+	sjmp	L010005?
+L010002?:
+;	Tcom.h:80: op = 0b_001;
+	mov	_sendCommandS_op_1_84,#0x01
+;	Tcom.h:81: break;
+;	Tcom.h:82: case 'r':
+	sjmp	L010005?
+L010003?:
+;	Tcom.h:83: op = 0b_010;
+	mov	_sendCommandS_op_1_84,#0x02
+;	Tcom.h:84: break;
+;	Tcom.h:85: default:
+	sjmp	L010005?
+L010004?:
+;	Tcom.h:86: return;
+;	Tcom.h:87: }
+	ret
+L010005?:
+;	Tcom.h:88: sendCommand(op, d);
+	mov	_sendCommand_PARM_2,_sendCommandS_d_1_84
+	mov	dpl,_sendCommandS_op_1_84
+	ljmp	_sendCommand
+;------------------------------------------------------------
 ;Allocation info for local variables in function 'setDutyCycle'
 ;------------------------------------------------------------
 ;op                        Allocated with name '_setDutyCycle_PARM_2'
 ;input                     Allocated to registers r2 r3 r4 
-;duty                      Allocated with name '_setDutyCycle_duty_1_69'
+;duty                      Allocated with name '_setDutyCycle_duty_1_87'
 ;------------------------------------------------------------
-;	Tcom.h:37: void setDutyCycle(char* input, unsigned char op) {
+;	Tcom.h:91: void setDutyCycle(char* input, unsigned char op) {
 ;	-----------------------------------------
 ;	 function setDutyCycle
 ;	-----------------------------------------
@@ -686,16 +1022,16 @@ _setDutyCycle:
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
-;	Tcom.h:39: sscanf(input, "%*s %d", &duty);
-	mov	a,#_setDutyCycle_duty_1_69
+;	Tcom.h:93: sscanf(input, "%*s %d", &duty);
+	mov	a,#_setDutyCycle_duty_1_87
 	push	acc
-	mov	a,#(_setDutyCycle_duty_1_69 >> 8)
+	mov	a,#(_setDutyCycle_duty_1_87 >> 8)
 	push	acc
 	mov	a,#0x40
 	push	acc
-	mov	a,#__str_0
+	mov	a,#__str_3
 	push	acc
-	mov	a,#(__str_0 >> 8)
+	mov	a,#(__str_3 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -706,31 +1042,31 @@ _setDutyCycle:
 	mov	a,sp
 	add	a,#0xf7
 	mov	sp,a
-;	Tcom.h:40: if (duty > 100)
+;	Tcom.h:94: if (duty > 100)
 	clr	c
 	mov	a,#0x64
-	subb	a,_setDutyCycle_duty_1_69
+	subb	a,_setDutyCycle_duty_1_87
 	clr	a
-	subb	a,(_setDutyCycle_duty_1_69 + 1)
-	jnc	L004002?
-;	Tcom.h:41: duty = 100;
-	mov	_setDutyCycle_duty_1_69,#0x64
+	subb	a,(_setDutyCycle_duty_1_87 + 1)
+	jnc	L011002?
+;	Tcom.h:95: duty = 100;
+	mov	_setDutyCycle_duty_1_87,#0x64
 	clr	a
-	mov	(_setDutyCycle_duty_1_69 + 1),a
-L004002?:
-;	Tcom.h:43: if (op == 0) {
+	mov	(_setDutyCycle_duty_1_87 + 1),a
+L011002?:
+;	Tcom.h:97: if (op == 0) {
 	mov	a,_setDutyCycle_PARM_2
-;	Tcom.h:44: duty_cycle0 = (char)duty;
-;	Tcom.h:45: printf("Duty Cycle 0 set to: %u\r\n", duty_cycle0);
-	jnz	L004006?
-	mov	_duty_cycle0,_setDutyCycle_duty_1_69
+;	Tcom.h:98: duty_cycle0 = (char)duty;
+;	Tcom.h:99: printf("Duty Cycle 0 set to: %u\r\n", duty_cycle0);
+	jnz	L011006?
+	mov	_duty_cycle0,_setDutyCycle_duty_1_87
 	mov	r2,_duty_cycle0
 	mov	r3,a
 	push	ar2
 	push	ar3
-	mov	a,#__str_1
+	mov	a,#__str_4
 	push	acc
-	mov	a,#(__str_1 >> 8)
+	mov	a,#(__str_4 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -739,20 +1075,20 @@ L004002?:
 	add	a,#0xfb
 	mov	sp,a
 	ret
-L004006?:
-;	Tcom.h:46: } else if (op == 1) {
+L011006?:
+;	Tcom.h:100: } else if (op == 1) {
 	mov	a,#0x01
-	cjne	a,_setDutyCycle_PARM_2,L004008?
-;	Tcom.h:47: duty_cycle1 = (char)duty;
-	mov	_duty_cycle1,_setDutyCycle_duty_1_69
-;	Tcom.h:48: printf("Duty Cycle 1 set to: %u\r\n", duty_cycle1);
+	cjne	a,_setDutyCycle_PARM_2,L011008?
+;	Tcom.h:101: duty_cycle1 = (char)duty;
+	mov	_duty_cycle1,_setDutyCycle_duty_1_87
+;	Tcom.h:102: printf("Duty Cycle 1 set to: %u\r\n", duty_cycle1);
 	mov	r2,_duty_cycle1
 	mov	r3,#0x00
 	push	ar2
 	push	ar3
-	mov	a,#__str_2
+	mov	a,#__str_5
 	push	acc
-	mov	a,#(__str_2 >> 8)
+	mov	a,#(__str_5 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -760,21 +1096,21 @@ L004006?:
 	mov	a,sp
 	add	a,#0xfb
 	mov	sp,a
-L004008?:
+L011008?:
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'frequencyToReload'
 ;------------------------------------------------------------
 ;freq                      Allocated to registers r2 r3 
 ;------------------------------------------------------------
-;	Tcom.h:52: unsigned int frequencyToReload(unsigned int freq) {
+;	Tcom.h:106: unsigned int frequencyToReload(unsigned int freq) {
 ;	-----------------------------------------
 ;	 function frequencyToReload
 ;	-----------------------------------------
 _frequencyToReload:
 	mov	r2,dpl
 	mov	r3,dph
-;	Tcom.h:53: return 65536 - (60000/(freq));
+;	Tcom.h:107: return 65536 - (60000/(freq));
 	mov	__divslong_PARM_2,r2
 	mov	(__divslong_PARM_2 + 1),r3
 	mov	(__divslong_PARM_2 + 2),#0x00
@@ -806,14 +1142,14 @@ _frequencyToReload:
 ;------------------------------------------------------------
 ;reload                    Allocated to registers r2 r3 
 ;------------------------------------------------------------
-;	Tcom.h:56: unsigned int reloadToFrequency(unsigned int reload) {
+;	Tcom.h:110: unsigned int reloadToFrequency(unsigned int reload) {
 ;	-----------------------------------------
 ;	 function reloadToFrequency
 ;	-----------------------------------------
 _reloadToFrequency:
 	mov	r2,dpl
 	mov	r3,dph
-;	Tcom.h:57: return ((SYSCLK/12)/(65536 - reload))/100;
+;	Tcom.h:111: return ((SYSCLK/12)/(65536 - reload))/100;
 	mov	r4,#0x00
 	clr	a
 	mov	r5,a
@@ -851,9 +1187,9 @@ _reloadToFrequency:
 ;Allocation info for local variables in function 'setFrequency'
 ;------------------------------------------------------------
 ;input                     Allocated to registers r2 r3 r4 
-;frequency                 Allocated with name '_setFrequency_frequency_1_77'
+;frequency                 Allocated with name '_setFrequency_frequency_1_95'
 ;------------------------------------------------------------
-;	Tcom.h:60: void setFrequency(char* input) {
+;	Tcom.h:114: void setFrequency(char* input) {
 ;	-----------------------------------------
 ;	 function setFrequency
 ;	-----------------------------------------
@@ -861,16 +1197,16 @@ _setFrequency:
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
-;	Tcom.h:62: sscanf(input, "%*s %u", &frequency);
-	mov	a,#_setFrequency_frequency_1_77
+;	Tcom.h:116: sscanf(input, "%*s %u", &frequency);
+	mov	a,#_setFrequency_frequency_1_95
 	push	acc
-	mov	a,#(_setFrequency_frequency_1_77 >> 8)
+	mov	a,#(_setFrequency_frequency_1_95 >> 8)
 	push	acc
 	mov	a,#0x40
 	push	acc
-	mov	a,#__str_3
+	mov	a,#__str_6
 	push	acc
-	mov	a,#(__str_3 >> 8)
+	mov	a,#(__str_6 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -881,12 +1217,12 @@ _setFrequency:
 	mov	a,sp
 	add	a,#0xf7
 	mov	sp,a
-;	Tcom.h:63: while(reload_flag != 0);
-L007001?:
-	jb	_reload_flag,L007001?
-;	Tcom.h:64: TMR2RL = frequencyToReload(frequency);
-	mov	dpl,_setFrequency_frequency_1_77
-	mov	dph,(_setFrequency_frequency_1_77 + 1)
+;	Tcom.h:117: while(reload_flag != 0);
+L014001?:
+	jb	_reload_flag,L014001?
+;	Tcom.h:118: TMR2RL = frequencyToReload(frequency);
+	mov	dpl,_setFrequency_frequency_1_95
+	mov	dph,(_setFrequency_frequency_1_95 + 1)
 	lcall	_frequencyToReload
 	mov	_TMR2RL,dpl
 	mov	(_TMR2RL >> 8),dph
@@ -895,9 +1231,9 @@ L007001?:
 ;Allocation info for local variables in function 'setReload'
 ;------------------------------------------------------------
 ;input                     Allocated to registers r2 r3 r4 
-;reload                    Allocated with name '_setReload_reload_1_79'
+;reload                    Allocated with name '_setReload_reload_1_97'
 ;------------------------------------------------------------
-;	Tcom.h:67: void setReload(char* input) {
+;	Tcom.h:121: void setReload(char* input) {
 ;	-----------------------------------------
 ;	 function setReload
 ;	-----------------------------------------
@@ -905,16 +1241,16 @@ _setReload:
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
-;	Tcom.h:69: sscanf(input, "%*s %u", &reload);
-	mov	a,#_setReload_reload_1_79
+;	Tcom.h:123: sscanf(input, "%*s %u", &reload);
+	mov	a,#_setReload_reload_1_97
 	push	acc
-	mov	a,#(_setReload_reload_1_79 >> 8)
+	mov	a,#(_setReload_reload_1_97 >> 8)
 	push	acc
 	mov	a,#0x40
 	push	acc
-	mov	a,#__str_3
+	mov	a,#__str_6
 	push	acc
-	mov	a,#(__str_3 >> 8)
+	mov	a,#(__str_6 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -925,20 +1261,20 @@ _setReload:
 	mov	a,sp
 	add	a,#0xf7
 	mov	sp,a
-;	Tcom.h:70: while(reload_flag != 0);
-L008001?:
-	jb	_reload_flag,L008001?
-;	Tcom.h:71: TMR2RL = reload;
-	mov	_TMR2RL,_setReload_reload_1_79
-	mov	(_TMR2RL >> 8),(_setReload_reload_1_79 + 1)
+;	Tcom.h:124: while(reload_flag != 0);
+L015001?:
+	jb	_reload_flag,L015001?
+;	Tcom.h:125: TMR2RL = reload;
+	mov	_TMR2RL,_setReload_reload_1_97
+	mov	(_TMR2RL >> 8),(_setReload_reload_1_97 + 1)
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'setRotation'
 ;------------------------------------------------------------
 ;input                     Allocated to registers r2 r3 r4 
-;duty                      Allocated with name '_setRotation_duty_1_81'
+;duty                      Allocated with name '_setRotation_duty_1_99'
 ;------------------------------------------------------------
-;	Tcom.h:74: void setRotation(char* input) {
+;	Tcom.h:128: void setRotation(char* input) {
 ;	-----------------------------------------
 ;	 function setRotation
 ;	-----------------------------------------
@@ -946,19 +1282,19 @@ _setRotation:
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
-;	Tcom.h:76: sscanf(input, "%*s %u", &duty); 
+;	Tcom.h:130: sscanf(input, "%*s %u", &duty); 
 	push	ar2
 	push	ar3
 	push	ar4
-	mov	a,#_setRotation_duty_1_81
+	mov	a,#_setRotation_duty_1_99
 	push	acc
-	mov	a,#(_setRotation_duty_1_81 >> 8)
+	mov	a,#(_setRotation_duty_1_99 >> 8)
 	push	acc
 	mov	a,#0x40
 	push	acc
-	mov	a,#__str_3
+	mov	a,#__str_6
 	push	acc
-	mov	a,#(__str_3 >> 8)
+	mov	a,#(__str_6 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -972,7 +1308,7 @@ _setRotation:
 	pop	ar4
 	pop	ar3
 	pop	ar2
-;	Tcom.h:78: if (input[2] == 'w') {
+;	Tcom.h:132: if (input[2] == 'w') {
 	mov	a,#0x02
 	add	a,r2
 	mov	r2,a
@@ -984,25 +1320,25 @@ _setRotation:
 	mov	b,r4
 	lcall	__gptrget
 	mov	r2,a
-	cjne	r2,#0x77,L009005?
-;	Tcom.h:79: duty_cycle0 = (char)duty;
-	mov	_duty_cycle0,_setRotation_duty_1_81
-;	Tcom.h:80: duty_cycle1 = 0;
+	cjne	r2,#0x77,L016005?
+;	Tcom.h:133: duty_cycle0 = (char)duty;
+	mov	_duty_cycle0,_setRotation_duty_1_99
+;	Tcom.h:134: duty_cycle1 = 0;
 	mov	_duty_cycle1,#0x00
 	ret
-L009005?:
-;	Tcom.h:81: }else if(input[2] == 'c') {
-	cjne	r2,#0x63,L009002?
-;	Tcom.h:82: duty_cycle1 = (char)duty;
-	mov	_duty_cycle1,_setRotation_duty_1_81
-;	Tcom.h:83: duty_cycle0 = 0;
+L016005?:
+;	Tcom.h:135: }else if(input[2] == 'c') {
+	cjne	r2,#0x63,L016002?
+;	Tcom.h:136: duty_cycle1 = (char)duty;
+	mov	_duty_cycle1,_setRotation_duty_1_99
+;	Tcom.h:137: duty_cycle0 = 0;
 	mov	_duty_cycle0,#0x00
 	ret
-L009002?:
-;	Tcom.h:85: printf("Invalid direction. Use -cw or -ccw\r\n");
-	mov	a,#__str_4
+L016002?:
+;	Tcom.h:139: printf("Invalid direction. Use -cw or -ccw\r\n");
+	mov	a,#__str_7
 	push	acc
-	mov	a,#(__str_4 >> 8)
+	mov	a,#(__str_7 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1015,28 +1351,28 @@ L009002?:
 ;Allocation info for local variables in function 'PWMoff'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	Tcom.h:89: void PWMoff() {
+;	Tcom.h:143: void PWMoff() {
 ;	-----------------------------------------
 ;	 function PWMoff
 ;	-----------------------------------------
 _PWMoff:
-;	Tcom.h:90: OUT0 = 0;
+;	Tcom.h:144: OUT0 = 0;
 	clr	_P2_0
-;	Tcom.h:91: OUT1 = 0;
-	clr	_P1_7
-;	Tcom.h:92: TR2 = 0;
+;	Tcom.h:145: OUT1 = 0;
+	clr	_P1_6
+;	Tcom.h:146: TR2 = 0;
 	clr	_TR2
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'PWMon'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	Tcom.h:95: void PWMon() {
+;	Tcom.h:149: void PWMon() {
 ;	-----------------------------------------
 ;	 function PWMon
 ;	-----------------------------------------
 _PWMon:
-;	Tcom.h:96: TR2 = 1;
+;	Tcom.h:150: TR2 = 1;
 	setb	_TR2
 	ret
 ;------------------------------------------------------------
@@ -1045,23 +1381,23 @@ _PWMon:
 ;input                     Allocated to registers r2 r3 r4 
 ;sloc0                     Allocated with name '_getCommand_sloc0_1_0'
 ;------------------------------------------------------------
-;	Tcom.h:99: void getCommand(char* input) {
+;	Tcom.h:153: void getCommand(char* input) {
 ;	-----------------------------------------
 ;	 function getCommand
 ;	-----------------------------------------
 _getCommand:
-;	Tcom.h:101: if (input[0] == '-') {
+;	Tcom.h:155: if (input[0] == '-') {
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
 	lcall	__gptrget
 	mov	r5,a
-	cjne	r5,#0x2D,L012038?
-	sjmp	L012039?
-L012038?:
-	ljmp	L012021?
-L012039?:
-;	Tcom.h:102: switch(input[1]) {
+	cjne	r5,#0x2D,L019040?
+	sjmp	L019041?
+L019040?:
+	ljmp	L019022?
+L019041?:
+;	Tcom.h:156: switch(input[1]) {
 	mov	a,#0x01
 	add	a,r2
 	mov	r5,a
@@ -1074,42 +1410,53 @@ L012039?:
 	mov	b,r7
 	lcall	__gptrget
 	mov	r5,a
-	cjne	r5,#0x63,L012040?
-	sjmp	L012001?
-L012040?:
-	cjne	r5,#0x64,L012041?
-	sjmp	L012002?
-L012041?:
-	cjne	r5,#0x66,L012042?
-	sjmp	L012008?
-L012042?:
-	cjne	r5,#0x68,L012043?
-	sjmp	L012009?
-L012043?:
-	cjne	r5,#0x69,L012044?
-	sjmp	L012010?
-L012044?:
-	cjne	r5,#0x6F,L012045?
-	ljmp	L012015?
-L012045?:
-	cjne	r5,#0x72,L012046?
-	ljmp	L012011?
-L012046?:
-	cjne	r5,#0x73,L012047?
-	ljmp	L012012?
-L012047?:
-	ljmp	L012018?
-;	Tcom.h:103: case 'c':
-L012001?:
-;	Tcom.h:104: setRotation(input);
+	cjne	r5,#0x2F,L019042?
+	sjmp	L019001?
+L019042?:
+	cjne	r5,#0x63,L019043?
+	sjmp	L019002?
+L019043?:
+	cjne	r5,#0x64,L019044?
+	sjmp	L019003?
+L019044?:
+	cjne	r5,#0x66,L019045?
+	sjmp	L019009?
+L019045?:
+	cjne	r5,#0x68,L019046?
+	sjmp	L019010?
+L019046?:
+	cjne	r5,#0x69,L019047?
+	sjmp	L019011?
+L019047?:
+	cjne	r5,#0x6F,L019048?
+	ljmp	L019012?
+L019048?:
+	cjne	r5,#0x72,L019049?
+	ljmp	L019015?
+L019049?:
+	cjne	r5,#0x73,L019050?
+	ljmp	L019016?
+L019050?:
+	ljmp	L019019?
+;	Tcom.h:157: case '/':
+L019001?:
+;	Tcom.h:158: sendCommandS(input);
 	mov	dpl,r2
 	mov	dph,r3
 	mov	b,r4
-;	Tcom.h:105: break;
+;	Tcom.h:159: break;
+	ljmp	_sendCommandS
+;	Tcom.h:160: case 'c':
+L019002?:
+;	Tcom.h:161: setRotation(input);
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+;	Tcom.h:162: break;
 	ljmp	_setRotation
-;	Tcom.h:106: case 'd':
-L012002?:
-;	Tcom.h:107: if (input[2] == '0') {
+;	Tcom.h:163: case 'd':
+L019003?:
+;	Tcom.h:164: if (input[2] == '0') {
 	mov	a,#0x02
 	add	a,r2
 	mov	r5,a
@@ -1122,38 +1469,38 @@ L012002?:
 	mov	b,r7
 	lcall	__gptrget
 	mov	r5,a
-	cjne	r5,#0x30,L012006?
-;	Tcom.h:108: setDutyCycle(input, 0);
+	cjne	r5,#0x30,L019007?
+;	Tcom.h:165: setDutyCycle(input, 0);
 	mov	_setDutyCycle_PARM_2,#0x00
 	mov	dpl,r2
 	mov	dph,r3
 	mov	b,r4
-;	Tcom.h:109: break;
+;	Tcom.h:166: break;
 	ljmp	_setDutyCycle
-L012006?:
-;	Tcom.h:110: } else if (input[2] == '1') {
-	cjne	r5,#0x31,L012008?
-;	Tcom.h:111: setDutyCycle(input, 1);
+L019007?:
+;	Tcom.h:167: } else if (input[2] == '1') {
+	cjne	r5,#0x31,L019009?
+;	Tcom.h:168: setDutyCycle(input, 1);
 	mov	_setDutyCycle_PARM_2,#0x01
 	mov	dpl,r2
 	mov	dph,r3
 	mov	b,r4
-;	Tcom.h:112: break;
+;	Tcom.h:169: break;
 	ljmp	_setDutyCycle
-;	Tcom.h:114: case 'f':
-L012008?:
-;	Tcom.h:115: setFrequency(input);
+;	Tcom.h:171: case 'f':
+L019009?:
+;	Tcom.h:172: setFrequency(input);
 	mov	dpl,r2
 	mov	dph,r3
 	mov	b,r4
-;	Tcom.h:116: break;
+;	Tcom.h:173: break;
 	ljmp	_setFrequency
-;	Tcom.h:117: case 'h':
-L012009?:
-;	Tcom.h:118: printf("Help Menu\r\nList of Commands: \r\n-cw [duty value]\r\n-ccw [duty value]\r\n-d0 [duty value]\r\n-d1 [duty value]\r\n-f [freq value]\r\n-r [reload value]\r\n-o\r\n-s\r\n-i\r\n\n");
-	mov	a,#__str_5
+;	Tcom.h:174: case 'h':
+L019010?:
+;	Tcom.h:175: printf("Help Menu\r\nList of Commands: \r\n-cw [duty value]\r\n-ccw [duty value]\r\n-d0 [duty value]\r\n-d1 [duty value]\r\n-f [freq value]\r\n-r [reload value]\r\n-o\r\n-s\r\n-i\r\n\n");
+	mov	a,#__str_8
 	push	acc
-	mov	a,#(__str_5 >> 8)
+	mov	a,#(__str_8 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1161,11 +1508,11 @@ L012009?:
 	dec	sp
 	dec	sp
 	dec	sp
-;	Tcom.h:119: break;
+;	Tcom.h:176: break;
 	ret
-;	Tcom.h:120: case 'i':
-L012010?:
-;	Tcom.h:121: printf("Reload: %u, Freq: %d, duty0: %d, duty1: %d\r\n", TMR2RL, reloadToFrequency(TMR2RL), duty_cycle0, duty_cycle1);
+;	Tcom.h:177: case 'i':
+L019011?:
+;	Tcom.h:178: printf("Reload: %u, Freq: %d, duty0: %d, duty1: %d\r\n", TMR2RL, reloadToFrequency(TMR2RL), duty_cycle0, duty_cycle1);
 	mov	r5,_duty_cycle1
 	mov	r6,#0x00
 	mov	_getCommand_sloc0_1_0,_duty_cycle0
@@ -1183,9 +1530,9 @@ L012010?:
 	push	ar7
 	push	_TMR2RL
 	push	(_TMR2RL >> 8)
-	mov	a,#__str_6
+	mov	a,#__str_9
 	push	acc
-	mov	a,#(__str_6 >> 8)
+	mov	a,#(__str_9 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1193,19 +1540,37 @@ L012010?:
 	mov	a,sp
 	add	a,#0xf5
 	mov	sp,a
-;	Tcom.h:122: break;
-;	Tcom.h:123: case 'r':
+;	Tcom.h:179: break;
+;	Tcom.h:180: case 'o':
 	ret
-L012011?:
-;	Tcom.h:124: setReload(input);
+L019012?:
+;	Tcom.h:181: if (input[2] == 0)
+	mov	a,#0x02
+	add	a,r2
+	mov	r5,a
+	clr	a
+	addc	a,r3
+	mov	r6,a
+	mov	ar7,r4
+	mov	dpl,r5
+	mov	dph,r6
+	mov	b,r7
+	lcall	__gptrget
+	jnz	L019023?
+;	Tcom.h:182: PWMoff();
+;	Tcom.h:183: break;	
+;	Tcom.h:184: case 'r':
+	ljmp	_PWMoff
+L019015?:
+;	Tcom.h:185: setReload(input);
 	mov	dpl,r2
 	mov	dph,r3
 	mov	b,r4
-;	Tcom.h:125: break;
-;	Tcom.h:126: case 's':
+;	Tcom.h:186: break;
+;	Tcom.h:187: case 's':
 	ljmp	_setReload
-L012012?:
-;	Tcom.h:127: if (input[2] == 0)
+L019016?:
+;	Tcom.h:188: if (input[2] == 0)
 	mov	a,#0x02
 	add	a,r2
 	mov	r5,a
@@ -1217,37 +1582,19 @@ L012012?:
 	mov	dph,r6
 	mov	b,r7
 	lcall	__gptrget
-	jnz	L012022?
-;	Tcom.h:128: PWMon();
-;	Tcom.h:129: break;
-;	Tcom.h:130: case 'o':
+	jnz	L019023?
+;	Tcom.h:189: PWMon();
+;	Tcom.h:190: break;
+;	Tcom.h:191: default:
 	ljmp	_PWMon
-L012015?:
-;	Tcom.h:131: if (input[2] == 0)
-	mov	a,#0x02
-	add	a,r2
-	mov	r5,a
-	clr	a
-	addc	a,r3
-	mov	r6,a
-	mov	ar7,r4
-	mov	dpl,r5
-	mov	dph,r6
-	mov	b,r7
-	lcall	__gptrget
-	jnz	L012022?
-;	Tcom.h:132: PWMoff();
-;	Tcom.h:133: break;
-;	Tcom.h:134: default:-
-	ljmp	_PWMoff
-L012018?:
-;	Tcom.h:135: printf("\"%s\" invalid command\r\n", input);
+L019019?:
+;	Tcom.h:192: printf("\"%s\" invalid command\r\n", input);
 	push	ar2
 	push	ar3
 	push	ar4
-	mov	a,#__str_7
+	mov	a,#__str_10
 	push	acc
-	mov	a,#(__str_7 >> 8)
+	mov	a,#(__str_10 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1255,13 +1602,13 @@ L012018?:
 	mov	a,sp
 	add	a,#0xfa
 	mov	sp,a
-;	Tcom.h:137: }
+;	Tcom.h:194: }
 	ret
-L012021?:
-;	Tcom.h:139: printf("Not Valid input\r\n");
-	mov	a,#__str_8
+L019022?:
+;	Tcom.h:196: printf("Not Valid input\r\n");
+	mov	a,#__str_11
 	push	acc
-	mov	a,#(__str_8 >> 8)
+	mov	a,#(__str_11 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1269,118 +1616,141 @@ L012021?:
 	dec	sp
 	dec	sp
 	dec	sp
-L012022?:
-;	Tcom.h:141: return;
+L019023?:
+;	Tcom.h:198: return;
 	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'Tcom_init'
+;------------------------------------------------------------
+;baudrate                  Allocated to registers r2 r3 r4 r5 
+;------------------------------------------------------------
+;	Tcom.h:201: void Tcom_init(unsigned long baudrate) {
+;	-----------------------------------------
+;	 function Tcom_init
+;	-----------------------------------------
+_Tcom_init:
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+;	Tcom.h:202: Timer2_init();
+	push	ar2
+	push	ar3
+	push	ar4
+	push	ar5
+	lcall	_Timer2_init
+;	Tcom.h:203: Timer4_init();
+	lcall	_Timer4_init
+	pop	ar5
+	pop	ar4
+	pop	ar3
+	pop	ar2
+;	Tcom.h:204: UART1_Init(baudrate);
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
+	ljmp	_UART1_Init
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Timer3us'
 ;------------------------------------------------------------
 ;us                        Allocated to registers r2 
 ;i                         Allocated to registers r3 
 ;------------------------------------------------------------
-;	EFM8LCDlib.h:14: void Timer3us(unsigned char us)
+;	EFM8core.h:8: void Timer3us(unsigned char us)
 ;	-----------------------------------------
 ;	 function Timer3us
 ;	-----------------------------------------
 _Timer3us:
 	mov	r2,dpl
-;	EFM8LCDlib.h:19: CKCON0|=0b_0100_0000;
+;	EFM8core.h:12: SFRPAGE=0x00;
+	mov	_SFRPAGE,#0x00
+;	EFM8core.h:14: CKCON0|=0b_0100_0000;
 	orl	_CKCON0,#0x40
-;	EFM8LCDlib.h:21: TMR3RL = (-(SYSCLK)/1000000L); // Set Timer3 to overflow in 1us.
+;	EFM8core.h:16: TMR3RL = (-(SYSCLK)/1000000L); // Set Timer3 to overflow in 1us.
 	mov	_TMR3RL,#0xB8
 	mov	(_TMR3RL >> 8),#0xFF
-;	EFM8LCDlib.h:22: TMR3 = TMR3RL;                 // Initialize Timer3 for first overflow
+;	EFM8core.h:17: TMR3 = TMR3RL;                 // Initialize Timer3 for first overflow
 	mov	_TMR3,_TMR3RL
 	mov	(_TMR3 >> 8),(_TMR3RL >> 8)
-;	EFM8LCDlib.h:24: TMR3CN0 = 0x04;                 // Sart Timer3 and clear overflow flag
+;	EFM8core.h:19: TMR3CN0 = 0x04;                 // Sart Timer3 and clear overflow flag
 	mov	_TMR3CN0,#0x04
-;	EFM8LCDlib.h:25: for (i = 0; i < us; i++)       // Count <us> overflows
+;	EFM8core.h:20: for (i = 0; i < us; i++)       // Count <us> overflows
 	mov	r3,#0x00
-L013004?:
+L021004?:
 	clr	c
 	mov	a,r3
 	subb	a,r2
-	jnc	L013007?
-;	EFM8LCDlib.h:27: while (!(TMR3CN0 & 0x80));  // Wait for overflow
-L013001?:
+	jnc	L021007?
+;	EFM8core.h:22: while (!(TMR3CN0 & 0x80));  // Wait for overflow
+L021001?:
 	mov	a,_TMR3CN0
-	jnb	acc.7,L013001?
-;	EFM8LCDlib.h:28: TMR3CN0 &= ~(0x80);         // Clear overflow indicator
+	jnb	acc.7,L021001?
+;	EFM8core.h:23: TMR3CN0 &= ~(0x80);         // Clear overflow indicator
 	anl	_TMR3CN0,#0x7F
-;	EFM8LCDlib.h:25: for (i = 0; i < us; i++)       // Count <us> overflows
+;	EFM8core.h:20: for (i = 0; i < us; i++)       // Count <us> overflows
 	inc	r3
-	sjmp	L013004?
-L013007?:
-;	EFM8LCDlib.h:30: TMR3CN0 = 0 ;                   // Stop Timer3 and clear overflow flag
+	sjmp	L021004?
+L021007?:
+;	EFM8core.h:25: TMR3CN0 = 0 ;                   // Stop Timer3 and clear overflow flag
 	mov	_TMR3CN0,#0x00
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'waitms'
 ;------------------------------------------------------------
 ;ms                        Allocated to registers r2 r3 
-;j                         Allocated to registers r4 r5 
-;k                         Allocated to registers r6 
+;j                         Allocated to registers r2 r3 
 ;------------------------------------------------------------
-;	EFM8LCDlib.h:33: void waitms (unsigned int ms)
+;	EFM8core.h:28: void waitms (unsigned int ms)
 ;	-----------------------------------------
 ;	 function waitms
 ;	-----------------------------------------
 _waitms:
 	mov	r2,dpl
 	mov	r3,dph
-;	EFM8LCDlib.h:37: for(j=0; j<ms; j++)
-	mov	r4,#0x00
-	mov	r5,#0x00
-L014005?:
-	clr	c
-	mov	a,r4
-	subb	a,r2
-	mov	a,r5
-	subb	a,r3
-	jnc	L014009?
-;	EFM8LCDlib.h:38: for (k=0; k<4; k++) Timer3us(250);
-	mov	r6,#0x00
-L014001?:
-	cjne	r6,#0x04,L014018?
-L014018?:
-	jnc	L014007?
-	mov	dpl,#0xFA
+;	EFM8core.h:31: for(j=ms; j!=0; j--)
+L022001?:
+	cjne	r2,#0x00,L022010?
+	cjne	r3,#0x00,L022010?
+	ret
+L022010?:
+;	EFM8core.h:33: Timer3us(249);
+	mov	dpl,#0xF9
 	push	ar2
 	push	ar3
-	push	ar4
-	push	ar5
-	push	ar6
 	lcall	_Timer3us
-	pop	ar6
-	pop	ar5
-	pop	ar4
+;	EFM8core.h:34: Timer3us(249);
+	mov	dpl,#0xF9
+	lcall	_Timer3us
+;	EFM8core.h:35: Timer3us(249);
+	mov	dpl,#0xF9
+	lcall	_Timer3us
+;	EFM8core.h:36: Timer3us(250);
+	mov	dpl,#0xFA
+	lcall	_Timer3us
 	pop	ar3
 	pop	ar2
-	inc	r6
-	sjmp	L014001?
-L014007?:
-;	EFM8LCDlib.h:37: for(j=0; j<ms; j++)
-	inc	r4
-	cjne	r4,#0x00,L014005?
-	inc	r5
-	sjmp	L014005?
-L014009?:
-	ret
+;	EFM8core.h:31: for(j=ms; j!=0; j--)
+	dec	r2
+	cjne	r2,#0xff,L022011?
+	dec	r3
+L022011?:
+	sjmp	L022001?
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'LCD_pulse'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	EFM8LCDlib.h:41: void LCD_pulse (void)
+;	EFM8LCDlib.h:15: void LCD_pulse (void)
 ;	-----------------------------------------
 ;	 function LCD_pulse
 ;	-----------------------------------------
 _LCD_pulse:
-;	EFM8LCDlib.h:43: LCD_E=1;
+;	EFM8LCDlib.h:17: LCD_E=1;
 	setb	_P2_5
-;	EFM8LCDlib.h:44: Timer3us(40);
+;	EFM8LCDlib.h:18: Timer3us(40);
 	mov	dpl,#0x28
 	lcall	_Timer3us
-;	EFM8LCDlib.h:45: LCD_E=0;
+;	EFM8LCDlib.h:19: LCD_E=0;
 	clr	_P2_5
 	ret
 ;------------------------------------------------------------
@@ -1388,66 +1758,66 @@ _LCD_pulse:
 ;------------------------------------------------------------
 ;x                         Allocated to registers r2 
 ;------------------------------------------------------------
-;	EFM8LCDlib.h:48: void LCD_byte (unsigned char x)
+;	EFM8LCDlib.h:22: void LCD_byte (unsigned char x)
 ;	-----------------------------------------
 ;	 function LCD_byte
 ;	-----------------------------------------
 _LCD_byte:
 	mov	r2,dpl
-;	EFM8LCDlib.h:51: ACC=x; //Send high nible
+;	EFM8LCDlib.h:25: ACC=x; //Send high nible
 	mov	_ACC,r2
-;	EFM8LCDlib.h:52: LCD_D7=ACC_7;
+;	EFM8LCDlib.h:26: LCD_D7=ACC_7;
 	mov	c,_ACC_7
 	mov	_P2_1,c
-;	EFM8LCDlib.h:53: LCD_D6=ACC_6;
+;	EFM8LCDlib.h:27: LCD_D6=ACC_6;
 	mov	c,_ACC_6
 	mov	_P2_2,c
-;	EFM8LCDlib.h:54: LCD_D5=ACC_5;
+;	EFM8LCDlib.h:28: LCD_D5=ACC_5;
 	mov	c,_ACC_5
 	mov	_P2_3,c
-;	EFM8LCDlib.h:55: LCD_D4=ACC_4;
+;	EFM8LCDlib.h:29: LCD_D4=ACC_4;
 	mov	c,_ACC_4
 	mov	_P2_4,c
-;	EFM8LCDlib.h:56: LCD_pulse();
+;	EFM8LCDlib.h:30: LCD_pulse();
 	push	ar2
 	lcall	_LCD_pulse
-;	EFM8LCDlib.h:57: Timer3us(40);
+;	EFM8LCDlib.h:31: Timer3us(40);
 	mov	dpl,#0x28
 	lcall	_Timer3us
 	pop	ar2
-;	EFM8LCDlib.h:58: ACC=x; //Send low nible
+;	EFM8LCDlib.h:32: ACC=x; //Send low nible
 	mov	_ACC,r2
-;	EFM8LCDlib.h:59: LCD_D7=ACC_3;
+;	EFM8LCDlib.h:33: LCD_D7=ACC_3;
 	mov	c,_ACC_3
 	mov	_P2_1,c
-;	EFM8LCDlib.h:60: LCD_D6=ACC_2;
+;	EFM8LCDlib.h:34: LCD_D6=ACC_2;
 	mov	c,_ACC_2
 	mov	_P2_2,c
-;	EFM8LCDlib.h:61: LCD_D5=ACC_1;
+;	EFM8LCDlib.h:35: LCD_D5=ACC_1;
 	mov	c,_ACC_1
 	mov	_P2_3,c
-;	EFM8LCDlib.h:62: LCD_D4=ACC_0;
+;	EFM8LCDlib.h:36: LCD_D4=ACC_0;
 	mov	c,_ACC_0
 	mov	_P2_4,c
-;	EFM8LCDlib.h:63: LCD_pulse();
+;	EFM8LCDlib.h:37: LCD_pulse();
 	ljmp	_LCD_pulse
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'WriteData'
 ;------------------------------------------------------------
 ;x                         Allocated to registers r2 
 ;------------------------------------------------------------
-;	EFM8LCDlib.h:66: void WriteData (unsigned char x)
+;	EFM8LCDlib.h:40: void WriteData (unsigned char x)
 ;	-----------------------------------------
 ;	 function WriteData
 ;	-----------------------------------------
 _WriteData:
 	mov	r2,dpl
-;	EFM8LCDlib.h:68: LCD_RS=1;
+;	EFM8LCDlib.h:42: LCD_RS=1;
 	setb	_P2_6
-;	EFM8LCDlib.h:69: LCD_byte(x);
+;	EFM8LCDlib.h:43: LCD_byte(x);
 	mov	dpl,r2
 	lcall	_LCD_byte
-;	EFM8LCDlib.h:70: waitms(2);
+;	EFM8LCDlib.h:44: waitms(2);
 	mov	dptr,#0x0002
 	ljmp	_waitms
 ;------------------------------------------------------------
@@ -1455,53 +1825,53 @@ _WriteData:
 ;------------------------------------------------------------
 ;x                         Allocated to registers r2 
 ;------------------------------------------------------------
-;	EFM8LCDlib.h:73: void WriteCommand (unsigned char x)
+;	EFM8LCDlib.h:47: void WriteCommand (unsigned char x)
 ;	-----------------------------------------
 ;	 function WriteCommand
 ;	-----------------------------------------
 _WriteCommand:
 	mov	r2,dpl
-;	EFM8LCDlib.h:75: LCD_RS=0;
+;	EFM8LCDlib.h:49: LCD_RS=0;
 	clr	_P2_6
-;	EFM8LCDlib.h:76: LCD_byte(x);
+;	EFM8LCDlib.h:50: LCD_byte(x);
 	mov	dpl,r2
 	lcall	_LCD_byte
-;	EFM8LCDlib.h:77: waitms(5);
+;	EFM8LCDlib.h:51: waitms(5);
 	mov	dptr,#0x0005
 	ljmp	_waitms
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'LCD_4BIT'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	EFM8LCDlib.h:80: void LCD_4BIT (void)
+;	EFM8LCDlib.h:54: void LCD_4BIT (void)
 ;	-----------------------------------------
 ;	 function LCD_4BIT
 ;	-----------------------------------------
 _LCD_4BIT:
-;	EFM8LCDlib.h:82: LCD_E=0; // Resting state of LCD's enable is zero
+;	EFM8LCDlib.h:56: LCD_E=0; // Resting state of LCD's enable is zero
 	clr	_P2_5
-;	EFM8LCDlib.h:84: waitms(20);
+;	EFM8LCDlib.h:58: waitms(20);
 	mov	dptr,#0x0014
 	lcall	_waitms
-;	EFM8LCDlib.h:86: WriteCommand(0x33);
+;	EFM8LCDlib.h:60: WriteCommand(0x33);
 	mov	dpl,#0x33
 	lcall	_WriteCommand
-;	EFM8LCDlib.h:87: WriteCommand(0x33);
+;	EFM8LCDlib.h:61: WriteCommand(0x33);
 	mov	dpl,#0x33
 	lcall	_WriteCommand
-;	EFM8LCDlib.h:88: WriteCommand(0x32); // Change to 4-bit mode
+;	EFM8LCDlib.h:62: WriteCommand(0x32); // Change to 4-bit mode
 	mov	dpl,#0x32
 	lcall	_WriteCommand
-;	EFM8LCDlib.h:91: WriteCommand(0x28);
+;	EFM8LCDlib.h:65: WriteCommand(0x28);
 	mov	dpl,#0x28
 	lcall	_WriteCommand
-;	EFM8LCDlib.h:92: WriteCommand(0x0c);
+;	EFM8LCDlib.h:66: WriteCommand(0x0c);
 	mov	dpl,#0x0C
 	lcall	_WriteCommand
-;	EFM8LCDlib.h:93: WriteCommand(0x01); // Clear screen command (takes some time)
+;	EFM8LCDlib.h:67: WriteCommand(0x01); // Clear screen command (takes some time)
 	mov	dpl,#0x01
 	lcall	_WriteCommand
-;	EFM8LCDlib.h:94: waitms(20); // Wait for clear screen command to finsih.
+;	EFM8LCDlib.h:68: waitms(20); // Wait for clear screen command to finsih.
 	mov	dptr,#0x0014
 	ljmp	_waitms
 ;------------------------------------------------------------
@@ -1511,7 +1881,7 @@ _LCD_4BIT:
 ;string                    Allocated to registers r2 r3 r4 
 ;j                         Allocated to registers r5 r6 
 ;------------------------------------------------------------
-;	EFM8LCDlib.h:97: void LCDprint(char * string, unsigned char line, bit clear)
+;	EFM8LCDlib.h:71: void LCDprint(char * string, unsigned char line, bit clear)
 ;	-----------------------------------------
 ;	 function LCDprint
 ;	-----------------------------------------
@@ -1519,29 +1889,29 @@ _LCDprint:
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
-;	EFM8LCDlib.h:101: WriteCommand(line==2?0xc0:0x80);
+;	EFM8LCDlib.h:75: WriteCommand(line==2?0xc0:0x80);
 	mov	a,#0x02
-	cjne	a,_LCDprint_PARM_2,L020013?
+	cjne	a,_LCDprint_PARM_2,L028013?
 	mov	r5,#0xC0
-	sjmp	L020014?
-L020013?:
+	sjmp	L028014?
+L028013?:
 	mov	r5,#0x80
-L020014?:
+L028014?:
 	mov	dpl,r5
 	push	ar2
 	push	ar3
 	push	ar4
 	lcall	_WriteCommand
-;	EFM8LCDlib.h:102: waitms(5);
+;	EFM8LCDlib.h:76: waitms(5);
 	mov	dptr,#0x0005
 	lcall	_waitms
 	pop	ar4
 	pop	ar3
 	pop	ar2
-;	EFM8LCDlib.h:103: for(j=0; string[j]!=0; j++)	WriteData(string[j]);// Write the message
+;	EFM8LCDlib.h:77: for(j=0; string[j]!=0; j++)	WriteData(string[j]);// Write the message
 	mov	r5,#0x00
 	mov	r6,#0x00
-L020003?:
+L028003?:
 	mov	a,r5
 	add	a,r2
 	mov	r7,a
@@ -1554,7 +1924,7 @@ L020003?:
 	mov	b,r1
 	lcall	__gptrget
 	mov	r7,a
-	jz	L020006?
+	jz	L028006?
 	mov	dpl,r7
 	push	ar2
 	push	ar3
@@ -1568,22 +1938,22 @@ L020003?:
 	pop	ar3
 	pop	ar2
 	inc	r5
-	cjne	r5,#0x00,L020003?
+	cjne	r5,#0x00,L028003?
 	inc	r6
-	sjmp	L020003?
-L020006?:
-;	EFM8LCDlib.h:104: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
-	jnb	_LCDprint_PARM_3,L020011?
+	sjmp	L028003?
+L028006?:
+;	EFM8LCDlib.h:78: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
+	jnb	_LCDprint_PARM_3,L028011?
 	mov	ar2,r5
 	mov	ar3,r6
-L020007?:
+L028007?:
 	clr	c
 	mov	a,r2
 	subb	a,#0x10
 	mov	a,r3
 	xrl	a,#0x80
 	subb	a,#0x80
-	jnc	L020011?
+	jnc	L028011?
 	mov	dpl,#0x20
 	push	ar2
 	push	ar3
@@ -1591,10 +1961,10 @@ L020007?:
 	pop	ar3
 	pop	ar2
 	inc	r2
-	cjne	r2,#0x00,L020007?
+	cjne	r2,#0x00,L028007?
 	inc	r3
-	sjmp	L020007?
-L020011?:
+	sjmp	L028007?
+L028011?:
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function '_c51_external_startup'
@@ -1611,7 +1981,7 @@ __c51_external_startup:
 	mov	_WDTCN,#0xDE
 ;	Transmitter_src.c:18: WDTCN = 0xAD; //Second key
 	mov	_WDTCN,#0xAD
-;	Transmitter_src.c:20: VDM0CN |= 0x80;
+;	Transmitter_src.c:20: VDM0CN |= 0x80;  // enable VDD mon
 	orl	_VDM0CN,#0x80
 ;	Transmitter_src.c:21: RSTSRC = 0x02;
 	mov	_RSTSRC,#0x02
@@ -1626,64 +1996,67 @@ __c51_external_startup:
 ;	Transmitter_src.c:52: CLKSEL = 0x00;
 	mov	_CLKSEL,#0x00
 ;	Transmitter_src.c:53: while ((CLKSEL & 0x80) == 0);
-L021001?:
+L029001?:
 	mov	a,_CLKSEL
-	jnb	acc.7,L021001?
+	jnb	acc.7,L029001?
 ;	Transmitter_src.c:54: CLKSEL = 0x03;
 	mov	_CLKSEL,#0x03
 ;	Transmitter_src.c:55: CLKSEL = 0x03;
 	mov	_CLKSEL,#0x03
 ;	Transmitter_src.c:56: while ((CLKSEL & 0x80) == 0);
-L021004?:
+L029004?:
 	mov	a,_CLKSEL
-	jnb	acc.7,L021004?
+	jnb	acc.7,L029004?
 ;	Transmitter_src.c:61: P0MDOUT |= 0x10; // Enable UART0 TX as push-pull output
 	orl	_P0MDOUT,#0x10
-;	Transmitter_src.c:62: XBR0     = 0x01; // Enable UART0 on P0.4(TX) and P0.5(RX)                     
+;	Transmitter_src.c:62: P1MDOUT |= 0xff; // Enable Push/Pull on port 1
+	mov	a,_P1MDOUT
+	mov	_P1MDOUT,#0xFF
+;	Transmitter_src.c:63: XBR0     = 0x01; // Enable UART0 on P0.4(TX) and P0.5(RX)                     
 	mov	_XBR0,#0x01
-;	Transmitter_src.c:63: XBR1     = 0X10; // Enable T0 on P0.0
-	mov	_XBR1,#0x10
-;	Transmitter_src.c:64: XBR2     = 0x40; // Enable crossbar and weak pull-ups
+;	Transmitter_src.c:64: XBR1     = 0X00; // Enable T0 on P0.0
+	mov	_XBR1,#0x00
+;	Transmitter_src.c:65: XBR2     = 0x40; // Enable crossbar and weak pull-ups
 	mov	_XBR2,#0x40
-;	Transmitter_src.c:70: SCON0 = 0x10;
+;	Transmitter_src.c:71: SCON0 = 0x10;
 	mov	_SCON0,#0x10
-;	Transmitter_src.c:71: CKCON0 |= 0b_0000_0000 ; // Timer 1 uses the system clock divided by 12.
+;	Transmitter_src.c:72: CKCON0 |= 0b_0000_0000 ; // Timer 1 uses the system clock divided by 12.
 	mov	_CKCON0,_CKCON0
-;	Transmitter_src.c:72: TH1 = 0x100-((SYSCLK/BAUDRATE)/(2L*12L));
+;	Transmitter_src.c:73: TH1 = 0x100-((SYSCLK/BAUDRATE)/(2L*12L));
 	mov	_TH1,#0xE6
-;	Transmitter_src.c:73: TL1 = TH1;      // Init Timer1
+;	Transmitter_src.c:74: TL1 = TH1;      // Init Timer1
 	mov	_TL1,_TH1
-;	Transmitter_src.c:74: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit auto-reload
+;	Transmitter_src.c:75: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit auto-reload
 	anl	_TMOD,#0x0F
-;	Transmitter_src.c:75: TMOD |=  0x20;                       
+;	Transmitter_src.c:76: TMOD |=  0x20;                       
 	orl	_TMOD,#0x20
-;	Transmitter_src.c:76: TR1 = 1; // START Timer1
+;	Transmitter_src.c:77: TR1 = 1; // START Timer1
 	setb	_TR1
-;	Transmitter_src.c:77: TI = 1;  // Indicate TX0 ready
+;	Transmitter_src.c:78: TI = 1;  // Indicate TX0 ready
 	setb	_TI
-;	Transmitter_src.c:79: EA = 1;
+;	Transmitter_src.c:80: EA = 1;
 	setb	_EA
-;	Transmitter_src.c:81: return 0;
+;	Transmitter_src.c:82: return 0;
 	mov	dpl,#0x00
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'getsn'
 ;------------------------------------------------------------
 ;len                       Allocated with name '_getsn_PARM_2'
-;buff                      Allocated with name '_getsn_buff_1_113'
+;buff                      Allocated with name '_getsn_buff_1_134'
 ;j                         Allocated with name '_getsn_sloc0_1_0'
 ;c                         Allocated to registers r3 
 ;sloc0                     Allocated with name '_getsn_sloc0_1_0'
 ;------------------------------------------------------------
-;	Transmitter_src.c:84: int getsn (char * buff, int len)
+;	Transmitter_src.c:86: int getsn (char * buff, int len)
 ;	-----------------------------------------
 ;	 function getsn
 ;	-----------------------------------------
 _getsn:
-	mov	_getsn_buff_1_113,dpl
-	mov	(_getsn_buff_1_113 + 1),dph
-	mov	(_getsn_buff_1_113 + 2),b
-;	Transmitter_src.c:89: for(j=0; j<(len-1); j++)
+	mov	_getsn_buff_1_134,dpl
+	mov	(_getsn_buff_1_134 + 1),dph
+	mov	(_getsn_buff_1_134 + 2),b
+;	Transmitter_src.c:91: for(j=0; j<(len-1); j++)
 	clr	a
 	mov	_getsn_sloc0_1_0,a
 	mov	(_getsn_sloc0_1_0 + 1),a
@@ -1695,7 +2068,7 @@ _getsn:
 	mov	r0,a
 	mov	r1,#0x00
 	mov	r2,#0x00
-L022005?:
+L030005?:
 	clr	c
 	mov	a,r1
 	subb	a,r7
@@ -1704,8 +2077,8 @@ L022005?:
 	mov	b,r0
 	xrl	b,#0x80
 	subb	a,b
-	jnc	L022008?
-;	Transmitter_src.c:91: c=getchar();
+	jnc	L030008?
+;	Transmitter_src.c:93: c=getchar();
 	push	ar2
 	push	ar7
 	push	ar0
@@ -1716,90 +2089,93 @@ L022005?:
 	pop	ar0
 	pop	ar7
 	pop	ar2
-;	Transmitter_src.c:92: if ( (c=='\n') || (c=='\r') )
-	cjne	r3,#0x0A,L022015?
-	sjmp	L022001?
-L022015?:
-	cjne	r3,#0x0D,L022002?
-L022001?:
-;	Transmitter_src.c:94: buff[j]=0;
+;	Transmitter_src.c:94: if ( (c=='\n') || (c=='\r') )
+	cjne	r3,#0x0A,L030015?
+	sjmp	L030001?
+L030015?:
+	cjne	r3,#0x0D,L030002?
+L030001?:
+;	Transmitter_src.c:96: buff[j]=0;
 	mov	a,_getsn_sloc0_1_0
-	add	a,_getsn_buff_1_113
+	add	a,_getsn_buff_1_134
 	mov	r4,a
 	mov	a,(_getsn_sloc0_1_0 + 1)
-	addc	a,(_getsn_buff_1_113 + 1)
+	addc	a,(_getsn_buff_1_134 + 1)
 	mov	r5,a
-	mov	r6,(_getsn_buff_1_113 + 2)
+	mov	r6,(_getsn_buff_1_134 + 2)
 	mov	dpl,r4
 	mov	dph,r5
 	mov	b,r6
 	clr	a
 	lcall	__gptrput
-;	Transmitter_src.c:95: return j;
+;	Transmitter_src.c:97: return j;
 	mov	dpl,_getsn_sloc0_1_0
 	mov	dph,(_getsn_sloc0_1_0 + 1)
 	ret
-L022002?:
-;	Transmitter_src.c:99: buff[j]=c;
+L030002?:
+;	Transmitter_src.c:101: buff[j]=c;
 	mov	a,r1
-	add	a,_getsn_buff_1_113
+	add	a,_getsn_buff_1_134
 	mov	r4,a
 	mov	a,r2
-	addc	a,(_getsn_buff_1_113 + 1)
+	addc	a,(_getsn_buff_1_134 + 1)
 	mov	r5,a
-	mov	r6,(_getsn_buff_1_113 + 2)
+	mov	r6,(_getsn_buff_1_134 + 2)
 	mov	dpl,r4
 	mov	dph,r5
 	mov	b,r6
 	mov	a,r3
 	lcall	__gptrput
-;	Transmitter_src.c:89: for(j=0; j<(len-1); j++)
+;	Transmitter_src.c:91: for(j=0; j<(len-1); j++)
 	inc	r1
-	cjne	r1,#0x00,L022018?
+	cjne	r1,#0x00,L030018?
 	inc	r2
-L022018?:
+L030018?:
 	mov	_getsn_sloc0_1_0,r1
 	mov	(_getsn_sloc0_1_0 + 1),r2
-	sjmp	L022005?
-L022008?:
-;	Transmitter_src.c:102: buff[j]=0;
+	sjmp	L030005?
+L030008?:
+;	Transmitter_src.c:104: buff[j]=0;
 	mov	a,_getsn_sloc0_1_0
-	add	a,_getsn_buff_1_113
+	add	a,_getsn_buff_1_134
 	mov	r2,a
 	mov	a,(_getsn_sloc0_1_0 + 1)
-	addc	a,(_getsn_buff_1_113 + 1)
+	addc	a,(_getsn_buff_1_134 + 1)
 	mov	r3,a
-	mov	r4,(_getsn_buff_1_113 + 2)
+	mov	r4,(_getsn_buff_1_134 + 2)
 	mov	dpl,r2
 	mov	dph,r3
 	mov	b,r4
 	clr	a
 	lcall	__gptrput
-;	Transmitter_src.c:103: return len;
+;	Transmitter_src.c:105: return len;
 	mov	dpl,_getsn_PARM_2
 	mov	dph,(_getsn_PARM_2 + 1)
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
-;buffer                    Allocated with name '_main_buffer_1_119'
+;buffer                    Allocated with name '_main_buffer_1_140'
 ;------------------------------------------------------------
-;	Transmitter_src.c:106: void main(void) {
+;	Transmitter_src.c:108: void main(void) {
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	Transmitter_src.c:109: Timer2_init();
-	lcall	_Timer2_init
-;	Transmitter_src.c:110: LCD_4BIT();
+;	Transmitter_src.c:111: Tcom_init(115200L);
+	mov	dptr,#0xC200
+	mov	b,#0x01
+	clr	a
+	lcall	_Tcom_init
+;	Transmitter_src.c:112: LCD_4BIT();
 	lcall	_LCD_4BIT
-;	Transmitter_src.c:112: waitms(500);
+;	Transmitter_src.c:114: waitms(500);
 	mov	dptr,#0x01F4
 	lcall	_waitms
-;	Transmitter_src.c:114: printf("LAB 6 Microcontroller\r\nWith extra features\r\n\n");
-	mov	a,#__str_9
+;	Transmitter_src.c:116: printf("LAB 6 Microcontroller\r\nWith extra features\r\n\n");
+	mov	a,#__str_12
 	push	acc
-	mov	a,#(__str_9 >> 8)
+	mov	a,#(__str_12 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1807,15 +2183,15 @@ _main:
 	dec	sp
 	dec	sp
 	dec	sp
-;	Transmitter_src.c:116: LCDprint("Duty cycle:", 1, 1);
+;	Transmitter_src.c:118: LCDprint("Duty cycle:", 1, 1);
 	mov	_LCDprint_PARM_2,#0x01
 	setb	_LCDprint_PARM_3
-	mov	dptr,#__str_10
+	mov	dptr,#__str_13
 	mov	b,#0x80
 	lcall	_LCDprint
-;	Transmitter_src.c:118: while(1)
-L023002?:
-;	Transmitter_src.c:120: sprintf(buffer, "%d%c %d%c", duty_cycle0, '%', duty_cycle1, '%');
+;	Transmitter_src.c:120: while(1)
+L031002?:
+;	Transmitter_src.c:122: sprintf(buffer, "%d%c %d%c", duty_cycle0, '%', duty_cycle1, '%');
 	mov	r2,_duty_cycle1
 	mov	r3,#0x00
 	mov	r4,_duty_cycle0
@@ -1832,15 +2208,15 @@ L023002?:
 	push	acc
 	push	ar4
 	push	ar5
-	mov	a,#__str_11
+	mov	a,#__str_14
 	push	acc
-	mov	a,#(__str_11 >> 8)
+	mov	a,#(__str_14 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
-	mov	a,#_main_buffer_1_119
+	mov	a,#_main_buffer_1_140
 	push	acc
-	mov	a,#(_main_buffer_1_119 >> 8)
+	mov	a,#(_main_buffer_1_140 >> 8)
 	push	acc
 	mov	a,#0x40
 	push	acc
@@ -1848,16 +2224,16 @@ L023002?:
 	mov	a,sp
 	add	a,#0xf2
 	mov	sp,a
-;	Transmitter_src.c:121: LCDprint(buffer, 2, 1);
+;	Transmitter_src.c:123: LCDprint(buffer, 2, 1);
 	mov	_LCDprint_PARM_2,#0x02
 	setb	_LCDprint_PARM_3
-	mov	dptr,#_main_buffer_1_119
+	mov	dptr,#_main_buffer_1_140
 	mov	b,#0x40
 	lcall	_LCDprint
-;	Transmitter_src.c:123: printf("Enter command: \r\n");
-	mov	a,#__str_12
+;	Transmitter_src.c:125: printf("Enter command: \r\n");
+	mov	a,#__str_15
 	push	acc
-	mov	a,#(__str_12 >> 8)
+	mov	a,#(__str_15 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1865,45 +2241,58 @@ L023002?:
 	dec	sp
 	dec	sp
 	dec	sp
-;	Transmitter_src.c:124: getsn(buffer, CHARS_PER_LINE);
+;	Transmitter_src.c:126: getsn(buffer, CHARS_PER_LINE);
 	mov	_getsn_PARM_2,#0x10
 	clr	a
 	mov	(_getsn_PARM_2 + 1),a
-	mov	dptr,#_main_buffer_1_119
+	mov	dptr,#_main_buffer_1_140
 	mov	b,#0x40
 	lcall	_getsn
-;	Transmitter_src.c:125: getCommand(buffer);
-	mov	dptr,#_main_buffer_1_119
+;	Transmitter_src.c:127: getCommand(buffer);
+	mov	dptr,#_main_buffer_1_140
 	mov	b,#0x40
 	lcall	_getCommand
-	ljmp	L023002?
+	ljmp	L031002?
 	rseg R_CSEG
 
 	rseg R_XINIT
 
 	rseg R_CONST
 __str_0:
-	db '%*s %d'
+	db 'Sent: %d'
+	db 0x0D
+	db 0x0A
 	db 0x00
 __str_1:
-	db 'Duty Cycle 0 set to: %u'
+	db 'c err'
 	db 0x0D
 	db 0x0A
 	db 0x00
 __str_2:
-	db 'Duty Cycle 1 set to: %u'
-	db 0x0D
-	db 0x0A
+	db '%*s %c %c'
 	db 0x00
 __str_3:
-	db '%*s %u'
+	db '%*s %d'
 	db 0x00
 __str_4:
-	db 'Invalid direction. Use -cw or -ccw'
+	db 'Duty Cycle 0 set to: %u'
 	db 0x0D
 	db 0x0A
 	db 0x00
 __str_5:
+	db 'Duty Cycle 1 set to: %u'
+	db 0x0D
+	db 0x0A
+	db 0x00
+__str_6:
+	db '%*s %u'
+	db 0x00
+__str_7:
+	db 'Invalid direction. Use -cw or -ccw'
+	db 0x0D
+	db 0x0A
+	db 0x00
+__str_8:
 	db 'Help Menu'
 	db 0x0D
 	db 0x0A
@@ -1940,12 +2329,12 @@ __str_5:
 	db 0x0A
 	db 0x0A
 	db 0x00
-__str_6:
+__str_9:
 	db 'Reload: %u, Freq: %d, duty0: %d, duty1: %d'
 	db 0x0D
 	db 0x0A
 	db 0x00
-__str_7:
+__str_10:
 	db 0x22
 	db '%s'
 	db 0x22
@@ -1953,12 +2342,12 @@ __str_7:
 	db 0x0D
 	db 0x0A
 	db 0x00
-__str_8:
+__str_11:
 	db 'Not Valid input'
 	db 0x0D
 	db 0x0A
 	db 0x00
-__str_9:
+__str_12:
 	db 'LAB 6 Microcontroller'
 	db 0x0D
 	db 0x0A
@@ -1967,13 +2356,13 @@ __str_9:
 	db 0x0A
 	db 0x0A
 	db 0x00
-__str_10:
+__str_13:
 	db 'Duty cycle:'
 	db 0x00
-__str_11:
+__str_14:
 	db '%d%c %d%c'
 	db 0x00
-__str_12:
+__str_15:
 	db 'Enter command: '
 	db 0x0D
 	db 0x0A

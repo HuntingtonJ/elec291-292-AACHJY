@@ -7,8 +7,8 @@
 #include "EFM8LCDlib.h"
 
 #define BAUDRATE      115200L  // Baud rate of UART in bps
-
 #define VDD 3.3122 // The measured value of VDD in volts
+
 
 char _c51_external_startup (void)
 {
@@ -17,7 +17,7 @@ char _c51_external_startup (void)
 	WDTCN = 0xDE; //First key
 	WDTCN = 0xAD; //Second key
   
-	VDM0CN |= 0x80;
+	VDM0CN |= 0x80;  // enable VDD mon
 	RSTSRC = 0x02;
 
 	#if (SYSCLK == 48000000L)	
@@ -59,8 +59,9 @@ char _c51_external_startup (void)
 	#endif
 	
 	P0MDOUT |= 0x10; // Enable UART0 TX as push-pull output
+	P1MDOUT |= 0xff; // Enable Push/Pull on port 1
 	XBR0     = 0x01; // Enable UART0 on P0.4(TX) and P0.5(RX)                     
-	XBR1     = 0X10; // Enable T0 on P0.0
+	XBR1     = 0X00; // Enable T0 on P0.0
 	XBR2     = 0x40; // Enable crossbar and weak pull-ups
 
 	#if (((SYSCLK/BAUDRATE)/(2L*12L))>0xFFL)
@@ -80,6 +81,7 @@ char _c51_external_startup (void)
 	
 	return 0;
 }
+
 
 int getsn (char * buff, int len)
 {
@@ -105,8 +107,8 @@ int getsn (char * buff, int len)
 
 void main(void) {
 	char buffer[CHARS_PER_LINE];
-	
-	Timer2_init();
+
+	Tcom_init(115200L); //enter baudrate for UART1
 	LCD_4BIT();
 
 	waitms(500);

@@ -2,13 +2,18 @@
 #include <stdlib.h>
 #include <EFM8LB1.h>
 
+#include "EFM8UART1lib.h"
+
+#ifndef SYSCLK
 #define SYSCLK      72000000L  // SYSCLK frequency in Hz
+#endif
+
 
 #define OUT0 P2_0
-#define OUT1 P1_7
+#define OUT1 P1_6
 
 volatile unsigned char pwm_count = 0;
-volatile unsigned char duty_cycle0 = 0;
+volatile unsigned char duty_cycle0 = 50;
 volatile unsigned char duty_cycle1 = 0;
 
 bit reload_flag = 0;
@@ -23,6 +28,7 @@ void Timer2_init(void) {
 }
 
 void Timer2_ISR (void) interrupt 5 {
+	SFRPAGE=0x00;
 	reload_flag = 1;
 	TF2H = 0; // Clear Timer2 interrupt flag
 	
@@ -30,8 +36,56 @@ void Timer2_ISR (void) interrupt 5 {
 	if(pwm_count>100) pwm_count=0;
 	
 	OUT0=pwm_count>duty_cycle0?0:1;
-	OUT1=pwm_count>duty_cycle1?0:1;
 	reload_flag = 0;
+}
+
+void Timer4_init(void) {
+	SFRPAGE=0x10;
+	TMR4CN0=0b_0000_0000;
+	TMR4CN1=0b_0110_0000;
+	
+	TMR4RL=59536; //reload = 2^16 - (SYSCLK/12)/(F*2);
+	TMR4=0xffff;
+	
+	EIE2|=0b_0000_0100;
+	TR4=1;
+}	
+
+void Timer4_ISR(void) interrupt INTERRUPT_TIMER4 {
+	TF4H = 0;
+	
+	OUT1 = !OUT1;
+}
+
+void sendCommand(unsigned char op, unsigned char value) {
+	if (op < 0b_1000 && value < 0b_100000) {
+		putchar1(op*0b_100000 + value);
+		printf("Sent: %d\r\n", op*0b_100000 + value);
+	} else {
+		printf("c err\r\n");
+	}
+}
+
+void sendCommandS(char* input) {
+	unsigned char op;
+	unsigned char d;
+	
+	sscanf(input, "%*s %c %c", &op, &d);
+	
+	switch(op) {
+		case 's':
+			op = 0;
+			break;
+		case 'f':
+			op = 0b_001;
+			break;
+		case 'r':
+			op = 0b_010;
+			break;
+		default:
+			return;
+	}
+	sendCommand(op, d);
 }
 
 void setDutyCycle(char* input, unsigned char op) {
@@ -100,6 +154,9 @@ void getCommand(char* input) {
 	//printf("\~ %s\r\n", input);
 	if (input[0] == '-') {
 		switch(input[1]) {
+			case '/':
+				sendCommandS(input);
+				break;
 			case 'c':
 				setRotation(input);
 				break;
@@ -120,6 +177,10 @@ void getCommand(char* input) {
 			case 'i':
 				printf("Reload: %u, Freq: %d, duty0: %d, duty1: %d\r\n", TMR2RL, reloadToFrequency(TMR2RL), duty_cycle0, duty_cycle1);
 				break;
+			case 'o':
+			    if (input[2] == 0)
+				    PWMoff();
+				break;	
 			case 'r':
 				setReload(input);
 				break;
@@ -127,11 +188,7 @@ void getCommand(char* input) {
 				if (input[2] == 0)
 					PWMon();
 				break;
-			case 'o':
-			    if (input[2] == 0)
-				    PWMoff();
-				break;
-			default:-
+			default:
 				printf("\"%s\" invalid command\r\n", input);
 				break;
 		}
@@ -140,3 +197,10 @@ void getCommand(char* input) {
 	}
 	return;
 }
+
+void Tcom_init(unsigned long baudrate) {
+	Timer2_init();
+	Timer4_init();
+	UART1_Init(baudrate);
+}
+
