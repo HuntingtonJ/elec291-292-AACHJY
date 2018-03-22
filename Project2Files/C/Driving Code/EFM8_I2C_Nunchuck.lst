@@ -1,0 +1,1428 @@
+0000              1   ;--------------------------------------------------------
+0000              2   ; File Created by C51
+0000              3   ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
+0000              4   ; This file was generated Thu Mar 22 13:49:40 2018
+0000              5   ;--------------------------------------------------------
+                  5   $name EFM8_I2C_Nunchuck
+                  6   $optc51 --model-small
+0000              8            R_DSEG    segment data
+0000              9            R_CSEG    segment code
+0000             10            R_BSEG    segment bit
+0000             11            R_XSEG    segment xdata
+0000             12            R_PSEG    segment xdata
+0000             13            R_ISEG    segment idata
+0000             14            R_OSEG    segment data overlay
+0000             15            BIT_BANK  segment data overlay
+0000             16            R_HOME    segment code
+0000             17            R_GSINIT  segment code
+0000             18            R_IXSEG   segment xdata
+0000             19            R_CONST   segment code
+0000             20            R_XINIT   segment code
+0000             21            R_DINIT   segment code
+0000             22   
+0000             23   ;--------------------------------------------------------
+0000             24   ; Public variables in this module
+0000             25   ;--------------------------------------------------------
+0000             26            public _main
+0000             27            public _nunchuck_getdata
+0000             28            public _nunchuck_init
+0000             29            public _I2C_stop
+0000             30            public _I2C_start
+0000             31            public _I2C_read
+0000             32            public _I2C_write
+0000             33            public _Timer4ms
+0000             34            public __c51_external_startup
+0000             35            public _nunchuck_init_PARM_1
+0000             36   ;--------------------------------------------------------
+0000             37   ; Special Function Registers
+0000             38   ;--------------------------------------------------------
+0000             39   _ACC            DATA 0xe0
+0000             40   _ADC0ASAH       DATA 0xb6
+0000             41   _ADC0ASAL       DATA 0xb5
+0000             42   _ADC0ASCF       DATA 0xa1
+0000             43   _ADC0ASCT       DATA 0xc7
+0000             44   _ADC0CF0        DATA 0xbc
+0000             45   _ADC0CF1        DATA 0xb9
+0000             46   _ADC0CF2        DATA 0xdf
+0000             47   _ADC0CN0        DATA 0xe8
+0000             48   _ADC0CN1        DATA 0xb2
+0000             49   _ADC0CN2        DATA 0xb3
+0000             50   _ADC0GTH        DATA 0xc4
+0000             51   _ADC0GTL        DATA 0xc3
+0000             52   _ADC0H          DATA 0xbe
+0000             53   _ADC0L          DATA 0xbd
+0000             54   _ADC0LTH        DATA 0xc6
+0000             55   _ADC0LTL        DATA 0xc5
+0000             56   _ADC0MX         DATA 0xbb
+0000             57   _B              DATA 0xf0
+0000             58   _CKCON0         DATA 0x8e
+0000             59   _CKCON1         DATA 0xa6
+0000             60   _CLEN0          DATA 0xc6
+0000             61   _CLIE0          DATA 0xc7
+0000             62   _CLIF0          DATA 0xe8
+0000             63   _CLKSEL         DATA 0xa9
+0000             64   _CLOUT0         DATA 0xd1
+0000             65   _CLU0CF         DATA 0xb1
+0000             66   _CLU0FN         DATA 0xaf
+0000             67   _CLU0MX         DATA 0x84
+0000             68   _CLU1CF         DATA 0xb3
+0000             69   _CLU1FN         DATA 0xb2
+0000             70   _CLU1MX         DATA 0x85
+0000             71   _CLU2CF         DATA 0xb6
+0000             72   _CLU2FN         DATA 0xb5
+0000             73   _CLU2MX         DATA 0x91
+0000             74   _CLU3CF         DATA 0xbf
+0000             75   _CLU3FN         DATA 0xbe
+0000             76   _CLU3MX         DATA 0xae
+0000             77   _CMP0CN0        DATA 0x9b
+0000             78   _CMP0CN1        DATA 0x99
+0000             79   _CMP0MD         DATA 0x9d
+0000             80   _CMP0MX         DATA 0x9f
+0000             81   _CMP1CN0        DATA 0xbf
+0000             82   _CMP1CN1        DATA 0xac
+0000             83   _CMP1MD         DATA 0xab
+0000             84   _CMP1MX         DATA 0xaa
+0000             85   _CRC0CN0        DATA 0xce
+0000             86   _CRC0CN1        DATA 0x86
+0000             87   _CRC0CNT        DATA 0xd3
+0000             88   _CRC0DAT        DATA 0xcb
+0000             89   _CRC0FLIP       DATA 0xcf
+0000             90   _CRC0IN         DATA 0xca
+0000             91   _CRC0ST         DATA 0xd2
+0000             92   _DAC0CF0        DATA 0x91
+0000             93   _DAC0CF1        DATA 0x92
+0000             94   _DAC0H          DATA 0x85
+0000             95   _DAC0L          DATA 0x84
+0000             96   _DAC1CF0        DATA 0x93
+0000             97   _DAC1CF1        DATA 0x94
+0000             98   _DAC1H          DATA 0x8a
+0000             99   _DAC1L          DATA 0x89
+0000            100   _DAC2CF0        DATA 0x95
+0000            101   _DAC2CF1        DATA 0x96
+0000            102   _DAC2H          DATA 0x8c
+0000            103   _DAC2L          DATA 0x8b
+0000            104   _DAC3CF0        DATA 0x9a
+0000            105   _DAC3CF1        DATA 0x9c
+0000            106   _DAC3H          DATA 0x8e
+0000            107   _DAC3L          DATA 0x8d
+0000            108   _DACGCF0        DATA 0x88
+0000            109   _DACGCF1        DATA 0x98
+0000            110   _DACGCF2        DATA 0xa2
+0000            111   _DERIVID        DATA 0xad
+0000            112   _DEVICEID       DATA 0xb5
+0000            113   _DPH            DATA 0x83
+0000            114   _DPL            DATA 0x82
+0000            115   _EIE1           DATA 0xe6
+0000            116   _EIE2           DATA 0xf3
+0000            117   _EIP1           DATA 0xbb
+0000            118   _EIP1H          DATA 0xee
+0000            119   _EIP2           DATA 0xed
+0000            120   _EIP2H          DATA 0xf6
+0000            121   _EMI0CN         DATA 0xe7
+0000            122   _FLKEY          DATA 0xb7
+0000            123   _HFO0CAL        DATA 0xc7
+0000            124   _HFO1CAL        DATA 0xd6
+0000            125   _HFOCN          DATA 0xef
+0000            126   _I2C0ADM        DATA 0xff
+0000            127   _I2C0CN0        DATA 0xba
+0000            128   _I2C0DIN        DATA 0xbc
+0000            129   _I2C0DOUT       DATA 0xbb
+0000            130   _I2C0FCN0       DATA 0xad
+0000            131   _I2C0FCN1       DATA 0xab
+0000            132   _I2C0FCT        DATA 0xf5
+0000            133   _I2C0SLAD       DATA 0xbd
+0000            134   _I2C0STAT       DATA 0xb9
+0000            135   _IE             DATA 0xa8
+0000            136   _IP             DATA 0xb8
+0000            137   _IPH            DATA 0xf2
+0000            138   _IT01CF         DATA 0xe4
+0000            139   _LFO0CN         DATA 0xb1
+0000            140   _P0             DATA 0x80
+0000            141   _P0MASK         DATA 0xfe
+0000            142   _P0MAT          DATA 0xfd
+0000            143   _P0MDIN         DATA 0xf1
+0000            144   _P0MDOUT        DATA 0xa4
+0000            145   _P0SKIP         DATA 0xd4
+0000            146   _P1             DATA 0x90
+0000            147   _P1MASK         DATA 0xee
+0000            148   _P1MAT          DATA 0xed
+0000            149   _P1MDIN         DATA 0xf2
+0000            150   _P1MDOUT        DATA 0xa5
+0000            151   _P1SKIP         DATA 0xd5
+0000            152   _P2             DATA 0xa0
+0000            153   _P2MASK         DATA 0xfc
+0000            154   _P2MAT          DATA 0xfb
+0000            155   _P2MDIN         DATA 0xf3
+0000            156   _P2MDOUT        DATA 0xa6
+0000            157   _P2SKIP         DATA 0xcc
+0000            158   _P3             DATA 0xb0
+0000            159   _P3MDIN         DATA 0xf4
+0000            160   _P3MDOUT        DATA 0x9c
+0000            161   _PCA0CENT       DATA 0x9e
+0000            162   _PCA0CLR        DATA 0x9c
+0000            163   _PCA0CN0        DATA 0xd8
+0000            164   _PCA0CPH0       DATA 0xfc
+0000            165   _PCA0CPH1       DATA 0xea
+0000            166   _PCA0CPH2       DATA 0xec
+0000            167   _PCA0CPH3       DATA 0xf5
+0000            168   _PCA0CPH4       DATA 0x85
+0000            169   _PCA0CPH5       DATA 0xde
+0000            170   _PCA0CPL0       DATA 0xfb
+0000            171   _PCA0CPL1       DATA 0xe9
+0000            172   _PCA0CPL2       DATA 0xeb
+0000            173   _PCA0CPL3       DATA 0xf4
+0000            174   _PCA0CPL4       DATA 0x84
+0000            175   _PCA0CPL5       DATA 0xdd
+0000            176   _PCA0CPM0       DATA 0xda
+0000            177   _PCA0CPM1       DATA 0xdb
+0000            178   _PCA0CPM2       DATA 0xdc
+0000            179   _PCA0CPM3       DATA 0xae
+0000            180   _PCA0CPM4       DATA 0xaf
+0000            181   _PCA0CPM5       DATA 0xcc
+0000            182   _PCA0H          DATA 0xfa
+0000            183   _PCA0L          DATA 0xf9
+0000            184   _PCA0MD         DATA 0xd9
+0000            185   _PCA0POL        DATA 0x96
+0000            186   _PCA0PWM        DATA 0xf7
+0000            187   _PCON0          DATA 0x87
+0000            188   _PCON1          DATA 0xcd
+0000            189   _PFE0CN         DATA 0xc1
+0000            190   _PRTDRV         DATA 0xf6
+0000            191   _PSCTL          DATA 0x8f
+0000            192   _PSTAT0         DATA 0xaa
+0000            193   _PSW            DATA 0xd0
+0000            194   _REF0CN         DATA 0xd1
+0000            195   _REG0CN         DATA 0xc9
+0000            196   _REVID          DATA 0xb6
+0000            197   _RSTSRC         DATA 0xef
+0000            198   _SBCON1         DATA 0x94
+0000            199   _SBRLH1         DATA 0x96
+0000            200   _SBRLL1         DATA 0x95
+0000            201   _SBUF           DATA 0x99
+0000            202   _SBUF0          DATA 0x99
+0000            203   _SBUF1          DATA 0x92
+0000            204   _SCON           DATA 0x98
+0000            205   _SCON0          DATA 0x98
+0000            206   _SCON1          DATA 0xc8
+0000            207   _SFRPAGE        DATA 0xa7
+0000            208   _SFRPGCN        DATA 0xbc
+0000            209   _SFRSTACK       DATA 0xd7
+0000            210   _SMB0ADM        DATA 0xd6
+0000            211   _SMB0ADR        DATA 0xd7
+0000            212   _SMB0CF         DATA 0xc1
+0000            213   _SMB0CN0        DATA 0xc0
+0000            214   _SMB0DAT        DATA 0xc2
+0000            215   _SMB0FCN0       DATA 0xc3
+0000            216   _SMB0FCN1       DATA 0xc4
+0000            217   _SMB0FCT        DATA 0xef
+0000            218   _SMB0RXLN       DATA 0xc5
+0000            219   _SMB0TC         DATA 0xac
+0000            220   _SMOD1          DATA 0x93
+0000            221   _SP             DATA 0x81
+0000            222   _SPI0CFG        DATA 0xa1
+0000            223   _SPI0CKR        DATA 0xa2
+0000            224   _SPI0CN0        DATA 0xf8
+0000            225   _SPI0DAT        DATA 0xa3
+0000            226   _SPI0FCN0       DATA 0x9a
+0000            227   _SPI0FCN1       DATA 0x9b
+0000            228   _SPI0FCT        DATA 0xf7
+0000            229   _SPI0PCF        DATA 0xdf
+0000            230   _TCON           DATA 0x88
+0000            231   _TH0            DATA 0x8c
+0000            232   _TH1            DATA 0x8d
+0000            233   _TL0            DATA 0x8a
+0000            234   _TL1            DATA 0x8b
+0000            235   _TMOD           DATA 0x89
+0000            236   _TMR2CN0        DATA 0xc8
+0000            237   _TMR2CN1        DATA 0xfd
+0000            238   _TMR2H          DATA 0xcf
+0000            239   _TMR2L          DATA 0xce
+0000            240   _TMR2RLH        DATA 0xcb
+0000            241   _TMR2RLL        DATA 0xca
+0000            242   _TMR3CN0        DATA 0x91
+0000            243   _TMR3CN1        DATA 0xfe
+0000            244   _TMR3H          DATA 0x95
+0000            245   _TMR3L          DATA 0x94
+0000            246   _TMR3RLH        DATA 0x93
+0000            247   _TMR3RLL        DATA 0x92
+0000            248   _TMR4CN0        DATA 0x98
+0000            249   _TMR4CN1        DATA 0xff
+0000            250   _TMR4H          DATA 0xa5
+0000            251   _TMR4L          DATA 0xa4
+0000            252   _TMR4RLH        DATA 0xa3
+0000            253   _TMR4RLL        DATA 0xa2
+0000            254   _TMR5CN0        DATA 0xc0
+0000            255   _TMR5CN1        DATA 0xf1
+0000            256   _TMR5H          DATA 0xd5
+0000            257   _TMR5L          DATA 0xd4
+0000            258   _TMR5RLH        DATA 0xd3
+0000            259   _TMR5RLL        DATA 0xd2
+0000            260   _UART0PCF       DATA 0xd9
+0000            261   _UART1FCN0      DATA 0x9d
+0000            262   _UART1FCN1      DATA 0xd8
+0000            263   _UART1FCT       DATA 0xfa
+0000            264   _UART1LIN       DATA 0x9e
+0000            265   _UART1PCF       DATA 0xda
+0000            266   _VDM0CN         DATA 0xff
+0000            267   _WDTCN          DATA 0x97
+0000            268   _XBR0           DATA 0xe1
+0000            269   _XBR1           DATA 0xe2
+0000            270   _XBR2           DATA 0xe3
+0000            271   _XOSC0CN        DATA 0x86
+0000            272   _DPTR           DATA 0x8382
+0000            273   _TMR2RL         DATA 0xcbca
+0000            274   _TMR3RL         DATA 0x9392
+0000            275   _TMR4RL         DATA 0xa3a2
+0000            276   _TMR5RL         DATA 0xd3d2
+0000            277   _TMR0           DATA 0x8c8a
+0000            278   _TMR1           DATA 0x8d8b
+0000            279   _TMR2           DATA 0xcfce
+0000            280   _TMR3           DATA 0x9594
+0000            281   _TMR4           DATA 0xa5a4
+0000            282   _TMR5           DATA 0xd5d4
+0000            283   _SBRL1          DATA 0x9695
+0000            284   _PCA0           DATA 0xfaf9
+0000            285   _PCA0CP0        DATA 0xfcfb
+0000            286   _PCA0CP1        DATA 0xeae9
+0000            287   _PCA0CP2        DATA 0xeceb
+0000            288   _PCA0CP3        DATA 0xf5f4
+0000            289   _PCA0CP4        DATA 0x8584
+0000            290   _PCA0CP5        DATA 0xdedd
+0000            291   _ADC0ASA        DATA 0xb6b5
+0000            292   _ADC0GT         DATA 0xc4c3
+0000            293   _ADC0           DATA 0xbebd
+0000            294   _ADC0LT         DATA 0xc6c5
+0000            295   _DAC0           DATA 0x8584
+0000            296   _DAC1           DATA 0x8a89
+0000            297   _DAC2           DATA 0x8c8b
+0000            298   _DAC3           DATA 0x8e8d
+0000            299   ;--------------------------------------------------------
+0000            300   ; special function bits
+0000            301   ;--------------------------------------------------------
+0000            302   _ACC_0          BIT 0xe0
+0000            303   _ACC_1          BIT 0xe1
+0000            304   _ACC_2          BIT 0xe2
+0000            305   _ACC_3          BIT 0xe3
+0000            306   _ACC_4          BIT 0xe4
+0000            307   _ACC_5          BIT 0xe5
+0000            308   _ACC_6          BIT 0xe6
+0000            309   _ACC_7          BIT 0xe7
+0000            310   _TEMPE          BIT 0xe8
+0000            311   _ADGN0          BIT 0xe9
+0000            312   _ADGN1          BIT 0xea
+0000            313   _ADWINT         BIT 0xeb
+0000            314   _ADBUSY         BIT 0xec
+0000            315   _ADINT          BIT 0xed
+0000            316   _IPOEN          BIT 0xee
+0000            317   _ADEN           BIT 0xef
+0000            318   _B_0            BIT 0xf0
+0000            319   _B_1            BIT 0xf1
+0000            320   _B_2            BIT 0xf2
+0000            321   _B_3            BIT 0xf3
+0000            322   _B_4            BIT 0xf4
+0000            323   _B_5            BIT 0xf5
+0000            324   _B_6            BIT 0xf6
+0000            325   _B_7            BIT 0xf7
+0000            326   _C0FIF          BIT 0xe8
+0000            327   _C0RIF          BIT 0xe9
+0000            328   _C1FIF          BIT 0xea
+0000            329   _C1RIF          BIT 0xeb
+0000            330   _C2FIF          BIT 0xec
+0000            331   _C2RIF          BIT 0xed
+0000            332   _C3FIF          BIT 0xee
+0000            333   _C3RIF          BIT 0xef
+0000            334   _D1SRC0         BIT 0x88
+0000            335   _D1SRC1         BIT 0x89
+0000            336   _D1AMEN         BIT 0x8a
+0000            337   _D01REFSL       BIT 0x8b
+0000            338   _D3SRC0         BIT 0x8c
+0000            339   _D3SRC1         BIT 0x8d
+0000            340   _D3AMEN         BIT 0x8e
+0000            341   _D23REFSL       BIT 0x8f
+0000            342   _D0UDIS         BIT 0x98
+0000            343   _D1UDIS         BIT 0x99
+0000            344   _D2UDIS         BIT 0x9a
+0000            345   _D3UDIS         BIT 0x9b
+0000            346   _EX0            BIT 0xa8
+0000            347   _ET0            BIT 0xa9
+0000            348   _EX1            BIT 0xaa
+0000            349   _ET1            BIT 0xab
+0000            350   _ES0            BIT 0xac
+0000            351   _ET2            BIT 0xad
+0000            352   _ESPI0          BIT 0xae
+0000            353   _EA             BIT 0xaf
+0000            354   _PX0            BIT 0xb8
+0000            355   _PT0            BIT 0xb9
+0000            356   _PX1            BIT 0xba
+0000            357   _PT1            BIT 0xbb
+0000            358   _PS0            BIT 0xbc
+0000            359   _PT2            BIT 0xbd
+0000            360   _PSPI0          BIT 0xbe
+0000            361   _P0_0           BIT 0x80
+0000            362   _P0_1           BIT 0x81
+0000            363   _P0_2           BIT 0x82
+0000            364   _P0_3           BIT 0x83
+0000            365   _P0_4           BIT 0x84
+0000            366   _P0_5           BIT 0x85
+0000            367   _P0_6           BIT 0x86
+0000            368   _P0_7           BIT 0x87
+0000            369   _P1_0           BIT 0x90
+0000            370   _P1_1           BIT 0x91
+0000            371   _P1_2           BIT 0x92
+0000            372   _P1_3           BIT 0x93
+0000            373   _P1_4           BIT 0x94
+0000            374   _P1_5           BIT 0x95
+0000            375   _P1_6           BIT 0x96
+0000            376   _P1_7           BIT 0x97
+0000            377   _P2_0           BIT 0xa0
+0000            378   _P2_1           BIT 0xa1
+0000            379   _P2_2           BIT 0xa2
+0000            380   _P2_3           BIT 0xa3
+0000            381   _P2_4           BIT 0xa4
+0000            382   _P2_5           BIT 0xa5
+0000            383   _P2_6           BIT 0xa6
+0000            384   _P3_0           BIT 0xb0
+0000            385   _P3_1           BIT 0xb1
+0000            386   _P3_2           BIT 0xb2
+0000            387   _P3_3           BIT 0xb3
+0000            388   _P3_4           BIT 0xb4
+0000            389   _P3_7           BIT 0xb7
+0000            390   _CCF0           BIT 0xd8
+0000            391   _CCF1           BIT 0xd9
+0000            392   _CCF2           BIT 0xda
+0000            393   _CCF3           BIT 0xdb
+0000            394   _CCF4           BIT 0xdc
+0000            395   _CCF5           BIT 0xdd
+0000            396   _CR             BIT 0xde
+0000            397   _CF             BIT 0xdf
+0000            398   _PARITY         BIT 0xd0
+0000            399   _F1             BIT 0xd1
+0000            400   _OV             BIT 0xd2
+0000            401   _RS0            BIT 0xd3
+0000            402   _RS1            BIT 0xd4
+0000            403   _F0             BIT 0xd5
+0000            404   _AC             BIT 0xd6
+0000            405   _CY             BIT 0xd7
+0000            406   _RI             BIT 0x98
+0000            407   _TI             BIT 0x99
+0000            408   _RB8            BIT 0x9a
+0000            409   _TB8            BIT 0x9b
+0000            410   _REN            BIT 0x9c
+0000            411   _CE             BIT 0x9d
+0000            412   _SMODE          BIT 0x9e
+0000            413   _RI1            BIT 0xc8
+0000            414   _TI1            BIT 0xc9
+0000            415   _RBX1           BIT 0xca
+0000            416   _TBX1           BIT 0xcb
+0000            417   _REN1           BIT 0xcc
+0000            418   _PERR1          BIT 0xcd
+0000            419   _OVR1           BIT 0xce
+0000            420   _SI             BIT 0xc0
+0000            421   _ACK            BIT 0xc1
+0000            422   _ARBLOST        BIT 0xc2
+0000            423   _ACKRQ          BIT 0xc3
+0000            424   _STO            BIT 0xc4
+0000            425   _STA            BIT 0xc5
+0000            426   _TXMODE         BIT 0xc6
+0000            427   _MASTER         BIT 0xc7
+0000            428   _SPIEN          BIT 0xf8
+0000            429   _TXNF           BIT 0xf9
+0000            430   _NSSMD0         BIT 0xfa
+0000            431   _NSSMD1         BIT 0xfb
+0000            432   _RXOVRN         BIT 0xfc
+0000            433   _MODF           BIT 0xfd
+0000            434   _WCOL           BIT 0xfe
+0000            435   _SPIF           BIT 0xff
+0000            436   _IT0            BIT 0x88
+0000            437   _IE0            BIT 0x89
+0000            438   _IT1            BIT 0x8a
+0000            439   _IE1            BIT 0x8b
+0000            440   _TR0            BIT 0x8c
+0000            441   _TF0            BIT 0x8d
+0000            442   _TR1            BIT 0x8e
+0000            443   _TF1            BIT 0x8f
+0000            444   _T2XCLK0        BIT 0xc8
+0000            445   _T2XCLK1        BIT 0xc9
+0000            446   _TR2            BIT 0xca
+0000            447   _T2SPLIT        BIT 0xcb
+0000            448   _TF2CEN         BIT 0xcc
+0000            449   _TF2LEN         BIT 0xcd
+0000            450   _TF2L           BIT 0xce
+0000            451   _TF2H           BIT 0xcf
+0000            452   _T4XCLK0        BIT 0x98
+0000            453   _T4XCLK1        BIT 0x99
+0000            454   _TR4            BIT 0x9a
+0000            455   _T4SPLIT        BIT 0x9b
+0000            456   _TF4CEN         BIT 0x9c
+0000            457   _TF4LEN         BIT 0x9d
+0000            458   _TF4L           BIT 0x9e
+0000            459   _TF4H           BIT 0x9f
+0000            460   _T5XCLK0        BIT 0xc0
+0000            461   _T5XCLK1        BIT 0xc1
+0000            462   _TR5            BIT 0xc2
+0000            463   _T5SPLIT        BIT 0xc3
+0000            464   _TF5CEN         BIT 0xc4
+0000            465   _TF5LEN         BIT 0xc5
+0000            466   _TF5L           BIT 0xc6
+0000            467   _TF5H           BIT 0xc7
+0000            468   _RIE            BIT 0xd8
+0000            469   _RXTO0          BIT 0xd9
+0000            470   _RXTO1          BIT 0xda
+0000            471   _RFRQ           BIT 0xdb
+0000            472   _TIE            BIT 0xdc
+0000            473   _TXHOLD         BIT 0xdd
+0000            474   _TXNF1          BIT 0xde
+0000            475   _TFRQ           BIT 0xdf
+0000            476   ;--------------------------------------------------------
+0000            477   ; overlayable register banks
+0000            478   ;--------------------------------------------------------
+0000            479            rbank0 segment data overlay
+0000            480   ;--------------------------------------------------------
+0000            481   ; internal ram data
+0000            482   ;--------------------------------------------------------
+0000            483            rseg R_DSEG
+0000            484   _nunchuck_init_buf_1_37:
+0000            485            ds 6
+0006            486   _nunchuck_init_sloc0_1_0:
+0006            487            ds 2
+0008            488   _nunchuck_init_sloc1_1_0:
+0008            489            ds 2
+000A            490   _nunchuck_init_sloc2_1_0:
+000A            491            ds 2
+000C            492   _main_rbuf_1_44:
+000C            493            ds 6
+0012            494   _main_joy_x_1_44:
+0012            495            ds 2
+0014            496   _main_joy_y_1_44:
+0014            497            ds 2
+0016            498   _main_off_x_1_44:
+0016            499            ds 2
+0018            500   _main_off_y_1_44:
+0018            501            ds 2
+001A            502   _main_acc_y_1_44:
+001A            503            ds 2
+001C            504   _main_acc_z_1_44:
+001C            505            ds 2
+001E            506   _main_sloc0_1_0:
+001E            507            ds 1
+001F            508   ;--------------------------------------------------------
+001F            509   ; overlayable items in internal ram 
+001F            510   ;--------------------------------------------------------
+0000            511            rseg    R_OSEG
+0000            512            rseg    R_OSEG
+0000            513            rseg    R_OSEG
+0000            514   ;--------------------------------------------------------
+0000            515   ; indirectly addressable internal ram data
+0000            516   ;--------------------------------------------------------
+0000            517            rseg R_ISEG
+0000            518   ;--------------------------------------------------------
+0000            519   ; absolute internal ram data
+0000            520   ;--------------------------------------------------------
+0000            521            DSEG
+0000            522   ;--------------------------------------------------------
+0000            523   ; bit data
+0000            524   ;--------------------------------------------------------
+0000            525            rseg R_BSEG
+0000            526   _nunchuck_init_PARM_1:
+0000            527            DBIT    1
+0001            528   _main_but1_1_44:
+0001            529            DBIT    1
+0002            530   _main_but2_1_44:
+0002            531            DBIT    1
+0003            532   ;--------------------------------------------------------
+0003            533   ; paged external ram data
+0003            534   ;--------------------------------------------------------
+0000            535            rseg R_PSEG
+0000            536   ;--------------------------------------------------------
+0000            537   ; external ram data
+0000            538   ;--------------------------------------------------------
+0000            539            rseg R_XSEG
+0000            540   ;--------------------------------------------------------
+0000            541   ; absolute external ram data
+0000            542   ;--------------------------------------------------------
+0000            543            XSEG
+0000            544   ;--------------------------------------------------------
+0000            545   ; external initialized ram data
+0000            546   ;--------------------------------------------------------
+0000            547            rseg R_IXSEG
+0000            548            rseg R_HOME
+0000            549            rseg R_GSINIT
+0000            550            rseg R_CSEG
+0000            551   ;--------------------------------------------------------
+0000            552   ; Reset entry point and interrupt vectors
+0000            553   ;--------------------------------------------------------
+0000            554            CSEG at 0x0000
+0000 020100     555            ljmp    _crt0
+0003            556   ;--------------------------------------------------------
+0003            557   ; global & static initialisations
+0003            558   ;--------------------------------------------------------
+0000            559            rseg R_HOME
+0000            560            rseg R_GSINIT
+0000            561            rseg R_GSINIT
+0000            562   ;--------------------------------------------------------
+0000            563   ; data variables initialization
+0000            564   ;--------------------------------------------------------
+0000            565            rseg R_DINIT
+0000            566            ; The linker places a 'ret' at the end of segment R_DINIT.
+0000            567   ;--------------------------------------------------------
+0000            568   ; code
+0000            569   ;--------------------------------------------------------
+0000            570            rseg R_CSEG
+0000            571   ;------------------------------------------------------------
+0000            572   ;Allocation info for local variables in function '_c51_external_startup'
+0000            573   ;------------------------------------------------------------
+0000            574   ;------------------------------------------------------------
+0000            575   ;        EFM8_I2C_Nunchuck.c:24: char _c51_external_startup (void)
+0000            576   ;        -----------------------------------------
+0000            577   ;         function _c51_external_startup
+0000            578   ;        -----------------------------------------
+0000            579   __c51_external_startup:
+0000            580            using   0
+0000            581   ;        EFM8_I2C_Nunchuck.c:27: SFRPAGE = 0x00;
+0000 75A700     582            mov     _SFRPAGE,#0x00
+0003            583   ;        EFM8_I2C_Nunchuck.c:28: WDTCN = 0xDE; //First key
+0003 7597DE     584            mov     _WDTCN,#0xDE
+0006            585   ;        EFM8_I2C_Nunchuck.c:29: WDTCN = 0xAD; //Second key
+0006 7597AD     586            mov     _WDTCN,#0xAD
+0009            587   ;        EFM8_I2C_Nunchuck.c:31: VDM0CN=0x80;       // enable VDD monitor
+0009 75FF80     588            mov     _VDM0CN,#0x80
+000C            589   ;        EFM8_I2C_Nunchuck.c:32: RSTSRC=0x02|0x04;  // Enable reset on missing clock detector and VDD
+000C 75EF06     590            mov     _RSTSRC,#0x06
+000F            591   ;        EFM8_I2C_Nunchuck.c:39: SFRPAGE = 0x10;
+000F 75A710     592            mov     _SFRPAGE,#0x10
+0012            593   ;        EFM8_I2C_Nunchuck.c:40: PFE0CN  = 0x20; // SYSCLK < 75 MHz.
+0012 75C120     594            mov     _PFE0CN,#0x20
+0015            595   ;        EFM8_I2C_Nunchuck.c:41: SFRPAGE = 0x00;
+0015 75A700     596            mov     _SFRPAGE,#0x00
+0018            597   ;        EFM8_I2C_Nunchuck.c:62: CLKSEL = 0x00;
+0018 75A900     598            mov     _CLKSEL,#0x00
+001B            599   ;        EFM8_I2C_Nunchuck.c:63: CLKSEL = 0x00;
+001B 75A900     600            mov     _CLKSEL,#0x00
+001E            601   ;        EFM8_I2C_Nunchuck.c:64: while ((CLKSEL & 0x80) == 0);
+001E            602   L002001?:
+001E E5A9       603            mov     a,_CLKSEL
+0020 30E7B8     604            jnb     acc.7,L002001?
+0023            605   ;        EFM8_I2C_Nunchuck.c:65: CLKSEL = 0x03;
+0023 75A903     606            mov     _CLKSEL,#0x03
+0026            607   ;        EFM8_I2C_Nunchuck.c:66: CLKSEL = 0x03;
+0026 75A903     608            mov     _CLKSEL,#0x03
+0029            609   ;        EFM8_I2C_Nunchuck.c:67: while ((CLKSEL & 0x80) == 0);
+0029            610   L002004?:
+0029 E5A9       611            mov     a,_CLKSEL
+002B 30E738     612            jnb     acc.7,L002004?
+002E            613   ;        EFM8_I2C_Nunchuck.c:76: SCON0 = 0x10;
+002E 759810     614            mov     _SCON0,#0x10
+0031            615   ;        EFM8_I2C_Nunchuck.c:77: TH1 = 0x100-((SYSCLK/BAUDRATE)/(12L*2L));
+0031 758DE6     616            mov     _TH1,#0xE6
+0034            617   ;        EFM8_I2C_Nunchuck.c:78: TL1 = TH1;      // Init Timer1
+0034 858D8B     618            mov     _TL1,_TH1
+0037            619   ;        EFM8_I2C_Nunchuck.c:79: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit auto-reload
+0037 53890F     620            anl     _TMOD,#0x0F
+003A            621   ;        EFM8_I2C_Nunchuck.c:80: TMOD |=  0x20;                       
+003A 438920     622            orl     _TMOD,#0x20
+003D            623   ;        EFM8_I2C_Nunchuck.c:81: TR1 = 1; // START Timer1
+003D D28E       624            setb    _TR1
+003F            625   ;        EFM8_I2C_Nunchuck.c:82: TI = 1;  // Indicate TX0 ready
+003F D299       626            setb    _TI
+0041            627   ;        EFM8_I2C_Nunchuck.c:85: P0MDOUT |= 0x10; // Enable UART0 TX as push-pull output
+0041 43A410     628            orl     _P0MDOUT,#0x10
+0044            629   ;        EFM8_I2C_Nunchuck.c:86: XBR0 = 0b_0000_0101; // Enable SMBus pins and UART pins P0.4(TX) and P0.5(RX)
+0044 75E105     630            mov     _XBR0,#0x05
+0047            631   ;        EFM8_I2C_Nunchuck.c:87: XBR1 = 0X00;
+0047 75E200     632            mov     _XBR1,#0x00
+004A            633   ;        EFM8_I2C_Nunchuck.c:88: XBR2 = 0x40; // Enable crossbar and weak pull-ups
+004A 75E340     634            mov     _XBR2,#0x40
+004D            635   ;        EFM8_I2C_Nunchuck.c:91: CKCON0 |= 0b_0000_0100; // Timer0 clock source = SYSCLK
+004D 438E04     636            orl     _CKCON0,#0x04
+0050            637   ;        EFM8_I2C_Nunchuck.c:92: TMOD &= 0xf0;  // Mask out timer 1 bits
+0050 5389F0     638            anl     _TMOD,#0xF0
+0053            639   ;        EFM8_I2C_Nunchuck.c:93: TMOD |= 0x02;  // Timer0 in 8-bit auto-reload mode
+0053 438902     640            orl     _TMOD,#0x02
+0056            641   ;        EFM8_I2C_Nunchuck.c:95: TL0 = TH0 = 256-(SYSCLK/SMB_FREQUENCY/3);
+0056 758C10     642            mov     _TH0,#0x10
+0059 758A10     643            mov     _TL0,#0x10
+005C            644   ;        EFM8_I2C_Nunchuck.c:96: TR0 = 1; // Enable timer 0
+005C D28C       645            setb    _TR0
+005E            646   ;        EFM8_I2C_Nunchuck.c:99: SMB0CF = 0b_0101_1100; //INH | EXTHOLD | SMBTOE | SMBFTE ;
+005E 75C15C     647            mov     _SMB0CF,#0x5C
+0061            648   ;        EFM8_I2C_Nunchuck.c:100: SMB0CF |= 0b_1000_0000;  // Enable SMBus
+0061 43C180     649            orl     _SMB0CF,#0x80
+0064            650   ;        EFM8_I2C_Nunchuck.c:102: return 0;
+0064 758200     651            mov     dpl,#0x00
+0067 22         652            ret
+0068            653   ;------------------------------------------------------------
+0068            654   ;Allocation info for local variables in function 'Timer4ms'
+0068            655   ;------------------------------------------------------------
+0068            656   ;ms                        Allocated to registers r2 
+0068            657   ;i                         Allocated to registers r4 
+0068            658   ;k                         Allocated to registers r3 
+0068            659   ;------------------------------------------------------------
+0068            660   ;        EFM8_I2C_Nunchuck.c:106: void Timer4ms(unsigned char ms)
+0068            661   ;        -----------------------------------------
+0068            662   ;         function Timer4ms
+0068            663   ;        -----------------------------------------
+0068            664   _Timer4ms:
+0068 AA82       665            mov     r2,dpl
+006A            666   ;        EFM8_I2C_Nunchuck.c:111: k=SFRPAGE;
+006A ABA7       667            mov     r3,_SFRPAGE
+006C            668   ;        EFM8_I2C_Nunchuck.c:112: SFRPAGE=0x10;
+006C 75A710     669            mov     _SFRPAGE,#0x10
+006F            670   ;        EFM8_I2C_Nunchuck.c:114: CKCON1|=0b_0000_0001;
+006F 43A601     671            orl     _CKCON1,#0x01
+0072            672   ;        EFM8_I2C_Nunchuck.c:116: TMR4RL = 65536-(SYSCLK/1000L); // Set Timer4 to overflow in 1 ms.
+0072 75A2C0     673            mov     _TMR4RL,#0xC0
+0075 75A3E6     674            mov     (_TMR4RL >> 8),#0xE6
+0078            675   ;        EFM8_I2C_Nunchuck.c:117: TMR4 = TMR4RL;                 // Initialize Timer4 for first overflow
+0078 85A2A4     676            mov     _TMR4,_TMR4RL
+007B 85A3A5     677            mov     (_TMR4 >> 8),(_TMR4RL >> 8)
+007E            678   ;        EFM8_I2C_Nunchuck.c:119: TF4H=0; // Clear overflow flag
+007E C29F       679            clr     _TF4H
+0080            680   ;        EFM8_I2C_Nunchuck.c:120: TR4=1;  // Start Timer4
+0080 D29A       681            setb    _TR4
+0082            682   ;        EFM8_I2C_Nunchuck.c:121: for (i = 0; i < ms; i++)       // Count <ms> overflows
+0082 7C00       683            mov     r4,#0x00
+0084            684   L003004?:
+0084 C3         685            clr     c
+0085 EC         686            mov     a,r4
+0086 9A         687            subb    a,r2
+0087 5001       688            jnc     L003007?
+0089            689   ;        EFM8_I2C_Nunchuck.c:123: while (!TF4H);  // Wait for overflow
+0089            690   L003001?:
+0089            691   ;        EFM8_I2C_Nunchuck.c:124: TF4H=0;         // Clear overflow indicator
+0089 109F78     692            jbc     _TF4H,L003015?
+008C 8001       693            sjmp    L003001?
+008E            694   L003015?:
+008E            695   ;        EFM8_I2C_Nunchuck.c:121: for (i = 0; i < ms; i++)       // Count <ms> overflows
+008E 0C         696            inc     r4
+008F 8001       697            sjmp    L003004?
+0091            698   L003007?:
+0091            699   ;        EFM8_I2C_Nunchuck.c:126: TR4=0; // Stop Timer4
+0091 C29A       700            clr     _TR4
+0093            701   ;        EFM8_I2C_Nunchuck.c:127: SFRPAGE=k;     
+0093 8BA7       702            mov     _SFRPAGE,r3
+0095 22         703            ret
+0096            704   ;------------------------------------------------------------
+0096            705   ;Allocation info for local variables in function 'I2C_write'
+0096            706   ;------------------------------------------------------------
+0096            707   ;output_data               Allocated to registers 
+0096            708   ;------------------------------------------------------------
+0096            709   ;        EFM8_I2C_Nunchuck.c:130: void I2C_write (unsigned char output_data)
+0096            710   ;        -----------------------------------------
+0096            711   ;         function I2C_write
+0096            712   ;        -----------------------------------------
+0096            713   _I2C_write:
+0096 8582C2     714            mov     _SMB0DAT,dpl
+0099            715   ;        EFM8_I2C_Nunchuck.c:133: SI = 0;
+0099 C2C0       716            clr     _SI
+009B            717   ;        EFM8_I2C_Nunchuck.c:134: while (!SI); // Wait until done with send
+009B            718   L004001?:
+009B 30C0B8     719            jnb     _SI,L004001?
+009E 22         720            ret
+009F            721   ;------------------------------------------------------------
+009F            722   ;Allocation info for local variables in function 'I2C_read'
+009F            723   ;------------------------------------------------------------
+009F            724   ;input_data                Allocated to registers 
+009F            725   ;------------------------------------------------------------
+009F            726   ;        EFM8_I2C_Nunchuck.c:137: unsigned char I2C_read (void)
+009F            727   ;        -----------------------------------------
+009F            728   ;         function I2C_read
+009F            729   ;        -----------------------------------------
+009F            730   _I2C_read:
+009F            731   ;        EFM8_I2C_Nunchuck.c:141: SI = 0;
+009F C2C0       732            clr     _SI
+00A1            733   ;        EFM8_I2C_Nunchuck.c:142: while (!SI); // Wait until we have data to read
+00A1            734   L005001?:
+00A1 30C0F8     735            jnb     _SI,L005001?
+00A4            736   ;        EFM8_I2C_Nunchuck.c:143: input_data = SMB0DAT; // Read the data
+00A4 85C282     737            mov     dpl,_SMB0DAT
+00A7            738   ;        EFM8_I2C_Nunchuck.c:145: return input_data;
+00A7 22         739            ret
+00A8            740   ;------------------------------------------------------------
+00A8            741   ;Allocation info for local variables in function 'I2C_start'
+00A8            742   ;------------------------------------------------------------
+00A8            743   ;------------------------------------------------------------
+00A8            744   ;        EFM8_I2C_Nunchuck.c:148: void I2C_start (void)
+00A8            745   ;        -----------------------------------------
+00A8            746   ;         function I2C_start
+00A8            747   ;        -----------------------------------------
+00A8            748   _I2C_start:
+00A8            749   ;        EFM8_I2C_Nunchuck.c:150: ACK = 1;
+00A8 D2C1       750            setb    _ACK
+00AA            751   ;        EFM8_I2C_Nunchuck.c:151: STA = 1;     // Send I2C start
+00AA D2C5       752            setb    _STA
+00AC            753   ;        EFM8_I2C_Nunchuck.c:152: STO = 0;
+00AC C2C4       754            clr     _STO
+00AE            755   ;        EFM8_I2C_Nunchuck.c:153: SI = 0;
+00AE C2C0       756            clr     _SI
+00B0            757   ;        EFM8_I2C_Nunchuck.c:154: while (!SI); // Wait until start sent
+00B0            758   L006001?:
+00B0 30C038     759            jnb     _SI,L006001?
+00B3            760   ;        EFM8_I2C_Nunchuck.c:155: STA = 0;     // Reset I2C start
+00B3 C2C5       761            clr     _STA
+00B5 22         762            ret
+00B6            763   ;------------------------------------------------------------
+00B6            764   ;Allocation info for local variables in function 'I2C_stop'
+00B6            765   ;------------------------------------------------------------
+00B6            766   ;------------------------------------------------------------
+00B6            767   ;        EFM8_I2C_Nunchuck.c:158: void I2C_stop(void)
+00B6            768   ;        -----------------------------------------
+00B6            769   ;         function I2C_stop
+00B6            770   ;        -----------------------------------------
+00B6            771   _I2C_stop:
+00B6            772   ;        EFM8_I2C_Nunchuck.c:160: STO = 1;       // Perform I2C stop
+00B6 D2C4       773            setb    _STO
+00B8            774   ;        EFM8_I2C_Nunchuck.c:161: SI = 0;        // Clear SI
+00B8 C2C0       775            clr     _SI
+00BA 22         776            ret
+00BB            777   ;------------------------------------------------------------
+00BB            778   ;Allocation info for local variables in function 'nunchuck_init'
+00BB            779   ;------------------------------------------------------------
+00BB            780   ;i                         Allocated to registers r2 
+00BB            781   ;buf                       Allocated with name '_nunchuck_init_buf_1_37'
+00BB            782   ;sloc0                     Allocated with name '_nunchuck_init_sloc0_1_0'
+00BB            783   ;sloc1                     Allocated with name '_nunchuck_init_sloc1_1_0'
+00BB            784   ;sloc2                     Allocated with name '_nunchuck_init_sloc2_1_0'
+00BB            785   ;------------------------------------------------------------
+00BB            786   ;        EFM8_I2C_Nunchuck.c:165: void nunchuck_init(bit print_extension_type)
+00BB            787   ;        -----------------------------------------
+00BB            788   ;         function nunchuck_init
+00BB            789   ;        -----------------------------------------
+00BB            790   _nunchuck_init:
+00BB            791   ;        EFM8_I2C_Nunchuck.c:170: I2C_start();
+00BB 120100     792            lcall   _I2C_start
+00BE            793   ;        EFM8_I2C_Nunchuck.c:171: I2C_write(0xA4);
+00BE 7582A4     794            mov     dpl,#0xA4
+00C1 120100     795            lcall   _I2C_write
+00C4            796   ;        EFM8_I2C_Nunchuck.c:172: I2C_write(0xF0);
+00C4 7582F0     797            mov     dpl,#0xF0
+00C7 120100     798            lcall   _I2C_write
+00CA            799   ;        EFM8_I2C_Nunchuck.c:173: I2C_write(0x55);
+00CA 758255     800            mov     dpl,#0x55
+00CD 120100     801            lcall   _I2C_write
+00D0            802   ;        EFM8_I2C_Nunchuck.c:174: I2C_stop();
+00D0 120100     803            lcall   _I2C_stop
+00D3            804   ;        EFM8_I2C_Nunchuck.c:175: Timer4ms(1);
+00D3 758201     805            mov     dpl,#0x01
+00D6 120100     806            lcall   _Timer4ms
+00D9            807   ;        EFM8_I2C_Nunchuck.c:177: I2C_start();
+00D9 120100     808            lcall   _I2C_start
+00DC            809   ;        EFM8_I2C_Nunchuck.c:178: I2C_write(0xA4);
+00DC 7582A4     810            mov     dpl,#0xA4
+00DF 120100     811            lcall   _I2C_write
+00E2            812   ;        EFM8_I2C_Nunchuck.c:179: I2C_write(0xFB);
+00E2 7582FB     813            mov     dpl,#0xFB
+00E5 120100     814            lcall   _I2C_write
+00E8            815   ;        EFM8_I2C_Nunchuck.c:180: I2C_write(0x00);
+00E8 758200     816            mov     dpl,#0x00
+00EB 120100     817            lcall   _I2C_write
+00EE            818   ;        EFM8_I2C_Nunchuck.c:181: I2C_stop();
+00EE 120100     819            lcall   _I2C_stop
+00F1            820   ;        EFM8_I2C_Nunchuck.c:182: Timer4ms(1);
+00F1 758201     821            mov     dpl,#0x01
+00F4 120100     822            lcall   _Timer4ms
+00F7            823   ;        EFM8_I2C_Nunchuck.c:186: I2C_start();
+00F7 120100     824            lcall   _I2C_start
+00FA            825   ;        EFM8_I2C_Nunchuck.c:187: I2C_write(0xA4);
+00FA 7582A4     826            mov     dpl,#0xA4
+00FD 120100     827            lcall   _I2C_write
+0100            828   ;        EFM8_I2C_Nunchuck.c:188: I2C_write(0xFA); // extension type register
+0100 7582FA     829            mov     dpl,#0xFA
+0103 120100     830            lcall   _I2C_write
+0106            831   ;        EFM8_I2C_Nunchuck.c:189: I2C_stop();
+0106 120100     832            lcall   _I2C_stop
+0109            833   ;        EFM8_I2C_Nunchuck.c:190: Timer4ms(3); // 3 ms required to complete acquisition
+0109 758203     834            mov     dpl,#0x03
+010C 120100     835            lcall   _Timer4ms
+010F            836   ;        EFM8_I2C_Nunchuck.c:192: I2C_start();
+010F 120100     837            lcall   _I2C_start
+0112            838   ;        EFM8_I2C_Nunchuck.c:193: I2C_write(0xA5);
+0112 7582A5     839            mov     dpl,#0xA5
+0115 120100     840            lcall   _I2C_write
+0118            841   ;        EFM8_I2C_Nunchuck.c:196: for(i=0; i<6; i++)
+0118 7A00       842            mov     r2,#0x00
+011A            843   L008003?:
+011A BA06B8     844            cjne    r2,#0x06,L008013?
+011D            845   L008013?:
+011D 5001       846            jnc     L008006?
+011F            847   ;        EFM8_I2C_Nunchuck.c:198: buf[i]=I2C_read();
+011F EA         848            mov     a,r2
+0120 2468       849            add     a,#_nunchuck_init_buf_1_37
+0122 F8         850            mov     r0,a
+0123 C002       851            push    ar2
+0125 C000       852            push    ar0
+0127 120100     853            lcall   _I2C_read
+012A E582       854            mov     a,dpl
+012C D000       855            pop     ar0
+012E D002       856            pop     ar2
+0130 F6         857            mov     @r0,a
+0131            858   ;        EFM8_I2C_Nunchuck.c:196: for(i=0; i<6; i++)
+0131 0A         859            inc     r2
+0132 8001       860            sjmp    L008003?
+0134            861   L008006?:
+0134            862   ;        EFM8_I2C_Nunchuck.c:200: ACK=0;
+0134 C2C1       863            clr     _ACK
+0136            864   ;        EFM8_I2C_Nunchuck.c:201: I2C_stop();
+0136 120100     865            lcall   _I2C_stop
+0139            866   ;        EFM8_I2C_Nunchuck.c:202: Timer4ms(3);
+0139 758203     867            mov     dpl,#0x03
+013C 120100     868            lcall   _Timer4ms
+013F            869   ;        EFM8_I2C_Nunchuck.c:204: if(print_extension_type)
+013F 30B038     870            jnb     _nunchuck_init_PARM_1,L008002?
+0142            871   ;        EFM8_I2C_Nunchuck.c:207: buf[0],  buf[1], buf[2], buf[3], buf[4], buf[5]);
+0142 AA6D       872            mov     r2,(_nunchuck_init_buf_1_37 + 0x0005)
+0144 7B00       873            mov     r3,#0x00
+0146 AC6C       874            mov     r4,(_nunchuck_init_buf_1_37 + 0x0004)
+0148 7D00       875            mov     r5,#0x00
+014A 856BB8     876            mov     _nunchuck_init_sloc0_1_0,(_nunchuck_init_buf_1_37 + 0x0003)
+014D 75B900     877            mov     (_nunchuck_init_sloc0_1_0 + 1),#0x00
+0150 856A08     878            mov     _nunchuck_init_sloc1_1_0,(_nunchuck_init_buf_1_37 + 0x0002)
+0153 750900     879            mov     (_nunchuck_init_sloc1_1_0 + 1),#0x00
+0156 856958     880            mov     _nunchuck_init_sloc2_1_0,(_nunchuck_init_buf_1_37 + 0x0001)
+0159 755900     881            mov     (_nunchuck_init_sloc2_1_0 + 1),#0x00
+015C AE68       882            mov     r6,_nunchuck_init_buf_1_37
+015E 7F00       883            mov     r7,#0x00
+0160            884   ;        EFM8_I2C_Nunchuck.c:206: printf("Extension type: %02x  %02x  %02x  %02x  %02x  %02x\n", 
+0160 C002       885            push    ar2
+0162 C003       886            push    ar3
+0164 C004       887            push    ar4
+0166 C005       888            push    ar5
+0168 C0B8       889            push    _nunchuck_init_sloc0_1_0
+016A C0B9       890            push    (_nunchuck_init_sloc0_1_0 + 1)
+016C C008       891            push    _nunchuck_init_sloc1_1_0
+016E C009       892            push    (_nunchuck_init_sloc1_1_0 + 1)
+0170 C058       893            push    _nunchuck_init_sloc2_1_0
+0172 C059       894            push    (_nunchuck_init_sloc2_1_0 + 1)
+0174 C006       895            push    ar6
+0176 C007       896            push    ar7
+0178 7478       897            mov     a,#__str_0
+017A C0E0       898            push    acc
+017C 74BC       899            mov     a,#(__str_0 >> 8)
+017E C0E0       900            push    acc
+0180 7480       901            mov     a,#0x80
+0182 C0E0       902            push    acc
+0184 120100     903            lcall   _printf
+0187 E581       904            mov     a,sp
+0189 24F1       905            add     a,#0xf1
+018B F581       906            mov     sp,a
+018D            907   L008002?:
+018D            908   ;        EFM8_I2C_Nunchuck.c:212: I2C_start();
+018D 120100     909            lcall   _I2C_start
+0190            910   ;        EFM8_I2C_Nunchuck.c:213: I2C_write(0xA4);
+0190 7582A4     911            mov     dpl,#0xA4
+0193 120100     912            lcall   _I2C_write
+0196            913   ;        EFM8_I2C_Nunchuck.c:214: I2C_write(0xF0);
+0196 7582F0     914            mov     dpl,#0xF0
+0199 120100     915            lcall   _I2C_write
+019C            916   ;        EFM8_I2C_Nunchuck.c:215: I2C_write(0xAA);
+019C 7582AA     917            mov     dpl,#0xAA
+019F 120100     918            lcall   _I2C_write
+01A2            919   ;        EFM8_I2C_Nunchuck.c:216: I2C_stop();
+01A2 120100     920            lcall   _I2C_stop
+01A5            921   ;        EFM8_I2C_Nunchuck.c:217: Timer4ms(1);
+01A5 758201     922            mov     dpl,#0x01
+01A8 120100     923            lcall   _Timer4ms
+01AB            924   ;        EFM8_I2C_Nunchuck.c:219: I2C_start();
+01AB 120100     925            lcall   _I2C_start
+01AE            926   ;        EFM8_I2C_Nunchuck.c:220: I2C_write(0xA4);
+01AE 7582A4     927            mov     dpl,#0xA4
+01B1 120100     928            lcall   _I2C_write
+01B4            929   ;        EFM8_I2C_Nunchuck.c:221: I2C_write(0x40);
+01B4 758240     930            mov     dpl,#0x40
+01B7 120100     931            lcall   _I2C_write
+01BA            932   ;        EFM8_I2C_Nunchuck.c:222: I2C_write(0x00);
+01BA 758200     933            mov     dpl,#0x00
+01BD 120100     934            lcall   _I2C_write
+01C0            935   ;        EFM8_I2C_Nunchuck.c:223: I2C_write(0x00);
+01C0 758200     936            mov     dpl,#0x00
+01C3 120100     937            lcall   _I2C_write
+01C6            938   ;        EFM8_I2C_Nunchuck.c:224: I2C_write(0x00);
+01C6 758200     939            mov     dpl,#0x00
+01C9 120100     940            lcall   _I2C_write
+01CC            941   ;        EFM8_I2C_Nunchuck.c:225: I2C_write(0x00);
+01CC 758200     942            mov     dpl,#0x00
+01CF 120100     943            lcall   _I2C_write
+01D2            944   ;        EFM8_I2C_Nunchuck.c:226: I2C_write(0x00);
+01D2 758200     945            mov     dpl,#0x00
+01D5 120100     946            lcall   _I2C_write
+01D8            947   ;        EFM8_I2C_Nunchuck.c:227: I2C_write(0x00);
+01D8 758200     948            mov     dpl,#0x00
+01DB 120100     949            lcall   _I2C_write
+01DE            950   ;        EFM8_I2C_Nunchuck.c:228: I2C_stop();
+01DE 120100     951            lcall   _I2C_stop
+01E1            952   ;        EFM8_I2C_Nunchuck.c:229: Timer4ms(1);
+01E1 758201     953            mov     dpl,#0x01
+01E4 120100     954            lcall   _Timer4ms
+01E7            955   ;        EFM8_I2C_Nunchuck.c:231: I2C_start();
+01E7 120100     956            lcall   _I2C_start
+01EA            957   ;        EFM8_I2C_Nunchuck.c:232: I2C_write(0xA4);
+01EA 7582A4     958            mov     dpl,#0xA4
+01ED 120100     959            lcall   _I2C_write
+01F0            960   ;        EFM8_I2C_Nunchuck.c:233: I2C_write(0x40);
+01F0 758240     961            mov     dpl,#0x40
+01F3 120100     962            lcall   _I2C_write
+01F6            963   ;        EFM8_I2C_Nunchuck.c:234: I2C_write(0x00);
+01F6 758200     964            mov     dpl,#0x00
+01F9 120100     965            lcall   _I2C_write
+01FC            966   ;        EFM8_I2C_Nunchuck.c:235: I2C_write(0x00);
+01FC 758200     967            mov     dpl,#0x00
+01FF 120100     968            lcall   _I2C_write
+0202            969   ;        EFM8_I2C_Nunchuck.c:236: I2C_write(0x00);
+0202 758200     970            mov     dpl,#0x00
+0205 120100     971            lcall   _I2C_write
+0208            972   ;        EFM8_I2C_Nunchuck.c:237: I2C_write(0x00);
+0208 758200     973            mov     dpl,#0x00
+020B 120100     974            lcall   _I2C_write
+020E            975   ;        EFM8_I2C_Nunchuck.c:238: I2C_write(0x00);
+020E 758200     976            mov     dpl,#0x00
+0211 120100     977            lcall   _I2C_write
+0214            978   ;        EFM8_I2C_Nunchuck.c:239: I2C_write(0x00);
+0214 758200     979            mov     dpl,#0x00
+0217 120100     980            lcall   _I2C_write
+021A            981   ;        EFM8_I2C_Nunchuck.c:240: I2C_stop();
+021A 120100     982            lcall   _I2C_stop
+021D            983   ;        EFM8_I2C_Nunchuck.c:241: Timer4ms(1);
+021D 758201     984            mov     dpl,#0x01
+0220 120100     985            lcall   _Timer4ms
+0223            986   ;        EFM8_I2C_Nunchuck.c:243: I2C_start();
+0223 120100     987            lcall   _I2C_start
+0226            988   ;        EFM8_I2C_Nunchuck.c:244: I2C_write(0xA4);
+0226 7582A4     989            mov     dpl,#0xA4
+0229 120100     990            lcall   _I2C_write
+022C            991   ;        EFM8_I2C_Nunchuck.c:245: I2C_write(0x40);
+022C 758240     992            mov     dpl,#0x40
+022F 120100     993            lcall   _I2C_write
+0232            994   ;        EFM8_I2C_Nunchuck.c:246: I2C_write(0x00);
+0232 758200     995            mov     dpl,#0x00
+0235 120100     996            lcall   _I2C_write
+0238            997   ;        EFM8_I2C_Nunchuck.c:247: I2C_write(0x00);
+0238 758200     998            mov     dpl,#0x00
+023B 120100     999            lcall   _I2C_write
+023E           1000   ;        EFM8_I2C_Nunchuck.c:248: I2C_write(0x00);
+023E 758200    1001            mov     dpl,#0x00
+0241 120100    1002            lcall   _I2C_write
+0244           1003   ;        EFM8_I2C_Nunchuck.c:249: I2C_write(0x00);
+0244 758200    1004            mov     dpl,#0x00
+0247 120100    1005            lcall   _I2C_write
+024A           1006   ;        EFM8_I2C_Nunchuck.c:250: I2C_stop();
+024A 120100    1007            lcall   _I2C_stop
+024D           1008   ;        EFM8_I2C_Nunchuck.c:251: Timer4ms(1);
+024D 758201    1009            mov     dpl,#0x01
+0250 020100    1010            ljmp    _Timer4ms
+0253           1011   ;------------------------------------------------------------
+0253           1012   ;Allocation info for local variables in function 'nunchuck_getdata'
+0253           1013   ;------------------------------------------------------------
+0253           1014   ;s                         Allocated to registers r2 r3 r4 
+0253           1015   ;i                         Allocated to registers r5 
+0253           1016   ;------------------------------------------------------------
+0253           1017   ;        EFM8_I2C_Nunchuck.c:254: void nunchuck_getdata(unsigned char * s)
+0253           1018   ;        -----------------------------------------
+0253           1019   ;         function nunchuck_getdata
+0253           1020   ;        -----------------------------------------
+0253           1021   _nunchuck_getdata:
+0253 AA82      1022            mov     r2,dpl
+0255 AB83      1023            mov     r3,dph
+0257 ACF0      1024            mov     r4,b
+0259           1025   ;        EFM8_I2C_Nunchuck.c:259: I2C_start();
+0259 C002      1026            push    ar2
+025B C003      1027            push    ar3
+025D C004      1028            push    ar4
+025F 120100    1029            lcall   _I2C_start
+0262           1030   ;        EFM8_I2C_Nunchuck.c:260: I2C_write(0xA4);
+0262 7582A4    1031            mov     dpl,#0xA4
+0265 120100    1032            lcall   _I2C_write
+0268           1033   ;        EFM8_I2C_Nunchuck.c:261: I2C_write(0x00);
+0268 758200    1034            mov     dpl,#0x00
+026B 120100    1035            lcall   _I2C_write
+026E           1036   ;        EFM8_I2C_Nunchuck.c:262: I2C_stop();
+026E 120100    1037            lcall   _I2C_stop
+0271           1038   ;        EFM8_I2C_Nunchuck.c:263: Timer4ms(3);   // 3 ms required to complete acquisition
+0271 758203    1039            mov     dpl,#0x03
+0274 120100    1040            lcall   _Timer4ms
+0277           1041   ;        EFM8_I2C_Nunchuck.c:266: I2C_start();
+0277 120100    1042            lcall   _I2C_start
+027A           1043   ;        EFM8_I2C_Nunchuck.c:267: I2C_write(0xA5);
+027A 7582A5    1044            mov     dpl,#0xA5
+027D 120100    1045            lcall   _I2C_write
+0280 D004      1046            pop     ar4
+0282 D003      1047            pop     ar3
+0284 D002      1048            pop     ar2
+0286           1049   ;        EFM8_I2C_Nunchuck.c:270: for(i=0; i<6; i++)
+0286 7D00      1050            mov     r5,#0x00
+0288           1051   L009001?:
+0288 BD06F8    1052            cjne    r5,#0x06,L009010?
+028B           1053   L009010?:
+028B 5001      1054            jnc     L009004?
+028D           1055   ;        EFM8_I2C_Nunchuck.c:272: s[i]=(I2C_read()^0x17)+0x17; // Read and decrypt
+028D ED        1056            mov     a,r5
+028E 2A        1057            add     a,r2
+028F FE        1058            mov     r6,a
+0290 E4        1059            clr     a
+0291 3B        1060            addc    a,r3
+0292 FF        1061            mov     r7,a
+0293 8C00      1062            mov     ar0,r4
+0295 C002      1063            push    ar2
+0297 C003      1064            push    ar3
+0299 C004      1065            push    ar4
+029B C005      1066            push    ar5
+029D C006      1067            push    ar6
+029F C007      1068            push    ar7
+02A1 C000      1069            push    ar0
+02A3 120100    1070            lcall   _I2C_read
+02A6 E582      1071            mov     a,dpl
+02A8 D000      1072            pop     ar0
+02AA D007      1073            pop     ar7
+02AC D006      1074            pop     ar6
+02AE D005      1075            pop     ar5
+02B0 D004      1076            pop     ar4
+02B2 D003      1077            pop     ar3
+02B4 D002      1078            pop     ar2
+02B6 6417      1079            xrl     a,#0x17
+02B8 2417      1080            add     a,#0x17
+02BA F9        1081            mov     r1,a
+02BB 8E82      1082            mov     dpl,r6
+02BD 8F83      1083            mov     dph,r7
+02BF 88F0      1084            mov     b,r0
+02C1 120100    1085            lcall   __gptrput
+02C4           1086   ;        EFM8_I2C_Nunchuck.c:270: for(i=0; i<6; i++)
+02C4 0D        1087            inc     r5
+02C5 8001      1088            sjmp    L009001?
+02C7           1089   L009004?:
+02C7           1090   ;        EFM8_I2C_Nunchuck.c:274: ACK=0;
+02C7 C2C1      1091            clr     _ACK
+02C9           1092   ;        EFM8_I2C_Nunchuck.c:275: I2C_stop();
+02C9 020100    1093            ljmp    _I2C_stop
+02CC           1094   ;------------------------------------------------------------
+02CC           1095   ;Allocation info for local variables in function 'main'
+02CC           1096   ;------------------------------------------------------------
+02CC           1097   ;rbuf                      Allocated with name '_main_rbuf_1_44'
+02CC           1098   ;joy_x                     Allocated with name '_main_joy_x_1_44'
+02CC           1099   ;joy_y                     Allocated with name '_main_joy_y_1_44'
+02CC           1100   ;off_x                     Allocated with name '_main_off_x_1_44'
+02CC           1101   ;off_y                     Allocated with name '_main_off_y_1_44'
+02CC           1102   ;acc_x                     Allocated to registers r6 r7 
+02CC           1103   ;acc_y                     Allocated with name '_main_acc_y_1_44'
+02CC           1104   ;acc_z                     Allocated with name '_main_acc_z_1_44'
+02CC           1105   ;sloc0                     Allocated with name '_main_sloc0_1_0'
+02CC           1106   ;------------------------------------------------------------
+02CC           1107   ;        EFM8_I2C_Nunchuck.c:278: void main (void)
+02CC           1108   ;        -----------------------------------------
+02CC           1109   ;         function main
+02CC           1110   ;        -----------------------------------------
+02CC           1111   _main:
+02CC           1112   ;        EFM8_I2C_Nunchuck.c:284: printf("\x1b[2J\x1b[1;1H"); // Clear screen using ANSI escape sequence.
+02CC 74B8      1113            mov     a,#__str_1
+02CE C0E0      1114            push    acc
+02D0 74BE      1115            mov     a,#(__str_1 >> 8)
+02D2 C0E0      1116            push    acc
+02D4 7480      1117            mov     a,#0x80
+02D6 C0E0      1118            push    acc
+02D8 120100    1119            lcall   _printf
+02DB 1581      1120            dec     sp
+02DD 1581      1121            dec     sp
+02DF 1581      1122            dec     sp
+02E1           1123   ;        EFM8_I2C_Nunchuck.c:285: printf("\n\nEFM8LB1 WII Nunchuck I2C Reader\n");
+02E1 74F8      1124            mov     a,#__str_2
+02E3 C0E0      1125            push    acc
+02E5 74BE      1126            mov     a,#(__str_2 >> 8)
+02E7 C0E0      1127            push    acc
+02E9 7480      1128            mov     a,#0x80
+02EB C0E0      1129            push    acc
+02ED 120100    1130            lcall   _printf
+02F0 1581      1131            dec     sp
+02F2 1581      1132            dec     sp
+02F4 1581      1133            dec     sp
+02F6           1134   ;        EFM8_I2C_Nunchuck.c:287: Timer4ms(200);
+02F6 7582C8    1135            mov     dpl,#0xC8
+02F9 120100    1136            lcall   _Timer4ms
+02FC           1137   ;        EFM8_I2C_Nunchuck.c:288: nunchuck_init(1);
+02FC D2B0      1138            setb    _nunchuck_init_PARM_1
+02FE 120100    1139            lcall   _nunchuck_init
+0301           1140   ;        EFM8_I2C_Nunchuck.c:289: Timer4ms(100);
+0301 758264    1141            mov     dpl,#0x64
+0304 120100    1142            lcall   _Timer4ms
+0307           1143   ;        EFM8_I2C_Nunchuck.c:291: nunchuck_getdata(rbuf);
+0307 90B598    1144            mov     dptr,#_main_rbuf_1_44
+030A 75F040    1145            mov     b,#0x40
+030D 120100    1146            lcall   _nunchuck_getdata
+0310           1147   ;        EFM8_I2C_Nunchuck.c:293: off_x=(int)rbuf[0]-128;
+0310 AA98      1148            mov     r2,_main_rbuf_1_44
+0312 7B00      1149            mov     r3,#0x00
+0314 EA        1150            mov     a,r2
+0315 2480      1151            add     a,#0x80
+0317 F588      1152            mov     _main_off_x_1_44,a
+0319 EB        1153            mov     a,r3
+031A 34FF      1154            addc    a,#0xff
+031C F589      1155            mov     (_main_off_x_1_44 + 1),a
+031E           1156   ;        EFM8_I2C_Nunchuck.c:294: off_y=(int)rbuf[1]-128;
+031E AC99      1157            mov     r4,(_main_rbuf_1_44 + 0x0001)
+0320 7D00      1158            mov     r5,#0x00
+0322 EC        1159            mov     a,r4
+0323 2480      1160            add     a,#0x80
+0325 F5D8      1161            mov     _main_off_y_1_44,a
+0327 ED        1162            mov     a,r5
+0328 34FF      1163            addc    a,#0xff
+032A F5D9      1164            mov     (_main_off_y_1_44 + 1),a
+032C           1165   ;        EFM8_I2C_Nunchuck.c:295: printf("Offset_X:%4d Offset_Y:%4d\n\n", off_x, off_y);
+032C C0D8      1166            push    _main_off_y_1_44
+032E C0D9      1167            push    (_main_off_y_1_44 + 1)
+0330 C088      1168            push    _main_off_x_1_44
+0332 C089      1169            push    (_main_off_x_1_44 + 1)
+0334 7438      1170            mov     a,#__str_3
+0336 C0E0      1171            push    acc
+0338 74BF      1172            mov     a,#(__str_3 >> 8)
+033A C0E0      1173            push    acc
+033C 7480      1174            mov     a,#0x80
+033E C0E0      1175            push    acc
+0340 120100    1176            lcall   _printf
+0343 E581      1177            mov     a,sp
+0345 24F9      1178            add     a,#0xf9
+0347 F581      1179            mov     sp,a
+0349           1180   ;        EFM8_I2C_Nunchuck.c:297: while(1)
+0349           1181   L010014?:
+0349           1182   ;        EFM8_I2C_Nunchuck.c:299: nunchuck_getdata(rbuf);
+0349 90B598    1183            mov     dptr,#_main_rbuf_1_44
+034C 75F040    1184            mov     b,#0x40
+034F 120100    1185            lcall   _nunchuck_getdata
+0352           1186   ;        EFM8_I2C_Nunchuck.c:301: joy_x=(int)rbuf[0]-128-off_x;
+0352 AE98      1187            mov     r6,_main_rbuf_1_44
+0354 7F00      1188            mov     r7,#0x00
+0356 EE        1189            mov     a,r6
+0357 2480      1190            add     a,#0x80
+0359 FE        1191            mov     r6,a
+035A EF        1192            mov     a,r7
+035B 34FF      1193            addc    a,#0xff
+035D FF        1194            mov     r7,a
+035E EE        1195            mov     a,r6
+035F C3        1196            clr     c
+0360 9588      1197            subb    a,_main_off_x_1_44
+0362 F5E8      1198            mov     _main_joy_x_1_44,a
+0364 EF        1199            mov     a,r7
+0365 9589      1200            subb    a,(_main_off_x_1_44 + 1)
+0367 F5E9      1201            mov     (_main_joy_x_1_44 + 1),a
+0369           1202   ;        EFM8_I2C_Nunchuck.c:302: joy_y=(int)rbuf[1]-128-off_y;
+0369 AE99      1203            mov     r6,(_main_rbuf_1_44 + 0x0001)
+036B 7F00      1204            mov     r7,#0x00
+036D EE        1205            mov     a,r6
+036E 2480      1206            add     a,#0x80
+0370 FE        1207            mov     r6,a
+0371 EF        1208            mov     a,r7
+0372 34FF      1209            addc    a,#0xff
+0374 FF        1210            mov     r7,a
+0375 EE        1211            mov     a,r6
+0376 C3        1212            clr     c
+0377 95D8      1213            subb    a,_main_off_y_1_44
+0379 F538      1214            mov     _main_joy_y_1_44,a
+037B EF        1215            mov     a,r7
+037C 95D9      1216            subb    a,(_main_off_y_1_44 + 1)
+037E F539      1217            mov     (_main_joy_y_1_44 + 1),a
+0380           1218   ;        EFM8_I2C_Nunchuck.c:303: acc_x=rbuf[2]*4; 
+0380 E59A      1219            mov     a,(_main_rbuf_1_44 + 0x0002)
+0382 75F004    1220            mov     b,#0x04
+0385 A4        1221            mul     ab
+0386 FE        1222            mov     r6,a
+0387 AFF0      1223            mov     r7,b
+0389           1224   ;        EFM8_I2C_Nunchuck.c:304: acc_y=rbuf[3]*4;
+0389 E59B      1225            mov     a,(_main_rbuf_1_44 + 0x0003)
+038B 75F004    1226            mov     b,#0x04
+038E A4        1227            mul     ab
+038F F528      1228            mov     _main_acc_y_1_44,a
+0391 85F029    1229            mov     (_main_acc_y_1_44 + 1),b
+0394           1230   ;        EFM8_I2C_Nunchuck.c:305: acc_z=rbuf[4]*4;
+0394 E59C      1231            mov     a,(_main_rbuf_1_44 + 0x0004)
+0396 75F004    1232            mov     b,#0x04
+0399 A4        1233            mul     ab
+039A F578      1234            mov     _main_acc_z_1_44,a
+039C 85F079    1235            mov     (_main_acc_z_1_44 + 1),b
+039F           1236   ;        EFM8_I2C_Nunchuck.c:307: but1=(rbuf[5] & 0x01)?1:0;
+039F E59D      1237            mov     a,(_main_rbuf_1_44 + 0x0005)
+03A1 13        1238            rrc     a
+03A2 92F8      1239            mov     _main_but1_1_44,c
+03A4           1240   ;        EFM8_I2C_Nunchuck.c:308: but2=(rbuf[5] & 0x02)?1:0;
+03A4 E59D      1241            mov     a,(_main_rbuf_1_44 + 0x0005)
+03A6 A2E1      1242            mov     c,acc.1
+03A8 9238      1243            mov     _main_but2_1_44,c
+03AA           1244   ;        EFM8_I2C_Nunchuck.c:309: if (rbuf[5] & 0x04) acc_x+=2;
+03AA E59D      1245            mov     a,(_main_rbuf_1_44 + 0x0005)
+03AC 30E2B8    1246            jnb     acc.2,L010002?
+03AF 7402      1247            mov     a,#0x02
+03B1 2E        1248            add     a,r6
+03B2 FE        1249            mov     r6,a
+03B3 E4        1250            clr     a
+03B4 3F        1251            addc    a,r7
+03B5 FF        1252            mov     r7,a
+03B6           1253   L010002?:
+03B6           1254   ;        EFM8_I2C_Nunchuck.c:310: if (rbuf[5] & 0x08) acc_x+=1;
+03B6 E59D      1255            mov     a,(_main_rbuf_1_44 + 0x0005)
+03B8 30E300    1256            jnb     acc.3,L010004?
+03BB 0E        1257            inc     r6
+03BC BE0040    1258            cjne    r6,#0x00,L010033?
+03BF 0F        1259            inc     r7
+03C0           1260   L010033?:
+03C0           1261   L010004?:
+03C0           1262   ;        EFM8_I2C_Nunchuck.c:311: if (rbuf[5] & 0x10) acc_y+=2;
+03C0 E59D      1263            mov     a,(_main_rbuf_1_44 + 0x0005)
+03C2 30E480    1264            jnb     acc.4,L010006?
+03C5 7402      1265            mov     a,#0x02
+03C7 2528      1266            add     a,_main_acc_y_1_44
+03C9 F528      1267            mov     _main_acc_y_1_44,a
+03CB E4        1268            clr     a
+03CC 3529      1269            addc    a,(_main_acc_y_1_44 + 1)
+03CE F529      1270            mov     (_main_acc_y_1_44 + 1),a
+03D0           1271   L010006?:
+03D0           1272   ;        EFM8_I2C_Nunchuck.c:312: if (rbuf[5] & 0x20) acc_y+=1;
+03D0 E59D      1273            mov     a,(_main_rbuf_1_44 + 0x0005)
+03D2 30E5C0    1274            jnb     acc.5,L010008?
+03D5 0528      1275            inc     _main_acc_y_1_44
+03D7 E4        1276            clr     a
+03D8 B52800    1277            cjne    a,_main_acc_y_1_44,L010036?
+03DB 0529      1278            inc     (_main_acc_y_1_44 + 1)
+03DD           1279   L010036?:
+03DD           1280   L010008?:
+03DD           1281   ;        EFM8_I2C_Nunchuck.c:313: if (rbuf[5] & 0x40) acc_z+=2;
+03DD E59D      1282            mov     a,(_main_rbuf_1_44 + 0x0005)
+03DF 30E640    1283            jnb     acc.6,L010010?
+03E2 7402      1284            mov     a,#0x02
+03E4 2578      1285            add     a,_main_acc_z_1_44
+03E6 F578      1286            mov     _main_acc_z_1_44,a
+03E8 E4        1287            clr     a
+03E9 3579      1288            addc    a,(_main_acc_z_1_44 + 1)
+03EB F579      1289            mov     (_main_acc_z_1_44 + 1),a
+03ED           1290   L010010?:
+03ED           1291   ;        EFM8_I2C_Nunchuck.c:314: if (rbuf[5] & 0x80) acc_z+=1;
+03ED E59D      1292            mov     a,(_main_rbuf_1_44 + 0x0005)
+03EF 30E780    1293            jnb     acc.7,L010012?
+03F2 0578      1294            inc     _main_acc_z_1_44
+03F4 E4        1295            clr     a
+03F5 B578C0    1296            cjne    a,_main_acc_z_1_44,L010039?
+03F8 0579      1297            inc     (_main_acc_z_1_44 + 1)
+03FA           1298   L010039?:
+03FA           1299   L010012?:
+03FA           1300   ;        EFM8_I2C_Nunchuck.c:317: but1?'1':'0', but2?'1':'0', joy_x, joy_y, acc_x, acc_y, acc_z);
+03FA 303800    1301            jnb     _main_but2_1_44,L010018?
+03FD 7A31      1302            mov     r2,#0x31
+03FF 8001      1303            sjmp    L010019?
+0401           1304   L010018?:
+0401 7A30      1305            mov     r2,#0x30
+0403           1306   L010019?:
+0403 EA        1307            mov     a,r2
+0404 33        1308            rlc     a
+0405 95E0      1309            subb    a,acc
+0407 FB        1310            mov     r3,a
+0408 30F880    1311            jnb     _main_but1_1_44,L010020?
+040B 75B831    1312            mov     _main_sloc0_1_0,#0x31
+040E 8001      1313            sjmp    L010021?
+0410           1314   L010020?:
+0410 75B830    1315            mov     _main_sloc0_1_0,#0x30
+0413           1316   L010021?:
+0413 E5B8      1317            mov     a,_main_sloc0_1_0
+0415 FC        1318            mov     r4,a
+0416 33        1319            rlc     a
+0417 95E0      1320            subb    a,acc
+0419 FD        1321            mov     r5,a
+041A           1322   ;        EFM8_I2C_Nunchuck.c:316: printf("Buttons(Z:%c, C:%c) Joystick(%4d, %4d) Accelerometer(%3d, %3d, %3d)\x1b[0J\r",
+041A C078      1323            push    _main_acc_z_1_44
+041C C079      1324            push    (_main_acc_z_1_44 + 1)
+041E C028      1325            push    _main_acc_y_1_44
+0420 C029      1326            push    (_main_acc_y_1_44 + 1)
+0422 C006      1327            push    ar6
+0424 C007      1328            push    ar7
+0426 C038      1329            push    _main_joy_y_1_44
+0428 C039      1330            push    (_main_joy_y_1_44 + 1)
+042A C0E8      1331            push    _main_joy_x_1_44
+042C C0E9      1332            push    (_main_joy_x_1_44 + 1)
+042E C002      1333            push    ar2
+0430 C003      1334            push    ar3
+0432 C004      1335            push    ar4
+0434 C005      1336            push    ar5
+0436 7400      1337            mov     a,#__str_4
+0438 C0E0      1338            push    acc
+043A 74C3      1339            mov     a,#(__str_4 >> 8)
+043C C0E0      1340            push    acc
+043E 7480      1341            mov     a,#0x80
+0440 C0E0      1342            push    acc
+0442 120100    1343            lcall   _printf
+0445 E581      1344            mov     a,sp
+0447 24EF      1345            add     a,#0xef
+0449 F581      1346            mov     sp,a
+044B           1347   ;        EFM8_I2C_Nunchuck.c:318: Timer4ms(100);
+044B 758264    1348            mov     dpl,#0x64
+044E 120100    1349            lcall   _Timer4ms
+0451 020100    1350            ljmp    L010014?
+0454           1351            rseg R_CSEG
+0454           1352   
+0000           1353            rseg R_XINIT
+0000           1354   
+0000           1355            rseg R_CONST
+0000           1356   __str_0:
+0000 45787465  1357            db 'Extension type: %02x  %02x  %02x  %02x  %02x  %02x'
+     6E73696F
+     6E207479
+     70653A20
+     25303278
+     20202530
+     32782020
+     25303278
+     20202530
+     32782020
+     25303278
+     20202530
+     3278
+0032 0A        1358            db 0x0A
+0033 00        1359            db 0x00
+0034           1360   __str_1:
+0034 1B        1361            db 0x1B
+0035 5B324A    1362            db '[2J'
+0038 1B        1363            db 0x1B
+0039 5B313B31  1364            db '[1;1H'
+     48
+003E 00        1365            db 0x00
+003F           1366   __str_2:
+003F 0A        1367            db 0x0A
+0040 0A        1368            db 0x0A
+0041 45464D38  1369            db 'EFM8LB1 WII Nunchuck I2C Reader'
+     4C423120
+     57494920
+     4E756E63
+     6875636B
+     20493243
+     20526561
+     646572
+0060 0A        1370            db 0x0A
+0061 00        1371            db 0x00
+0062           1372   __str_3:
+0062 4F666673  1373            db 'Offset_X:%4d Offset_Y:%4d'
+     65745F58
+     3A253464
+     204F6666
+     7365745F
+     593A2534
+     64
+007B 0A        1374            db 0x0A
+007C 0A        1375            db 0x0A
+007D 00        1376            db 0x00
+007E           1377   __str_4:
+007E 42757474  1378            db 'Buttons(Z:%c, C:%c) Joystick(%4d, %4d) Accelerometer(%3d, %3'
+     6F6E7328
+     5A3A2563
+     2C20433A
+     25632920
+     4A6F7973
+     7469636B
+     28253464
+     2C202534
+     64292041
+     6363656C
+     65726F6D
+     65746572
+     28253364
+     2C202533
+00BA 642C2025  1379            db 'd, %3d)'
+     336429
+00C1 1B        1380            db 0x1B
+00C2 5B304A    1381            db '[0J'
+00C5 0D        1382            db 0x0D
+00C6 00        1383            db 0x00
+00C7           1384   
+0003           1385            CSEG
+0003           1386   
+0003           1387   end

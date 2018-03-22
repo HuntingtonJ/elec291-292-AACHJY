@@ -4,6 +4,24 @@
 //  Copyright (c) 2010-2018 Jesus Calvino-Fraga
 //  ~C51~
 
+
+
+// EFM8_I2C_Nunchuck.c: Reads the WII nunchuck using the hardware I2C port
+// available in the EFM8LB1 and sends them using the serial port.  The best
+// information so far about the nunchuck is at:
+//
+// http://wiibrew.org/wiki/Wiimote/Extension_Controllers
+// http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+//
+// Some good information was found also here:
+//
+// http://forum.arduino.cc/index.php/topic,45924.0.html
+//
+// By:  Jesus Calvino-Fraga (c) 2010-2018
+//
+// The next line clears the "C51 command line options:" field when compiling with CrossIDE
+//  ~C51~  
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <EFM8LB1.h>
@@ -12,6 +30,8 @@
 
 #define SYSCLK 72000000L
 #define BAUDRATE 115200L
+#define  SMB_FREQUENCY  100000L   // I2C SCL clock rate (10kHz to 100kHz)
+
 
 #define Mot1_forward P1_6
 #define Mot1_reverse P1_7
@@ -33,23 +53,15 @@
 
 #define CHARS_PER_LINE 16
 
-//LCD Parameters
-#define LCD_RS P2_6
-// #define LCD_RW Px_x // Not used in this code.  Connect to GND
-#define LCD_E  P2_5
-#define LCD_D4 P2_4
-#define LCD_D5 P2_3
-#define LCD_D6 P2_2
-#define LCD_D7 P2_1
-
-
 #define ARRAY_SIZE 4
+
 
 volatile unsigned char pwm_count=0;
 volatile unsigned char number1=0;
 volatile unsigned char number2=0; 
 volatile unsigned char number3=0;
 volatile unsigned char number4=0; 
+
 
 char _c51_external_startup (void)
 {
@@ -154,84 +166,6 @@ void waitms (unsigned int ms)
 	unsigned char k;
 	for(j=0; j<ms; j++)
 		for (k=0; k<4; k++) Timer3us(250);
-}
-
-void LCD_pulse (void)
-{
-	LCD_E=1;
-	Timer3us(40);
-	LCD_E=0;
-}
-
-void LCD_byte (unsigned char x)
-{
-	// The accumulator in the C8051Fxxx is bit addressable!
-	ACC=x; //Send high nible
-	LCD_D7=ACC_7;
-	LCD_D6=ACC_6;
-	LCD_D5=ACC_5;
-	LCD_D4=ACC_4;
-	LCD_pulse();
-	Timer3us(40);
-	ACC=x; //Send low nible
-	LCD_D7=ACC_3;
-	LCD_D6=ACC_2;
-	LCD_D5=ACC_1;
-	LCD_D4=ACC_0;
-	LCD_pulse();
-}
-
-void WriteData (unsigned char x)
-{
-	LCD_RS=1;
-	LCD_byte(x);
-	waitms(2);
-}
-
-void WriteCommand (unsigned char x)
-{
-	LCD_RS=0;
-	LCD_byte(x);
-	waitms(5);
-}
-
-void LCD_4BIT (void)
-{
-	LCD_E=0; // Resting state of LCD's enable is zero
-	// LCD_RW=0; // We are only writing to the LCD in this program
-	waitms(20);
-	// First make sure the LCD is in 8-bit mode and then change to 4-bit mode
-	WriteCommand(0x33);
-	WriteCommand(0x33);
-	WriteCommand(0x32); // Change to 4-bit mode
-
-	// Configure the LCD
-	WriteCommand(0x28);
-	WriteCommand(0x0c);
-	WriteCommand(0x01); // Clear screen command (takes some time)
-	waitms(20); // Wait for clear screen command to finsih.
-}
-
-void LCDprint(char * string, unsigned char line, bit clear)
-{
-	int j;
-
-	WriteCommand(line==2?0xc0:0x80);
-	waitms(5);
-	for(j=0; string[j]!=0; j++)	WriteData(string[j]);// Write the message
-	if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
-}
-
-void LCDprint_inv(char * string, unsigned char line, bit clear)
-{
-	int j;
-	int length=0;
-
-	WriteCommand(line==2?0xc0:0x80);
-	waitms(5);
-	for(j=0; string[j]!=0; j++)	length++;
-	for(j=length-1; j>=0; j--) WriteData(string[j]);// Write the message
-	if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
 }
 
 int getsn (char * buff, int len)
@@ -411,16 +345,16 @@ void main (void)
 			case north :
 			{
 				go_straight(speed);
-				headlight=ON;
-				taillight=OFF;
+				//headlight=ON;
+				//taillight=OFF;
 				break;
 			}
 
 			case south: 
 			{
 				go_reverse(speed);
-				headlight=ON;
-				taillight=ON;
+				//headlight=ON;
+				//taillight=ON;
 				break;
 			}
 

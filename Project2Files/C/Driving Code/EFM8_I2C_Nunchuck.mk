@@ -1,17 +1,15 @@
 SHELL=cmd
 CC=c51
 COMPORT = $(shell type COMPORT.inc)
-OBJS=EFM8_I2C_Nunchuck.obj motor_control.obj
+OBJS=EFM8_I2C_Nunchuck.obj 
 
 EFM8_I2C_Nunchuck.hex: $(OBJS)
 	$(CC) $(OBJS)
+
 	@echo Done!
 	
-EFM8_I2C_Nunchuck.obj: EFM8_I2C_Nunchuck.c
+EFM8_I2C_Nunchuck.obj: EFM8_I2C_Nunchuck.c drive_emf8.h
 	$(CC) -c EFM8_I2C_Nunchuck.c
-
-#motor_control.obj: motor_control.c
-#	$(CC) -c motor_control.c
 
 clean:
 	@del $(OBJS) *.asm *.lkr *.lst *.map *.hex *.map 2> nul
