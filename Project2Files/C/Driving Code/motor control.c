@@ -18,6 +18,13 @@
 #define Mot2_forward P1_3
 #define Mot2_reverse P1_4
 
+#define north 'w'
+#define south 's'
+#define west    'a'
+#define east   'd'
+#define NW      'e'
+#define NE      'q'
+
 #define CHARS_PER_LINE 16
 
 //LCD Parameters
@@ -239,7 +246,7 @@ int getsn (char * buff, int len)
 			buff[j]=c;
 		}
 	}
-	buff[j]='%';
+	buff[j]='\0';
 	return len;
 }
 
@@ -278,106 +285,189 @@ void Timer2_ISR (void) interrupt 5
 			
 		 		}
 
-	void motor_control(char speed,char direction){
+	void go_reverse(char speed){
+					//Let the speed will become the duty of both motors equally
+		 			number1=0;
+			 		number3=0;
+			 		number2=speed;
+			 		number4=speed;
+			
+		 		}
 
-	 	if(direction>40&&direction<60){
-	 			go_straight(speed);
-		 	}
+	void turn_west(char speed){
+					//Let the speed will become the duty of both motors equally
+		 			number1=0;
+			 		number3=speed;
+			 		number2=speed;
+			 		number4=0;
+			
+		 		}
+	void turn_east(char speed){
+					//Let the speed will become the duty of both motors equally
+		 			number1=speed;
+			 		number3=0;
+			 		number2=0;
+			 		number4=speed;
+			
+		 		}
 
-		if (direction>60&&direction<80){
-				number1=speed;
-				number2=0;
-				number3=speed/2;
-				number4=0;
-		}
+	void turn_NW(char speed){
+					//Let the speed will become the duty of both motors equally
+		 			number1=speed;
+			 		number3=speed/2;
+			 		number2=0;
+			 		number4=0;
+			
+		 		}
 
-		if (direction>80&&direction<100){
-				number1=speed;
-				number2=0;
-				number3=0;
-				number4=0;
-		}
+	void turn_NE(char speed){
+					//Let the speed will become the duty of both motors equally
+		 			number1=speed/2;
+			 		number3=speed;
+			 		number2=0;
+			 		number4=0;
+			
+		 		}
 
-		if (direction>20&&direction<40){
-				number1=speed/2;
-				number2=0;
-				number3=speed;
-				number4=0;
-		}
+	void stop(){
 
-		if (direction>0&&direction<20){
-				number1=0;
-				number2=0;
-				number3=speed;
-				number4=0;
-		}
+			number1=0;
+			number2=0;
+			number3=0;
+			number4=0;
+	}
 
-
-	 	}
-
+	 
 void main (void)
 {
 
 	char num1[ARRAY_SIZE];
-	char num2[ARRAY_SIZE]; 
+	//char num2[ARRAY_SIZE]; 
 	char speed=0;
-	char direction=50;
+	char direction;
 	//char display[ARRAY_SIZE*2];
 		
-//	int i, count; 
-	//LCD_4BIT();
-	//LCDprint("Hello!", 1, 1);
-	//LCDprint("Pls Open puTTy...", 2, 1);
 
 	// Wait for user to comply. Give putty a chance to start
 	waitms(1000);
 
 	printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
-	printf("Square wave generator for the EFM8LB1.\r\n"
-	       "Check pins P2.0 and P2.1 with the oscilloscope.\r\n");
+	printf("Drive the car!\r\n"
+	       "Use ASWDQE to control its direction! \r\n");
 
+	 	printf("Enter a speed between 0 and 100\n"); 
+		getsn(num1, ARRAY_SIZE); //numbers separated by an enter
+	 
+	 	//Loads speed variable
+		sscanf(num1, "%i", &speed);
+
+
+
+//forever
 	while(1)
 	{
 
 //Gets speed and direction from terminal 
 	// get_param(*num1, *num2, ARRAY_SIZE);
+	 if(getchar()=='\r'){
 	 	printf("Enter a speed between 0 and 100\n"); 
 		getsn(num1, ARRAY_SIZE); //numbers separated by an enter
-
-		printf("Enter a direction between 0 and 100, 50 is neutral\n"); 
-		getsn(num2, ARRAY_SIZE); //numbers separated by an enter
-
-
 	 
 	 	//Loads speed variable
 		sscanf(num1, "%i", &speed);
+}
 
-		sscanf(num2, "%i", &direction);
+
+
+		//printf("Enter a direction using the AWSD arrow keys\n"); 
+		//getsn(num2, ARRAY_SIZE); //numbers separated by an enter
+
+
+// is this necessray for multidirectional things? 
+		/*
+		Direction key: 
+		#define north 'w'
+		#define south 's'
+		#define west    'a'
+		#define NW      'e'
+		#define NE      'q'
+		#define east   'd'
+
+
+		*/
+		//loads up direction from 
+		//sscanf(num2, "%c", &direction);
+		direction=getchar();
+
+		switch(direction){
+
+			case north :
+			{
+				go_straight(speed);
+				break;
+			}
+
+			case south: 
+			{
+				go_reverse(speed);
+				break;
+			}
+
+			case west: 
+			{
+				turn_west(speed);
+				break;
+			}
+
+			case east: 
+				{
+					turn_east(speed);
+					break;
+				}
+
+			case NW: 
+				{
+					turn_NW(speed);
+					break;
+
+				}
+
+			case NE: 
+				{ 
+					turn_NE(speed);
+					break;
+					}
+
+			default: 
+				{
+					stop();
+					break;
+				}
+
+		}
+	direction='0'; //reset direction so it stops if no direction selected. 
+
 		
-	
-	  motor_control(speed, direction);
+
+
 
 	
-	
-	//	sprintf(display, "%s %c %s %c", num1,'%', num2, '%');
-	//	LCDprint(display, 1, 1);
-		
-	/*	if(number1>number2){
-			LCDprint("CW", 2, 1);
-			} 
-			else LCDprint("CCW", 2, 1);
-		*/	
-		
-		
+	 // motor_control(speed, direction);
+
+	  //New Architecture
+	  //Speed remains constant until updated
+	  //Direction is continually checked 
+
+
 		//Check if numbers are greater than 100, throw error if so. 
-		
+	/*	
 		if(speed>100||direction>100){
 				printf("Error: Numbers need to be between 0 and 100, please enter again. \n");
 				speed=0;
-				direction=50;
-				}		
+				direction=0;
+				}*/		
 		
-		printf("Speed: %i, Direction: %i \n", speed, direction); 
+		//printf("Speed: %i, Direction: %i \n", speed, direction); 
 		
 		
 		
