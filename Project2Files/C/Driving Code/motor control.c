@@ -18,12 +18,18 @@
 #define Mot2_forward P1_3
 #define Mot2_reverse P1_4
 
+#define ON 	1
+#define OFF 0
+
 #define north 'w'
 #define south 's'
 #define west    'a'
 #define east   'd'
 #define NW      'e'
 #define NE      'q'
+
+#define headlight //pin?;
+#define taillight //pin?
 
 #define CHARS_PER_LINE 16
 
@@ -397,6 +403,7 @@ void main (void)
 		*/
 		//loads up direction from 
 		//sscanf(num2, "%c", &direction);
+		
 		direction=getchar();
 
 		switch(direction){
@@ -404,12 +411,16 @@ void main (void)
 			case north :
 			{
 				go_straight(speed);
+				headlight=ON;
+				taillight=OFF;
 				break;
 			}
 
 			case south: 
 			{
 				go_reverse(speed);
+				headlight=ON;
+				taillight=ON;
 				break;
 			}
 
@@ -441,6 +452,7 @@ void main (void)
 			default: 
 				{
 					stop();
+					direction='x';
 					break;
 				}
 
