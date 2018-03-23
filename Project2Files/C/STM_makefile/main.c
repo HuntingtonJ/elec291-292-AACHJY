@@ -1,4 +1,5 @@
 #include "stm32f05xxx.h"
+#include <stdio.h>
 
 void ToggleLED(void);
 volatile int Count = 0;
@@ -23,7 +24,7 @@ void SysInit(void)
 {
 	// Set up output port bit for blinking LED
 	RCC_AHBENR |= 0x00020000;  // peripheral clock enable for port A
-	GPIOA_MODER |= 0x00000001; // Make pin PA0 output
+	GPIOA_MODER |= 0x00000005; // Make pin PA0 output
 	
 	// Set up timer
 	RCC_APB2ENR |= BIT11; // turn on clock for timer1
@@ -37,14 +38,18 @@ void SysInit(void)
 
 void ToggleLED(void) 
 {    
-	GPIOA_ODR ^= BIT0; // Toggle PA0
+	GPIOA_ODR ^= BIT1; // Toggle PA0
 }
 
 int main(void)
-{
+{	int var;
 	SysInit();
+	
 	while(1)
 	{    
+	//scanf("%i", &var);
+	var=5;
+	printf("%i\n", var);
 	}
 	return 0;
 }
