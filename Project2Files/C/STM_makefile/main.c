@@ -23,18 +23,7 @@ void SysInit(void)
 {
 	// Set up output port bit for blinking LED
 	RCC_AHBENR |= 0x00020000;  // peripheral clock enable for port A
-//	GPIOA_MODER |= 0x00000001; // Make pin PA0 output
-
-
-	//Set up 4 output pins for control of motors 
-	GPIOA_MODER |= 0x000000011; // Make pin PA0 output
-	GPIOA_OTYPER |= 0x00000000; 
-	GPIOA_OSPEEDR |= 0x10000000; //sets the speed?
-	GPIOA_PUPDR |= 0x00001111; //push pull? Pull up?> 
-
-
-
-
+	GPIOA_MODER |= 0x00000001; // Make pin PA0 output
 	
 	// Set up timer
 	RCC_APB2ENR |= BIT11; // turn on clock for timer1

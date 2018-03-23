@@ -1,0 +1,316 @@
+Archive member included to satisfy reference by file (symbol)
+
+C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libnosys.a(errno.o)
+                              newlib_stubs.o (errno)
+C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
+                              serial.o (__aeabi_idiv)
+C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_dvmd_tls.o)
+                              C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o) (__aeabi_idiv0)
+
+Allocating common symbols
+Common symbol       size              file
+
+errno               0x4               C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libnosys.a(errno.o)
+ComError            0x4               serial.o
+ComRXBuffer         0x4c              serial.o
+ComTXBuffer         0x4c              serial.o
+ComOpen             0x4               serial.o
+ComBusy             0x4               serial.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+flash            0x08000000         0x00010000
+ram              0x20000000         0x00002000
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD startup.o
+LOAD main.o
+LOAD serial.o
+LOAD newlib_stubs.o
+LOAD adc.o
+LOAD C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libnosys.a
+LOAD C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a
+START GROUP
+LOAD C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a
+LOAD C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a
+LOAD C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libm.a
+END GROUP
+
+.text           0x08000000      0xbf8
+ *(.vectors)
+ *(.after_vectors*)
+ *(.text*)
+ .text          0x08000000       0xc8 startup.o
+                0x08000000                Vector_Table
+                0x08000004                ResetVector
+                0x080000c0                Reset_Handler
+                0x080000c6                Default_Handler
+ .text          0x080000c8       0xf4 main.o
+                0x080000c8                Timer1ISR
+                0x08000108                SysInit
+                0x08000194                ToggleLED
+                0x080001b0                main
+ .text          0x080001bc      0x4f8 serial.o
+                0x080001bc                ReadCom
+                0x08000230                WriteCom
+                0x080002d4                initUART
+                0x0800041c                isr_usart1
+                0x08000448                usart_rx
+                0x08000478                usart_tx
+                0x080004f0                PutBuf
+                0x0800054e                GetBuf
+                0x080005a0                GetBufCount
+                0x080005b4                eputs
+                0x080005f0                eputc
+                0x0800060e                egetc
+                0x08000628                egets
+ .text          0x080006b4      0x2a8 newlib_stubs.o
+                0x080006b4                _exit
+                0x080006be                _close
+                0x080006d2                _execve
+                0x080006f4                _fork
+                0x0800070c                _fstat
+                0x08000728                _getpid
+                0x08000734                _kill
+                0x08000754                _link
+                0x08000774                _lseek
+                0x0800078a                _stat
+                0x080007a6                _times
+                0x080007ba                _unlink
+                0x080007d8                _wait
+                0x080007f8                _isatty
+                0x08000820                _sbrk
+                0x08000890                _read
+                0x08000908                _write
+ .text          0x0800095c       0xc4 adc.o
+                0x0800095c                initADC
+                0x080009f0                readADC
+ .text          0x08000a20        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libnosys.a(errno.o)
+ .text          0x08000a20      0x1d4 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
+                0x08000a20                __divsi3
+                0x08000a20                __aeabi_idiv
+                0x08000bec                __aeabi_idivmod
+ .text          0x08000bf4        0x4 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_dvmd_tls.o)
+                0x08000bf4                __aeabi_idiv0
+                0x08000bf4                __aeabi_ldiv0
+ *(.rodata*)
+                0x08000bf8                . = ALIGN (0x4)
+                [!provide]                PROVIDE (__init_array_start, .)
+ *(SORT_BY_NAME(.init_array.*))
+ *(.init_array)
+                [!provide]                PROVIDE (__init_array_end, .)
+                0x08000bf8                . = ALIGN (0x4)
+                0x08000bf8                _etext = .
+
+.glue_7         0x08000bf8        0x0
+ .glue_7        0x08000bf8        0x0 linker stubs
+
+.glue_7t        0x08000bf8        0x0
+ .glue_7t       0x08000bf8        0x0 linker stubs
+
+.vfp11_veneer   0x08000bf8        0x0
+ .vfp11_veneer  0x08000bf8        0x0 linker stubs
+
+.v4_bx          0x08000bf8        0x0
+ .v4_bx         0x08000bf8        0x0 linker stubs
+
+.iplt           0x08000bf8        0x0
+ .iplt          0x08000bf8        0x0 startup.o
+
+.rel.dyn        0x08000bf8        0x0
+ .rel.iplt      0x08000bf8        0x0 startup.o
+
+.data           0x20000000        0x4 load address 0x08000bf8
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _data = .
+ *(.data*)
+ .data          0x20000000        0x0 startup.o
+ .data          0x20000000        0x0 main.o
+ .data          0x20000000        0x0 serial.o
+ .data          0x20000000        0x4 newlib_stubs.o
+                0x20000000                environ
+ .data          0x20000004        0x0 adc.o
+ .data          0x20000004        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libnosys.a(errno.o)
+ .data          0x20000004        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
+ .data          0x20000004        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_dvmd_tls.o)
+                0x20000004                . = ALIGN (0x4)
+                0x20000004                _edata = .
+
+.igot.plt       0x20000004        0x0 load address 0x08000bfc
+ .igot.plt      0x20000004        0x0 startup.o
+
+.bss            0x20000004       0xb4 load address 0x08000bfc
+                0x20000004                _bss = .
+ *(.bss*)
+ .bss           0x20000004        0x0 startup.o
+ .bss           0x20000004        0x4 main.o
+                0x20000004                Count
+ .bss           0x20000008        0x0 serial.o
+ .bss           0x20000008        0x8 newlib_stubs.o
+                0x20000008                __env
+ .bss           0x20000010        0x0 adc.o
+ .bss           0x20000010        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libnosys.a(errno.o)
+ .bss           0x20000010        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
+ .bss           0x20000010        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_dvmd_tls.o)
+ *(COMMON)
+ COMMON         0x20000010       0xa4 serial.o
+                0x20000010                ComError
+                0x20000014                ComRXBuffer
+                0x20000060                ComTXBuffer
+                0x200000ac                ComOpen
+                0x200000b0                ComBusy
+ COMMON         0x200000b4        0x4 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libnosys.a(errno.o)
+                0x200000b4                errno
+                0x200000b8                . = ALIGN (0x4)
+                0x200000b8                _ebss = .
+                [!provide]                PROVIDE (end, .)
+                0x200000b8                PROVIDE (_HeapStart, .)
+                0x20002000                PROVIDE (_StackTop, (ORIGIN (ram) + LENGTH (ram)))
+OUTPUT(main.elf elf32-littlearm)
+
+.ARM.attributes
+                0x00000000       0x2d
+ .ARM.attributes
+                0x00000000       0x21 startup.o
+ .ARM.attributes
+                0x00000021       0x31 main.o
+ .ARM.attributes
+                0x00000052       0x31 serial.o
+ .ARM.attributes
+                0x00000083       0x31 newlib_stubs.o
+ .ARM.attributes
+                0x000000b4       0x31 adc.o
+ .ARM.attributes
+                0x000000e5       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libnosys.a(errno.o)
+ .ARM.attributes
+                0x00000111       0x1e C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
+ .ARM.attributes
+                0x0000012f       0x1e C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_dvmd_tls.o)
+
+.comment        0x00000000       0x7e
+ .comment       0x00000000       0x7e main.o
+                                 0x7f (size before relaxing)
+ .comment       0x0000007e       0x7f serial.o
+ .comment       0x0000007e       0x7f newlib_stubs.o
+ .comment       0x0000007e       0x7f adc.o
+
+.debug_line     0x00000000      0x4a7
+ .debug_line    0x00000000       0x3c startup.o
+ .debug_line    0x0000003c       0x51 main.o
+ .debug_line    0x0000008d      0x12a serial.o
+ .debug_line    0x000001b7      0x29f newlib_stubs.o
+ .debug_line    0x00000456       0x51 adc.o
+
+.debug_info     0x00000000     0x1376
+ .debug_info    0x00000000       0x26 startup.o
+ .debug_info    0x00000026       0x8b main.o
+ .debug_info    0x000000b1      0x325 serial.o
+ .debug_info    0x000003d6      0xf4d newlib_stubs.o
+ .debug_info    0x00001323       0x53 adc.o
+
+.debug_abbrev   0x00000000      0x4ac
+ .debug_abbrev  0x00000000       0x14 startup.o
+ .debug_abbrev  0x00000014       0x81 main.o
+ .debug_abbrev  0x00000095      0x15b serial.o
+ .debug_abbrev  0x000001f0      0x26b newlib_stubs.o
+ .debug_abbrev  0x0000045b       0x51 adc.o
+
+.debug_aranges  0x00000000       0xa0
+ .debug_aranges
+                0x00000000       0x20 startup.o
+ .debug_aranges
+                0x00000020       0x20 main.o
+ .debug_aranges
+                0x00000040       0x20 serial.o
+ .debug_aranges
+                0x00000060       0x20 newlib_stubs.o
+ .debug_aranges
+                0x00000080       0x20 adc.o
+
+.debug_str      0x00000000      0x83b
+ .debug_str     0x00000000       0x53 startup.o
+ .debug_str     0x00000053       0x8c main.o
+                                 0xcc (size before relaxing)
+ .debug_str     0x000000df       0xe6 serial.o
+                                0x1ad (size before relaxing)
+ .debug_str     0x000001c5      0x660 newlib_stubs.o
+                                0x7d8 (size before relaxing)
+ .debug_str     0x00000825       0x16 adc.o
+                                 0xb4 (size before relaxing)
+
+.debug_frame    0x00000000      0x4b4
+ .debug_frame   0x00000000       0x80 main.o
+ .debug_frame   0x00000080      0x1a4 serial.o
+ .debug_frame   0x00000224      0x228 newlib_stubs.o
+ .debug_frame   0x0000044c       0x48 adc.o
+ .debug_frame   0x00000494       0x20 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
+
+Cross Reference Table
+
+Symbol                                            File
+ComBusy                                           serial.o
+ComError                                          serial.o
+ComOpen                                           serial.o
+ComRXBuffer                                       serial.o
+ComTXBuffer                                       serial.o
+Count                                             main.o
+Default_Handler                                   startup.o
+GetBuf                                            serial.o
+GetBufCount                                       serial.o
+PutBuf                                            serial.o
+ReadCom                                           serial.o
+ResetVector                                       startup.o
+Reset_Handler                                     startup.o
+SysInit                                           main.o
+Timer1ISR                                         main.o
+                                                  startup.o
+ToggleLED                                         main.o
+Vector_Table                                      startup.o
+WriteCom                                          serial.o
+_HeapStart                                        newlib_stubs.o
+_StackTop                                         newlib_stubs.o
+__aeabi_idiv                                      C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
+                                                  serial.o
+__aeabi_idiv0                                     C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_dvmd_tls.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
+__aeabi_idivmod                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
+__aeabi_ldiv0                                     C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_dvmd_tls.o)
+__divsi3                                          C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
+__env                                             newlib_stubs.o
+_close                                            newlib_stubs.o
+_execve                                           newlib_stubs.o
+_exit                                             newlib_stubs.o
+_fork                                             newlib_stubs.o
+_fstat                                            newlib_stubs.o
+_getpid                                           newlib_stubs.o
+_isatty                                           newlib_stubs.o
+_kill                                             newlib_stubs.o
+_link                                             newlib_stubs.o
+_lseek                                            newlib_stubs.o
+_read                                             newlib_stubs.o
+_sbrk                                             newlib_stubs.o
+_stat                                             newlib_stubs.o
+_times                                            newlib_stubs.o
+_unlink                                           newlib_stubs.o
+_wait                                             newlib_stubs.o
+_write                                            newlib_stubs.o
+egetc                                             serial.o
+                                                  newlib_stubs.o
+egets                                             serial.o
+environ                                           newlib_stubs.o
+eputc                                             serial.o
+                                                  newlib_stubs.o
+eputs                                             serial.o
+errno                                             C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libnosys.a(errno.o)
+                                                  newlib_stubs.o
+initADC                                           adc.o
+initUART                                          serial.o
+isr_usart1                                        serial.o
+main                                              main.o
+                                                  startup.o
+readADC                                           adc.o
+usart_rx                                          serial.o
+usart_tx                                          serial.o
