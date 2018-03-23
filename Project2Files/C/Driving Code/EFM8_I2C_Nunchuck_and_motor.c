@@ -39,13 +39,20 @@
 //10 to 30 
 #define NNE 'c'//00010
 #define NNW 'd'//00011
+//parameters to change motor driving ratios 
+#define NNnum 
+
 //30 to 50
 #define NE 	'e'//00100
 #define NW  'f'//00101
+//parameters to change motor driving ratios 
+#define midnum 2
+#define middenom 3
 
 //50 to 70 
 #define NEE 'g'//00110
 #define NWW 'h'//00111
+//#define 
 
 //70 to 90
 #define east 'i'//01000
@@ -63,7 +70,8 @@
 #define SEE 'o'//01110
 #define SWW 'p'//01111
 
-
+//#define 
+//#define 
 
 #define headlight //pin?;
 #define taillight //pin?
@@ -461,7 +469,7 @@ void Timer2_ISR (void) interrupt 5
 	void turn_NW(char speed){
 					//Let the speed will become the duty of both motors equally
 		 			number1=speed/3;
-			 		number3=speed;
+			 		number3=speed*2;
 			 		number2=0;
 			 		number4=0;
 			
@@ -469,7 +477,7 @@ void Timer2_ISR (void) interrupt 5
 
 	void turn_NE(char speed){
 					//Let the speed will become the duty of both motors equally
-		 			number1=speed;
+		 			number1=speed*2;
 			 		number3=speed/3;
 			 		number2=0;
 			 		number4=0;
@@ -610,7 +618,7 @@ void turn_SWW(char speed){
 			// }
 
 			//FORWARD DIRECTION
-			if(y_axis>5){
+			if(y_axis>0){
 				//If distance is less than 10 from 0, go straight;
 				if ((x_axis<10)&&(x_axis>-10)){
 
@@ -652,7 +660,7 @@ void turn_SWW(char speed){
 			}
 
 			//SOUTH DIRECTIONs
-		else if (y_axis<-5){
+		else if (y_axis<0){
 
 			if ((x_axis<10)&&(x_axis>-10)){
 
@@ -683,10 +691,10 @@ void turn_SWW(char speed){
 			else if(x_axis<-30&&x_axis>=-50){
 				direction=SW;
 			}
-			else if(x_axis<-50&&x_axis>=-70){
+			else if(x_axis<-50&&x_axis>=-80){
 				direction=SWW;
 			}
-			else if(x_axis<-70&&x_axis>=-110){
+			else if(x_axis<-80&&x_axis>=-110){
 				direction=west;
 			}
 			else

@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
-; This file was generated Fri Mar 23 14:31:17 2018
+; This file was generated Fri Mar 23 15:55:10 2018
 ;--------------------------------------------------------
 $name EFM8_I2C_Nunchuck_and_motor
 $optc51 --model-small
@@ -635,15 +635,15 @@ _main_but2_1_135:
 ; data variables initialization
 ;--------------------------------------------------------
 	rseg R_DINIT
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:75: volatile unsigned char pwm_count=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:83: volatile unsigned char pwm_count=0;
 	mov	_pwm_count,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:76: volatile unsigned char number1=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:84: volatile unsigned char number1=0;
 	mov	_number1,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:77: volatile unsigned char number2=0; 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:85: volatile unsigned char number2=0; 
 	mov	_number2,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:78: volatile unsigned char number3=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:86: volatile unsigned char number3=0;
 	mov	_number3,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:79: volatile unsigned char number4=0; 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:87: volatile unsigned char number4=0; 
 	mov	_number4,#0x00
 	; The linker places a 'ret' at the end of segment R_DINIT.
 ;--------------------------------------------------------
@@ -654,98 +654,98 @@ _main_but2_1_135:
 ;Allocation info for local variables in function '_c51_external_startup'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:81: char _c51_external_startup (void)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:89: char _c51_external_startup (void)
 ;	-----------------------------------------
 ;	 function _c51_external_startup
 ;	-----------------------------------------
 __c51_external_startup:
 	using	0
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:84: SFRPAGE = 0x00;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:92: SFRPAGE = 0x00;
 	mov	_SFRPAGE,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:85: WDTCN = 0xDE; //First key
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:93: WDTCN = 0xDE; //First key
 	mov	_WDTCN,#0xDE
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:86: WDTCN = 0xAD; //Second key
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:94: WDTCN = 0xAD; //Second key
 	mov	_WDTCN,#0xAD
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:88: VDM0CN=0x80;       // enable VDD monitor
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:96: VDM0CN=0x80;       // enable VDD monitor
 	mov	_VDM0CN,#0x80
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:89: RSTSRC=0x02|0x04;  // Enable reset on missing clock detector and VDD
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:97: RSTSRC=0x02|0x04;  // Enable reset on missing clock detector and VDD
 	mov	_RSTSRC,#0x06
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:96: SFRPAGE = 0x10;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:104: SFRPAGE = 0x10;
 	mov	_SFRPAGE,#0x10
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:97: PFE0CN  = 0x20; // SYSCLK < 75 MHz.
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:105: PFE0CN  = 0x20; // SYSCLK < 75 MHz.
 	mov	_PFE0CN,#0x20
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:98: SFRPAGE = 0x00;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:106: SFRPAGE = 0x00;
 	mov	_SFRPAGE,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:119: CLKSEL = 0x00;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:127: CLKSEL = 0x00;
 	mov	_CLKSEL,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:120: CLKSEL = 0x00;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:128: CLKSEL = 0x00;
 	mov	_CLKSEL,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:121: while ((CLKSEL & 0x80) == 0);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:129: while ((CLKSEL & 0x80) == 0);
 L002001?:
 	mov	a,_CLKSEL
 	jnb	acc.7,L002001?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:122: CLKSEL = 0x03;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:130: CLKSEL = 0x03;
 	mov	_CLKSEL,#0x03
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:123: CLKSEL = 0x03;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:131: CLKSEL = 0x03;
 	mov	_CLKSEL,#0x03
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:124: while ((CLKSEL & 0x80) == 0);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:132: while ((CLKSEL & 0x80) == 0);
 L002004?:
 	mov	a,_CLKSEL
 	jnb	acc.7,L002004?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:133: SCON0 = 0x10;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:141: SCON0 = 0x10;
 	mov	_SCON0,#0x10
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:134: TH1 = 0x100-((SYSCLK/BAUDRATE)/(12L*2L));
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:142: TH1 = 0x100-((SYSCLK/BAUDRATE)/(12L*2L));
 	mov	_TH1,#0xE6
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:135: TL1 = TH1;      // Init Timer1
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:143: TL1 = TH1;      // Init Timer1
 	mov	_TL1,_TH1
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:136: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit auto-reload
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:144: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit auto-reload
 	anl	_TMOD,#0x0F
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:137: TMOD |=  0x20;                       
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:145: TMOD |=  0x20;                       
 	orl	_TMOD,#0x20
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:138: TR1 = 1; // START Timer1
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:146: TR1 = 1; // START Timer1
 	setb	_TR1
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:139: TI = 1;  // Indicate TX0 ready
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:147: TI = 1;  // Indicate TX0 ready
 	setb	_TI
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:142: P0MDOUT |= 0x10; // Enable UART0 TX as push-pull output
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:150: P0MDOUT |= 0x10; // Enable UART0 TX as push-pull output
 	orl	_P0MDOUT,#0x10
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:143: XBR0 = 0b_0000_0101; // Enable SMBus pins and UART pins P0.4(TX) and P0.5(RX)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:151: XBR0 = 0b_0000_0101; // Enable SMBus pins and UART pins P0.4(TX) and P0.5(RX)
 	mov	_XBR0,#0x05
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:144: XBR1 = 0X00;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:152: XBR1 = 0X00;
 	mov	_XBR1,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:145: XBR2 = 0x40; // Enable crossbar and weak pull-ups
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:153: XBR2 = 0x40; // Enable crossbar and weak pull-ups
 	mov	_XBR2,#0x40
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:148: CKCON0 |= 0b_0000_0100; // Timer0 clock source = SYSCLK
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:156: CKCON0 |= 0b_0000_0100; // Timer0 clock source = SYSCLK
 	orl	_CKCON0,#0x04
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:149: TMOD &= 0xf0;  // Mask out timer 1 bits
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:157: TMOD &= 0xf0;  // Mask out timer 1 bits
 	anl	_TMOD,#0xF0
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:150: TMOD |= 0x02;  // Timer0 in 8-bit auto-reload mode
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:158: TMOD |= 0x02;  // Timer0 in 8-bit auto-reload mode
 	orl	_TMOD,#0x02
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:152: TL0 = TH0 = 256-(SYSCLK/SMB_FREQUENCY/3);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:160: TL0 = TH0 = 256-(SYSCLK/SMB_FREQUENCY/3);
 	mov	_TH0,#0x10
 	mov	_TL0,#0x10
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:153: TR0 = 1; // Enable timer 0
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:161: TR0 = 1; // Enable timer 0
 	setb	_TR0
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:156: TMR2CN0=0x00;   // Stop Timer2; Clear TF2;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:164: TMR2CN0=0x00;   // Stop Timer2; Clear TF2;
 	mov	_TMR2CN0,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:157: CKCON0|=0b_0001_0000; // Timer 2 uses the system clock
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:165: CKCON0|=0b_0001_0000; // Timer 2 uses the system clock
 	orl	_CKCON0,#0x10
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:158: TMR2RL=(0x10000L-(SYSCLK/10000L)); // Initialize reload value ....Timer overflow rate (FREQ) found by SYSCLK/(2^16-TMR2RL)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:166: TMR2RL=(0x10000L-(SYSCLK/10000L)); // Initialize reload value ....Timer overflow rate (FREQ) found by SYSCLK/(2^16-TMR2RL)
 	mov	_TMR2RL,#0xE0
 	mov	(_TMR2RL >> 8),#0xE3
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:159: TMR2=0xffff;   // Set to reload immediately
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:167: TMR2=0xffff;   // Set to reload immediately
 	mov	_TMR2,#0xFF
 	mov	(_TMR2 >> 8),#0xFF
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:160: ET2=1;         // Enable Timer2 interrupts
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:168: ET2=1;         // Enable Timer2 interrupts
 	setb	_ET2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:161: TR2=1;         // Start Timer2 (TMR2CN is bit addressable)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:169: TR2=1;         // Start Timer2 (TMR2CN is bit addressable)
 	setb	_TR2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:163: EA=1; // Enable interrupts
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:171: EA=1; // Enable interrupts
 	setb	_EA
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:168: SMB0CF = 0b_0101_1100; //INH | EXTHOLD | SMBTOE | SMBFTE ;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:176: SMB0CF = 0b_0101_1100; //INH | EXTHOLD | SMBTOE | SMBFTE ;
 	mov	_SMB0CF,#0x5C
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:169: SMB0CF |= 0b_1000_0000;  // Enable SMBus
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:177: SMB0CF |= 0b_1000_0000;  // Enable SMBus
 	orl	_SMB0CF,#0x80
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:171: return 0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:179: return 0;
 	mov	dpl,#0x00
 	ret
 ;------------------------------------------------------------
@@ -755,48 +755,48 @@ L002004?:
 ;i                         Allocated to registers r4 
 ;k                         Allocated to registers r3 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:175: void Timer4ms(unsigned char ms)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:183: void Timer4ms(unsigned char ms)
 ;	-----------------------------------------
 ;	 function Timer4ms
 ;	-----------------------------------------
 _Timer4ms:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:180: k=SFRPAGE;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:188: k=SFRPAGE;
 	mov	r3,_SFRPAGE
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:181: SFRPAGE=0x10;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:189: SFRPAGE=0x10;
 	mov	_SFRPAGE,#0x10
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:183: CKCON1|=0b_0000_0001;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:191: CKCON1|=0b_0000_0001;
 	orl	_CKCON1,#0x01
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:185: TMR4RL = 65536-(SYSCLK/1000L); // Set Timer4 to overflow in 1 ms.
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:193: TMR4RL = 65536-(SYSCLK/1000L); // Set Timer4 to overflow in 1 ms.
 	mov	_TMR4RL,#0xC0
 	mov	(_TMR4RL >> 8),#0xE6
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:186: TMR4 = TMR4RL;                 // Initialize Timer4 for first overflow
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:194: TMR4 = TMR4RL;                 // Initialize Timer4 for first overflow
 	mov	_TMR4,_TMR4RL
 	mov	(_TMR4 >> 8),(_TMR4RL >> 8)
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:188: TF4H=0; // Clear overflow flag
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:196: TF4H=0; // Clear overflow flag
 	clr	_TF4H
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:189: TR4=1;  // Start Timer4
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:197: TR4=1;  // Start Timer4
 	setb	_TR4
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:190: for (i = 0; i < ms; i++)       // Count <ms> overflows
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:198: for (i = 0; i < ms; i++)       // Count <ms> overflows
 	mov	r4,#0x00
 L003004?:
 	clr	c
 	mov	a,r4
 	subb	a,r2
 	jnc	L003007?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:192: while (!TF4H);  // Wait for overflow
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:200: while (!TF4H);  // Wait for overflow
 L003001?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:193: TF4H=0;         // Clear overflow indicator
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:201: TF4H=0;         // Clear overflow indicator
 	jbc	_TF4H,L003015?
 	sjmp	L003001?
 L003015?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:190: for (i = 0; i < ms; i++)       // Count <ms> overflows
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:198: for (i = 0; i < ms; i++)       // Count <ms> overflows
 	inc	r4
 	sjmp	L003004?
 L003007?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:195: TR4=0; // Stop Timer4
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:203: TR4=0; // Stop Timer4
 	clr	_TR4
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:196: SFRPAGE=k;	
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:204: SFRPAGE=k;	
 	mov	_SFRPAGE,r3
 	ret
 ;------------------------------------------------------------
@@ -804,15 +804,15 @@ L003007?:
 ;------------------------------------------------------------
 ;output_data               Allocated to registers 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:199: void I2C_write (unsigned char output_data)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:207: void I2C_write (unsigned char output_data)
 ;	-----------------------------------------
 ;	 function I2C_write
 ;	-----------------------------------------
 _I2C_write:
 	mov	_SMB0DAT,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:202: SI = 0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:210: SI = 0;
 	clr	_SI
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:203: while (!SI); // Wait until done with send
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:211: while (!SI); // Wait until done with send
 L004001?:
 	jnb	_SI,L004001?
 	ret
@@ -821,55 +821,55 @@ L004001?:
 ;------------------------------------------------------------
 ;input_data                Allocated to registers 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:206: unsigned char I2C_read (void)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:214: unsigned char I2C_read (void)
 ;	-----------------------------------------
 ;	 function I2C_read
 ;	-----------------------------------------
 _I2C_read:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:210: SI = 0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:218: SI = 0;
 	clr	_SI
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:211: while (!SI); // Wait until we have data to read
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:219: while (!SI); // Wait until we have data to read
 L005001?:
 	jnb	_SI,L005001?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:212: input_data = SMB0DAT; // Read the data
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:220: input_data = SMB0DAT; // Read the data
 	mov	dpl,_SMB0DAT
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:214: return input_data;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:222: return input_data;
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'I2C_start'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:217: void I2C_start (void)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:225: void I2C_start (void)
 ;	-----------------------------------------
 ;	 function I2C_start
 ;	-----------------------------------------
 _I2C_start:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:219: ACK = 1;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:227: ACK = 1;
 	setb	_ACK
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:220: STA = 1;     // Send I2C start
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:228: STA = 1;     // Send I2C start
 	setb	_STA
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:221: STO = 0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:229: STO = 0;
 	clr	_STO
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:222: SI = 0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:230: SI = 0;
 	clr	_SI
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:223: while (!SI); // Wait until start sent
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:231: while (!SI); // Wait until start sent
 L006001?:
 	jnb	_SI,L006001?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:224: STA = 0;     // Reset I2C start
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:232: STA = 0;     // Reset I2C start
 	clr	_STA
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'I2C_stop'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:227: void I2C_stop(void)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:235: void I2C_stop(void)
 ;	-----------------------------------------
 ;	 function I2C_stop
 ;	-----------------------------------------
 _I2C_stop:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:229: STO = 1;  	// Perform I2C stop
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:237: STO = 1;  	// Perform I2C stop
 	setb	_STO
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:230: SI = 0;	// Clear SI
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:238: SI = 0;	// Clear SI
 	clr	_SI
 	ret
 ;------------------------------------------------------------
@@ -881,68 +881,68 @@ _I2C_stop:
 ;sloc1                     Allocated with name '_nunchuck_init_sloc1_1_0'
 ;sloc2                     Allocated with name '_nunchuck_init_sloc2_1_0'
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:234: void nunchuck_init(bit print_extension_type)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:242: void nunchuck_init(bit print_extension_type)
 ;	-----------------------------------------
 ;	 function nunchuck_init
 ;	-----------------------------------------
 _nunchuck_init:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:239: I2C_start();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:247: I2C_start();
 	lcall	_I2C_start
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:240: I2C_write(0xA4);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:248: I2C_write(0xA4);
 	mov	dpl,#0xA4
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:241: I2C_write(0xF0);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:249: I2C_write(0xF0);
 	mov	dpl,#0xF0
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:242: I2C_write(0x55);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:250: I2C_write(0x55);
 	mov	dpl,#0x55
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:243: I2C_stop();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:251: I2C_stop();
 	lcall	_I2C_stop
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:244: Timer4ms(1);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:252: Timer4ms(1);
 	mov	dpl,#0x01
 	lcall	_Timer4ms
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:246: I2C_start();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:254: I2C_start();
 	lcall	_I2C_start
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:247: I2C_write(0xA4);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:255: I2C_write(0xA4);
 	mov	dpl,#0xA4
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:248: I2C_write(0xFB);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:256: I2C_write(0xFB);
 	mov	dpl,#0xFB
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:249: I2C_write(0x00);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:257: I2C_write(0x00);
 	mov	dpl,#0x00
-	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:250: I2C_stop();
-	lcall	_I2C_stop
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:251: Timer4ms(1);
-	mov	dpl,#0x01
-	lcall	_Timer4ms
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:255: I2C_start();
-	lcall	_I2C_start
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:256: I2C_write(0xA4);
-	mov	dpl,#0xA4
-	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:257: I2C_write(0xFA); // extension type register
-	mov	dpl,#0xFA
 	lcall	_I2C_write
 ;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:258: I2C_stop();
 	lcall	_I2C_stop
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:259: Timer4ms(3); // 3 ms required to complete acquisition
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:259: Timer4ms(1);
+	mov	dpl,#0x01
+	lcall	_Timer4ms
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:263: I2C_start();
+	lcall	_I2C_start
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:264: I2C_write(0xA4);
+	mov	dpl,#0xA4
+	lcall	_I2C_write
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:265: I2C_write(0xFA); // extension type register
+	mov	dpl,#0xFA
+	lcall	_I2C_write
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:266: I2C_stop();
+	lcall	_I2C_stop
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:267: Timer4ms(3); // 3 ms required to complete acquisition
 	mov	dpl,#0x03
 	lcall	_Timer4ms
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:261: I2C_start();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:269: I2C_start();
 	lcall	_I2C_start
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:262: I2C_write(0xA5);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:270: I2C_write(0xA5);
 	mov	dpl,#0xA5
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:265: for(i=0; i<6; i++)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:273: for(i=0; i<6; i++)
 	mov	r2,#0x00
 L008003?:
 	cjne	r2,#0x06,L008013?
 L008013?:
 	jnc	L008006?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:267: buf[i]=I2C_read();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:275: buf[i]=I2C_read();
 	mov	a,r2
 	add	a,#_nunchuck_init_buf_1_56
 	mov	r0,a
@@ -953,20 +953,20 @@ L008013?:
 	pop	ar0
 	pop	ar2
 	mov	@r0,a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:265: for(i=0; i<6; i++)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:273: for(i=0; i<6; i++)
 	inc	r2
 	sjmp	L008003?
 L008006?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:269: ACK=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:277: ACK=0;
 	clr	_ACK
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:270: I2C_stop();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:278: I2C_stop();
 	lcall	_I2C_stop
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:271: Timer4ms(3);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:279: Timer4ms(3);
 	mov	dpl,#0x03
 	lcall	_Timer4ms
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:273: if(print_extension_type)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:281: if(print_extension_type)
 	jnb	_nunchuck_init_PARM_1,L008002?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:276: buf[0],  buf[1], buf[2], buf[3], buf[4], buf[5]);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:284: buf[0],  buf[1], buf[2], buf[3], buf[4], buf[5]);
 	mov	r2,(_nunchuck_init_buf_1_56 + 0x0005)
 	mov	r3,#0x00
 	mov	r4,(_nunchuck_init_buf_1_56 + 0x0004)
@@ -979,7 +979,7 @@ L008006?:
 	mov	(_nunchuck_init_sloc2_1_0 + 1),#0x00
 	mov	r6,_nunchuck_init_buf_1_56
 	mov	r7,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:275: printf("Extension type: %02x  %02x  %02x  %02x  %02x  %02x\n", 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:283: printf("Extension type: %02x  %02x  %02x  %02x  %02x  %02x\n", 
 	push	ar2
 	push	ar3
 	push	ar4
@@ -1003,60 +1003,41 @@ L008006?:
 	add	a,#0xf1
 	mov	sp,a
 L008002?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:281: I2C_start();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:289: I2C_start();
 	lcall	_I2C_start
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:282: I2C_write(0xA4);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:290: I2C_write(0xA4);
 	mov	dpl,#0xA4
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:283: I2C_write(0xF0);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:291: I2C_write(0xF0);
 	mov	dpl,#0xF0
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:284: I2C_write(0xAA);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:292: I2C_write(0xAA);
 	mov	dpl,#0xAA
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:285: I2C_stop();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:293: I2C_stop();
 	lcall	_I2C_stop
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:286: Timer4ms(1);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:294: Timer4ms(1);
 	mov	dpl,#0x01
 	lcall	_Timer4ms
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:288: I2C_start();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:296: I2C_start();
 	lcall	_I2C_start
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:289: I2C_write(0xA4);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:297: I2C_write(0xA4);
 	mov	dpl,#0xA4
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:290: I2C_write(0x40);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:298: I2C_write(0x40);
 	mov	dpl,#0x40
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:291: I2C_write(0x00);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:299: I2C_write(0x00);
 	mov	dpl,#0x00
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:292: I2C_write(0x00);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:300: I2C_write(0x00);
 	mov	dpl,#0x00
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:293: I2C_write(0x00);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:301: I2C_write(0x00);
 	mov	dpl,#0x00
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:294: I2C_write(0x00);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:302: I2C_write(0x00);
 	mov	dpl,#0x00
-	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:295: I2C_write(0x00);
-	mov	dpl,#0x00
-	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:296: I2C_write(0x00);
-	mov	dpl,#0x00
-	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:297: I2C_stop();
-	lcall	_I2C_stop
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:298: Timer4ms(1);
-	mov	dpl,#0x01
-	lcall	_Timer4ms
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:300: I2C_start();
-	lcall	_I2C_start
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:301: I2C_write(0xA4);
-	mov	dpl,#0xA4
-	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:302: I2C_write(0x40);
-	mov	dpl,#0x40
 	lcall	_I2C_write
 ;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:303: I2C_write(0x00);
 	mov	dpl,#0x00
@@ -1064,30 +1045,30 @@ L008002?:
 ;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:304: I2C_write(0x00);
 	mov	dpl,#0x00
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:305: I2C_write(0x00);
-	mov	dpl,#0x00
-	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:306: I2C_write(0x00);
-	mov	dpl,#0x00
-	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:307: I2C_write(0x00);
-	mov	dpl,#0x00
-	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:308: I2C_write(0x00);
-	mov	dpl,#0x00
-	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:309: I2C_stop();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:305: I2C_stop();
 	lcall	_I2C_stop
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:310: Timer4ms(1);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:306: Timer4ms(1);
 	mov	dpl,#0x01
 	lcall	_Timer4ms
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:312: I2C_start();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:308: I2C_start();
 	lcall	_I2C_start
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:313: I2C_write(0xA4);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:309: I2C_write(0xA4);
 	mov	dpl,#0xA4
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:314: I2C_write(0x40);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:310: I2C_write(0x40);
 	mov	dpl,#0x40
+	lcall	_I2C_write
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:311: I2C_write(0x00);
+	mov	dpl,#0x00
+	lcall	_I2C_write
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:312: I2C_write(0x00);
+	mov	dpl,#0x00
+	lcall	_I2C_write
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:313: I2C_write(0x00);
+	mov	dpl,#0x00
+	lcall	_I2C_write
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:314: I2C_write(0x00);
+	mov	dpl,#0x00
 	lcall	_I2C_write
 ;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:315: I2C_write(0x00);
 	mov	dpl,#0x00
@@ -1095,15 +1076,34 @@ L008002?:
 ;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:316: I2C_write(0x00);
 	mov	dpl,#0x00
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:317: I2C_write(0x00);
-	mov	dpl,#0x00
-	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:318: I2C_write(0x00);
-	mov	dpl,#0x00
-	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:319: I2C_stop();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:317: I2C_stop();
 	lcall	_I2C_stop
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:320: Timer4ms(1);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:318: Timer4ms(1);
+	mov	dpl,#0x01
+	lcall	_Timer4ms
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:320: I2C_start();
+	lcall	_I2C_start
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:321: I2C_write(0xA4);
+	mov	dpl,#0xA4
+	lcall	_I2C_write
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:322: I2C_write(0x40);
+	mov	dpl,#0x40
+	lcall	_I2C_write
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:323: I2C_write(0x00);
+	mov	dpl,#0x00
+	lcall	_I2C_write
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:324: I2C_write(0x00);
+	mov	dpl,#0x00
+	lcall	_I2C_write
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:325: I2C_write(0x00);
+	mov	dpl,#0x00
+	lcall	_I2C_write
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:326: I2C_write(0x00);
+	mov	dpl,#0x00
+	lcall	_I2C_write
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:327: I2C_stop();
+	lcall	_I2C_stop
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:328: Timer4ms(1);
 	mov	dpl,#0x01
 	ljmp	_Timer4ms
 ;------------------------------------------------------------
@@ -1112,7 +1112,7 @@ L008002?:
 ;s                         Allocated to registers r2 r3 r4 
 ;i                         Allocated to registers r5 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:323: void nunchuck_getdata(unsigned char * s)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:331: void nunchuck_getdata(unsigned char * s)
 ;	-----------------------------------------
 ;	 function nunchuck_getdata
 ;	-----------------------------------------
@@ -1120,37 +1120,37 @@ _nunchuck_getdata:
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:328: I2C_start();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:336: I2C_start();
 	push	ar2
 	push	ar3
 	push	ar4
 	lcall	_I2C_start
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:329: I2C_write(0xA4);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:337: I2C_write(0xA4);
 	mov	dpl,#0xA4
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:330: I2C_write(0x00);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:338: I2C_write(0x00);
 	mov	dpl,#0x00
 	lcall	_I2C_write
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:331: I2C_stop();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:339: I2C_stop();
 	lcall	_I2C_stop
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:332: Timer4ms(3); 	// 3 ms required to complete acquisition
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:340: Timer4ms(3); 	// 3 ms required to complete acquisition
 	mov	dpl,#0x03
 	lcall	_Timer4ms
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:335: I2C_start();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:343: I2C_start();
 	lcall	_I2C_start
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:336: I2C_write(0xA5);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:344: I2C_write(0xA5);
 	mov	dpl,#0xA5
 	lcall	_I2C_write
 	pop	ar4
 	pop	ar3
 	pop	ar2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:339: for(i=0; i<6; i++)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:347: for(i=0; i<6; i++)
 	mov	r5,#0x00
 L009001?:
 	cjne	r5,#0x06,L009010?
 L009010?:
 	jnc	L009004?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:341: s[i]=(I2C_read()^0x17)+0x17; // Read and decrypt
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:349: s[i]=(I2C_read()^0x17)+0x17; // Read and decrypt
 	mov	a,r5
 	add	a,r2
 	mov	r6,a
@@ -1181,13 +1181,13 @@ L009010?:
 	mov	dph,r7
 	mov	b,r0
 	lcall	__gptrput
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:339: for(i=0; i<6; i++)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:347: for(i=0; i<6; i++)
 	inc	r5
 	sjmp	L009001?
 L009004?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:343: ACK=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:351: ACK=0;
 	clr	_ACK
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:344: I2C_stop();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:352: I2C_stop();
 	ljmp	_I2C_stop
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Timer3us'
@@ -1195,40 +1195,40 @@ L009004?:
 ;us                        Allocated to registers r2 
 ;i                         Allocated to registers r3 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:348: void Timer3us(unsigned char us)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:356: void Timer3us(unsigned char us)
 ;	-----------------------------------------
 ;	 function Timer3us
 ;	-----------------------------------------
 _Timer3us:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:353: CKCON0|=0b_0100_0000;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:361: CKCON0|=0b_0100_0000;
 	orl	_CKCON0,#0x40
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:355: TMR3RL = (-(SYSCLK)/1000000L); // Set Timer3 to overflow in 1us.
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:363: TMR3RL = (-(SYSCLK)/1000000L); // Set Timer3 to overflow in 1us.
 	mov	_TMR3RL,#0xB8
 	mov	(_TMR3RL >> 8),#0xFF
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:356: TMR3 = TMR3RL;                 // Initialize Timer3 for first overflow
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:364: TMR3 = TMR3RL;                 // Initialize Timer3 for first overflow
 	mov	_TMR3,_TMR3RL
 	mov	(_TMR3 >> 8),(_TMR3RL >> 8)
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:358: TMR3CN0 = 0x04;                 // Sart Timer3 and clear overflow flag
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:366: TMR3CN0 = 0x04;                 // Sart Timer3 and clear overflow flag
 	mov	_TMR3CN0,#0x04
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:359: for (i = 0; i < us; i++)       // Count <us> overflows
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:367: for (i = 0; i < us; i++)       // Count <us> overflows
 	mov	r3,#0x00
 L010004?:
 	clr	c
 	mov	a,r3
 	subb	a,r2
 	jnc	L010007?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:361: while (!(TMR3CN0 & 0x80));  // Wait for overflow
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:369: while (!(TMR3CN0 & 0x80));  // Wait for overflow
 L010001?:
 	mov	a,_TMR3CN0
 	jnb	acc.7,L010001?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:362: TMR3CN0 &= ~(0x80);         // Clear overflow indicator
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:370: TMR3CN0 &= ~(0x80);         // Clear overflow indicator
 	anl	_TMR3CN0,#0x7F
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:359: for (i = 0; i < us; i++)       // Count <us> overflows
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:367: for (i = 0; i < us; i++)       // Count <us> overflows
 	inc	r3
 	sjmp	L010004?
 L010007?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:364: TMR3CN0 = 0 ;                   // Stop Timer3 and clear overflow flag
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:372: TMR3CN0 = 0 ;                   // Stop Timer3 and clear overflow flag
 	mov	_TMR3CN0,#0x00
 	ret
 ;------------------------------------------------------------
@@ -1238,14 +1238,14 @@ L010007?:
 ;j                         Allocated to registers r4 r5 
 ;k                         Allocated to registers r6 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:367: void waitms (unsigned int ms)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:375: void waitms (unsigned int ms)
 ;	-----------------------------------------
 ;	 function waitms
 ;	-----------------------------------------
 _waitms:
 	mov	r2,dpl
 	mov	r3,dph
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:371: for(j=0; j<ms; j++)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:379: for(j=0; j<ms; j++)
 	mov	r4,#0x00
 	mov	r5,#0x00
 L011005?:
@@ -1255,7 +1255,7 @@ L011005?:
 	mov	a,r5
 	subb	a,r3
 	jnc	L011009?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:372: for (k=0; k<4; k++) Timer3us(250);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:380: for (k=0; k<4; k++) Timer3us(250);
 	mov	r6,#0x00
 L011001?:
 	cjne	r6,#0x04,L011018?
@@ -1276,7 +1276,7 @@ L011018?:
 	inc	r6
 	sjmp	L011001?
 L011007?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:371: for(j=0; j<ms; j++)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:379: for(j=0; j<ms; j++)
 	inc	r4
 	cjne	r4,#0x00,L011005?
 	inc	r5
@@ -1292,7 +1292,7 @@ L011009?:
 ;c                         Allocated to registers r3 
 ;sloc0                     Allocated with name '_getsn_sloc0_1_0'
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:375: int getsn (char * buff, int len)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:383: int getsn (char * buff, int len)
 ;	-----------------------------------------
 ;	 function getsn
 ;	-----------------------------------------
@@ -1300,7 +1300,7 @@ _getsn:
 	mov	_getsn_buff_1_67,dpl
 	mov	(_getsn_buff_1_67 + 1),dph
 	mov	(_getsn_buff_1_67 + 2),b
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:380: for(j=0; j<(len-1); j++)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:388: for(j=0; j<(len-1); j++)
 	clr	a
 	mov	_getsn_sloc0_1_0,a
 	mov	(_getsn_sloc0_1_0 + 1),a
@@ -1322,7 +1322,7 @@ L012005?:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	L012008?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:382: c=getchar();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:390: c=getchar();
 	push	ar2
 	push	ar7
 	push	ar0
@@ -1333,13 +1333,13 @@ L012005?:
 	pop	ar0
 	pop	ar7
 	pop	ar2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:383: if ( (c=='\n') || (c=='\r') )
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:391: if ( (c=='\n') || (c=='\r') )
 	cjne	r3,#0x0A,L012015?
 	sjmp	L012001?
 L012015?:
 	cjne	r3,#0x0D,L012002?
 L012001?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:385: buff[j]=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:393: buff[j]=0;
 	mov	a,_getsn_sloc0_1_0
 	add	a,_getsn_buff_1_67
 	mov	r4,a
@@ -1352,12 +1352,12 @@ L012001?:
 	mov	b,r6
 	clr	a
 	lcall	__gptrput
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:386: return j;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:394: return j;
 	mov	dpl,_getsn_sloc0_1_0
 	mov	dph,(_getsn_sloc0_1_0 + 1)
 	ret
 L012002?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:390: buff[j]=c;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:398: buff[j]=c;
 	mov	a,r1
 	add	a,_getsn_buff_1_67
 	mov	r4,a
@@ -1370,7 +1370,7 @@ L012002?:
 	mov	b,r6
 	mov	a,r3
 	lcall	__gptrput
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:380: for(j=0; j<(len-1); j++)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:388: for(j=0; j<(len-1); j++)
 	inc	r1
 	cjne	r1,#0x00,L012018?
 	inc	r2
@@ -1379,7 +1379,7 @@ L012018?:
 	mov	(_getsn_sloc0_1_0 + 1),r2
 	sjmp	L012005?
 L012008?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:393: buff[j]='\0';
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:401: buff[j]='\0';
 	mov	a,_getsn_sloc0_1_0
 	add	a,_getsn_buff_1_67
 	mov	r2,a
@@ -1392,7 +1392,7 @@ L012008?:
 	mov	b,r4
 	clr	a
 	lcall	__gptrput
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:394: return len;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:402: return len;
 	mov	dpl,_getsn_PARM_2
 	mov	dph,(_getsn_PARM_2 + 1)
 	ret
@@ -1400,7 +1400,7 @@ L012008?:
 ;Allocation info for local variables in function 'Timer2_ISR'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:397: void Timer2_ISR (void) interrupt 5
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:405: void Timer2_ISR (void) interrupt 5
 ;	-----------------------------------------
 ;	 function Timer2_ISR
 ;	-----------------------------------------
@@ -1408,38 +1408,38 @@ _Timer2_ISR:
 	push	acc
 	push	psw
 	mov	psw,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:399: TF2H = 0; // Clear Timer2 interrupt flag
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:407: TF2H = 0; // Clear Timer2 interrupt flag
 	clr	_TF2H
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:401: pwm_count++;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:409: pwm_count++;
 	inc	_pwm_count
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:402: if(pwm_count>100) pwm_count=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:410: if(pwm_count>100) pwm_count=0;
 	mov	a,_pwm_count
 	add	a,#0xff - 0x64
 	jnc	L013002?
 	mov	_pwm_count,#0x00
 L013002?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:405: Mot1_forward=pwm_count>number1?0:1;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:413: Mot1_forward=pwm_count>number1?0:1;
 	clr	c
 	mov	a,_number1
 	subb	a,_pwm_count
 	mov  _Timer2_ISR_sloc0_1_0,c
 	cpl	c
 	mov	_P1_6,c
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:407: Mot1_reverse=pwm_count>number2?0:1;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:415: Mot1_reverse=pwm_count>number2?0:1;
 	clr	c
 	mov	a,_number2
 	subb	a,_pwm_count
 	mov  _Timer2_ISR_sloc0_1_0,c
 	cpl	c
 	mov	_P1_7,c
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:409: Mot2_forward=pwm_count>number3?0:1;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:417: Mot2_forward=pwm_count>number3?0:1;
 	clr	c
 	mov	a,_number3
 	subb	a,_pwm_count
 	mov  _Timer2_ISR_sloc0_1_0,c
 	cpl	c
 	mov	_P1_3,c
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:410: Mot2_reverse=pwm_count>number4?0:1;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:418: Mot2_reverse=pwm_count>number4?0:1;
 	clr	c
 	mov	a,_number4
 	subb	a,_pwm_count
@@ -1457,19 +1457,19 @@ L013002?:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:425: void go_straight(char speed){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:433: void go_straight(char speed){
 ;	-----------------------------------------
 ;	 function go_straight
 ;	-----------------------------------------
 _go_straight:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:427: number1=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:435: number1=speed;
 	mov	_number1,r2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:428: number3=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:436: number3=speed;
 	mov	_number3,r2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:429: number2=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:437: number2=0;
 	mov	_number2,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:430: number4=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:438: number4=0;
 	mov	_number4,#0x00
 	ret
 ;------------------------------------------------------------
@@ -1477,19 +1477,19 @@ _go_straight:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:434: void go_reverse(char speed){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:442: void go_reverse(char speed){
 ;	-----------------------------------------
 ;	 function go_reverse
 ;	-----------------------------------------
 _go_reverse:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:436: number1=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:444: number1=0;
 	mov	_number1,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:437: number3=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:445: number3=0;
 	mov	_number3,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:438: number2=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:446: number2=speed;
 	mov	_number2,r2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:439: number4=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:447: number4=speed;
 	mov	_number4,r2
 	ret
 ;------------------------------------------------------------
@@ -1497,19 +1497,19 @@ _go_reverse:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:443: void turn_west(char speed ){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:451: void turn_west(char speed ){
 ;	-----------------------------------------
 ;	 function turn_west
 ;	-----------------------------------------
 _turn_west:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:446: number1=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:454: number1=0;
 	mov	_number1,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:447: number3=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:455: number3=speed;
 	mov	_number3,r2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:448: number2=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:456: number2=speed;
 	mov	_number2,r2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:449: number4=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:457: number4=0;
 	mov	_number4,#0x00
 	ret
 ;------------------------------------------------------------
@@ -1517,19 +1517,19 @@ _turn_west:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:452: void turn_east(char speed){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:460: void turn_east(char speed){
 ;	-----------------------------------------
 ;	 function turn_east
 ;	-----------------------------------------
 _turn_east:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:454: number1=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:462: number1=speed;
 	mov	_number1,r2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:455: number3=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:463: number3=0;
 	mov	_number3,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:456: number2=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:464: number2=0;
 	mov	_number2,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:457: number4=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:465: number4=speed;
 	mov	_number4,r2
 	ret
 ;------------------------------------------------------------
@@ -1537,13 +1537,13 @@ _turn_east:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:461: void turn_NW(char speed){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:469: void turn_NW(char speed){
 ;	-----------------------------------------
 ;	 function turn_NW
 ;	-----------------------------------------
 _turn_NW:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:463: number1=speed/3;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:471: number1=speed/3;
 	clr	F0
 	mov	b,#0x03
 	mov	a,r2
@@ -1558,11 +1558,13 @@ L018003?:
 	inc	a
 L018004?:
 	mov	_number1,a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:464: number3=speed;
-	mov	_number3,r2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:465: number2=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:472: number3=speed*2;
+	mov	a,r2
+	add	a,r2
+	mov	_number3,a
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:473: number2=0;
 	mov	_number2,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:466: number4=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:474: number4=0;
 	mov	_number4,#0x00
 	ret
 ;------------------------------------------------------------
@@ -1570,15 +1572,17 @@ L018004?:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:470: void turn_NE(char speed){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:478: void turn_NE(char speed){
 ;	-----------------------------------------
 ;	 function turn_NE
 ;	-----------------------------------------
 _turn_NE:
-	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:472: number1=speed;
-	mov	_number1,r2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:473: number3=speed/3;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:480: number1=speed*2;
+	mov	a,dpl
+	mov	r2,a
+	add	a,acc
+	mov	_number1,a
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:481: number3=speed/3;
 	clr	F0
 	mov	b,#0x03
 	mov	a,r2
@@ -1593,9 +1597,9 @@ L019003?:
 	inc	a
 L019004?:
 	mov	_number3,a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:474: number2=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:482: number2=0;
 	mov	_number2,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:475: number4=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:483: number4=0;
 	mov	_number4,#0x00
 	ret
 ;------------------------------------------------------------
@@ -1603,15 +1607,15 @@ L019004?:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:478: void turn_NNE(char speed){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:486: void turn_NNE(char speed){
 ;	-----------------------------------------
 ;	 function turn_NNE
 ;	-----------------------------------------
 _turn_NNE:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:479: number1=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:487: number1=speed;
 	mov	_number1,r2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:480: number3=speed/2;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:488: number3=speed/2;
 	clr	F0
 	mov	b,#0x02
 	mov	a,r2
@@ -1626,9 +1630,9 @@ L020003?:
 	inc	a
 L020004?:
 	mov	_number3,a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:481: number2=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:489: number2=0;
 	mov	_number2,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:482: number4=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:490: number4=0;
 	mov	_number4,#0x00
 	ret
 ;------------------------------------------------------------
@@ -1636,13 +1640,13 @@ L020004?:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:485: void turn_NNW(char speed){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:493: void turn_NNW(char speed){
 ;	-----------------------------------------
 ;	 function turn_NNW
 ;	-----------------------------------------
 _turn_NNW:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:486: number1=speed/2;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:494: number1=speed/2;
 	clr	F0
 	mov	b,#0x02
 	mov	a,r2
@@ -1657,11 +1661,11 @@ L021003?:
 	inc	a
 L021004?:
 	mov	_number1,a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:487: number3=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:495: number3=speed;
 	mov	_number3,r2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:488: number2=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:496: number2=0;
 	mov	_number2,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:489: number4=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:497: number4=0;
 	mov	_number4,#0x00
 	ret
 ;------------------------------------------------------------
@@ -1669,15 +1673,15 @@ L021004?:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:492: void turn_NEE(char speed){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:500: void turn_NEE(char speed){
 ;	-----------------------------------------
 ;	 function turn_NEE
 ;	-----------------------------------------
 _turn_NEE:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:493: number1=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:501: number1=speed;
 	mov	_number1,r2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:494: number3=speed/5;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:502: number3=speed/5;
 	clr	F0
 	mov	b,#0x05
 	mov	a,r2
@@ -1692,9 +1696,9 @@ L022003?:
 	inc	a
 L022004?:
 	mov	_number3,a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:495: number2=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:503: number2=0;
 	mov	_number2,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:496: number4=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:504: number4=0;
 	mov	_number4,#0x00
 	ret
 ;------------------------------------------------------------
@@ -1702,13 +1706,13 @@ L022004?:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:499: void turn_NWW(char speed){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:507: void turn_NWW(char speed){
 ;	-----------------------------------------
 ;	 function turn_NWW
 ;	-----------------------------------------
 _turn_NWW:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:500: number1=speed/5;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:508: number1=speed/5;
 	clr	F0
 	mov	b,#0x05
 	mov	a,r2
@@ -1723,11 +1727,11 @@ L023003?:
 	inc	a
 L023004?:
 	mov	_number1,a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:501: number3=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:509: number3=speed;
 	mov	_number3,r2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:502: number2=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:510: number2=0;
 	mov	_number2,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:503: number4=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:511: number4=0;
 	mov	_number4,#0x00
 	ret
 ;------------------------------------------------------------
@@ -1735,17 +1739,17 @@ L023004?:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:506: void turn_SW(char speed){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:514: void turn_SW(char speed){
 ;	-----------------------------------------
 ;	 function turn_SW
 ;	-----------------------------------------
 _turn_SW:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:508: number1=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:516: number1=0;
 	mov	_number1,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:509: number3=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:517: number3=0;
 	mov	_number3,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:510: number2=speed/3;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:518: number2=speed/3;
 	clr	F0
 	mov	b,#0x03
 	mov	a,r2
@@ -1760,7 +1764,7 @@ L024003?:
 	inc	a
 L024004?:
 	mov	_number2,a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:511: number4=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:519: number4=speed;
 	mov	_number4,r2
 	ret
 ;------------------------------------------------------------
@@ -1768,19 +1772,19 @@ L024004?:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:516: void turn_SE(char speed){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:524: void turn_SE(char speed){
 ;	-----------------------------------------
 ;	 function turn_SE
 ;	-----------------------------------------
 _turn_SE:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:518: number1=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:526: number1=0;
 	mov	_number1,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:519: number3=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:527: number3=0;
 	mov	_number3,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:520: number2=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:528: number2=speed;
 	mov	_number2,r2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:521: number4=speed/3;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:529: number4=speed/3;
 	clr	F0
 	mov	b,#0x03
 	mov	a,r2
@@ -1801,19 +1805,19 @@ L025004?:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:524: void turn_SSE(char speed){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:532: void turn_SSE(char speed){
 ;	-----------------------------------------
 ;	 function turn_SSE
 ;	-----------------------------------------
 _turn_SSE:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:525: number1=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:533: number1=0;
 	mov	_number1,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:526: number3=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:534: number3=0;
 	mov	_number3,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:527: number2=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:535: number2=speed;
 	mov	_number2,r2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:528: number4=speed/2;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:536: number4=speed/2;
 	clr	F0
 	mov	b,#0x02
 	mov	a,r2
@@ -1834,17 +1838,17 @@ L026004?:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:531: void turn_SSW(char speed){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:539: void turn_SSW(char speed){
 ;	-----------------------------------------
 ;	 function turn_SSW
 ;	-----------------------------------------
 _turn_SSW:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:532: number1=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:540: number1=0;
 	mov	_number1,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:533: number3=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:541: number3=0;
 	mov	_number3,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:534: number2=speed/2;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:542: number2=speed/2;
 	clr	F0
 	mov	b,#0x02
 	mov	a,r2
@@ -1859,7 +1863,7 @@ L027003?:
 	inc	a
 L027004?:
 	mov	_number2,a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:535: number4=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:543: number4=speed;
 	mov	_number4,r2
 	ret
 ;------------------------------------------------------------
@@ -1867,19 +1871,19 @@ L027004?:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:538: void turn_SEE(char speed){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:546: void turn_SEE(char speed){
 ;	-----------------------------------------
 ;	 function turn_SEE
 ;	-----------------------------------------
 _turn_SEE:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:539: number1=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:547: number1=0;
 	mov	_number1,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:540: number3=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:548: number3=0;
 	mov	_number3,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:541: number2=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:549: number2=speed;
 	mov	_number2,r2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:542: number4=speed/5;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:550: number4=speed/5;
 	clr	F0
 	mov	b,#0x05
 	mov	a,r2
@@ -1900,17 +1904,17 @@ L028004?:
 ;------------------------------------------------------------
 ;speed                     Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:545: void turn_SWW(char speed){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:553: void turn_SWW(char speed){
 ;	-----------------------------------------
 ;	 function turn_SWW
 ;	-----------------------------------------
 _turn_SWW:
 	mov	r2,dpl
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:546: number1=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:554: number1=0;
 	mov	_number1,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:547: number3=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:555: number3=0;
 	mov	_number3,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:548: number2=speed/5;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:556: number2=speed/5;
 	clr	F0
 	mov	b,#0x05
 	mov	a,r2
@@ -1925,25 +1929,25 @@ L029003?:
 	inc	a
 L029004?:
 	mov	_number2,a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:549: number4=speed;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:557: number4=speed;
 	mov	_number4,r2
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'stop'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:555: void stop(){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:563: void stop(){
 ;	-----------------------------------------
 ;	 function stop
 ;	-----------------------------------------
 _stop:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:557: number1=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:565: number1=0;
 	mov	_number1,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:558: number2=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:566: number2=0;
 	mov	_number2,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:559: number3=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:567: number3=0;
 	mov	_number3,#0x00
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:560: number4=0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:568: number4=0;
 	mov	_number4,#0x00
 	ret
 ;------------------------------------------------------------
@@ -1953,16 +1957,16 @@ _stop:
 ;y_ax                      Allocated to registers r2 r3 
 ;spd                       Allocated to registers r6 r7 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:563: int get_speed(int y_ax, int x_ax){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:571: int get_speed(int y_ax, int x_ax){
 ;	-----------------------------------------
 ;	 function get_speed
 ;	-----------------------------------------
 _get_speed:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:565: y_ax=abs(y_ax);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:573: y_ax=abs(y_ax);
 	lcall	_abs
 	mov	r2,dpl
 	mov	r3,dph
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:566: x_ax=abs(x_ax);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:574: x_ax=abs(x_ax);
 	mov	dpl,_get_speed_PARM_2
 	mov	dph,(_get_speed_PARM_2 + 1)
 	push	ar2
@@ -1972,7 +1976,7 @@ _get_speed:
 	mov	r5,dph
 	pop	ar3
 	pop	ar2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:568: if(y_ax>x_ax){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:576: if(y_ax>x_ax){
 	clr	c
 	mov	a,r4
 	subb	a,r2
@@ -1982,10 +1986,10 @@ _get_speed:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	L031004?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:569: spd=y_ax;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:577: spd=y_ax;
 	mov	ar6,r2
 	mov	ar7,r3
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:570: if(y_ax>85)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:578: if(y_ax>85)
 	clr	c
 	mov	a,#0x55
 	subb	a,r2
@@ -1995,16 +1999,16 @@ _get_speed:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	L031005?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:571: spd=100;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:579: spd=100;
 	mov	r6,#0x64
 	mov	r7,#0x00
 	sjmp	L031005?
 L031004?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:573: else spd=x_ax;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:581: else spd=x_ax;
 	mov	ar6,r4
 	mov	ar7,r5
 L031005?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:575: return spd;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:583: return spd;
 	mov	dpl,r6
 	mov	dph,r7
 	ret
@@ -2015,31 +2019,28 @@ L031005?:
 ;x_axis                    Allocated to registers r2 r3 
 ;direction                 Allocated to registers r4 
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:578: char get_direction(int x_axis, int y_axis){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:586: char get_direction(int x_axis, int y_axis){
 ;	-----------------------------------------
 ;	 function get_direction
 ;	-----------------------------------------
 _get_direction:
 	mov	r2,dpl
 	mov	r3,dph
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:580: char direction=north;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:588: char direction=north;
 	mov	r4,#0x61
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:613: if(y_axis>5){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:621: if(y_axis>0){
 	clr	c
-	mov	a,#0x05
+	clr	a
 	subb	a,_get_direction_PARM_2
 	clr	a
 	xrl	a,#0x80
 	mov	b,(_get_direction_PARM_2 + 1)
 	xrl	b,#0x80
 	subb	a,b
-	clr	a
-	rlc	a
-	mov	r5,a
-	jnz	L032130?
+	jc	L032130?
 	ljmp	L032084?
 L032130?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:615: if ((x_axis<10)&&(x_axis>-10)){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:623: if ((x_axis<10)&&(x_axis>-10)){
 	clr	c
 	mov	a,r2
 	subb	a,#0x0A
@@ -2055,9 +2056,16 @@ L032130?:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	L032038?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:618: if(y_axis>5&&y_axis>-5){
-	mov	a,r5
-	jz	L032002?
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:626: if(y_axis>5&&y_axis>-5){
+	clr	c
+	mov	a,#0x05
+	subb	a,_get_direction_PARM_2
+	clr	a
+	xrl	a,#0x80
+	mov	b,(_get_direction_PARM_2 + 1)
+	xrl	b,#0x80
+	subb	a,b
+	jnc	L032002?
 	clr	c
 	mov	a,#0xFB
 	subb	a,_get_direction_PARM_2
@@ -2066,17 +2074,17 @@ L032130?:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	L032002?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:619: stop();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:627: stop();
 	push	ar4
 	lcall	_stop
 	pop	ar4
 	ljmp	L032085?
 L032002?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:621: else direction=north;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:629: else direction=north;
 	mov	r4,#0x61
 	ljmp	L032085?
 L032038?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:625: else if(x_axis>10&&x_axis<=30){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:633: else if(x_axis>10&&x_axis<=30){
 	clr	c
 	mov	a,#0x0A
 	subb	a,r2
@@ -2095,11 +2103,11 @@ L032038?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L032034?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:626: direction=NNE;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:634: direction=NNE;
 	mov	r4,#0x63
 	ljmp	L032085?
 L032034?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:628: else if(x_axis>30&&x_axis<=50){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:636: else if(x_axis>30&&x_axis<=50){
 	clr	c
 	mov	a,#0x1E
 	subb	a,r2
@@ -2118,11 +2126,11 @@ L032034?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L032030?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:629: direction=NE;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:637: direction=NE;
 	mov	r4,#0x65
 	ljmp	L032085?
 L032030?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:631: else if(x_axis>50&&x_axis<=70){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:639: else if(x_axis>50&&x_axis<=70){
 	clr	c
 	mov	a,#0x32
 	subb	a,r2
@@ -2141,11 +2149,11 @@ L032030?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L032026?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:632: direction=NEE;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:640: direction=NEE;
 	mov	r4,#0x67
 	ljmp	L032085?
 L032026?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:634: else if(x_axis>70&&x_axis<=100){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:642: else if(x_axis>70&&x_axis<=100){
 	clr	c
 	mov	a,#0x46
 	subb	a,r2
@@ -2164,11 +2172,11 @@ L032026?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L032022?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:635: direction=east;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:643: direction=east;
 	mov	r4,#0x69
 	ljmp	L032085?
 L032022?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:638: else if(x_axis<-10&&x_axis>=-30){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:646: else if(x_axis<-10&&x_axis>=-30){
 	clr	c
 	mov	a,r2
 	subb	a,#0xF6
@@ -2183,11 +2191,11 @@ L032022?:
 	xrl	a,#0x80
 	subb	a,#0x7f
 	jc	L032018?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:639: direction=NNW;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:647: direction=NNW;
 	mov	r4,#0x64
 	ljmp	L032085?
 L032018?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:641: else if(x_axis<-30&&x_axis>=-50){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:649: else if(x_axis<-30&&x_axis>=-50){
 	clr	c
 	mov	a,r2
 	subb	a,#0xE2
@@ -2202,11 +2210,11 @@ L032018?:
 	xrl	a,#0x80
 	subb	a,#0x7f
 	jc	L032014?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:642: direction=NW;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:650: direction=NW;
 	mov	r4,#0x66
 	ljmp	L032085?
 L032014?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:644: else if(x_axis<-50&&x_axis>=-70){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:652: else if(x_axis<-50&&x_axis>=-70){
 	clr	c
 	mov	a,r2
 	subb	a,#0xCE
@@ -2221,11 +2229,11 @@ L032014?:
 	xrl	a,#0x80
 	subb	a,#0x7f
 	jc	L032010?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:645: direction=NWW;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:653: direction=NWW;
 	mov	r4,#0x68
 	ljmp	L032085?
 L032010?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:647: else if(x_axis<-70&&x_axis>=-110){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:655: else if(x_axis<-70&&x_axis>=-110){
 	clr	c
 	mov	a,r2
 	subb	a,#0xBA
@@ -2240,25 +2248,20 @@ L032010?:
 	xrl	a,#0x80
 	subb	a,#0x7f
 	jc	L032006?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:648: direction=west;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:656: direction=west;
 	mov	r4,#0x6A
 	ljmp	L032085?
 L032006?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:651: direction=north;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:659: direction=north;
 	mov	r4,#0x61
 	ljmp	L032085?
 L032084?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:655: else if (y_axis<-5){
-	clr	c
-	mov	a,_get_direction_PARM_2
-	subb	a,#0xFB
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:663: else if (y_axis<0){
 	mov	a,(_get_direction_PARM_2 + 1)
-	xrl	a,#0x80
-	subb	a,#0x7f
-	jc	L032151?
+	jb	acc.7,L032151?
 	ljmp	L032085?
 L032151?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:657: if ((x_axis<10)&&(x_axis>-10)){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:665: if ((x_axis<10)&&(x_axis>-10)){
 	clr	c
 	mov	a,r2
 	subb	a,#0x0A
@@ -2274,9 +2277,16 @@ L032151?:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	L032078?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:660: if(y_axis>5&&y_axis>-5){
-	mov	a,r5
-	jz	L032042?
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:668: if(y_axis>5&&y_axis>-5){
+	clr	c
+	mov	a,#0x05
+	subb	a,_get_direction_PARM_2
+	clr	a
+	xrl	a,#0x80
+	mov	b,(_get_direction_PARM_2 + 1)
+	xrl	b,#0x80
+	subb	a,b
+	jnc	L032042?
 	clr	c
 	mov	a,#0xFB
 	subb	a,_get_direction_PARM_2
@@ -2285,17 +2295,17 @@ L032151?:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	L032042?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:661: stop();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:669: stop();
 	push	ar4
 	lcall	_stop
 	pop	ar4
 	ljmp	L032085?
 L032042?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:663: else direction=south;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:671: else direction=south;
 	mov	r4,#0x62
 	ljmp	L032085?
 L032078?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:667: else if(x_axis>10&&x_axis<=30){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:675: else if(x_axis>10&&x_axis<=30){
 	clr	c
 	mov	a,#0x0A
 	subb	a,r2
@@ -2314,11 +2324,11 @@ L032078?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L032074?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:668: direction=SSE;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:676: direction=SSE;
 	mov	r4,#0x6B
 	ljmp	L032085?
 L032074?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:670: else if(x_axis>30&&x_axis<=50){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:678: else if(x_axis>30&&x_axis<=50){
 	clr	c
 	mov	a,#0x1E
 	subb	a,r2
@@ -2337,11 +2347,11 @@ L032074?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L032070?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:671: direction=SE;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:679: direction=SE;
 	mov	r4,#0x6D
 	ljmp	L032085?
 L032070?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:673: else if(x_axis>50&&x_axis<=70){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:681: else if(x_axis>50&&x_axis<=70){
 	clr	c
 	mov	a,#0x32
 	subb	a,r2
@@ -2360,11 +2370,11 @@ L032070?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L032066?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:674: direction=SEE;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:682: direction=SEE;
 	mov	r4,#0x6F
 	ljmp	L032085?
 L032066?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:676: else if(x_axis>70&&x_axis<=100){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:684: else if(x_axis>70&&x_axis<=100){
 	clr	c
 	mov	a,#0x46
 	subb	a,r2
@@ -2383,11 +2393,11 @@ L032066?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L032062?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:677: direction=east;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:685: direction=east;
 	mov	r4,#0x69
 	sjmp	L032085?
 L032062?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:680: else if(x_axis<-10&&x_axis>=-30){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:688: else if(x_axis<-10&&x_axis>=-30){
 	clr	c
 	mov	a,r2
 	subb	a,#0xF6
@@ -2402,11 +2412,11 @@ L032062?:
 	xrl	a,#0x80
 	subb	a,#0x7f
 	jc	L032058?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:681: direction=SSW;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:689: direction=SSW;
 	mov	r4,#0x6C
 	sjmp	L032085?
 L032058?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:683: else if(x_axis<-30&&x_axis>=-50){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:691: else if(x_axis<-30&&x_axis>=-50){
 	clr	c
 	mov	a,r2
 	subb	a,#0xE2
@@ -2421,11 +2431,11 @@ L032058?:
 	xrl	a,#0x80
 	subb	a,#0x7f
 	jc	L032054?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:684: direction=SW;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:692: direction=SW;
 	mov	r4,#0x6E
 	sjmp	L032085?
 L032054?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:686: else if(x_axis<-50&&x_axis>=-70){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:694: else if(x_axis<-50&&x_axis>=-80){
 	clr	c
 	mov	a,r2
 	subb	a,#0xCE
@@ -2435,19 +2445,19 @@ L032054?:
 	jnc	L032050?
 	clr	c
 	mov	a,r2
-	subb	a,#0xBA
+	subb	a,#0xB0
 	mov	a,r3
 	xrl	a,#0x80
 	subb	a,#0x7f
 	jc	L032050?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:687: direction=SWW;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:695: direction=SWW;
 	mov	r4,#0x70
 	sjmp	L032085?
 L032050?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:689: else if(x_axis<-70&&x_axis>=-110){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:697: else if(x_axis<-80&&x_axis>=-110){
 	clr	c
 	mov	a,r2
-	subb	a,#0xBA
+	subb	a,#0xB0
 	mov	a,r3
 	xrl	a,#0x80
 	subb	a,#0x7f
@@ -2459,14 +2469,14 @@ L032050?:
 	xrl	a,#0x80
 	subb	a,#0x7f
 	jc	L032046?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:690: direction=west;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:698: direction=west;
 	mov	r4,#0x6A
 	sjmp	L032085?
 L032046?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:693: direction=north;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:701: direction=north;
 	mov	r4,#0x61
 L032085?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:699: return direction;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:707: return direction;
 	mov	dpl,r4
 	ret
 ;------------------------------------------------------------
@@ -2484,12 +2494,12 @@ L032085?:
 ;direction                 Allocated to registers r4 
 ;sloc0                     Allocated with name '_main_sloc0_1_0'
 ;------------------------------------------------------------
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:704: void main (void)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:712: void main (void)
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:716: printf("\x1b[2J\x1b[1;1H"); // Clear screen using ANSI escape sequence.
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:724: printf("\x1b[2J\x1b[1;1H"); // Clear screen using ANSI escape sequence.
 	mov	a,#__str_1
 	push	acc
 	mov	a,#(__str_1 >> 8)
@@ -2500,7 +2510,7 @@ _main:
 	dec	sp
 	dec	sp
 	dec	sp
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:717: printf("\n\nEFM8LB1 WII Nunchuck I2C Reader\n");
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:725: printf("\n\nEFM8LB1 WII Nunchuck I2C Reader\n");
 	mov	a,#__str_2
 	push	acc
 	mov	a,#(__str_2 >> 8)
@@ -2511,20 +2521,20 @@ _main:
 	dec	sp
 	dec	sp
 	dec	sp
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:719: Timer4ms(200);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:727: Timer4ms(200);
 	mov	dpl,#0xC8
 	lcall	_Timer4ms
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:720: nunchuck_init(1);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:728: nunchuck_init(1);
 	setb	_nunchuck_init_PARM_1
 	lcall	_nunchuck_init
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:721: Timer4ms(100);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:729: Timer4ms(100);
 	mov	dpl,#0x64
 	lcall	_Timer4ms
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:723: nunchuck_getdata(rbuf);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:731: nunchuck_getdata(rbuf);
 	mov	dptr,#_main_rbuf_1_135
 	mov	b,#0x40
 	lcall	_nunchuck_getdata
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:725: off_x=(int)rbuf[0]-128;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:733: off_x=(int)rbuf[0]-128;
 	mov	r2,_main_rbuf_1_135
 	mov	r3,#0x00
 	mov	a,r2
@@ -2533,7 +2543,7 @@ _main:
 	mov	a,r3
 	addc	a,#0xff
 	mov	(_main_off_x_1_135 + 1),a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:726: off_y=(int)rbuf[1]-128;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:734: off_y=(int)rbuf[1]-128;
 	mov	r4,(_main_rbuf_1_135 + 0x0001)
 	mov	r5,#0x00
 	mov	a,r4
@@ -2542,7 +2552,7 @@ _main:
 	mov	a,r5
 	addc	a,#0xff
 	mov	(_main_off_y_1_135 + 1),a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:727: printf("Offset_X:%4d Offset_Y:%4d\n\n", off_x, off_y);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:735: printf("Offset_X:%4d Offset_Y:%4d\n\n", off_x, off_y);
 	push	_main_off_y_1_135
 	push	(_main_off_y_1_135 + 1)
 	push	_main_off_x_1_135
@@ -2557,13 +2567,13 @@ _main:
 	mov	a,sp
 	add	a,#0xf9
 	mov	sp,a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:729: while(1)
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:737: while(1)
 L033032?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:731: nunchuck_getdata(rbuf);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:739: nunchuck_getdata(rbuf);
 	mov	dptr,#_main_rbuf_1_135
 	mov	b,#0x40
 	lcall	_nunchuck_getdata
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:733: joy_x=(int)rbuf[0]-128-off_x;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:741: joy_x=(int)rbuf[0]-128-off_x;
 	mov	r6,_main_rbuf_1_135
 	mov	r7,#0x00
 	mov	a,r6
@@ -2579,7 +2589,7 @@ L033032?:
 	mov	a,r7
 	subb	a,(_main_off_x_1_135 + 1)
 	mov	r7,a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:734: joy_y=(int)rbuf[1]-128-off_y;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:742: joy_y=(int)rbuf[1]-128-off_y;
 	mov	r4,(_main_rbuf_1_135 + 0x0001)
 	mov	r5,#0x00
 	mov	a,r4
@@ -2595,33 +2605,33 @@ L033032?:
 	mov	a,r5
 	subb	a,(_main_off_y_1_135 + 1)
 	mov	(_main_joy_y_1_135 + 1),a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:735: acc_x=rbuf[2]*4; 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:743: acc_x=rbuf[2]*4; 
 	mov	a,(_main_rbuf_1_135 + 0x0002)
 	mov	b,#0x04
 	mul	ab
 	mov	_main_acc_x_1_135,a
 	mov	(_main_acc_x_1_135 + 1),b
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:736: acc_y=rbuf[3]*4;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:744: acc_y=rbuf[3]*4;
 	mov	a,(_main_rbuf_1_135 + 0x0003)
 	mov	b,#0x04
 	mul	ab
 	mov	_main_acc_y_1_135,a
 	mov	(_main_acc_y_1_135 + 1),b
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:737: acc_z=rbuf[4]*4;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:745: acc_z=rbuf[4]*4;
 	mov	a,(_main_rbuf_1_135 + 0x0004)
 	mov	b,#0x04
 	mul	ab
 	mov	_main_acc_z_1_135,a
 	mov	(_main_acc_z_1_135 + 1),b
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:739: but1=(rbuf[5] & 0x01)?1:0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:747: but1=(rbuf[5] & 0x01)?1:0;
 	mov	a,(_main_rbuf_1_135 + 0x0005)
 	rrc	a
 	mov	_main_but1_1_135,c
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:740: but2=(rbuf[5] & 0x02)?1:0;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:748: but2=(rbuf[5] & 0x02)?1:0;
 	mov	a,(_main_rbuf_1_135 + 0x0005)
 	mov	c,acc.1
 	mov	_main_but2_1_135,c
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:741: if (rbuf[5] & 0x04) acc_x+=2;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:749: if (rbuf[5] & 0x04) acc_x+=2;
 	mov	a,(_main_rbuf_1_135 + 0x0005)
 	jnb	acc.2,L033002?
 	mov	a,#0x02
@@ -2631,7 +2641,7 @@ L033032?:
 	addc	a,(_main_acc_x_1_135 + 1)
 	mov	(_main_acc_x_1_135 + 1),a
 L033002?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:742: if (rbuf[5] & 0x08) acc_x+=1;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:750: if (rbuf[5] & 0x08) acc_x+=1;
 	mov	a,(_main_rbuf_1_135 + 0x0005)
 	jnb	acc.3,L033004?
 	inc	_main_acc_x_1_135
@@ -2640,7 +2650,7 @@ L033002?:
 	inc	(_main_acc_x_1_135 + 1)
 L033053?:
 L033004?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:743: if (rbuf[5] & 0x10) acc_y+=2;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:751: if (rbuf[5] & 0x10) acc_y+=2;
 	mov	a,(_main_rbuf_1_135 + 0x0005)
 	jnb	acc.4,L033006?
 	mov	a,#0x02
@@ -2650,7 +2660,7 @@ L033004?:
 	addc	a,(_main_acc_y_1_135 + 1)
 	mov	(_main_acc_y_1_135 + 1),a
 L033006?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:744: if (rbuf[5] & 0x20) acc_y+=1;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:752: if (rbuf[5] & 0x20) acc_y+=1;
 	mov	a,(_main_rbuf_1_135 + 0x0005)
 	jnb	acc.5,L033008?
 	inc	_main_acc_y_1_135
@@ -2659,7 +2669,7 @@ L033006?:
 	inc	(_main_acc_y_1_135 + 1)
 L033056?:
 L033008?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:745: if (rbuf[5] & 0x40) acc_z+=2;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:753: if (rbuf[5] & 0x40) acc_z+=2;
 	mov	a,(_main_rbuf_1_135 + 0x0005)
 	jnb	acc.6,L033010?
 	mov	a,#0x02
@@ -2669,7 +2679,7 @@ L033008?:
 	addc	a,(_main_acc_z_1_135 + 1)
 	mov	(_main_acc_z_1_135 + 1),a
 L033010?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:746: if (rbuf[5] & 0x80) acc_z+=1;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:754: if (rbuf[5] & 0x80) acc_z+=1;
 	mov	a,(_main_rbuf_1_135 + 0x0005)
 	jnb	acc.7,L033012?
 	inc	_main_acc_z_1_135
@@ -2678,7 +2688,7 @@ L033010?:
 	inc	(_main_acc_z_1_135 + 1)
 L033059?:
 L033012?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:749: but1?'1':'0', but2?'1':'0', joy_x, joy_y, acc_x, acc_y, acc_z);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:757: but1?'1':'0', but2?'1':'0', joy_x, joy_y, acc_x, acc_y, acc_z);
 	jnb	_main_but2_1_135,L033036?
 	mov	r2,#0x31
 	sjmp	L033037?
@@ -2700,7 +2710,7 @@ L033039?:
 	rlc	a
 	subb	a,acc
 	mov	r5,a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:748: printf("Buttons(Z:%c, C:%c) Joystick(%4d, %4d) Accelerometer(%3d, %3d, %3d)\x1b[0J\r",
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:756: printf("Buttons(Z:%c, C:%c) Joystick(%4d, %4d) Accelerometer(%3d, %3d, %3d)\x1b[0J\r",
 	push	ar6
 	push	ar7
 	push	_main_acc_z_1_135
@@ -2727,12 +2737,12 @@ L033039?:
 	mov	a,sp
 	add	a,#0xef
 	mov	sp,a
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:750: Timer4ms(100);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:758: Timer4ms(100);
 	mov	dpl,#0x64
 	lcall	_Timer4ms
 	pop	ar7
 	pop	ar6
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:757: speed = get_speed(joy_y, joy_x);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:765: speed = get_speed(joy_y, joy_x);
 	mov	_get_speed_PARM_2,r6
 	mov	(_get_speed_PARM_2 + 1),r7
 	mov	dpl,_main_joy_y_1_135
@@ -2744,7 +2754,7 @@ L033039?:
 	mov	r3,dph
 	pop	ar7
 	pop	ar6
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:764: direction=get_direction(joy_x, joy_y);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:772: direction=get_direction(joy_x, joy_y);
 	mov	_get_direction_PARM_2,_main_joy_y_1_135
 	mov	(_get_direction_PARM_2 + 1),(_main_joy_y_1_135 + 1)
 	mov	dpl,r6
@@ -2752,7 +2762,7 @@ L033039?:
 	push	ar2
 	push	ar3
 	lcall	_get_direction
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:765: printf("direction: %c", direction);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:773: printf("direction: %c", direction);
 	mov	a,dpl
 	mov	r4,a
 	mov	r5,a
@@ -2775,7 +2785,7 @@ L033039?:
 	pop	ar4
 	pop	ar3
 	pop	ar2
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:767: switch(direction){
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:775: switch(direction){
 	clr	c
 	mov	a,r4
 	xrl	a,#0x80
@@ -2815,123 +2825,123 @@ L033064?:
 	ljmp	L033023?
 	ljmp	L033027?
 	ljmp	L033028?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:769: case north :
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:777: case north :
 L033013?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:771: go_straight(speed);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:779: go_straight(speed);
 	mov	dpl,r2
 	lcall	_go_straight
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:774: break;
-	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:777: case south: 
-L033014?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:779: go_reverse(speed);
-	mov	dpl,r2
-	lcall	_go_reverse
 ;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:782: break;
 	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:785: case west: 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:785: case south: 
+L033014?:
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:787: go_reverse(speed);
+	mov	dpl,r2
+	lcall	_go_reverse
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:790: break;
+	ljmp	L033032?
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:793: case west: 
 L033015?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:787: turn_west(speed);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:795: turn_west(speed);
 	mov	dpl,r2
 	lcall	_turn_west
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:788: break;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:796: break;
 	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:791: case east: 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:799: case east: 
 L033016?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:793: turn_east(speed);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:801: turn_east(speed);
 	mov	dpl,r2
 	lcall	_turn_east
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:794: break;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:802: break;
 	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:797: case NW: 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:805: case NW: 
 L033017?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:799: turn_NW(speed);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:807: turn_NW(speed);
 	mov	dpl,r2
 	lcall	_turn_NW
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:800: break;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:808: break;
 	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:804: case NNE: 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:812: case NNE: 
 L033018?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:806: turn_NNE(speed);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:814: turn_NNE(speed);
 	mov	dpl,r2
 	lcall	_turn_NNE
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:807: break;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:815: break;
 	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:810: case NNW: 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:818: case NNW: 
 L033019?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:812: turn_NNW(speed);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:820: turn_NNW(speed);
 	mov	dpl,r2
 	lcall	_turn_NNW
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:813: break;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:821: break;
 	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:816: case NE: 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:824: case NE: 
 L033020?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:818: turn_NE(speed);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:826: turn_NE(speed);
 	mov	dpl,r2
 	lcall	_turn_NE
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:819: break;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:827: break;
 	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:822: case NEE: 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:830: case NEE: 
 L033021?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:824: turn_NEE(speed);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:832: turn_NEE(speed);
 	mov	dpl,r2
 	lcall	_turn_NEE
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:825: break;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:833: break;
 	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:828: case NWW: 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:836: case NWW: 
 L033022?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:830: turn_NWW(speed);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:838: turn_NWW(speed);
 	mov	dpl,r2
 	lcall	_turn_NWW
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:831: break;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:839: break;
 	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:835: case SW: 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:843: case SW: 
 L033023?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:837: turn_SW(speed);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:845: turn_SW(speed);
 	mov	dpl,r2
 	lcall	_turn_SW
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:838: break;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:846: break;
 	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:842: case SSE: 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:850: case SSE: 
 L033024?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:844: turn_SSE(speed);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:852: turn_SSE(speed);
 	mov	dpl,r2
 	lcall	_turn_SSE
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:845: break;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:853: break;
 	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:848: case SSW: 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:856: case SSW: 
 L033025?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:850: turn_SSW(speed);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:858: turn_SSW(speed);
 	mov	dpl,r2
 	lcall	_turn_SSW
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:851: break;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:859: break;
 	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:854: case SE: 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:862: case SE: 
 L033026?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:856: turn_SE(speed);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:864: turn_SE(speed);
 	mov	dpl,r2
 	lcall	_turn_SE
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:857: break;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:865: break;
 	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:860: case SEE: 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:868: case SEE: 
 L033027?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:862: turn_SEE(speed);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:870: turn_SEE(speed);
 	mov	dpl,r2
 	lcall	_turn_SEE
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:863: break;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:871: break;
 	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:866: case SWW: 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:874: case SWW: 
 L033028?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:868: turn_SWW(speed);
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:876: turn_SWW(speed);
 	mov	dpl,r2
 	lcall	_turn_SWW
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:869: break;
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:877: break;
 	ljmp	L033032?
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:873: default: 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:881: default: 
 L033029?:
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:875: stop();
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:883: stop();
 	lcall	_stop
-;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:881: direction='0'; //reset direction so it stops if no direction selected. 
+;	C:\Users\carso\Documents\1. School\0. Spring 2018\Elec 292\project1\elec291-292-AACHJY\Project2Files\C\Driving Code\EFM8_I2C_Nunchuck_and_motor.c:889: direction='0'; //reset direction so it stops if no direction selected. 
 	ljmp	L033032?
 	rseg R_CSEG
 
