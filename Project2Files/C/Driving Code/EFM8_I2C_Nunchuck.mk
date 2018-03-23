@@ -8,8 +8,8 @@ EFM8_I2C_Nunchuck.hex: $(OBJS)
 
 	@echo Done!
 	
-EFM8_I2C_Nunchuck.obj: EFM8_I2C_Nunchuck.c drive_emf8.h
-	$(CC) -c EFM8_I2C_Nunchuck.c
+EFM8_I2C_Nunchuck.obj: EFM8_I2C_Nunchuck_and_motor.c 
+	$(CC) -c EFM8_I2C_Nunchuck_and_motor.c
 
 clean:
 	@del $(OBJS) *.asm *.lkr *.lst *.map *.hex *.map 2> nul

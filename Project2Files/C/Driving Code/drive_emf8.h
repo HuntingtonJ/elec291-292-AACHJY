@@ -33,3 +33,4 @@
 
 
 char _c51_external_startup (void)
+int get_speed(int y_ax)

@@ -34,22 +34,22 @@
 #define OFF 0
 
 //-10 to 10
-#define north 00000
-#define south 00001
+#define north 'a'//00000
+#define south 'b'//00001
 //10 to 30 
-#define NNE 	00010
-#define NNW     00011
+#define NNE 'c'//00010
+#define NNW 'd'//00011
 //30 to 50
-#define NE 	00100
-#define NW  00101
+#define NE 	'e'//00100
+#define NW  'f'//00101
 
 //50 to 70 
-#define NEE 00110
-#define NWW 00111
+#define NEE 'g'//00110
+#define NWW 'h'//00111
 
 //70 to 90
-#define east 01000
-#define west 01001
+#define east 'i'//01000
+#define west 'j'//01001
 
 #define headlight //pin?;
 #define taillight //pin?
@@ -58,6 +58,11 @@
 
 #define ARRAY_SIZE 4
 
+volatile unsigned char pwm_count=0;
+volatile unsigned char number1=0;
+volatile unsigned char number2=0; 
+volatile unsigned char number3=0;
+volatile unsigned char number4=0; 
 
 char _c51_external_startup (void)
 {
@@ -132,6 +137,18 @@ char _c51_external_startup (void)
 	// Timer 0 configured to overflow at 1/3 the rate defined by SMB_FREQUENCY
 	TL0 = TH0 = 256-(SYSCLK/SMB_FREQUENCY/3);
 	TR0 = 1; // Enable timer 0
+	
+		// Initialize timer 2 for periodic interrupts
+	TMR2CN0=0x00;   // Stop Timer2; Clear TF2;
+	CKCON0|=0b_0001_0000; // Timer 2 uses the system clock
+	TMR2RL=(0x10000L-(SYSCLK/10000L)); // Initialize reload value ....Timer overflow rate (FREQ) found by SYSCLK/(2^16-TMR2RL)
+	TMR2=0xffff;   // Set to reload immediately
+	ET2=1;         // Enable Timer2 interrupts
+	TR2=1;         // Start Timer2 (TMR2CN is bit addressable)
+
+	EA=1; // Enable interrupts
+
+  	
 	
 	// Configure and enable SMBus
 	SMB0CF = 0b_0101_1100; //INH | EXTHOLD | SMBTOE | SMBFTE ;
@@ -370,7 +387,9 @@ void Timer2_ISR (void) interrupt 5
 	pwm_count++;
 	if(pwm_count>100) pwm_count=0;
 	
+	//if pwm count> number {then output 0} else output 1
 	Mot1_forward=pwm_count>number1?0:1;
+
 	Mot1_reverse=pwm_count>number2?0:1;
 
 	Mot2_forward=pwm_count>number3?0:1;
@@ -407,10 +426,8 @@ void Timer2_ISR (void) interrupt 5
 			
 		 		}
 
-	void turn_west(char speed, direction){
+	void turn_west(char speed ){
 					//Let the speed will become the duty of both motors equally
-		 			int factor;
-		 			factor= direction/100;
 
 		 			number1=0;
 			 		number3=speed;
@@ -418,7 +435,7 @@ void Timer2_ISR (void) interrupt 5
 			 		number4=0;
 			
 		 		}
-	void turn_east(char speed, direction){
+	void turn_east(char speed){
 					//Let the speed will become the duty of both motors equally
 		 			number1=speed;
 			 		number3=0;
@@ -427,16 +444,7 @@ void Timer2_ISR (void) interrupt 5
 			
 		 		}
 
-	void turn_NW(char speed, direction){
-					//Let the speed will become the duty of both motors equally
-		 			number1=speed;
-			 		number3=speed/2;
-			 		number2=0;
-			 		number4=0;
-			
-		 		}
-
-	void turn_NE(char speed, direction){
+	void turn_NW(char speed){
 					//Let the speed will become the duty of both motors equally
 		 			number1=speed/2;
 			 		number3=speed;
@@ -445,58 +453,111 @@ void Timer2_ISR (void) interrupt 5
 			
 		 		}
 
+	void turn_NE(char speed){
+					//Let the speed will become the duty of both motors equally
+		 			number1=speed;
+			 		number3=speed/2;
+			 		number2=0;
+			 		number4=0;
+		 		}
+
+	void turn_NNE(char speed){
+					number1=speed;
+			 		number3=speed/4;
+			 		number2=0;
+			 		number4=0;
+				}
+
+	void turn_NNW(char speed){
+					number1=speed/4;
+			 		number3=speed;
+			 		number2=0;
+			 		number4=0;
+				}
+
+	void turn_NEE(char speed){
+					number1=speed;
+			 		number3=speed/8;
+			 		number2=0;
+			 		number4=0;
+				}
+
+	void turn_NWW(char speed){
+					number1=speed/8;
+			 		number3=speed;
+			 		number2=0;
+			 		number4=0;
+				}
+
+
+
 	void stop(){
 
 			number1=0;
 			number2=0;
 			number3=0;
 			number4=0;
-	}
+			}
 
-	int get_speed(int y_axis){
-		int speed;
+	int get_speed(int y_ax){
+		int spd=0;
 
-		if(y_axis>0){
-				speed= joy_y; 
+		if(y_ax>=0){
+				spd= y_ax; 
 				}
-		else speed=-joy_y;
+		else spd=-y_ax;
 
-		return speed;
+		return spd;
 	}
 
-		get_direction(int x_axis){
+	char get_direction(int x_axis, int y_axis){
 
-			char direction;
+			char direction=north;
+
 
 			//If distance is less than 10 from 0, go straight;
-			if (x_axis<10&&x_axis>-10){
-				direction=north;
-			}
-			else if(x_axis>10&&x_axis<30){
-				direction=NNE;
-			}
-			else if(x_axis>30&&x_axis<50){
-				direction=NE;
-			}
-			else if(x_axis>50&&x_axis<70){
-				direction=NEE;
-			}
-			else if(x_axis>70&&x_axis<90){
-				direction=E;
+			if ((x_axis<10)&&(x_axis>-10)){
+
+				//if y_axis is not significantly differnet than zero-stop
+				if(y_axis>5&&y_axis>-5){
+					stop(); 
+					}
+					else if((y_axis>5))
+						direction=north;
+					else if(y_axis<-5){
+						direction=south;
+					}
+
 			}
 
-			else if(x_axis<-10&&x_axis=>-30){
+			else if(x_axis>10&&x_axis<=30){
+				direction=NNE;
+			}
+			else if(x_axis>30&&x_axis<=50){
+				direction=NE;
+			}
+			else if(x_axis>50&&x_axis<=70){
+				direction=NEE;
+			}
+			else if(x_axis>70&&x_axis<=90){
+				direction=east;
+			}
+
+			else if(x_axis<-10&&x_axis>=-30){
 				direction=NNW;
 			}
-			else if(x_axis<-30&&x_axis=>-50){
+			else if(x_axis<-30&&x_axis>=-50){
 				direction=NW;
 			}
-			else if(x_axis<-50&&x_axis=>-70){
+			else if(x_axis<-50&&x_axis>=-70){
 				direction=NWW;
 			}
-			else if(x_axis<-70&&x_axis=>-90){
-				direction=W;
+			else if(x_axis<-70&&x_axis>=-90){
+				direction=west;
 			}
+			else
+				direction=north;
+				
 
 		return direction;
 		}
@@ -508,8 +569,8 @@ void main (void)
 	unsigned char rbuf[6];
  	int joy_x, joy_y, off_x, off_y, acc_x, acc_y, acc_z;
  	bit but1, but2;
- 	char num1[ARRAY_SIZE];
-	char speed=0;
+ //	char num1[ARRAY_SIZE];
+	int speed;
 	char direction;
 	//char display[ARRAY_SIZE*2];
 
@@ -555,40 +616,42 @@ void main (void)
 //Gets speed and direction from terminal 
 	// get_param(*num1, *num2, ARRAY_SIZE);
 	
-		speed=getspeed(joy_y);
+	
+		speed = get_speed(joy_y);
 
 
 
 		//loads up direction from 
 		//sscanf(num2, "%c", &direction);
 		
-		direction=get_direction(joy_x);
+		direction=get_direction(joy_x, joy_y);
+		printf("direction: %c", direction);
 
 		switch(direction){
 
 			case north :
-			{
-				go_straight(speed);
-				//headlight=ON;
-				//taillight=OFF;
-				break;
-			}
+					{
+						go_straight(speed);
+						//headlight=ON;
+						//taillight=OFF;
+						break;
+					}
 
 			case south: 
-			{
-				go_reverse(speed);
-				//headlight=ON;
-				//taillight=ON;
-				break;
-			}
+				{
+					go_reverse(speed);
+					//headlight=ON;
+					//taillight=ON;
+					break;
+				}
 
-			case W: 
-			{
-				turn_west(speed);
-				break;
-			}
+			case west: 
+				{
+					turn_west(speed);
+					break;
+				}
 
-			case E: 
+			case east: 
 				{
 					turn_east(speed);
 					break;
@@ -601,9 +664,33 @@ void main (void)
 
 				}
 
+			case NNE: 
+				{ 
+					turn_NNE(speed);
+					break;
+					}
+
+			case NNW: 
+				{ 
+					turn_NNW(speed);
+					break;
+					}
+
 			case NE: 
 				{ 
 					turn_NE(speed);
+					break;
+					}
+
+			case NEE: 
+				{ 
+					turn_NEE(speed);
+					break;
+					}
+
+			case NWW: 
+				{ 
+					turn_NWW(speed);
 					break;
 					}
 
