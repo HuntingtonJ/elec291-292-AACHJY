@@ -1,5 +1,4 @@
 #include "stm32f05xxx.h"
-<<<<<<< HEAD
 #include "serial.h"
 //#include "newlib_stubs.h"
 #include <stdio.h>
@@ -37,9 +36,6 @@ volatile unsigned char number1=0;
 volatile unsigned char number2=0; 
 volatile unsigned char number3=0;
 volatile unsigned char number4=0; 
-=======
-#include <stdio.h>
->>>>>>> b4e24e6fec093b73498d70bd0bf2cdb1776d29e3
 
 
 // Interrupt service routines are the same as normal
@@ -54,23 +50,33 @@ void Timer1ISR(void)
 	pwm_count++;
 	if(pwm_count>100) pwm_count=0;
 	
-	if()
-	Mot1_forward=pwm_count>number1?0:1;	
-	Mot1_reverse=pwm_count>number2?0:1;
-
-	Mot2_forward=pwm_count>number3?0:1;
-	Mot2_reverse=pwm_count>number4?0:1;
+	if(pwm_count>number1){
+		GPIOA_ODR = BIT0;
+	}else{
+		GPIOA_ODR != BIT0;
+	}
+	if(pwm_count>number2){
+		GPIOA_ODR = BIT1;
+	}else{
+		GPIOA_ODR != BIT1;
+	}
+	if(pwm_count>number2){
+		GPIOA_ODR = BIT2;
+	}else{
+		GPIOA_ODR != BIT2;
+	}
+	if(pwm_count>number3){
+		GPIOA_ODR = BIT3;
+	}else{
+		GPIOA_ODR != BIT3;
+	}
 }
 
 void SysInit(void)
 {
 	// Set up output port bit for blinking LED
 	RCC_AHBENR |= 0x00020000;  // peripheral clock enable for port A
-<<<<<<< HEAD
 	GPIOA_MODER |= 0x00000055; // Make pin PA0-3 output
-=======
-	GPIOA_MODER |= 0x00000005; // Make pin PA0 output
->>>>>>> b4e24e6fec093b73498d70bd0bf2cdb1776d29e3
 	
 	// Set up timer
 	RCC_APB2ENR |= BIT11; // turn on clock for timer1
@@ -82,7 +88,6 @@ void SysInit(void)
 	enable_interrupts();
 }
 
-<<<<<<< HEAD
 //same as EFM8 Code
 int getsn (char * buff, int len)
 {
@@ -104,11 +109,6 @@ int getsn (char * buff, int len)
 	}
 	buff[j]='\0';
 	return len;
-=======
-void ToggleLED(void) 
-{    
-	GPIOA_ODR ^= BIT1; // Toggle PA0
->>>>>>> b4e24e6fec093b73498d70bd0bf2cdb1776d29e3
 }
 
 //a function that describes going straight
@@ -174,10 +174,10 @@ void ToggleLED(void)
 	}
 
 
-int main(void)
-{	int var;
+void main(void)
+{
+	printf("yo\n");
 	SysInit();
-<<<<<<< HEAD
 	char num1[ARRAY_SIZE];
 	//char num2[ARRAY_SIZE]; 
 	char speed=0;
@@ -186,7 +186,7 @@ int main(void)
 		
 
 	// Wait for user to comply. Give putty a chance to start
-	waitms(1000);
+	//waitms(1000);
 
 	printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
 	printf("Drive the car!\r\n"
@@ -293,13 +293,5 @@ int main(void)
 				direction=0;
 				}*/		
 		//printf("Speed: %i, Direction: %i \n", speed, direction); 
-=======
-	
-	while(1)
-	{    
-	//scanf("%i", &var);
-	var=5;
-	printf("%i\n", var);
->>>>>>> b4e24e6fec093b73498d70bd0bf2cdb1776d29e3
 	}
 }
