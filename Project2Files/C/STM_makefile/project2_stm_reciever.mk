@@ -44,7 +44,7 @@ main.hex: $(OBJS) stm32f05xxx.ld
 
 # The object file main.o depends on main.c. main.c is compiled
 # to create main.o.
-main.o: main.c stm32f05xxx.h
+main.o: main.c stm32f05xxx.h serial.h #newlib_stubs.h
 	$(CC) -c $(CCFLAGS) main.c -o main.o
 
 serial.o: serial.c serial.h stm32f05xxx.h

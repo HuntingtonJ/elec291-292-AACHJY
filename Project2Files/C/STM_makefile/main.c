@@ -1,7 +1,42 @@
 #include "stm32f05xxx.h"
+#include "serial.h"
+//#include "newlib_stubs.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-void ToggleLED(void);
-volatile int Count = 0;
+
+// #define SYSCLK 72000000L
+// #define BAUDRATE 115200L
+// #define  SMB_FREQUENCY  100000L   // I2C SCL clock rate (10kHz to 100kHz)
+
+// #define Mot1_forward P1_6
+// #define Mot1_reverse P1_7
+// #define Mot2_forward P1_3
+// #define Mot2_reverse P1_4
+
+#define ON 	1
+#define OFF 0
+
+#define north 'w'
+#define south 's'
+#define west    'a'
+#define east   'd'
+#define NW      'e'
+#define NE      'q'
+
+#define headlight //pin?;
+#define taillight //pin?
+
+#define CHARS_PER_LINE 16
+
+#define ARRAY_SIZE 4
+
+volatile unsigned char pwm_count=0;
+volatile unsigned char number1=0;
+volatile unsigned char number2=0; 
+volatile unsigned char number3=0;
+volatile unsigned char number4=0; 
+
 
 // Interrupt service routines are the same as normal
 // subroutines (or C funtions) in Cortex-M microcontrollers.
@@ -11,19 +46,23 @@ volatile int Count = 0;
 void Timer1ISR(void) 
 {
 	TIM1_SR &= ~BIT0; // clear update interrupt flag
-	Count++;
-	if (Count > 500)
-	{ 
-		Count = 0;
-		ToggleLED(); // toggle the state of the LED every second
-	}   
+
+	pwm_count++;
+	if(pwm_count>100) pwm_count=0;
+	
+	if()
+	Mot1_forward=pwm_count>number1?0:1;	
+	Mot1_reverse=pwm_count>number2?0:1;
+
+	Mot2_forward=pwm_count>number3?0:1;
+	Mot2_reverse=pwm_count>number4?0:1;
 }
 
 void SysInit(void)
 {
 	// Set up output port bit for blinking LED
 	RCC_AHBENR |= 0x00020000;  // peripheral clock enable for port A
-	GPIOA_MODER |= 0x00000001; // Make pin PA0 output
+	GPIOA_MODER |= 0x00000055; // Make pin PA0-3 output
 	
 	// Set up timer
 	RCC_APB2ENR |= BIT11; // turn on clock for timer1
@@ -35,16 +74,209 @@ void SysInit(void)
 	enable_interrupts();
 }
 
-void ToggleLED(void) 
-{    
-	GPIOA_ODR ^= BIT0; // Toggle PA0
+//same as EFM8 Code
+int getsn (char * buff, int len)
+{
+	int j;
+	char c;
+	
+	for(j=0; j<(len-1); j++)
+	{
+		c=getchar();
+		if ( (c=='\n') || (c=='\r') )
+		{
+			buff[j]=0;
+			return j;
+		}
+		else
+		{
+			buff[j]=c;
+		}
+	}
+	buff[j]='\0';
+	return len;
 }
+
+//a function that describes going straight
+	void go_straight(char speed){
+					//Let the speed will become the duty of both motors equally
+		 			number1=speed;
+			 		number3=speed;
+			 		number2=0;
+			 		number4=0;
+			
+		 		}
+
+	void go_reverse(char speed){
+					//Let the speed will become the duty of both motors equally
+		 			number1=0;
+			 		number3=0;
+			 		number2=speed;
+			 		number4=speed;
+			
+		 		}
+
+	void turn_west(char speed){
+					//Let the speed will become the duty of both motors equally
+		 			number1=0;
+			 		number3=speed;
+			 		number2=speed;
+			 		number4=0;
+			
+		 		}
+	void turn_east(char speed){
+					//Let the speed will become the duty of both motors equally
+		 			number1=speed;
+			 		number3=0;
+			 		number2=0;
+			 		number4=speed;
+			
+		 		}
+
+	void turn_NW(char speed){
+					//Let the speed will become the duty of both motors equally
+		 			number1=speed;
+			 		number3=speed/2;
+			 		number2=0;
+			 		number4=0;
+			
+		 		}
+
+	void turn_NE(char speed){
+					//Let the speed will become the duty of both motors equally
+		 			number1=speed/2;
+			 		number3=speed;
+			 		number2=0;
+			 		number4=0;
+			
+		 		}
+
+	void stop(){
+
+			number1=0;
+			number2=0;
+			number3=0;
+			number4=0;
+	}
+
 
 int main(void)
 {
 	SysInit();
+	char num1[ARRAY_SIZE];
+	//char num2[ARRAY_SIZE]; 
+	char speed=0;
+	char direction;
+	//char display[ARRAY_SIZE*2];
+		
+
+	// Wait for user to comply. Give putty a chance to start
+	waitms(1000);
+
+	printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
+	printf("Drive the car!\r\n"
+	       "Use ASWDQE to control its direction! \r\n");
+
+	 	printf("Enter a speed between 0 and 100\n"); 
+		getsn(num1, ARRAY_SIZE); //numbers separated by an enter
+	 
+	 	//Loads speed variable
+		sscanf(num1, "%i", &speed);
+
+
+
+//forever
 	while(1)
-	{    
+	{
+
+//Gets speed and direction from terminal 
+	// get_param(*num1, *num2, ARRAY_SIZE);
+	 if(getchar()=='\r'){
+	 	printf("Enter a speed between 0 and 100\n"); 
+		getsn(num1, ARRAY_SIZE); //numbers separated by an enter
+	 
+	 	//Loads speed variable
+		sscanf(num1, "%i", &speed);
 	}
-	return 0;
+		//printf("Enter a direction using the AWSD arrow keys\n"); 
+		//getsn(num2, ARRAY_SIZE); //numbers separated by an enter
+		// is this necessray for multidirectional things? 
+		/*	
+		Direction key: 
+		#define north 'w'
+		#define south 's'
+		#define west    'a'
+		#define NW      'e'
+		#define NE      'q'
+		#define east   'd'		*/
+		//loads up direction from 
+		//sscanf(num2, "%c", &direction);
+		
+		direction=getchar();
+
+		switch(direction){
+
+			case north :
+			{
+				go_straight(speed);
+				//headlight=ON;
+				//taillight=OFF;
+				break;
+			}
+
+			case south: 
+			{
+				go_reverse(speed);
+				//headlight=ON;
+				//taillight=ON;
+				break;
+			}
+
+			case west: 
+			{
+				turn_west(speed);
+				break;
+			}
+
+			case east: 
+				{
+					turn_east(speed);
+					break;
+				}
+
+			case NW: 
+				{
+					turn_NW(speed);
+					break;
+
+				}
+
+			case NE: 
+				{ 
+					turn_NE(speed);
+					break;
+					}
+
+			default: 
+				{
+					stop();
+					direction='x';
+					break;
+				}
+
+		}
+	direction='0'; //reset direction so it stops if no direction selected. 
+	 // motor_control(speed, direction)
+	  //New Architecture
+	  //Speed remains constant until updated
+	  //Direction is continually checked 
+		//Check if numbers are greater than 100, throw error if so. 
+	/*	
+		if(speed>100||direction>100){
+				printf("Error: Numbers need to be between 0 and 100, please enter again. \n");
+				speed=0;
+				direction=0;
+				}*/		
+		//printf("Speed: %i, Direction: %i \n", speed, direction); 
+	}
 }
