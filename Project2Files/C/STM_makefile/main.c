@@ -1,4 +1,5 @@
 #include "stm32f05xxx.h"
+<<<<<<< HEAD
 #include "serial.h"
 //#include "newlib_stubs.h"
 #include <stdio.h>
@@ -36,6 +37,9 @@ volatile unsigned char number1=0;
 volatile unsigned char number2=0; 
 volatile unsigned char number3=0;
 volatile unsigned char number4=0; 
+=======
+#include <stdio.h>
+>>>>>>> b4e24e6fec093b73498d70bd0bf2cdb1776d29e3
 
 
 // Interrupt service routines are the same as normal
@@ -62,7 +66,11 @@ void SysInit(void)
 {
 	// Set up output port bit for blinking LED
 	RCC_AHBENR |= 0x00020000;  // peripheral clock enable for port A
+<<<<<<< HEAD
 	GPIOA_MODER |= 0x00000055; // Make pin PA0-3 output
+=======
+	GPIOA_MODER |= 0x00000005; // Make pin PA0 output
+>>>>>>> b4e24e6fec093b73498d70bd0bf2cdb1776d29e3
 	
 	// Set up timer
 	RCC_APB2ENR |= BIT11; // turn on clock for timer1
@@ -74,6 +82,7 @@ void SysInit(void)
 	enable_interrupts();
 }
 
+<<<<<<< HEAD
 //same as EFM8 Code
 int getsn (char * buff, int len)
 {
@@ -95,6 +104,11 @@ int getsn (char * buff, int len)
 	}
 	buff[j]='\0';
 	return len;
+=======
+void ToggleLED(void) 
+{    
+	GPIOA_ODR ^= BIT1; // Toggle PA0
+>>>>>>> b4e24e6fec093b73498d70bd0bf2cdb1776d29e3
 }
 
 //a function that describes going straight
@@ -161,8 +175,9 @@ int getsn (char * buff, int len)
 
 
 int main(void)
-{
+{	int var;
 	SysInit();
+<<<<<<< HEAD
 	char num1[ARRAY_SIZE];
 	//char num2[ARRAY_SIZE]; 
 	char speed=0;
@@ -278,5 +293,13 @@ int main(void)
 				direction=0;
 				}*/		
 		//printf("Speed: %i, Direction: %i \n", speed, direction); 
+=======
+	
+	while(1)
+	{    
+	//scanf("%i", &var);
+	var=5;
+	printf("%i\n", var);
+>>>>>>> b4e24e6fec093b73498d70bd0bf2cdb1776d29e3
 	}
 }
