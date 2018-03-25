@@ -1,0 +1,66 @@
+STM 32F051 LQFp32 Receiver code notes for implementation: 
+
+
+USART 1: (in use by BOX230XS- Flash serial communication)
+
+USART 2: For use by inductor communication system
+	Pins: 
+		TX: 8 (PA2)
+		RX: 9 (PA3)
+
+
+	Implementation: 
+		GPIOA_MODR set to '10b' for the pins we are using (PA2 and PA3)
+
+		GPIOA_AFR Register 
+			AF1 for both 
+
+			OSPEEDR set to (10b) for both
+
+
+		Looking at Jesus's code, setting ospeedr and otyper for TX, likely is sufficient for the USART
+
+
+//Setting the clock to on
+
+		//Enables clock for PORTA 
+		RCC_AHBENR  |= BIT17;
+
+
+				//Configure PA2 (TXD for USART2, pin 8 in LQFP32 package)
+		GPIOA_OSPEEDR  |= BIT4; // MEDIUM SPEED
+		GPIOA_OTYPER   &= ~BIT2; // Push-pull
+		GPIOA_MODER    |= BIT5; // AF-Mode
+		GPIOA_AFRL     |= BIT8 ; // AF1 selected
+		
+		//Configure PA3 (RXD for USART1, pin 9 in LQFP32 package)
+		GPIOA_MODER    |= BIT7; // AF-Mode
+		GPIOA_AFRL     |= BIT12;  // AF1 selected
+	
+
+BaudRateDivisor = 48000000; // assuming 48MHz clock 
+	BaudRateDivisor = BaudRateDivisor / (long) BaudRate;
+
+
+
+//Starting the clock 
+			//(controls USART 2 Reset)
+		RCC_APB1RSTR |=BIT17; 
+
+		//RCC_CFGR3 |=(BIT17|BIT16) //register to select clock source 
+
+		RCC_APB1ENR    |= BIT17; // Turn on the clock for the USART2 peripheral
+
+
+
+	USART1_CR1 &=0; 
+	USART1_CR1 |= (BIT2 | BIT5 | BIT6); // Enable  Receiver, Transmit & Receive interrupts. BIT9 is parity selection, BIT10 parity control enable (page 733 of user manual) By default it is oversampling. 
+	USART1_CR2 = 0x00000000;
+	USART1_CR3 = 0x00000000;           
+	USART1_BRR = BaudRateDivisor;
+	USART1_CR1 |= BIT0; // Enable Usart 1
+
+
+//INTERRUPT INFO: 
+USART2 position 28, value 35
+priority =-3...

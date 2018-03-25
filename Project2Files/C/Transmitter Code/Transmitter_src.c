@@ -78,6 +78,10 @@ char _c51_external_startup (void)
 	TI = 1;  // Indicate TX0 ready
 	
 	EA = 1;
+
+		// Configure and enable SMBus
+	SMB0CF = 0b_0101_1100; //INH | EXTHOLD | SMBTOE | SMBFTE ;
+	SMB0CF |= 0b_1000_0000;  // Enable SMBus
 	
 	return 0;
 }

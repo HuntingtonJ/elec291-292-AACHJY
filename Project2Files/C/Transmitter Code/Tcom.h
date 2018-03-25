@@ -8,6 +8,7 @@
 #define SYSCLK      72000000L  // SYSCLK frequency in Hz
 #endif
 
+#define  SMB_FREQUENCY  100000L   // I2C SCL clock rate (10kHz to 100kHz)
 
 #define OUT0 P2_0
 #define OUT1 P1_6
@@ -18,6 +19,21 @@ volatile unsigned char duty_cycle1 = 0;
 
 bit reload_flag = 0;
 
+
+//initialize timer0 for I2C clk synchronizations with the Wii Nunchuck
+void Timer0_init(void){
+
+	// Configure Timer 0 as the I2C clock source
+	CKCON0 |= 0b_0000_0100; // Timer0 clock source = SYSCLK
+	TMOD &= 0xf0;  // Mask out timer 1 bits
+	TMOD |= 0x02;  // Timer0 in 8-bit auto-reload mode
+	// Timer 0 configured to overflow at 1/3 the rate defined by SMB_FREQUENCY
+	TL0 = TH0 = 256-(SYSCLK/SMB_FREQUENCY/3);
+	TR0 = 1; // Enable timer 0
+	
+}
+
+//no current tasks
 void Timer2_init(void) {
 	TMR2CN0=0b_0000_0000;   // Stop Timer2; Clear TF2; T2XCLK uses Sysclk/12
 	CKCON0|=0b_0000_0000; // Timer 2 uses the system clock; Timer2 uses T2XCLK
@@ -39,6 +55,8 @@ void Timer2_ISR (void) interrupt 5 {
 	reload_flag = 0;
 }
 
+
+//used to generate output frequencies
 void Timer4_init(void) {
 	SFRPAGE=0x10;
 	TMR4CN0=0b_0000_0000;
@@ -51,8 +69,9 @@ void Timer4_init(void) {
 	TR4=1;
 }	
 
+//minimized code in here to maximize possible frequencies 
 void Timer4_ISR(void) interrupt INTERRUPT_TIMER4 {
-	TF4H = 0;
+	TF4H = 0; //interrupt flag
 	
 	OUT1 = !OUT1;
 }
@@ -199,8 +218,12 @@ void getCommand(char* input) {
 }
 
 void Tcom_init(unsigned long baudrate) {
+	Timer0_init();
+	//timer 1 used for baudrate
 	Timer2_init();
+	//timer 3 used for waitms
 	Timer4_init();
+	//timer 5 unused
 	UART1_Init(baudrate);
 }
 
