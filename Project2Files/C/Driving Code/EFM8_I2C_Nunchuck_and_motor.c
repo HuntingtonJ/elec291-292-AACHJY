@@ -39,17 +39,40 @@
 //10 to 30 
 #define NNE 'c'//00010
 #define NNW 'd'//00011
+//parameters to change motor driving ratios 
+#define NNnum 
+
 //30 to 50
 #define NE 	'e'//00100
 #define NW  'f'//00101
+//parameters to change motor driving ratios 
+#define midnum 2
+#define middenom 3
 
 //50 to 70 
 #define NEE 'g'//00110
 #define NWW 'h'//00111
+//#define 
 
 //70 to 90
 #define east 'i'//01000
 #define west 'j'//01001
+
+
+//south directions: 
+//10 to 30 
+#define SSE 'k'//01010
+#define SSW 'l'//01011
+//30 to 50
+#define SE 	'm'//01100
+#define SW  'n'//01101
+
+//50 to 70 
+#define SEE 'o'//01110
+#define SWW 'p'//01111
+
+//#define 
+//#define 
 
 #define headlight //pin?;
 #define taillight //pin?
@@ -446,8 +469,9 @@ void Timer2_ISR (void) interrupt 5
 
 	void turn_NW(char speed){
 					//Let the speed will become the duty of both motors equally
-		 			number1=speed/2;
-			 		number3=speed;
+
+		 			number1=speed/3;
+			 		number3=speed*2;
 			 		number2=0;
 			 		number4=0;
 			
@@ -455,8 +479,9 @@ void Timer2_ISR (void) interrupt 5
 
 	void turn_NE(char speed){
 					//Let the speed will become the duty of both motors equally
-		 			number1=speed;
-			 		number3=speed/2;
+
+		 			number1=speed*2;
+			 		number3=speed/3;
 			 		number2=0;
 			 		number4=0;
 		 		}
@@ -515,6 +540,81 @@ void Timer2_ISR (void) interrupt 5
 			char direction=north;
 
 
+				//alternatively 
+
+			// x_axis=x_axis/10;  //now, 
+			// y_axis=y_axis/10;
+
+			// //y switch outside: 
+			// switch (y_axis){
+
+			// 	case 0: 
+			// 			switch(x_axis){
+
+			// 			}
+
+			// 	case 1: 
+
+			// 	case 2: 
+
+			// 	case 3: 
+
+			// 	case 4: 
+
+			// 	case 5: 
+
+			// 	case 6: 
+
+			// 	case 7: 
+
+			// 	case 9: 
+			// }
+
+			//FORWARD DIRECTION
+			if(y_axis>0){
+				//If distance is less than 10 from 0, go straight;
+				if ((x_axis<10)&&(x_axis>-10)){
+
+					//if y_axis is not significantly differnet than zero-stop
+					if(y_axis>5&&y_axis>-5){
+						 stop();
+						}
+					else direction=north;
+
+				}
+
+				else if(x_axis>10&&x_axis<=30){
+					direction=NNE;
+				}
+				else if(x_axis>30&&x_axis<=50){
+					direction=NE;
+				}
+				else if(x_axis>50&&x_axis<=70){
+					direction=NEE;
+				}
+				else if(x_axis>70&&x_axis<=100){
+					direction=east;
+				}
+
+				else if(x_axis<-10&&x_axis>=-30){
+					direction=NNW;
+				}
+				else if(x_axis<-30&&x_axis>=-50){
+					direction=NW;
+				}
+				else if(x_axis<-50&&x_axis>=-70){
+					direction=NWW;
+				}
+				else if(x_axis<-70&&x_axis>=-110){
+					direction=west;
+				}
+				else
+					direction=north;
+			}
+
+			//SOUTH DIRECTIONs
+		else if (y_axis<0){
+
 			//If distance is less than 10 from 0, go straight;
 			if ((x_axis<10)&&(x_axis>-10)){
 
@@ -549,10 +649,11 @@ void Timer2_ISR (void) interrupt 5
 			else if(x_axis<-30&&x_axis>=-50){
 				direction=NW;
 			}
-			else if(x_axis<-50&&x_axis>=-70){
-				direction=NWW;
+
+			else if(x_axis<-50&&x_axis>=-80){
+				direction=SWW;
 			}
-			else if(x_axis<-70&&x_axis>=-90){
+			else if(x_axis<-80&&x_axis>=-110){
 				direction=west;
 			}
 			else
