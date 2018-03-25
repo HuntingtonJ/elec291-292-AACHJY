@@ -56,6 +56,9 @@ newlib_stubs.o: newlib_stubs.c
 adc.o: adc.c adc.h stm32f05xxx.h
 	$(CC) -c $(CCFLAGS) adc.c -o adc.o
 
+USART2.o: USART2.c USART2.h stme32f05xxx.h
+	$(CC) -c $(CCFLAGS) USART2.c -o USART2.o
+
 #init.o: init.c serial.h stm32f05xxx.h
 # 	$(CC) -c $(CCFLAGS) init.c -o init.o
  	
