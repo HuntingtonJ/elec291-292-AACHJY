@@ -79,7 +79,6 @@ def update_temp():
                Temp.set("OVER")
            else:
                Temp.set(ktemp)
-               print(ktemp)
        else:
            Temp.set("----");
     else:
