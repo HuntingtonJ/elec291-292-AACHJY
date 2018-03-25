@@ -58,7 +58,6 @@
 #define east 'i'//01000
 #define west 'j'//01001
 
-
 //south directions: 
 //10 to 30 
 #define SSE 'k'//01010
@@ -469,7 +468,6 @@ void Timer2_ISR (void) interrupt 5
 
 	void turn_NW(char speed){
 					//Let the speed will become the duty of both motors equally
-
 		 			number1=speed/3;
 			 		number3=speed*2;
 			 		number2=0;
@@ -479,7 +477,6 @@ void Timer2_ISR (void) interrupt 5
 
 	void turn_NE(char speed){
 					//Let the speed will become the duty of both motors equally
-
 		 			number1=speed*2;
 			 		number3=speed/3;
 			 		number2=0;
@@ -488,13 +485,13 @@ void Timer2_ISR (void) interrupt 5
 
 	void turn_NNE(char speed){
 					number1=speed;
-			 		number3=speed/4;
+			 		number3=speed/2;
 			 		number2=0;
 			 		number4=0;
 				}
 
 	void turn_NNW(char speed){
-					number1=speed/4;
+					number1=speed/2;
 			 		number3=speed;
 			 		number2=0;
 			 		number4=0;
@@ -502,17 +499,64 @@ void Timer2_ISR (void) interrupt 5
 
 	void turn_NEE(char speed){
 					number1=speed;
-			 		number3=speed/8;
+			 		number3=speed/5;
 			 		number2=0;
 			 		number4=0;
 				}
 
 	void turn_NWW(char speed){
-					number1=speed/8;
+					number1=speed/5;
 			 		number3=speed;
 			 		number2=0;
 			 		number4=0;
 				}
+
+	void turn_SW(char speed){
+	//Let the speed will become the duty of both motors equally
+		number1=0;
+		number3=0;
+		number2=speed/3;
+		number4=speed;
+
+	}
+
+
+void turn_SE(char speed){
+				//Let the speed will become the duty of both motors equally
+	 			number1=0;
+		 		number3=0;
+		 		number2=speed;
+		 		number4=speed/3;
+	 		}
+
+void turn_SSE(char speed){
+				number1=0;
+		 		number3=0;
+		 		number2=speed;
+		 		number4=speed/2;
+			}
+
+void turn_SSW(char speed){
+				number1=0;
+		 		number3=0;
+		 		number2=speed/2;
+		 		number4=speed;
+			}
+
+void turn_SEE(char speed){
+				number1=0;
+		 		number3=0;
+		 		number2=speed;
+		 		number4=speed/5;
+			}
+
+void turn_SWW(char speed){
+				number1=0;
+		 		number3=0;
+		 		number2=speed/5;
+		 		number4=speed;
+			}
+
 
 
 
@@ -524,13 +568,17 @@ void Timer2_ISR (void) interrupt 5
 			number4=0;
 			}
 
-	int get_speed(int y_ax){
+	int get_speed(int y_ax, int x_ax){
 		int spd=0;
-
-		if(y_ax>=0){
-				spd= y_ax; 
-				}
-		else spd=-y_ax;
+		y_ax=abs(y_ax);
+		x_ax=abs(x_ax);
+		
+		if(y_ax>x_ax){
+			spd=y_ax;
+			if(y_ax>85)
+				spd=100;
+		}
+		else spd=x_ax;
 
 		return spd;
 	}
@@ -538,37 +586,6 @@ void Timer2_ISR (void) interrupt 5
 	char get_direction(int x_axis, int y_axis){
 
 			char direction=north;
-
-
-				//alternatively 
-
-			// x_axis=x_axis/10;  //now, 
-			// y_axis=y_axis/10;
-
-			// //y switch outside: 
-			// switch (y_axis){
-
-			// 	case 0: 
-			// 			switch(x_axis){
-
-			// 			}
-
-			// 	case 1: 
-
-			// 	case 2: 
-
-			// 	case 3: 
-
-			// 	case 4: 
-
-			// 	case 5: 
-
-			// 	case 6: 
-
-			// 	case 7: 
-
-			// 	case 9: 
-			// }
 
 			//FORWARD DIRECTION
 			if(y_axis>0){
@@ -615,41 +632,35 @@ void Timer2_ISR (void) interrupt 5
 			//SOUTH DIRECTIONs
 		else if (y_axis<0){
 
-			//If distance is less than 10 from 0, go straight;
 			if ((x_axis<10)&&(x_axis>-10)){
 
 				//if y_axis is not significantly differnet than zero-stop
 				if(y_axis>5&&y_axis>-5){
-					stop(); 
+					 stop();
 					}
-					else if((y_axis>5))
-						direction=north;
-					else if(y_axis<-5){
-						direction=south;
-					}
+					else direction=south;
 
 			}
 
 			else if(x_axis>10&&x_axis<=30){
-				direction=NNE;
+				direction=SSE;
 			}
 			else if(x_axis>30&&x_axis<=50){
-				direction=NE;
+				direction=SE;
 			}
 			else if(x_axis>50&&x_axis<=70){
-				direction=NEE;
+				direction=SEE;
 			}
-			else if(x_axis>70&&x_axis<=90){
+			else if(x_axis>70&&x_axis<=100){
 				direction=east;
 			}
 
 			else if(x_axis<-10&&x_axis>=-30){
-				direction=NNW;
+				direction=SSW;
 			}
 			else if(x_axis<-30&&x_axis>=-50){
-				direction=NW;
+				direction=SW;
 			}
-
 			else if(x_axis<-50&&x_axis>=-80){
 				direction=SWW;
 			}
@@ -658,6 +669,9 @@ void Timer2_ISR (void) interrupt 5
 			}
 			else
 				direction=north;
+		
+
+		}
 				
 
 		return direction;
@@ -718,7 +732,7 @@ void main (void)
 	// get_param(*num1, *num2, ARRAY_SIZE);
 	
 	
-		speed = get_speed(joy_y);
+		speed = get_speed(joy_y, joy_x);
 
 
 
@@ -794,6 +808,45 @@ void main (void)
 					turn_NWW(speed);
 					break;
 					}
+
+
+			case SW: 
+				{
+					turn_SW(speed);
+					break;
+
+				}
+
+			case SSE: 
+				{ 
+					turn_SSE(speed);
+					break;
+					}
+
+			case SSW: 
+				{ 
+					turn_SSW(speed);
+					break;
+					}
+
+			case SE: 
+				{ 
+					turn_SE(speed);
+					break;
+					}
+
+			case SEE: 
+				{ 
+					turn_SEE(speed);
+					break;
+					}
+
+			case SWW: 
+				{ 
+					turn_SWW(speed);
+					break;
+					}
+
 
 			default: 
 				{
