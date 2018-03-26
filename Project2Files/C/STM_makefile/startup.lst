@@ -3,7 +3,7 @@ ARM GAS  startup.s 			page 1
 
  GNU assembler version 2.29.51 (arm-none-eabi)
 	 using BFD version (GNU Tools for Arm Embedded Processors 7-2017-q4-major) 2.29.51.20171128.
- options passed	: -mcpu=cortex-m0 -mthumb -g -asghl=startup.lst 
+ options passed	: -asghl=startup.lst 
  input file    	: startup.s
  output file   	: startup.o
  target        	: arm-none-eabi

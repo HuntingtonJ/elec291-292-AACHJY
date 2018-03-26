@@ -13,7 +13,7 @@ LD=arm-none-eabi-ld
 # Flags for C compilation
 CCFLAGS=-mcpu=cortex-m0 -mthumb -g
 # Flags for assembly compilation
-ASFLAGS=-mcpu=cortex-m0 -mthumb -g
+# ASFLAGS=-mcpu=cortex-m0 -mthumb -g
 # Flags for linking
 #LDFLAGS=-T linker_script.ld -cref -nostartfiles
 
@@ -24,7 +24,7 @@ LIBPATH2=$(subst \libc_nano.a,,$(shell dir /s /b "$(GCCPATH)*libc_nano.a" | find
 LIBSPEC=-L"$(LIBPATH1)" -L"$(LIBPATH2)"
 
 # List the object files used in this project
-OBJS= startup.o main.o serial.o newlib_stubs.o adc.o #init.o
+OBJS= startup.o main.o serial.o adc.o USART2.o newlib_stubs.o #init.o
 
 PORTN=$(shell type COMPORT.inc)
 
@@ -32,9 +32,9 @@ PORTN=$(shell type COMPORT.inc)
 # the object files listed in the 'OBJS' assignment above.
 # These object files are linked together to create main.elf.
 # The linked file is converted to hex using program objcopy.
-main.hex: $(OBJS) stm32f05xxx.ld
-	$(LD) $(OBJS) $(LIBSPEC) -Os -nostdlib -lnosys -lgcc -T stm32f05xxx.ld --cref -nostartfiles -o 
-	arm-none-eabi-objcopy -O ihex main.hex #main.elf
+main.elf: $(OBJS)
+	$(LD) $(OBJS) $(LIBSPEC)  -Os -nostdlib -lnosys -lgcc -T stm32f05xxx.ld --cref -nostartfiles -o main.elf
+	arm-none-eabi-objcopy -O ihex main.elf main.hex
 	@echo Success!
 
 # main.elf: $(OBJS)
@@ -44,28 +44,30 @@ main.hex: $(OBJS) stm32f05xxx.ld
 
 # The object file main.o depends on main.c. main.c is compiled
 # to create main.o.
-main.o: main.c stm32f05xxx.h serial.h #newlib_stubs.h
+main.o: main.c stm32f05xxx.h serial.h newlib_stubs.c
 	$(CC) -c $(CCFLAGS) main.c -o main.o
 
 serial.o: serial.c serial.h stm32f05xxx.h
 	$(CC) -c $(CCFLAGS) serial.c -o serial.o
-	
-newlib_stubs.o: newlib_stubs.c
-	$(CC) -c $(CCFLAGS) newlib_stubs.c -o newlib_stubs.o
 
 adc.o: adc.c adc.h stm32f05xxx.h
 	$(CC) -c $(CCFLAGS) adc.c -o adc.o
 
-USART2.o: USART2.c USART2.h stme32f05xxx.h
+USART2.o: USART2.c USART2.h stm32f05xxx.h
 	$(CC) -c $(CCFLAGS) USART2.c -o USART2.o
 
-#init.o: init.c serial.h stm32f05xxx.h
-# 	$(CC) -c $(CCFLAGS) init.c -o init.o
- 	
 # The object file startup.o depends on startup.c.  startup.c is
 # compiled to create startup.o
 startup.o: startup.s stm32f05xxx.h serial.h
 	$(AS) $(ASFLAGS) startup.s -asghl=startup.lst -o startup.o
+
+newlib_stubs.o: newlib_stubs.c
+	$(CC) -c $(CCFLAGS) newlib_stubs.c -o newlib_stubs.o	
+
+#init.o: init.c serial.h stm32f05xxx.h
+# 	$(CC) -c $(CCFLAGS) init.c -o init.o
+ 	
+
 
 # Target 'clean' is used to remove all object files and executables
 # associated wit this project

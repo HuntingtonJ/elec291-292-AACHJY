@@ -112,66 +112,66 @@ int getsn (char * buff, int len)
 }
 
 //a function that describes going straight
-	void go_straight(char speed){
-					//Let the speed will become the duty of both motors equally
-		 			number1=speed;
-			 		number3=speed;
-			 		number2=0;
-			 		number4=0;
-			
-		 		}
+void go_straight(char speed){
+				//Let the speed will become the duty of both motors equally
+	 			number1=speed;
+		 		number3=speed;
+		 		number2=0;
+		 		number4=0;
+		
+	 		}
 
-	void go_reverse(char speed){
-					//Let the speed will become the duty of both motors equally
-		 			number1=0;
-			 		number3=0;
-			 		number2=speed;
-			 		number4=speed;
-			
-		 		}
+void go_reverse(char speed){
+				//Let the speed will become the duty of both motors equally
+	 			number1=0;
+		 		number3=0;
+		 		number2=speed;
+		 		number4=speed;
+		
+	 		}
 
-	void turn_west(char speed){
-					//Let the speed will become the duty of both motors equally
-		 			number1=0;
-			 		number3=speed;
-			 		number2=speed;
-			 		number4=0;
-			
-		 		}
-	void turn_east(char speed){
-					//Let the speed will become the duty of both motors equally
-		 			number1=speed;
-			 		number3=0;
-			 		number2=0;
-			 		number4=speed;
-			
-		 		}
+void turn_west(char speed){
+				//Let the speed will become the duty of both motors equally
+	 			number1=0;
+		 		number3=speed;
+		 		number2=speed;
+		 		number4=0;
+		
+	 		}
+void turn_east(char speed){
+				//Let the speed will become the duty of both motors equally
+	 			number1=speed;
+		 		number3=0;
+		 		number2=0;
+		 		number4=speed;
+		
+	 		}
 
-	void turn_NW(char speed){
-					//Let the speed will become the duty of both motors equally
-		 			number1=speed;
-			 		number3=speed/2;
-			 		number2=0;
-			 		number4=0;
-			
-		 		}
+void turn_NW(char speed){
+				//Let the speed will become the duty of both motors equally
+	 			number1=speed;
+		 		number3=speed/2;
+		 		number2=0;
+		 		number4=0;
+		
+	 		}
 
-	void turn_NE(char speed){
-					//Let the speed will become the duty of both motors equally
-		 			number1=speed/2;
-			 		number3=speed;
-			 		number2=0;
-			 		number4=0;
-			
-		 		}
+void turn_NE(char speed){
+				//Let the speed will become the duty of both motors equally
+	 			number1=speed/2;
+		 		number3=speed;
+		 		number2=0;
+		 		number4=0;
+		
+	 		}
 
-	void stop(){
+void stop(){
 
-			number1=0;
-			number2=0;
-			number3=0;
-			number4=0;
-	}
+		number1=0;
+		number2=0;
+		number3=0;
+		number4=0;
+}
 
 
 void main(void)
