@@ -135,7 +135,7 @@ void ResetInit()
 	initClock();
     crt0();
 	initUART(115200);
-	initUSART2(115200);
+	initUSART2(110);
 	enable_interrupts();
 
 	#ifdef SHOW_LD_SCRIPT_ASSIGMENTS

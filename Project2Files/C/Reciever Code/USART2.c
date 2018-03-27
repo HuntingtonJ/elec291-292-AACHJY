@@ -3,6 +3,7 @@
 #include "USART2.h"
 
 volatile unsigned char U2_RX_flag = 0;
+volatile unsigned char U2_RXO_flag = 0;
 volatile unsigned char RX_data = 0;
 
 void initUSART2(int BaudRate) {
@@ -10,8 +11,8 @@ void initUSART2(int BaudRate) {
 	
 	disable_interrupts();
 	//Calculate BaudRate reload value
-	BaudRateDivisor = 48000000; // assuming 48MHz clock 
-	BaudRateDivisor = BaudRateDivisor / (long) BaudRate;
+	//BaudRateDivisor = 48000000; // assuming 48MHz clock 
+	BaudRateDivisor = 48000000 / (long) BaudRate;
 	
 	//Enables clock for PORTA
 	//RCC_AHBENR  |= BIT17;
@@ -30,8 +31,8 @@ void initUSART2(int BaudRate) {
 	RCC_APB1ENR   |= BIT17; 
 	
 	//Configure USART2 Parameters (1 start, 1 Stop, No parity
-	//USART2_CR1    &= 0x00000000;
-	USART2_CR1    |= (BIT2 | BIT3 | BIT5 );  //Enable Transmit, Receive and Receive Interrupt.
+	USART2_CR1     = 0x00000000;
+	USART2_CR1    |= ( BIT2 | BIT3 | BIT5 );  //Enable Transmit, Receive and Receive Interrupt.
 	//USART2_CR1    |= BIT6;  //Enable Transmit Interrupt
 	USART2_CR2     = 0x00000000;
 	USART2_CR3     = 0x00000000;
@@ -47,11 +48,19 @@ void isr_usart2(void) {
 	//Checks if RXNE flag is enables
 	if (USART2_ISR & BIT5) {
 		usart2_rx();
+	} else if (USART2_ISR & BIT3) {
+		usart2_rxo();
 	}
 }
 
 void usart2_rx(void) {
 	// Handles usart2 receive
-	RX_data = USART2_RDR;
 	U2_RX_flag = 1;
+	RX_data = USART2_RDR;
+}
+
+void usart2_rxo(void) {
+	// Handles usart2 receive overflow
+	USART2_RQR |= BIT3;
+	U2_RXO_flag = 1;
 }
