@@ -60,9 +60,10 @@ char _c51_external_startup (void)
 	
 	P0MDOUT |= 0x10; // Enable UART0 TX as push-pull output
 	P1MDOUT |= 0xff; // Enable Push/Pull on port 1
+	P2MDOUT |= 0x01; // Enable Push/Pull on port 2 pin 0
 	XBR0     = 0x01; // Enable UART0 on P0.4(TX) and P0.5(RX)                     
-	XBR1     = 0X00; // Enable T0 on P0.0
-	XBR2     = 0x40; // Enable crossbar and weak pull-ups
+	XBR1     = 0X00; // 
+	XBR2     = 0x41; // Enable crossbar and weak pull-ups;Enable UART1 on P0.0(TX) and P0.1(RX)
 
 	#if (((SYSCLK/BAUDRATE)/(2L*12L))>0xFFL)
 		#error Timer 0 reload value is incorrect because (SYSCLK/BAUDRATE)/(2L*12L) > 0xFF
@@ -78,10 +79,6 @@ char _c51_external_startup (void)
 	TI = 1;  // Indicate TX0 ready
 	
 	EA = 1;
-
-		// Configure and enable SMBus
-	SMB0CF = 0b_0101_1100; //INH | EXTHOLD | SMBTOE | SMBFTE ;
-	SMB0CF |= 0b_1000_0000;  // Enable SMBus
 	
 	return 0;
 }
@@ -112,7 +109,7 @@ int getsn (char * buff, int len)
 void main(void) {
 	char buffer[CHARS_PER_LINE];
 
-	Tcom_init(115200L); //enter baudrate for UART1
+	Tcom_init(110L); //enter baudrate for UART1
 	LCD_4BIT();
 
 	waitms(500);
@@ -123,7 +120,7 @@ void main(void) {
 
 	while(1)
 	{
-		sprintf(buffer, "%d%c %d%c", duty_cycle0, '%', duty_cycle1, '%');
+		sprintf(buffer, "Test print");
 		LCDprint(buffer, 2, 1);
 		
 		printf("Enter command: \r\n");

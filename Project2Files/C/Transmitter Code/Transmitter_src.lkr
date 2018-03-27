@@ -1,6 +1,0 @@
-path=D:\Programs\CrossIDE\Call51\Bin\..\lib\small
-lib=libc51.lib
-lib=libint.lib
-lib=liblong.lib
-lib=libfloat.lib
-obj=Transmitter_src.obj

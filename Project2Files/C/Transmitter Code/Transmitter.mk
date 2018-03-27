@@ -8,7 +8,7 @@ Transmitter_src.hex: Transmitter_src.obj
 				$(CC) Transmitter_src.obj
 				@echo Dun!
 				
-Transmitter_src.obj: Transmitter_src.c EFM8UART1lib.h Tcom.h EFM8core.h EFM8LCDlib.h Nunchuck_reader.h
+Transmitter_src.obj: Transmitter_src.c EFM8UART1lib.h Tcom.h EFM8core.h EFM8LCDlib.h
 				$(CC) -c Transmitter_src.c
 				
 clean:
