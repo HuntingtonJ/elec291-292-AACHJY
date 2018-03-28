@@ -10,10 +10,10 @@ public class Main_Window extends Window {
 
     private Serial myPort;
     private boolean console_f = false;
-    private boolean mide_f = false;
+    private boolean midi_f = false;
 
-    public Main_Window(PApplet p, Serial myPort) {
-        super(p,0, 0, p.width, p.height);
+    public Main_Window(PApplet p, String type, Serial myPort) {
+        super(p, type,0, 0, p.width, p.height);
 
         this.myPort = myPort;
 
@@ -31,18 +31,21 @@ public class Main_Window extends Window {
         Window new_window;
         switch(type) {
             case 0:
-                new_window = new Midi_Window(p, myPort, 0, 0, p.width, p.height);
-                mide_f = true;
+                new_window = new Midi_Window(p, "midi_sequencer", myPort,0, 0, p.width, p.height);
+                midi_f = true;
                 break;
             case 1:
-                new_window = new Console_Window(p, myPort, 0, 0, p.width, p.height);
+                new_window = new Console_Window(p, "console", myPort,0, 0, p.width, p.height);
                 console_f = true;
+                break;
+            case 2:
+                new_window = new Controller_Window(p, "controller", myPort, 0, 0, p.width, p.height);
                 break;
             default:
                 return;
         }
 
-        if (nbr != this) {
+        if (nbr != this && new_window != null) {
             resizeWindows(nbr, new_window, resize_axis);
         }
         windows.add(new_window);
@@ -76,10 +79,12 @@ public class Main_Window extends Window {
     }
 
     public Window getMouseWindow() {
-        if (p.mouseX >= windows.get(0).getX() && p.mouseX <= windows.get(0).getX() + windows.get(0).getWidth() && p.mouseY >= windows.get(0).getY() && p.mouseY <= windows.get(0).getY() + windows.get(0).getHeight()) {
-            return windows.get(0);
+        for (Window window : windows) {
+            if (p.mouseX >= window.getX() && p.mouseX <= window.getX() + window.getWidth() && p.mouseY >= window.getY() && p.mouseY <= window.getY() + window.getHeight()) {
+                return window;
+            }
         }
-        return windows.get(0);
+        return this;
     }
 
     public Console_Window getConsole() {
