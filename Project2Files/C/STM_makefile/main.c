@@ -17,12 +17,7 @@
 #define ON 	1
 #define OFF 0
 
-#define north 'w'
-#define south 's'
-#define west    'a'
-#define east   'd'
-#define NW      'e'
-#define NE      'q'
+
 
 #define headlight //pin?;
 #define taillight //pin?
