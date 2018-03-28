@@ -64,7 +64,7 @@ void SysInit(void)
 	
 	// Set up timer
 	RCC_APB2ENR |= BIT11; // turn on clock for timer1
-	TIM1_ARR = SYSCLK/(DEF_F*2L);
+	TIM1_ARR = (SYSCLK/4)/(DEF_F*2L);
 	ISER |= BIT13;        // enable timer interrupts in the NVIC
 	TIM1_CR1 |= BIT4;     // Downcounting    
 	TIM1_CR1 |= BIT0;     // enable counting    
