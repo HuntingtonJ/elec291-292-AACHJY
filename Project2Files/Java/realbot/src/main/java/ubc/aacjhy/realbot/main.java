@@ -29,13 +29,16 @@ public class main extends PApplet {
     }
 
     public void setup() {
-        printArray(Serial.list());
-        myPort = new Serial(this, Serial.list()[0], 115200);
-        myPort.bufferUntil(lf);
+        if (Serial.list().length > 0) {
+            printArray(Serial.list());
+            myPort = new Serial(this, Serial.list()[0], 115200);
+            myPort.bufferUntil(lf);
+        }
 
-        main_window = new Main_Window(this, myPort);
+        main_window = new Main_Window(this, "main_window", myPort);
         main_window.addWindow(main_window,0, 0);
         main_window.addWindow(main_window.getWindow(0), 1, 1);
+        main_window.addWindow(main_window.getWindow(1), 2, 0);
 
         hacker_font = createFont("/ttf/Hack-Regular.ttf", 12);
         textFont(hacker_font);
@@ -53,13 +56,26 @@ public class main extends PApplet {
     }
 
     public void mousePressed() {
+        Window selected_window = main_window.getMouseWindow();
+        if (selected_window.getType().equals("controller")) {
+            mode = 3;
+        } else if (selected_window.getType().equals("midi_sequencer")) {
+            mode = 1;
+        } else if (selected_window.getType().equals("console")) {
+            mode = 0;
+        }
         switch (mode) {
             case 0:
                 break;
             case 1:
             case 2:
                 if (mouseButton == LEFT) {
-                    main_window.getMouseWindow().mousePressedWindow();
+                    selected_window.mousePressedWindow();
+                }
+                break;
+            case 3:
+                if (mouseButton == LEFT) {
+                    selected_window.mousePressedWindow();
                 }
                 break;
             default:
@@ -73,6 +89,11 @@ public class main extends PApplet {
                 break;
             case 1:
             case 2:
+                if (mouseButton == LEFT) {
+                    main_window.getMouseWindow().mouseReleasedWindow();
+                }
+                break;
+            case 3:
                 if (mouseButton == LEFT) {
                     main_window.getMouseWindow().mouseReleasedWindow();
                 }

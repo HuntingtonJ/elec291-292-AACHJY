@@ -21,8 +21,8 @@ public class Console_Window extends Window {
     private ArrayList<String> lines;
     private int cursor = 0;
 
-    public Console_Window(PApplet p, Serial myPort, int x, int y, int w, int h) {
-        super(p, x, y, w, h);
+    public Console_Window(PApplet p, String type, Serial myPort, int x, int y, int w, int h) {
+        super(p, type, x, y, w, h);
 
         this.myPort = myPort;
 

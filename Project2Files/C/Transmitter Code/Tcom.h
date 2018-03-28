@@ -24,7 +24,9 @@
 #define GRAB_OP 		0b100
 #define Stop 			0b111
 
-bit reload_flag = 0;
+volatile bit reload_flag = 0;
+unsigned int freq4 = 15000;
+unsigned int reload4 = 65336;
 
 
 //initialize timer0 for I2C clk synchronizations with the Wii Nunchuck
@@ -87,7 +89,7 @@ void Timer4_init(void) {
 	TMR4CN0=0b_0000_0000;
 	TMR4CN1=0b_0110_0000;
 	
-	TMR4RL=65336; //reload = 2^16 - (SYSCLK/12)/(F*2); 15kHz
+	TMR4RL=reload4; //reload = 2^16 - (SYSCLK/12)/(F*2); 15kHz
 	TMR4=0xffff;
 	
 	EIE2|=0b_0000_0100;
@@ -97,9 +99,11 @@ void Timer4_init(void) {
 
 //minimized code in here to maximize possible frequencies 
 void Timer4_ISR(void) interrupt INTERRUPT_TIMER4 {
+	reload_flag = 1;
 	TF4H = 0; //interrupt flag
 	
 	OUT0 = !OUT0;
+	reload_flag = 0;
 }
 
 void sendCommand(unsigned char op, unsigned char value) {
@@ -150,25 +154,31 @@ void sendCommandS(char* input) {
 // }
 
 unsigned int frequencyToReload(unsigned int freq) {
-	return 65536 - (60000/(freq));
+	return 65536 - ((SYSCLK/12)/(freq*2));
 }
 
 unsigned int reloadToFrequency(unsigned int reload) {
-	return ((SYSCLK/12)/(65536 - reload))/100;
+	return ((SYSCLK/12)/(65536 - reload))/2;
 }
 
 void setFrequency(char* input) {
-	unsigned int frequency;
-	sscanf(input, "%*s %u", &frequency);
+	sscanf(input, "%*s %u", &freq4);
 	while(reload_flag != 0);
-	TMR2RL = frequencyToReload(frequency);
+	reload4 = frequencyToReload(freq4);
+	SFRPAGE = 0x10;
+	TMR4RL = reload4;
+	SFRPAGE = 0x00;
+	printf("Set timer4 freq to: %d\r\n", freq4);
 }
 
 void setReload(char* input) {
-	unsigned int reload;
-	sscanf(input, "%*s %u", &reload);
+	sscanf(input, "%*s %u", &reload4);
 	while(reload_flag != 0);
-	TMR2RL = reload;
+	freq4 = reloadToFrequency(reload4);
+	SFRPAGE = 0x10;
+	TMR4RL = reload4;
+	SFRPAGE = 0x00;
+	printf("Set timer4 reload to: %d\r\n", reload4);
 }
 
 // void setRotation(char* input) {
@@ -203,18 +213,6 @@ void getCommand(char* input) {
 			case '/':
 				sendCommandS(input);
 				break;
-
-			// case 'c':
-			// 	setRotation(input);
-			// 	break;
-			// case 'd':
-			// 	if (input[2] == '0') {
-			// 		setDutyCycle(input, 0);
-			// 		break;
-			// 	} else if (input[2] == '1') {
-			// 		setDutyCycle(input, 1);
-			// 		break;
-			// 	}
 			case 'f':
 				setFrequency(input);
 				break;
@@ -222,8 +220,7 @@ void getCommand(char* input) {
 				printf("Help Menu\r\nList of Commands: \r\n-cw [duty value]\r\n-ccw [duty value]\r\n-f [freq value]\r\n-r [reload value]\r\n-o\r\n-s\r\n-i\r\n\n");
 				break;
 			case 'i':
-				printf("Reload: %u, Freq: %d \r\n", TMR2RL, reloadToFrequency(TMR2RL));
-
+				printf("Reload: %u, Freq: %d \r\n", reload4, freq4);
 				break;
 			case 'o':
 			    if (input[2] == 0)
