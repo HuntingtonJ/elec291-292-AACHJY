@@ -12,6 +12,8 @@ unsigned char duty_cycleLF = 75; //Left wheel forward
 unsigned char duty_cycleLR = 0;  //Left wheel reverse (default 0)
 unsigned char duty_cycleRF = 25; //Right wheel forward
 unsigned char duty_cycleRR = 0;  //Right wheel reverse
+//unsigned char opcode;
+//unsigned char 
 
 int egets(char *s, int Max);
 
@@ -72,6 +74,40 @@ void SysInit(void)
 	enable_interrupts();
 }
 
+//Take RX_data value recieved from EFM8 and convert the char back to get the 
+//	opcode and the value as seen in Transmitter_src.c file
+void Extract_op_val(unsigned char RX_data){
+	unsigned char opcode;
+	unsigned char value;
+
+	opcode = RX_data/(0b100000);
+	value =  RX_data - opcode;
+
+	printf("Opcode:%d\r\n", opcode);
+	printf("Value:%d\r\n", value);
+
+	switch(opcode){
+		case 0b000: 
+			printf("SPEED_OP\n");
+			break;
+		case 0b001: 
+			printf("DIRECTION_OP\n");
+			break;
+		case 0b010: 
+			printf("LIGHTS_OP\n");
+			break;
+		case 0b100: 
+			printf("GRAB_OP\n");
+			break;
+		case 0b111: 
+			printf("STOP_OP\n");
+			break;
+		default:
+			printf("Unknown_OP\n");
+			return;
+	}
+}
+
 int main(void) {
     char buf[32];
     int newF, reload;
@@ -82,8 +118,9 @@ int main(void) {
 	
 	while (1){
 		//Receives data on Pin 9.
-    	if (U2_RX_flag & 1) {
-    		printf("Received: %d\r\n", RX_data);
+    	if (U2_RX_flag & 1) {\
+    		Extract_op_val(RX_data);
+    		//printf("Received: %d\r\n", RX_data);
     		U2_RX_flag = 0;
     	}
     	if (U2_RXO_flag & 1) {
