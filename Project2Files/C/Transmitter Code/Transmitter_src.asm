@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
-; This file was generated Tue Mar 27 18:49:00 2018
+; This file was generated Wed Mar 28 13:30:05 2018
 ;--------------------------------------------------------
 $name Transmitter_src
 $optc51 --model-small
@@ -63,6 +63,7 @@ $optc51 --model-small
 	public _getchar1
 	public _putchar1
 	public _UART1_Init
+	public _speedbit
 	public _offset_flag
 	public _nunchuck_init_PARM_1
 	public _LCDprint_PARM_3
@@ -610,6 +611,8 @@ _read_nunchuck_but2_1_168:
 	DBIT	1
 _offset_flag:
 	DBIT	1
+_speedbit:
+	DBIT	1
 ;--------------------------------------------------------
 ; paged external ram data
 ;--------------------------------------------------------
@@ -650,10 +653,12 @@ _offset_flag:
 ; data variables initialization
 ;--------------------------------------------------------
 	rseg R_DINIT
-;	Tcom.h:20: bit reload_flag = 0;
+;	Tcom.h:27: bit reload_flag = 0;
 	clr	_reload_flag
 ;	Transmitter_src.c:13: volatile unsigned bit offset_flag=1;
 	setb	_offset_flag
+;	Transmitter_src.c:14: volatile unsigned bit speedbit=1;
+	setb	_speedbit
 	; The linker places a 'ret' at the end of segment R_DINIT.
 ;--------------------------------------------------------
 ; code
@@ -793,35 +798,35 @@ L004008?:
 ;Allocation info for local variables in function 'Timer0_init'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	Tcom.h:24: void Timer0_init(void){
+;	Tcom.h:31: void Timer0_init(void){
 ;	-----------------------------------------
 ;	 function Timer0_init
 ;	-----------------------------------------
 _Timer0_init:
-;	Tcom.h:27: CKCON0 |= 0b_0000_0100; // Timer0 clock source = SYSCLK/12
+;	Tcom.h:34: CKCON0 |= 0b_0000_0100; // Timer0 clock source = SYSCLK/12
 	orl	_CKCON0,#0x04
-;	Tcom.h:28: TMOD &= 0xf0;  // Mask out timer 1 bits
+;	Tcom.h:35: TMOD &= 0xf0;  // Mask out timer 1 bits
 	anl	_TMOD,#0xF0
-;	Tcom.h:29: TMOD |= 0x02;  // Timer0 in 8-bit auto-reload mode
+;	Tcom.h:36: TMOD |= 0x02;  // Timer0 in 8-bit auto-reload mode
 	orl	_TMOD,#0x02
-;	Tcom.h:31: TL0 = TH0 = 256-(SYSCLK/SMB_FREQUENCY/3);
+;	Tcom.h:38: TL0 = TH0 = 256-(SYSCLK/SMB_FREQUENCY/3);
 	mov	_TH0,#0x10
 	mov	_TL0,#0x10
-;	Tcom.h:32: TR0 = 1; // Enable timer 0
+;	Tcom.h:39: TR0 = 1; // Enable timer 0
 	setb	_TR0
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Timer0_ISR'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	Tcom.h:37: void Timer0_ISR (void) interrupt INTERRUPT_TIMER0 {
+;	Tcom.h:44: void Timer0_ISR (void) interrupt INTERRUPT_TIMER0 {
 ;	-----------------------------------------
 ;	 function Timer0_ISR
 ;	-----------------------------------------
 _Timer0_ISR:
-;	Tcom.h:38: TF0 = 0;
+;	Tcom.h:45: TF0 = 0;
 	clr	_TF0
-;	Tcom.h:39: SI=0;
+;	Tcom.h:46: SI=0;
 	clr	_SI
 	reti
 ;	eliminated unneeded push/pop psw
@@ -833,38 +838,38 @@ _Timer0_ISR:
 ;Allocation info for local variables in function 'Timer2_init'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	Tcom.h:44: void Timer2_init(void) {
+;	Tcom.h:51: void Timer2_init(void) {
 ;	-----------------------------------------
 ;	 function Timer2_init
 ;	-----------------------------------------
 _Timer2_init:
-;	Tcom.h:45: TMR2CN0=0b_0000_0000;   // Stop Timer2; Clear TF2; T2XCLK uses Sysclk/12
+;	Tcom.h:52: TMR2CN0=0b_0000_0000;   // Stop Timer2; Clear TF2; T2XCLK uses Sysclk/12
 	mov	_TMR2CN0,#0x00
-;	Tcom.h:46: CKCON0|=0b_0000_0000; // Timer 2 uses the system clock; Timer2 uses T2XCLK
+;	Tcom.h:53: CKCON0|=0b_0000_0000; // Timer 2 uses the system clock; Timer2 uses T2XCLK
 	mov	_CKCON0,_CKCON0
-;	Tcom.h:47: TMR2RL=64936; //Initilizes reload value for 100hz;
+;	Tcom.h:54: TMR2RL=64936; //Initilizes reload value for 100hz;
 	mov	_TMR2RL,#0xA8
 	mov	(_TMR2RL >> 8),#0xFD
-;	Tcom.h:48: TMR2=0xffff;   // Set to reload immediately
+;	Tcom.h:55: TMR2=0xffff;   // Set to reload immediately
 	mov	_TMR2,#0xFF
 	mov	(_TMR2 >> 8),#0xFF
-;	Tcom.h:49: ET2=0;         // Enable Timer2 interrupts
+;	Tcom.h:56: ET2=0;         // Enable Timer2 interrupts
 	clr	_ET2
-;	Tcom.h:50: TR2=1;         // Start Timer2 (TMR2CN is bit addressable)
+;	Tcom.h:57: TR2=1;         // Start Timer2 (TMR2CN is bit addressable)
 	setb	_TR2
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Timer2_ISR'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	Tcom.h:53: void Timer2_ISR (void) interrupt 5 {
+;	Tcom.h:60: void Timer2_ISR (void) interrupt 5 {
 ;	-----------------------------------------
 ;	 function Timer2_ISR
 ;	-----------------------------------------
 _Timer2_ISR:
-;	Tcom.h:54: SFRPAGE=0x00;
+;	Tcom.h:61: SFRPAGE=0x00;
 	mov	_SFRPAGE,#0x00
-;	Tcom.h:56: TF2H = 0; // Clear Timer2 interrupt flag
+;	Tcom.h:63: TF2H = 0; // Clear Timer2 interrupt flag
 	clr	_TF2H
 	reti
 ;	eliminated unneeded push/pop psw
@@ -876,42 +881,42 @@ _Timer2_ISR:
 ;Allocation info for local variables in function 'Timer4_init'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	Tcom.h:78: void Timer4_init(void) {
+;	Tcom.h:85: void Timer4_init(void) {
 ;	-----------------------------------------
 ;	 function Timer4_init
 ;	-----------------------------------------
 _Timer4_init:
-;	Tcom.h:79: SFRPAGE=0x10;
+;	Tcom.h:86: SFRPAGE=0x10;
 	mov	_SFRPAGE,#0x10
-;	Tcom.h:80: TMR4CN0=0b_0000_0000;
+;	Tcom.h:87: TMR4CN0=0b_0000_0000;
 	mov	_TMR4CN0,#0x00
-;	Tcom.h:81: TMR4CN1=0b_0110_0000;
+;	Tcom.h:88: TMR4CN1=0b_0110_0000;
 	mov	_TMR4CN1,#0x60
-;	Tcom.h:83: TMR4RL=65336; //reload = 2^16 - (SYSCLK/12)/(F*2); 15kHz
+;	Tcom.h:90: TMR4RL=65336; //reload = 2^16 - (SYSCLK/12)/(F*2); 15kHz
 	mov	_TMR4RL,#0x38
 	mov	(_TMR4RL >> 8),#0xFF
-;	Tcom.h:84: TMR4=0xffff;
+;	Tcom.h:91: TMR4=0xffff;
 	mov	_TMR4,#0xFF
 	mov	(_TMR4 >> 8),#0xFF
-;	Tcom.h:86: EIE2|=0b_0000_0100;
+;	Tcom.h:93: EIE2|=0b_0000_0100;
 	orl	_EIE2,#0x04
-;	Tcom.h:87: TR4=1;
+;	Tcom.h:94: TR4=1;
 	setb	_TR4
-;	Tcom.h:88: SFRPAGE=0x00;
+;	Tcom.h:95: SFRPAGE=0x00;
 	mov	_SFRPAGE,#0x00
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Timer4_ISR'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	Tcom.h:92: void Timer4_ISR(void) interrupt INTERRUPT_TIMER4 {
+;	Tcom.h:99: void Timer4_ISR(void) interrupt INTERRUPT_TIMER4 {
 ;	-----------------------------------------
 ;	 function Timer4_ISR
 ;	-----------------------------------------
 _Timer4_ISR:
-;	Tcom.h:93: TF4H = 0; //interrupt flag
+;	Tcom.h:100: TF4H = 0; //interrupt flag
 	clr	_TF4H
-;	Tcom.h:95: OUT0 = !OUT0;
+;	Tcom.h:102: OUT0 = !OUT0;
 	cpl	_P2_0
 	reti
 ;	eliminated unneeded push/pop psw
@@ -925,20 +930,20 @@ _Timer4_ISR:
 ;value                     Allocated with name '_sendCommand_PARM_2'
 ;op                        Allocated to registers r2 
 ;------------------------------------------------------------
-;	Tcom.h:98: void sendCommand(unsigned char op, unsigned char value) {
+;	Tcom.h:105: void sendCommand(unsigned char op, unsigned char value) {
 ;	-----------------------------------------
 ;	 function sendCommand
 ;	-----------------------------------------
 _sendCommand:
 	mov	r2,dpl
-;	Tcom.h:99: if (op < 0b_1000 && value < 0b_100000) {
+;	Tcom.h:106: if (op < 0b_1000 && value < 0b_100000) {
 	cjne	r2,#0x08,L011009?
 L011009?:
 	jnc	L011002?
 	mov	a,#0x100 - 0x20
 	add	a,_sendCommand_PARM_2
 	jc	L011002?
-;	Tcom.h:100: putchar1(op*0b_100000 + value);
+;	Tcom.h:107: putchar1(op*0b_100000 + value);
 	mov	a,r2
 	swap	a
 	rl	a
@@ -950,7 +955,7 @@ L011009?:
 	push	ar2
 	lcall	_putchar1
 	pop	ar2
-;	Tcom.h:101: printf("Sent: %d\r\n", op*0b_100000 + value);
+;	Tcom.h:108: printf("Sent: %d\r\n", op*0b_100000 + value);
 	mov	a,r2
 	mov	b,#0x20
 	mul	ab
@@ -978,7 +983,7 @@ L011009?:
 	mov	sp,a
 	ret
 L011002?:
-;	Tcom.h:103: printf("c err\r\n");
+;	Tcom.h:110: printf("c err\r\n");
 	mov	a,#__str_1
 	push	acc
 	mov	a,#(__str_1 >> 8)
@@ -997,7 +1002,7 @@ L011002?:
 ;op                        Allocated with name '_sendCommandS_op_1_88'
 ;d                         Allocated with name '_sendCommandS_d_1_88'
 ;------------------------------------------------------------
-;	Tcom.h:107: void sendCommandS(char* input) {
+;	Tcom.h:114: void sendCommandS(char* input) {
 ;	-----------------------------------------
 ;	 function sendCommandS
 ;	-----------------------------------------
@@ -1005,7 +1010,7 @@ _sendCommandS:
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
-;	Tcom.h:111: sscanf(input, "%*s %c %c", &op, &d);
+;	Tcom.h:118: sscanf(input, "%*s %c %c", &op, &d);
 	mov	a,#_sendCommandS_d_1_88
 	push	acc
 	mov	a,#(_sendCommandS_d_1_88 >> 8)
@@ -1031,7 +1036,7 @@ _sendCommandS:
 	mov	a,sp
 	add	a,#0xf4
 	mov	sp,a
-;	Tcom.h:113: switch(op) {
+;	Tcom.h:120: switch(op) {
 	mov	r2,_sendCommandS_op_1_88
 	cjne	r2,#0x66,L012011?
 	sjmp	L012002?
@@ -1041,29 +1046,29 @@ L012011?:
 	sjmp	L012003?
 L012012?:
 	cjne	r2,#0x73,L012004?
-;	Tcom.h:115: op = 0;
+;	Tcom.h:122: op = 0;
 	mov	_sendCommandS_op_1_88,#0x00
-;	Tcom.h:116: break;
-;	Tcom.h:117: case 'f':
+;	Tcom.h:123: break;
+;	Tcom.h:124: case 'f':
 	sjmp	L012005?
 L012002?:
-;	Tcom.h:118: op = 0b_001;
+;	Tcom.h:125: op = 0b_001;
 	mov	_sendCommandS_op_1_88,#0x01
-;	Tcom.h:119: break;
-;	Tcom.h:120: case 'r':
+;	Tcom.h:126: break;
+;	Tcom.h:127: case 'r':
 	sjmp	L012005?
 L012003?:
-;	Tcom.h:121: op = 0b_010;
+;	Tcom.h:128: op = 0b_010;
 	mov	_sendCommandS_op_1_88,#0x02
-;	Tcom.h:122: break;
-;	Tcom.h:123: default:
+;	Tcom.h:129: break;
+;	Tcom.h:130: default:
 	sjmp	L012005?
 L012004?:
-;	Tcom.h:124: return;
-;	Tcom.h:125: }
+;	Tcom.h:131: return;
+;	Tcom.h:132: }
 	ret
 L012005?:
-;	Tcom.h:126: sendCommand(op, d);
+;	Tcom.h:133: sendCommand(op, d);
 	mov	_sendCommand_PARM_2,_sendCommandS_d_1_88
 	mov	dpl,_sendCommandS_op_1_88
 	ljmp	_sendCommand
@@ -1072,14 +1077,14 @@ L012005?:
 ;------------------------------------------------------------
 ;freq                      Allocated to registers r2 r3 
 ;------------------------------------------------------------
-;	Tcom.h:145: unsigned int frequencyToReload(unsigned int freq) {
+;	Tcom.h:152: unsigned int frequencyToReload(unsigned int freq) {
 ;	-----------------------------------------
 ;	 function frequencyToReload
 ;	-----------------------------------------
 _frequencyToReload:
 	mov	r2,dpl
 	mov	r3,dph
-;	Tcom.h:146: return 65536 - (60000/(freq));
+;	Tcom.h:153: return 65536 - (60000/(freq));
 	mov	__divslong_PARM_2,r2
 	mov	(__divslong_PARM_2 + 1),r3
 	mov	(__divslong_PARM_2 + 2),#0x00
@@ -1111,14 +1116,14 @@ _frequencyToReload:
 ;------------------------------------------------------------
 ;reload                    Allocated to registers r2 r3 
 ;------------------------------------------------------------
-;	Tcom.h:149: unsigned int reloadToFrequency(unsigned int reload) {
+;	Tcom.h:156: unsigned int reloadToFrequency(unsigned int reload) {
 ;	-----------------------------------------
 ;	 function reloadToFrequency
 ;	-----------------------------------------
 _reloadToFrequency:
 	mov	r2,dpl
 	mov	r3,dph
-;	Tcom.h:150: return ((SYSCLK/12)/(65536 - reload))/100;
+;	Tcom.h:157: return ((SYSCLK/12)/(65536 - reload))/100;
 	mov	r4,#0x00
 	clr	a
 	mov	r5,a
@@ -1158,7 +1163,7 @@ _reloadToFrequency:
 ;input                     Allocated to registers r2 r3 r4 
 ;frequency                 Allocated with name '_setFrequency_frequency_1_95'
 ;------------------------------------------------------------
-;	Tcom.h:153: void setFrequency(char* input) {
+;	Tcom.h:160: void setFrequency(char* input) {
 ;	-----------------------------------------
 ;	 function setFrequency
 ;	-----------------------------------------
@@ -1166,7 +1171,7 @@ _setFrequency:
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
-;	Tcom.h:155: sscanf(input, "%*s %u", &frequency);
+;	Tcom.h:162: sscanf(input, "%*s %u", &frequency);
 	mov	a,#_setFrequency_frequency_1_95
 	push	acc
 	mov	a,#(_setFrequency_frequency_1_95 >> 8)
@@ -1186,10 +1191,10 @@ _setFrequency:
 	mov	a,sp
 	add	a,#0xf7
 	mov	sp,a
-;	Tcom.h:156: while(reload_flag != 0);
+;	Tcom.h:163: while(reload_flag != 0);
 L015001?:
 	jb	_reload_flag,L015001?
-;	Tcom.h:157: TMR2RL = frequencyToReload(frequency);
+;	Tcom.h:164: TMR2RL = frequencyToReload(frequency);
 	mov	dpl,_setFrequency_frequency_1_95
 	mov	dph,(_setFrequency_frequency_1_95 + 1)
 	lcall	_frequencyToReload
@@ -1202,7 +1207,7 @@ L015001?:
 ;input                     Allocated to registers r2 r3 r4 
 ;reload                    Allocated with name '_setReload_reload_1_97'
 ;------------------------------------------------------------
-;	Tcom.h:160: void setReload(char* input) {
+;	Tcom.h:167: void setReload(char* input) {
 ;	-----------------------------------------
 ;	 function setReload
 ;	-----------------------------------------
@@ -1210,7 +1215,7 @@ _setReload:
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
-;	Tcom.h:162: sscanf(input, "%*s %u", &reload);
+;	Tcom.h:169: sscanf(input, "%*s %u", &reload);
 	mov	a,#_setReload_reload_1_97
 	push	acc
 	mov	a,#(_setReload_reload_1_97 >> 8)
@@ -1230,10 +1235,10 @@ _setReload:
 	mov	a,sp
 	add	a,#0xf7
 	mov	sp,a
-;	Tcom.h:163: while(reload_flag != 0);
+;	Tcom.h:170: while(reload_flag != 0);
 L016001?:
 	jb	_reload_flag,L016001?
-;	Tcom.h:164: TMR2RL = reload;
+;	Tcom.h:171: TMR2RL = reload;
 	mov	_TMR2RL,_setReload_reload_1_97
 	mov	(_TMR2RL >> 8),(_setReload_reload_1_97 + 1)
 	ret
@@ -1241,28 +1246,28 @@ L016001?:
 ;Allocation info for local variables in function 'PWMoff'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	Tcom.h:182: void PWMoff() {
+;	Tcom.h:189: void PWMoff() {
 ;	-----------------------------------------
 ;	 function PWMoff
 ;	-----------------------------------------
 _PWMoff:
-;	Tcom.h:183: OUT0 = 0;
+;	Tcom.h:190: OUT0 = 0;
 	clr	_P2_0
-;	Tcom.h:184: OUT1 = 0;
+;	Tcom.h:191: OUT1 = 0;
 	clr	_P1_6
-;	Tcom.h:185: TR2 = 0;
+;	Tcom.h:192: TR2 = 0;
 	clr	_TR2
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'PWMon'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	Tcom.h:188: void PWMon() {
+;	Tcom.h:195: void PWMon() {
 ;	-----------------------------------------
 ;	 function PWMon
 ;	-----------------------------------------
 _PWMon:
-;	Tcom.h:189: TR2 = 1;
+;	Tcom.h:196: TR2 = 1;
 	setb	_TR2
 	ret
 ;------------------------------------------------------------
@@ -1270,12 +1275,12 @@ _PWMon:
 ;------------------------------------------------------------
 ;input                     Allocated to registers r2 r3 r4 
 ;------------------------------------------------------------
-;	Tcom.h:192: void getCommand(char* input) {
+;	Tcom.h:199: void getCommand(char* input) {
 ;	-----------------------------------------
 ;	 function getCommand
 ;	-----------------------------------------
 _getCommand:
-;	Tcom.h:194: if (input[0] == '-') {
+;	Tcom.h:201: if (input[0] == '-') {
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
@@ -1286,7 +1291,7 @@ _getCommand:
 L019031?:
 	ljmp	L019016?
 L019032?:
-;	Tcom.h:195: switch(input[1]) {
+;	Tcom.h:202: switch(input[1]) {
 	mov	a,#0x01
 	add	a,r2
 	mov	r5,a
@@ -1324,27 +1329,27 @@ L019039?:
 	ljmp	L019012?
 L019040?:
 	ljmp	L019013?
-;	Tcom.h:196: case '/':
+;	Tcom.h:203: case '/':
 L019001?:
-;	Tcom.h:197: sendCommandS(input);
+;	Tcom.h:204: sendCommandS(input);
 	mov	dpl,r2
 	mov	dph,r3
 	mov	b,r4
 	lcall	_sendCommandS
-;	Tcom.h:198: break;
+;	Tcom.h:205: break;
 	ljmp	L019017?
-;	Tcom.h:211: case 'f':
+;	Tcom.h:218: case 'f':
 L019002?:
-;	Tcom.h:212: setFrequency(input);
+;	Tcom.h:219: setFrequency(input);
 	mov	dpl,r2
 	mov	dph,r3
 	mov	b,r4
 	lcall	_setFrequency
-;	Tcom.h:213: break;
+;	Tcom.h:220: break;
 	ljmp	L019017?
-;	Tcom.h:214: case 'h':
+;	Tcom.h:221: case 'h':
 L019003?:
-;	Tcom.h:215: printf("Help Menu\r\nList of Commands: \r\n-cw [duty value]\r\n-ccw [duty value]\r\n-f [freq value]\r\n-r [reload value]\r\n-o\r\n-s\r\n-i\r\n\n");
+;	Tcom.h:222: printf("Help Menu\r\nList of Commands: \r\n-cw [duty value]\r\n-ccw [duty value]\r\n-f [freq value]\r\n-r [reload value]\r\n-o\r\n-s\r\n-i\r\n\n");
 	mov	a,#__str_4
 	push	acc
 	mov	a,#(__str_4 >> 8)
@@ -1355,11 +1360,11 @@ L019003?:
 	dec	sp
 	dec	sp
 	dec	sp
-;	Tcom.h:216: break;
+;	Tcom.h:223: break;
 	ljmp	L019017?
-;	Tcom.h:217: case 'i':
+;	Tcom.h:224: case 'i':
 L019004?:
-;	Tcom.h:218: printf("Reload: %u, Freq: %d \r\n", TMR2RL, reloadToFrequency(TMR2RL));
+;	Tcom.h:225: printf("Reload: %u, Freq: %d \r\n", TMR2RL, reloadToFrequency(TMR2RL));
 	mov	dpl,_TMR2RL
 	mov	dph,(_TMR2RL >> 8)
 	lcall	_reloadToFrequency
@@ -1379,38 +1384,10 @@ L019004?:
 	mov	a,sp
 	add	a,#0xf9
 	mov	sp,a
-;	Tcom.h:220: break;
-	ljmp	L019017?
-;	Tcom.h:221: case 'o':
-L019005?:
-;	Tcom.h:222: if (input[2] == 0)
-	mov	a,#0x02
-	add	a,r2
-	mov	r5,a
-	clr	a
-	addc	a,r3
-	mov	r6,a
-	mov	ar7,r4
-	mov	dpl,r5
-	mov	dph,r6
-	mov	b,r7
-	lcall	__gptrget
-	jnz	L019017?
-;	Tcom.h:223: PWMoff();
-	lcall	_PWMoff
-;	Tcom.h:224: break;	
-;	Tcom.h:225: case 'r':
-	sjmp	L019017?
-L019008?:
-;	Tcom.h:226: setReload(input);
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	lcall	_setReload
 ;	Tcom.h:227: break;
-;	Tcom.h:228: case 's':
-	sjmp	L019017?
-L019009?:
+	ljmp	L019017?
+;	Tcom.h:228: case 'o':
+L019005?:
 ;	Tcom.h:229: if (input[2] == 0)
 	mov	a,#0x02
 	add	a,r2
@@ -1424,20 +1401,48 @@ L019009?:
 	mov	b,r7
 	lcall	__gptrget
 	jnz	L019017?
-;	Tcom.h:230: PWMon();
+;	Tcom.h:230: PWMoff();
+	lcall	_PWMoff
+;	Tcom.h:231: break;	
+;	Tcom.h:232: case 'r':
+	sjmp	L019017?
+L019008?:
+;	Tcom.h:233: setReload(input);
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	lcall	_setReload
+;	Tcom.h:234: break;
+;	Tcom.h:235: case 's':
+	sjmp	L019017?
+L019009?:
+;	Tcom.h:236: if (input[2] == 0)
+	mov	a,#0x02
+	add	a,r2
+	mov	r5,a
+	clr	a
+	addc	a,r3
+	mov	r6,a
+	mov	ar7,r4
+	mov	dpl,r5
+	mov	dph,r6
+	mov	b,r7
+	lcall	__gptrget
+	jnz	L019017?
+;	Tcom.h:237: PWMon();
 	lcall	_PWMon
-;	Tcom.h:231: break;
-;	Tcom.h:232: case 't':
+;	Tcom.h:238: break;
+;	Tcom.h:239: case 't':
 	sjmp	L019017?
 L019012?:
-;	Tcom.h:233: putchar1(0b_1010_1010);
+;	Tcom.h:240: putchar1(0b_1010_1010);
 	mov	dpl,#0xAA
 	lcall	_putchar1
-;	Tcom.h:234: break;
-;	Tcom.h:235: default:
+;	Tcom.h:241: break;
+;	Tcom.h:242: default:
 	sjmp	L019017?
 L019013?:
-;	Tcom.h:236: printf("\"%s\" invalid command\r\n", input);
+;	Tcom.h:243: printf("\"%s\" invalid command\r\n", input);
 	push	ar2
 	push	ar3
 	push	ar4
@@ -1451,10 +1456,10 @@ L019013?:
 	mov	a,sp
 	add	a,#0xfa
 	mov	sp,a
-;	Tcom.h:238: }
+;	Tcom.h:245: }
 	sjmp	L019017?
 L019016?:
-;	Tcom.h:240: printf("Not Valid input\r\n");
+;	Tcom.h:247: printf("Not Valid input\r\n");
 	mov	a,#__str_7
 	push	acc
 	mov	a,#(__str_7 >> 8)
@@ -1466,14 +1471,14 @@ L019016?:
 	dec	sp
 	dec	sp
 L019017?:
-;	Tcom.h:242: return;
+;	Tcom.h:249: return;
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Tcom_init'
 ;------------------------------------------------------------
 ;baudrate                  Allocated to registers r2 r3 r4 r5 
 ;------------------------------------------------------------
-;	Tcom.h:245: void Tcom_init(unsigned long baudrate) {
+;	Tcom.h:252: void Tcom_init(unsigned long baudrate) {
 ;	-----------------------------------------
 ;	 function Tcom_init
 ;	-----------------------------------------
@@ -1482,7 +1487,7 @@ _Tcom_init:
 	mov	r3,dph
 	mov	r4,b
 	mov	r5,a
-;	Tcom.h:251: Timer4_init(); //used for frequency-resolution interrupts
+;	Tcom.h:258: Timer4_init(); //used for frequency-resolution interrupts
 	push	ar2
 	push	ar3
 	push	ar4
@@ -1492,7 +1497,7 @@ _Tcom_init:
 	pop	ar4
 	pop	ar3
 	pop	ar2
-;	Tcom.h:254: UART1_Init(baudrate);
+;	Tcom.h:261: UART1_Init(baudrate);
 	mov	dpl,r2
 	mov	dph,r3
 	mov	b,r4
@@ -1818,15 +1823,15 @@ L028011?:
 ;------------------------------------------------------------
 ;output_data               Allocated to registers 
 ;------------------------------------------------------------
-;	Nunchuck_reader.h:81: void I2C_write (unsigned char output_data)
+;	Nunchuck_reader.h:83: void I2C_write (unsigned char output_data)
 ;	-----------------------------------------
 ;	 function I2C_write
 ;	-----------------------------------------
 _I2C_write:
 	mov	_SMB0DAT,dpl
-;	Nunchuck_reader.h:85: SI = 0;
+;	Nunchuck_reader.h:87: SI = 0;
 	clr	_SI
-;	Nunchuck_reader.h:86: while (!SI); // Wait until done with send
+;	Nunchuck_reader.h:88: while (!SI); // Wait until done with send
 L029001?:
 	jnb	_SI,L029001?
 	ret
@@ -1835,55 +1840,55 @@ L029001?:
 ;------------------------------------------------------------
 ;input_data                Allocated to registers 
 ;------------------------------------------------------------
-;	Nunchuck_reader.h:89: unsigned char I2C_read (void)
+;	Nunchuck_reader.h:91: unsigned char I2C_read (void)
 ;	-----------------------------------------
 ;	 function I2C_read
 ;	-----------------------------------------
 _I2C_read:
-;	Nunchuck_reader.h:92: SI = 0;
+;	Nunchuck_reader.h:94: SI = 0;
 	clr	_SI
-;	Nunchuck_reader.h:93: while (!SI); // Wait until we have data to read
+;	Nunchuck_reader.h:95: while (!SI); // Wait until we have data to read
 L030001?:
 	jnb	_SI,L030001?
-;	Nunchuck_reader.h:94: input_data = SMB0DAT; // Read the data
+;	Nunchuck_reader.h:96: input_data = SMB0DAT; // Read the data
 	mov	dpl,_SMB0DAT
-;	Nunchuck_reader.h:96: return input_data;
+;	Nunchuck_reader.h:98: return input_data;
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'I2C_start'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	Nunchuck_reader.h:99: void I2C_start (void)
+;	Nunchuck_reader.h:101: void I2C_start (void)
 ;	-----------------------------------------
 ;	 function I2C_start
 ;	-----------------------------------------
 _I2C_start:
-;	Nunchuck_reader.h:101: ACK = 1;
+;	Nunchuck_reader.h:103: ACK = 1;
 	setb	_ACK
-;	Nunchuck_reader.h:102: STA = 1;     // Send I2C start
+;	Nunchuck_reader.h:104: STA = 1;     // Send I2C start
 	setb	_STA
-;	Nunchuck_reader.h:103: STO = 0;
+;	Nunchuck_reader.h:105: STO = 0;
 	clr	_STO
-;	Nunchuck_reader.h:104: SI = 0;
+;	Nunchuck_reader.h:106: SI = 0;
 	clr	_SI
-;	Nunchuck_reader.h:105: while (!SI); // Wait until start sent
+;	Nunchuck_reader.h:107: while (!SI); // Wait until start sent
 L031001?:
 	jnb	_SI,L031001?
-;	Nunchuck_reader.h:106: STA = 0;     // Reset I2C start
+;	Nunchuck_reader.h:108: STA = 0;     // Reset I2C start
 	clr	_STA
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'I2C_stop'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	Nunchuck_reader.h:109: void I2C_stop(void)
+;	Nunchuck_reader.h:111: void I2C_stop(void)
 ;	-----------------------------------------
 ;	 function I2C_stop
 ;	-----------------------------------------
 _I2C_stop:
-;	Nunchuck_reader.h:111: STO = 1;  	// Perform I2C stop
+;	Nunchuck_reader.h:113: STO = 1;  	// Perform I2C stop
 	setb	_STO
-;	Nunchuck_reader.h:112: SI = 0;	// Clear SI
+;	Nunchuck_reader.h:114: SI = 0;	// Clear SI
 	clr	_SI
 	ret
 ;------------------------------------------------------------
@@ -1895,68 +1900,68 @@ _I2C_stop:
 ;sloc1                     Allocated with name '_nunchuck_init_sloc1_1_0'
 ;sloc2                     Allocated with name '_nunchuck_init_sloc2_1_0'
 ;------------------------------------------------------------
-;	Nunchuck_reader.h:116: void nunchuck_init(bit print_extension_type)
+;	Nunchuck_reader.h:118: void nunchuck_init(bit print_extension_type)
 ;	-----------------------------------------
 ;	 function nunchuck_init
 ;	-----------------------------------------
 _nunchuck_init:
-;	Nunchuck_reader.h:122: I2C_start();
+;	Nunchuck_reader.h:124: I2C_start();
 	lcall	_I2C_start
-;	Nunchuck_reader.h:123: I2C_write(0xA4);
+;	Nunchuck_reader.h:125: I2C_write(0xA4);
 	mov	dpl,#0xA4
 	lcall	_I2C_write
-;	Nunchuck_reader.h:124: I2C_write(0xF0);
+;	Nunchuck_reader.h:126: I2C_write(0xF0);
 	mov	dpl,#0xF0
 	lcall	_I2C_write
-;	Nunchuck_reader.h:125: I2C_write(0x55);
+;	Nunchuck_reader.h:127: I2C_write(0x55);
 	mov	dpl,#0x55
 	lcall	_I2C_write
-;	Nunchuck_reader.h:126: I2C_stop();
+;	Nunchuck_reader.h:128: I2C_stop();
 	lcall	_I2C_stop
-;	Nunchuck_reader.h:127: waitms(1);
+;	Nunchuck_reader.h:129: waitms(1);
 	mov	dptr,#0x0001
 	lcall	_waitms
-;	Nunchuck_reader.h:129: I2C_start();
+;	Nunchuck_reader.h:131: I2C_start();
 	lcall	_I2C_start
-;	Nunchuck_reader.h:130: I2C_write(0xA4);
+;	Nunchuck_reader.h:132: I2C_write(0xA4);
 	mov	dpl,#0xA4
 	lcall	_I2C_write
-;	Nunchuck_reader.h:131: I2C_write(0xFB);
+;	Nunchuck_reader.h:133: I2C_write(0xFB);
 	mov	dpl,#0xFB
 	lcall	_I2C_write
-;	Nunchuck_reader.h:132: I2C_write(0x00);
+;	Nunchuck_reader.h:134: I2C_write(0x00);
 	mov	dpl,#0x00
 	lcall	_I2C_write
-;	Nunchuck_reader.h:133: I2C_stop();
+;	Nunchuck_reader.h:135: I2C_stop();
 	lcall	_I2C_stop
-;	Nunchuck_reader.h:134: waitms(1);
+;	Nunchuck_reader.h:136: waitms(1);
 	mov	dptr,#0x0001
 	lcall	_waitms
-;	Nunchuck_reader.h:138: I2C_start();
+;	Nunchuck_reader.h:140: I2C_start();
 	lcall	_I2C_start
-;	Nunchuck_reader.h:139: I2C_write(0xA4);
+;	Nunchuck_reader.h:141: I2C_write(0xA4);
 	mov	dpl,#0xA4
 	lcall	_I2C_write
-;	Nunchuck_reader.h:140: I2C_write(0xFA); // extension type register
+;	Nunchuck_reader.h:142: I2C_write(0xFA); // extension type register
 	mov	dpl,#0xFA
 	lcall	_I2C_write
-;	Nunchuck_reader.h:141: I2C_stop();
+;	Nunchuck_reader.h:143: I2C_stop();
 	lcall	_I2C_stop
-;	Nunchuck_reader.h:142: waitms(3); // 3 ms required to complete acquisition
+;	Nunchuck_reader.h:144: waitms(3); // 3 ms required to complete acquisition
 	mov	dptr,#0x0003
 	lcall	_waitms
-;	Nunchuck_reader.h:144: I2C_start();
+;	Nunchuck_reader.h:146: I2C_start();
 	lcall	_I2C_start
-;	Nunchuck_reader.h:145: I2C_write(0xA5);
+;	Nunchuck_reader.h:147: I2C_write(0xA5);
 	mov	dpl,#0xA5
 	lcall	_I2C_write
-;	Nunchuck_reader.h:148: for(i=0; i<CHARS_PER_LINE; i++)
+;	Nunchuck_reader.h:150: for(i=0; i<CHARS_PER_LINE; i++)
 	mov	r2,#0x00
 L033003?:
 	cjne	r2,#0x10,L033013?
 L033013?:
 	jnc	L033006?
-;	Nunchuck_reader.h:150: buf[i]=I2C_read();
+;	Nunchuck_reader.h:152: buf[i]=I2C_read();
 	mov	a,r2
 	add	a,#_nunchuck_init_buf_1_134
 	mov	r0,a
@@ -1967,20 +1972,20 @@ L033013?:
 	pop	ar0
 	pop	ar2
 	mov	@r0,a
-;	Nunchuck_reader.h:148: for(i=0; i<CHARS_PER_LINE; i++)
+;	Nunchuck_reader.h:150: for(i=0; i<CHARS_PER_LINE; i++)
 	inc	r2
 	sjmp	L033003?
 L033006?:
-;	Nunchuck_reader.h:152: ACK=0;
+;	Nunchuck_reader.h:154: ACK=0;
 	clr	_ACK
-;	Nunchuck_reader.h:153: I2C_stop();
+;	Nunchuck_reader.h:155: I2C_stop();
 	lcall	_I2C_stop
-;	Nunchuck_reader.h:154: waitms(3);
+;	Nunchuck_reader.h:156: waitms(3);
 	mov	dptr,#0x0003
 	lcall	_waitms
-;	Nunchuck_reader.h:156: if(print_extension_type)
+;	Nunchuck_reader.h:158: if(print_extension_type)
 	jnb	_nunchuck_init_PARM_1,L033002?
-;	Nunchuck_reader.h:159: buf[0],  buf[1], buf[2], buf[3], buf[4], buf[5]);
+;	Nunchuck_reader.h:161: buf[0],  buf[1], buf[2], buf[3], buf[4], buf[5]);
 	mov	r2,(_nunchuck_init_buf_1_134 + 0x0005)
 	mov	r3,#0x00
 	mov	r4,(_nunchuck_init_buf_1_134 + 0x0004)
@@ -1993,7 +1998,7 @@ L033006?:
 	mov	(_nunchuck_init_sloc2_1_0 + 1),#0x00
 	mov	r6,_nunchuck_init_buf_1_134
 	mov	r7,#0x00
-;	Nunchuck_reader.h:158: printf("Extension type: %02x  %02x  %02x  %02x  %02x  %02x\n", 
+;	Nunchuck_reader.h:160: printf("Extension type: %02x  %02x  %02x  %02x  %02x  %02x\n", 
 	push	ar2
 	push	ar3
 	push	ar4
@@ -2017,35 +2022,29 @@ L033006?:
 	add	a,#0xf1
 	mov	sp,a
 L033002?:
-;	Nunchuck_reader.h:164: I2C_start();
+;	Nunchuck_reader.h:166: I2C_start();
 	lcall	_I2C_start
-;	Nunchuck_reader.h:165: I2C_write(0xA4);
+;	Nunchuck_reader.h:167: I2C_write(0xA4);
 	mov	dpl,#0xA4
 	lcall	_I2C_write
-;	Nunchuck_reader.h:166: I2C_write(0xF0);
+;	Nunchuck_reader.h:168: I2C_write(0xF0);
 	mov	dpl,#0xF0
 	lcall	_I2C_write
-;	Nunchuck_reader.h:167: I2C_write(0xAA);
+;	Nunchuck_reader.h:169: I2C_write(0xAA);
 	mov	dpl,#0xAA
 	lcall	_I2C_write
-;	Nunchuck_reader.h:168: I2C_stop();
+;	Nunchuck_reader.h:170: I2C_stop();
 	lcall	_I2C_stop
-;	Nunchuck_reader.h:169: waitms(1);
+;	Nunchuck_reader.h:171: waitms(1);
 	mov	dptr,#0x0001
 	lcall	_waitms
-;	Nunchuck_reader.h:171: I2C_start();
+;	Nunchuck_reader.h:173: I2C_start();
 	lcall	_I2C_start
-;	Nunchuck_reader.h:172: I2C_write(0xA4);
+;	Nunchuck_reader.h:174: I2C_write(0xA4);
 	mov	dpl,#0xA4
 	lcall	_I2C_write
-;	Nunchuck_reader.h:173: I2C_write(0x40);
+;	Nunchuck_reader.h:175: I2C_write(0x40);
 	mov	dpl,#0x40
-	lcall	_I2C_write
-;	Nunchuck_reader.h:174: I2C_write(0x00);
-	mov	dpl,#0x00
-	lcall	_I2C_write
-;	Nunchuck_reader.h:175: I2C_write(0x00);
-	mov	dpl,#0x00
 	lcall	_I2C_write
 ;	Nunchuck_reader.h:176: I2C_write(0x00);
 	mov	dpl,#0x00
@@ -2059,24 +2058,24 @@ L033002?:
 ;	Nunchuck_reader.h:179: I2C_write(0x00);
 	mov	dpl,#0x00
 	lcall	_I2C_write
-;	Nunchuck_reader.h:180: I2C_stop();
+;	Nunchuck_reader.h:180: I2C_write(0x00);
+	mov	dpl,#0x00
+	lcall	_I2C_write
+;	Nunchuck_reader.h:181: I2C_write(0x00);
+	mov	dpl,#0x00
+	lcall	_I2C_write
+;	Nunchuck_reader.h:182: I2C_stop();
 	lcall	_I2C_stop
-;	Nunchuck_reader.h:181: waitms(1);
+;	Nunchuck_reader.h:183: waitms(1);
 	mov	dptr,#0x0001
 	lcall	_waitms
-;	Nunchuck_reader.h:183: I2C_start();
+;	Nunchuck_reader.h:185: I2C_start();
 	lcall	_I2C_start
-;	Nunchuck_reader.h:184: I2C_write(0xA4);
+;	Nunchuck_reader.h:186: I2C_write(0xA4);
 	mov	dpl,#0xA4
 	lcall	_I2C_write
-;	Nunchuck_reader.h:185: I2C_write(0x40);
+;	Nunchuck_reader.h:187: I2C_write(0x40);
 	mov	dpl,#0x40
-	lcall	_I2C_write
-;	Nunchuck_reader.h:186: I2C_write(0x00);
-	mov	dpl,#0x00
-	lcall	_I2C_write
-;	Nunchuck_reader.h:187: I2C_write(0x00);
-	mov	dpl,#0x00
 	lcall	_I2C_write
 ;	Nunchuck_reader.h:188: I2C_write(0x00);
 	mov	dpl,#0x00
@@ -2090,24 +2089,24 @@ L033002?:
 ;	Nunchuck_reader.h:191: I2C_write(0x00);
 	mov	dpl,#0x00
 	lcall	_I2C_write
-;	Nunchuck_reader.h:192: I2C_stop();
+;	Nunchuck_reader.h:192: I2C_write(0x00);
+	mov	dpl,#0x00
+	lcall	_I2C_write
+;	Nunchuck_reader.h:193: I2C_write(0x00);
+	mov	dpl,#0x00
+	lcall	_I2C_write
+;	Nunchuck_reader.h:194: I2C_stop();
 	lcall	_I2C_stop
-;	Nunchuck_reader.h:193: waitms(1);
+;	Nunchuck_reader.h:195: waitms(1);
 	mov	dptr,#0x0001
 	lcall	_waitms
-;	Nunchuck_reader.h:195: I2C_start();
+;	Nunchuck_reader.h:197: I2C_start();
 	lcall	_I2C_start
-;	Nunchuck_reader.h:196: I2C_write(0xA4);
+;	Nunchuck_reader.h:198: I2C_write(0xA4);
 	mov	dpl,#0xA4
 	lcall	_I2C_write
-;	Nunchuck_reader.h:197: I2C_write(0x40);
+;	Nunchuck_reader.h:199: I2C_write(0x40);
 	mov	dpl,#0x40
-	lcall	_I2C_write
-;	Nunchuck_reader.h:198: I2C_write(0x00);
-	mov	dpl,#0x00
-	lcall	_I2C_write
-;	Nunchuck_reader.h:199: I2C_write(0x00);
-	mov	dpl,#0x00
 	lcall	_I2C_write
 ;	Nunchuck_reader.h:200: I2C_write(0x00);
 	mov	dpl,#0x00
@@ -2115,9 +2114,15 @@ L033002?:
 ;	Nunchuck_reader.h:201: I2C_write(0x00);
 	mov	dpl,#0x00
 	lcall	_I2C_write
-;	Nunchuck_reader.h:202: I2C_stop();
+;	Nunchuck_reader.h:202: I2C_write(0x00);
+	mov	dpl,#0x00
+	lcall	_I2C_write
+;	Nunchuck_reader.h:203: I2C_write(0x00);
+	mov	dpl,#0x00
+	lcall	_I2C_write
+;	Nunchuck_reader.h:204: I2C_stop();
 	lcall	_I2C_stop
-;	Nunchuck_reader.h:203: waitms(1);
+;	Nunchuck_reader.h:205: waitms(1);
 	mov	dptr,#0x0001
 	ljmp	_waitms
 ;------------------------------------------------------------
@@ -2126,7 +2131,7 @@ L033002?:
 ;s                         Allocated to registers r2 r3 r4 
 ;i                         Allocated to registers r5 
 ;------------------------------------------------------------
-;	Nunchuck_reader.h:206: void nunchuck_getdata(unsigned char * s)
+;	Nunchuck_reader.h:208: void nunchuck_getdata(unsigned char * s)
 ;	-----------------------------------------
 ;	 function nunchuck_getdata
 ;	-----------------------------------------
@@ -2134,37 +2139,37 @@ _nunchuck_getdata:
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
-;	Nunchuck_reader.h:211: I2C_start();
+;	Nunchuck_reader.h:213: I2C_start();
 	push	ar2
 	push	ar3
 	push	ar4
 	lcall	_I2C_start
-;	Nunchuck_reader.h:212: I2C_write(0xA4);
+;	Nunchuck_reader.h:214: I2C_write(0xA4);
 	mov	dpl,#0xA4
 	lcall	_I2C_write
-;	Nunchuck_reader.h:213: I2C_write(0x00);
+;	Nunchuck_reader.h:215: I2C_write(0x00);
 	mov	dpl,#0x00
 	lcall	_I2C_write
-;	Nunchuck_reader.h:214: I2C_stop();
+;	Nunchuck_reader.h:216: I2C_stop();
 	lcall	_I2C_stop
-;	Nunchuck_reader.h:215: waitms(3); 	// 3 ms required to complete acquisition
+;	Nunchuck_reader.h:217: waitms(3); 	// 3 ms required to complete acquisition
 	mov	dptr,#0x0003
 	lcall	_waitms
-;	Nunchuck_reader.h:218: I2C_start();
+;	Nunchuck_reader.h:220: I2C_start();
 	lcall	_I2C_start
-;	Nunchuck_reader.h:219: I2C_write(0xA5);
+;	Nunchuck_reader.h:221: I2C_write(0xA5);
 	mov	dpl,#0xA5
 	lcall	_I2C_write
 	pop	ar4
 	pop	ar3
 	pop	ar2
-;	Nunchuck_reader.h:222: for(i=0; i<CHARS_PER_LINE; i++)
+;	Nunchuck_reader.h:224: for(i=0; i<CHARS_PER_LINE; i++)
 	mov	r5,#0x00
 L034001?:
 	cjne	r5,#0x10,L034010?
 L034010?:
 	jnc	L034004?
-;	Nunchuck_reader.h:224: s[i]=(I2C_read()^0x17)+0x17; // Read and decrypt
+;	Nunchuck_reader.h:226: s[i]=(I2C_read()^0x17)+0x17; // Read and decrypt
 	mov	a,r5
 	add	a,r2
 	mov	r6,a
@@ -2195,13 +2200,13 @@ L034010?:
 	mov	dph,r7
 	mov	b,r0
 	lcall	__gptrput
-;	Nunchuck_reader.h:222: for(i=0; i<CHARS_PER_LINE; i++)
+;	Nunchuck_reader.h:224: for(i=0; i<CHARS_PER_LINE; i++)
 	inc	r5
 	sjmp	L034001?
 L034004?:
-;	Nunchuck_reader.h:226: ACK=0;
+;	Nunchuck_reader.h:228: ACK=0;
 	clr	_ACK
-;	Nunchuck_reader.h:227: I2C_stop();
+;	Nunchuck_reader.h:229: I2C_stop();
 	ljmp	_I2C_stop
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'get_speed'
@@ -2210,13 +2215,13 @@ L034004?:
 ;x_ax                      Allocated to registers r2 
 ;spd                       Allocated to registers r4 
 ;------------------------------------------------------------
-;	Nunchuck_reader.h:233: char get_speed(char x_ax, char y_ax){
+;	Nunchuck_reader.h:235: char get_speed(char x_ax, char y_ax){
 ;	-----------------------------------------
 ;	 function get_speed
 ;	-----------------------------------------
 _get_speed:
 	mov	r2,dpl
-;	Nunchuck_reader.h:235: y_ax=abs(y_ax);
+;	Nunchuck_reader.h:237: y_ax=abs(y_ax);
 	mov	a,_get_speed_PARM_2
 	mov	r3,a
 	rlc	a
@@ -2228,7 +2233,7 @@ _get_speed:
 	lcall	_abs
 	mov	r3,dpl
 	pop	ar2
-;	Nunchuck_reader.h:236: x_ax=abs(x_ax);
+;	Nunchuck_reader.h:238: x_ax=abs(x_ax);
 	mov	a,r2
 	mov	r4,a
 	rlc	a
@@ -2242,7 +2247,7 @@ _get_speed:
 	mov	r5,dph
 	pop	ar3
 	mov	ar2,r4
-;	Nunchuck_reader.h:238: if(y_ax>x_ax){
+;	Nunchuck_reader.h:240: if(y_ax>x_ax){
 	clr	c
 	mov	a,r2
 	xrl	a,#0x80
@@ -2250,24 +2255,37 @@ _get_speed:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	L035004?
-;	Nunchuck_reader.h:239: spd=y_ax;
+;	Nunchuck_reader.h:241: spd=y_ax;
 	mov	ar4,r3
-;	Nunchuck_reader.h:240: if(y_ax>85)
+;	Nunchuck_reader.h:242: if(y_ax>85)
 	clr	c
 	mov	a,#(0x55 ^ 0x80)
 	mov	b,r3
 	xrl	b,#0x80
 	subb	a,b
 	jnc	L035005?
-;	Nunchuck_reader.h:241: spd=100;
+;	Nunchuck_reader.h:243: spd=100;
 	mov	r4,#0x64
 	sjmp	L035005?
 L035004?:
-;	Nunchuck_reader.h:243: else spd=x_ax;
+;	Nunchuck_reader.h:245: else spd=x_ax;
 	mov	ar4,r2
 L035005?:
-;	Nunchuck_reader.h:245: return spd;
-	mov	dpl,r4
+;	Nunchuck_reader.h:247: return spd/TRANSMISSION_SIZE;
+	clr	F0
+	mov	b,#0x04
+	mov	a,r4
+	jnb	acc.7,L035012?
+	cpl	F0
+	cpl	a
+	inc	a
+L035012?:
+	div	ab
+	jnb	F0,L035013?
+	cpl	a
+	inc	a
+L035013?:
+	mov	dpl,a
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'get_direction'
@@ -2276,15 +2294,15 @@ L035005?:
 ;x_axis                    Allocated to registers r2 
 ;direction                 Allocated to registers r3 
 ;------------------------------------------------------------
-;	Nunchuck_reader.h:248: char get_direction(char x_axis, char y_axis){
+;	Nunchuck_reader.h:250: char get_direction(char x_axis, char y_axis){
 ;	-----------------------------------------
 ;	 function get_direction
 ;	-----------------------------------------
 _get_direction:
 	mov	r2,dpl
-;	Nunchuck_reader.h:250: char direction=north;
-	mov	r3,#0x61
-;	Nunchuck_reader.h:253: if(y_axis>0){
+;	Nunchuck_reader.h:252: char direction=north;
+	mov	r3,#0x00
+;	Nunchuck_reader.h:255: if(y_axis>0){
 	clr	c
 	clr	a
 	xrl	a,#0x80
@@ -2294,7 +2312,7 @@ _get_direction:
 	jc	L036130?
 	ljmp	L036084?
 L036130?:
-;	Nunchuck_reader.h:255: if ((x_axis<10)&&(x_axis>-10)){
+;	Nunchuck_reader.h:257: if ((x_axis<10)&&(x_axis>-10)){
 	clr	c
 	mov	a,r2
 	xrl	a,#0x80
@@ -2306,7 +2324,7 @@ L036130?:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	L036038?
-;	Nunchuck_reader.h:258: if(y_axis>5&&y_axis>-5){
+;	Nunchuck_reader.h:260: if(y_axis>5&&y_axis>-5){
 	clr	c
 	mov	a,#(0x05 ^ 0x80)
 	mov	b,_get_direction_PARM_2
@@ -2319,15 +2337,15 @@ L036130?:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	L036002?
-;	Nunchuck_reader.h:259: direction=north;
-	mov	r3,#0x61
+;	Nunchuck_reader.h:261: direction=north;
+	mov	r3,#0x00
 	ljmp	L036085?
 L036002?:
-;	Nunchuck_reader.h:261: else direction=north;
-	mov	r3,#0x61
+;	Nunchuck_reader.h:263: else direction=north;
+	mov	r3,#0x00
 	ljmp	L036085?
 L036038?:
-;	Nunchuck_reader.h:265: else if(x_axis>10&&x_axis<=30){
+;	Nunchuck_reader.h:267: else if(x_axis>10&&x_axis<=30){
 	clr	c
 	mov	a,#(0x0A ^ 0x80)
 	mov	b,r2
@@ -2340,11 +2358,11 @@ L036038?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L036034?
-;	Nunchuck_reader.h:266: direction=NNE;
-	mov	r3,#0x63
+;	Nunchuck_reader.h:268: direction=NNE;
+	mov	r3,#0x02
 	ljmp	L036085?
 L036034?:
-;	Nunchuck_reader.h:268: else if(x_axis>30&&x_axis<=50){
+;	Nunchuck_reader.h:270: else if(x_axis>30&&x_axis<=50){
 	clr	c
 	mov	a,#(0x1E ^ 0x80)
 	mov	b,r2
@@ -2357,11 +2375,11 @@ L036034?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L036030?
-;	Nunchuck_reader.h:269: direction=NE;
-	mov	r3,#0x65
+;	Nunchuck_reader.h:271: direction=NE;
+	mov	r3,#0x04
 	ljmp	L036085?
 L036030?:
-;	Nunchuck_reader.h:271: else if(x_axis>50&&x_axis<=70){
+;	Nunchuck_reader.h:273: else if(x_axis>50&&x_axis<=70){
 	clr	c
 	mov	a,#(0x32 ^ 0x80)
 	mov	b,r2
@@ -2374,11 +2392,11 @@ L036030?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L036026?
-;	Nunchuck_reader.h:272: direction=NEE;
-	mov	r3,#0x67
+;	Nunchuck_reader.h:274: direction=NEE;
+	mov	r3,#0x06
 	ljmp	L036085?
 L036026?:
-;	Nunchuck_reader.h:274: else if(x_axis>70&&x_axis<=100){
+;	Nunchuck_reader.h:276: else if(x_axis>70&&x_axis<=100){
 	clr	c
 	mov	a,#(0x46 ^ 0x80)
 	mov	b,r2
@@ -2391,11 +2409,11 @@ L036026?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L036022?
-;	Nunchuck_reader.h:275: direction=east;
-	mov	r3,#0x69
+;	Nunchuck_reader.h:277: direction=east;
+	mov	r3,#0x08
 	ljmp	L036085?
 L036022?:
-;	Nunchuck_reader.h:278: else if(x_axis<-10&&x_axis>=-30){
+;	Nunchuck_reader.h:280: else if(x_axis<-10&&x_axis>=-30){
 	clr	c
 	mov	a,r2
 	xrl	a,#0x80
@@ -2406,11 +2424,11 @@ L036022?:
 	xrl	a,#0x80
 	subb	a,#0x62
 	jc	L036018?
-;	Nunchuck_reader.h:279: direction=NNW;
-	mov	r3,#0x64
+;	Nunchuck_reader.h:281: direction=NNW;
+	mov	r3,#0x03
 	ljmp	L036085?
 L036018?:
-;	Nunchuck_reader.h:281: else if(x_axis<-30&&x_axis>=-50){
+;	Nunchuck_reader.h:283: else if(x_axis<-30&&x_axis>=-50){
 	clr	c
 	mov	a,r2
 	xrl	a,#0x80
@@ -2421,11 +2439,11 @@ L036018?:
 	xrl	a,#0x80
 	subb	a,#0x4e
 	jc	L036014?
-;	Nunchuck_reader.h:282: direction=NW;
-	mov	r3,#0x66
+;	Nunchuck_reader.h:284: direction=NW;
+	mov	r3,#0x05
 	ljmp	L036085?
 L036014?:
-;	Nunchuck_reader.h:284: else if(x_axis<-50&&x_axis>=-70){
+;	Nunchuck_reader.h:286: else if(x_axis<-50&&x_axis>=-70){
 	clr	c
 	mov	a,r2
 	xrl	a,#0x80
@@ -2436,11 +2454,11 @@ L036014?:
 	xrl	a,#0x80
 	subb	a,#0x3a
 	jc	L036010?
-;	Nunchuck_reader.h:285: direction=NWW;
-	mov	r3,#0x68
+;	Nunchuck_reader.h:287: direction=NWW;
+	mov	r3,#0x07
 	ljmp	L036085?
 L036010?:
-;	Nunchuck_reader.h:287: else if(x_axis<-70&&x_axis>=-110){
+;	Nunchuck_reader.h:289: else if(x_axis<-70&&x_axis>=-110){
 	clr	c
 	mov	a,r2
 	xrl	a,#0x80
@@ -2451,20 +2469,20 @@ L036010?:
 	xrl	a,#0x80
 	subb	a,#0x12
 	jc	L036006?
-;	Nunchuck_reader.h:288: direction=west;
-	mov	r3,#0x6A
+;	Nunchuck_reader.h:290: direction=west;
+	mov	r3,#0x09
 	ljmp	L036085?
 L036006?:
-;	Nunchuck_reader.h:291: direction=north;
-	mov	r3,#0x61
+;	Nunchuck_reader.h:293: direction=north;
+	mov	r3,#0x00
 	ljmp	L036085?
 L036084?:
-;	Nunchuck_reader.h:295: else if (y_axis<0){
+;	Nunchuck_reader.h:297: else if (y_axis<0){
 	mov	a,_get_direction_PARM_2
 	jb	acc.7,L036151?
 	ljmp	L036085?
 L036151?:
-;	Nunchuck_reader.h:297: if ((x_axis<10)&&(x_axis>-10)){
+;	Nunchuck_reader.h:299: if ((x_axis<10)&&(x_axis>-10)){
 	clr	c
 	mov	a,r2
 	xrl	a,#0x80
@@ -2476,7 +2494,7 @@ L036151?:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	L036078?
-;	Nunchuck_reader.h:300: if(y_axis>5&&y_axis>-5){
+;	Nunchuck_reader.h:302: if(y_axis>5&&y_axis>-5){
 	clr	c
 	mov	a,#(0x05 ^ 0x80)
 	mov	b,_get_direction_PARM_2
@@ -2489,15 +2507,15 @@ L036151?:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	L036042?
-;	Nunchuck_reader.h:301: direction=south;
-	mov	r3,#0x62
+;	Nunchuck_reader.h:303: direction=south;
+	mov	r3,#0x01
 	ljmp	L036085?
 L036042?:
-;	Nunchuck_reader.h:303: else direction=south;
-	mov	r3,#0x62
+;	Nunchuck_reader.h:305: else direction=south;
+	mov	r3,#0x01
 	ljmp	L036085?
 L036078?:
-;	Nunchuck_reader.h:307: else if(x_axis>10&&x_axis<=30){
+;	Nunchuck_reader.h:309: else if(x_axis>10&&x_axis<=30){
 	clr	c
 	mov	a,#(0x0A ^ 0x80)
 	mov	b,r2
@@ -2510,11 +2528,11 @@ L036078?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L036074?
-;	Nunchuck_reader.h:308: direction=SSE;
-	mov	r3,#0x6B
+;	Nunchuck_reader.h:310: direction=SSE;
+	mov	r3,#0x0A
 	ljmp	L036085?
 L036074?:
-;	Nunchuck_reader.h:310: else if(x_axis>30&&x_axis<=50){
+;	Nunchuck_reader.h:312: else if(x_axis>30&&x_axis<=50){
 	clr	c
 	mov	a,#(0x1E ^ 0x80)
 	mov	b,r2
@@ -2527,11 +2545,11 @@ L036074?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L036070?
-;	Nunchuck_reader.h:311: direction=SE;
-	mov	r3,#0x6D
+;	Nunchuck_reader.h:313: direction=SE;
+	mov	r3,#0x0C
 	ljmp	L036085?
 L036070?:
-;	Nunchuck_reader.h:313: else if(x_axis>50&&x_axis<=70){
+;	Nunchuck_reader.h:315: else if(x_axis>50&&x_axis<=70){
 	clr	c
 	mov	a,#(0x32 ^ 0x80)
 	mov	b,r2
@@ -2544,11 +2562,11 @@ L036070?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L036066?
-;	Nunchuck_reader.h:314: direction=SEE;
-	mov	r3,#0x6F
+;	Nunchuck_reader.h:316: direction=SEE;
+	mov	r3,#0x0E
 	ljmp	L036085?
 L036066?:
-;	Nunchuck_reader.h:316: else if(x_axis>70&&x_axis<=100){
+;	Nunchuck_reader.h:318: else if(x_axis>70&&x_axis<=100){
 	clr	c
 	mov	a,#(0x46 ^ 0x80)
 	mov	b,r2
@@ -2561,11 +2579,11 @@ L036066?:
 	xrl	b,#0x80
 	subb	a,b
 	jc	L036062?
-;	Nunchuck_reader.h:317: direction=east;
-	mov	r3,#0x69
+;	Nunchuck_reader.h:319: direction=east;
+	mov	r3,#0x08
 	sjmp	L036085?
 L036062?:
-;	Nunchuck_reader.h:320: else if(x_axis<-10&&x_axis>=-30){
+;	Nunchuck_reader.h:322: else if(x_axis<-10&&x_axis>=-30){
 	clr	c
 	mov	a,r2
 	xrl	a,#0x80
@@ -2576,11 +2594,11 @@ L036062?:
 	xrl	a,#0x80
 	subb	a,#0x62
 	jc	L036058?
-;	Nunchuck_reader.h:321: direction=SSW;
-	mov	r3,#0x6C
+;	Nunchuck_reader.h:323: direction=SSW;
+	mov	r3,#0x0B
 	sjmp	L036085?
 L036058?:
-;	Nunchuck_reader.h:323: else if(x_axis<-30&&x_axis>=-50){
+;	Nunchuck_reader.h:325: else if(x_axis<-30&&x_axis>=-50){
 	clr	c
 	mov	a,r2
 	xrl	a,#0x80
@@ -2591,11 +2609,11 @@ L036058?:
 	xrl	a,#0x80
 	subb	a,#0x4e
 	jc	L036054?
-;	Nunchuck_reader.h:324: direction=SW;
-	mov	r3,#0x6E
+;	Nunchuck_reader.h:326: direction=SW;
+	mov	r3,#0x0C
 	sjmp	L036085?
 L036054?:
-;	Nunchuck_reader.h:326: else if(x_axis<-50&&x_axis>=-80){
+;	Nunchuck_reader.h:328: else if(x_axis<-50&&x_axis>=-80){
 	clr	c
 	mov	a,r2
 	xrl	a,#0x80
@@ -2606,11 +2624,11 @@ L036054?:
 	xrl	a,#0x80
 	subb	a,#0x30
 	jc	L036050?
-;	Nunchuck_reader.h:327: direction=SWW;
-	mov	r3,#0x70
+;	Nunchuck_reader.h:329: direction=SWW;
+	mov	r3,#0x0F
 	sjmp	L036085?
 L036050?:
-;	Nunchuck_reader.h:329: else if(x_axis<-80&&x_axis>=-110){
+;	Nunchuck_reader.h:331: else if(x_axis<-80&&x_axis>=-110){
 	clr	c
 	mov	a,r2
 	xrl	a,#0x80
@@ -2621,14 +2639,14 @@ L036050?:
 	xrl	a,#0x80
 	subb	a,#0x12
 	jc	L036046?
-;	Nunchuck_reader.h:330: direction=west;
-	mov	r3,#0x6A
+;	Nunchuck_reader.h:332: direction=west;
+	mov	r3,#0x09
 	sjmp	L036085?
 L036046?:
-;	Nunchuck_reader.h:333: direction=north;
-	mov	r3,#0x61
+;	Nunchuck_reader.h:335: direction=north;
+	mov	r3,#0x00
 L036085?:
-;	Nunchuck_reader.h:339: return direction;
+;	Nunchuck_reader.h:341: return direction;
 	mov	dpl,r3
 	ret
 ;------------------------------------------------------------
@@ -2643,7 +2661,7 @@ L036085?:
 ;joy_y                     Allocated with name '_read_nunchuck_joy_y_1_168'
 ;sloc0                     Allocated with name '_read_nunchuck_sloc0_1_0'
 ;------------------------------------------------------------
-;	Nunchuck_reader.h:344: void read_nunchuck(char * direction, char * speed, char * rbuf, int off_x, int off_y)
+;	Nunchuck_reader.h:346: void read_nunchuck(char * direction, char * speed, char * rbuf, int off_x, int off_y)
 ;	-----------------------------------------
 ;	 function read_nunchuck
 ;	-----------------------------------------
@@ -2651,7 +2669,7 @@ _read_nunchuck:
 	mov	_read_nunchuck_direction_1_167,dpl
 	mov	(_read_nunchuck_direction_1_167 + 1),dph
 	mov	(_read_nunchuck_direction_1_167 + 2),b
-;	Nunchuck_reader.h:364: nunchuck_getdata(rbuf);
+;	Nunchuck_reader.h:366: nunchuck_getdata(rbuf);
 	mov	r5,_read_nunchuck_PARM_3
 	mov	r6,(_read_nunchuck_PARM_3 + 1)
 	mov	r7,(_read_nunchuck_PARM_3 + 2)
@@ -2659,7 +2677,7 @@ _read_nunchuck:
 	mov	dph,r6
 	mov	b,r7
 	lcall	_nunchuck_getdata
-;	Nunchuck_reader.h:369: joy_x=(int)rbuf[0]-128-off_x;
+;	Nunchuck_reader.h:371: joy_x=(int)rbuf[0]-128-off_x;
 	mov	r5,_read_nunchuck_PARM_3
 	mov	r6,(_read_nunchuck_PARM_3 + 1)
 	mov	r7,(_read_nunchuck_PARM_3 + 2)
@@ -2677,7 +2695,7 @@ _read_nunchuck:
 	clr	c
 	subb	a,r1
 	mov	_read_nunchuck_joy_x_1_168,a
-;	Nunchuck_reader.h:370: joy_y=(int)rbuf[1]-128-off_y;
+;	Nunchuck_reader.h:372: joy_y=(int)rbuf[1]-128-off_y;
 	mov	a,#0x01
 	add	a,r5
 	mov	r1,a
@@ -2699,7 +2717,7 @@ _read_nunchuck:
 	clr	c
 	subb	a,r2
 	mov	_read_nunchuck_joy_y_1_168,a
-;	Nunchuck_reader.h:375: but1=(rbuf[5] & 0x01)?1:0;
+;	Nunchuck_reader.h:377: but1=(rbuf[5] & 0x01)?1:0;
 	mov	a,#0x05
 	add	a,r5
 	mov	r5,a
@@ -2713,11 +2731,11 @@ _read_nunchuck:
 	mov	r5,a
 	rrc	a
 	mov	_read_nunchuck_but1_1_168,c
-;	Nunchuck_reader.h:376: but2=(rbuf[5] & 0x02)?1:0;
+;	Nunchuck_reader.h:378: but2=(rbuf[5] & 0x02)?1:0;
 	mov	a,r5
 	mov	c,acc.1
 	mov	_read_nunchuck_but2_1_168,c
-;	Nunchuck_reader.h:385: but1?'1':'0', but2?'1':'0', joy_x, joy_y);
+;	Nunchuck_reader.h:387: but1?'1':'0', but2?'1':'0', joy_x, joy_y);
 	mov	a,_read_nunchuck_joy_y_1_168
 	mov	r3,a
 	rlc	a
@@ -2749,7 +2767,7 @@ L037006?:
 	rlc	a
 	subb	a,acc
 	mov	r0,a
-;	Nunchuck_reader.h:384: printf("Buttons(Z:%c, C:%c) Joystick(%4d, %4d)\r",
+;	Nunchuck_reader.h:386: printf("Buttons(Z:%c, C:%c) Joystick(%4d, %4d)\r",
 	push	ar3
 	push	ar4
 	push	ar5
@@ -2768,10 +2786,10 @@ L037006?:
 	mov	a,sp
 	add	a,#0xf5
 	mov	sp,a
-;	Nunchuck_reader.h:386: waitms(100); //determine if we want to change this length
+;	Nunchuck_reader.h:388: waitms(100); //determine if we want to change this length
 	mov	dptr,#0x0064
 	lcall	_waitms
-;	Nunchuck_reader.h:391: *direction=get_direction(joy_x, joy_y);
+;	Nunchuck_reader.h:393: *direction=get_direction(joy_x, joy_y);
 	mov	_get_direction_PARM_2,_read_nunchuck_joy_y_1_168
 	mov	dpl,_read_nunchuck_joy_x_1_168
 	lcall	_get_direction
@@ -2781,7 +2799,7 @@ L037006?:
 	mov	b,(_read_nunchuck_direction_1_167 + 2)
 	mov	a,r2
 	lcall	__gptrput
-;	Nunchuck_reader.h:392: *speed = get_speed(joy_x, joy_y);
+;	Nunchuck_reader.h:394: *speed = get_speed(joy_x, joy_y);
 	mov	r2,_read_nunchuck_PARM_2
 	mov	r3,(_read_nunchuck_PARM_2 + 1)
 	mov	r4,(_read_nunchuck_PARM_2 + 2)
@@ -2804,79 +2822,79 @@ L037006?:
 ;Allocation info for local variables in function '_c51_external_startup'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	Transmitter_src.c:15: char _c51_external_startup (void)
+;	Transmitter_src.c:16: char _c51_external_startup (void)
 ;	-----------------------------------------
 ;	 function _c51_external_startup
 ;	-----------------------------------------
 __c51_external_startup:
-;	Transmitter_src.c:19: SFRPAGE = 0x00;
+;	Transmitter_src.c:20: SFRPAGE = 0x00;
 	mov	_SFRPAGE,#0x00
-;	Transmitter_src.c:20: WDTCN = 0xDE; //First key
+;	Transmitter_src.c:21: WDTCN = 0xDE; //First key
 	mov	_WDTCN,#0xDE
-;	Transmitter_src.c:21: WDTCN = 0xAD; //Second key
+;	Transmitter_src.c:22: WDTCN = 0xAD; //Second key
 	mov	_WDTCN,#0xAD
-;	Transmitter_src.c:23: VDM0CN |= 0x80;  // enable VDD mon
+;	Transmitter_src.c:24: VDM0CN |= 0x80;  // enable VDD mon
 	orl	_VDM0CN,#0x80
-;	Transmitter_src.c:24: RSTSRC = 0x02;
+;	Transmitter_src.c:25: RSTSRC = 0x02;
 	mov	_RSTSRC,#0x02
-;	Transmitter_src.c:31: SFRPAGE = 0x10;
+;	Transmitter_src.c:32: SFRPAGE = 0x10;
 	mov	_SFRPAGE,#0x10
-;	Transmitter_src.c:32: PFE0CN  = 0x20; // SYSCLK < 75 MHz.
+;	Transmitter_src.c:33: PFE0CN  = 0x20; // SYSCLK < 75 MHz.
 	mov	_PFE0CN,#0x20
-;	Transmitter_src.c:33: SFRPAGE = 0x00;
+;	Transmitter_src.c:34: SFRPAGE = 0x00;
 	mov	_SFRPAGE,#0x00
-;	Transmitter_src.c:54: CLKSEL = 0x00;
-	mov	_CLKSEL,#0x00
 ;	Transmitter_src.c:55: CLKSEL = 0x00;
 	mov	_CLKSEL,#0x00
-;	Transmitter_src.c:56: while ((CLKSEL & 0x80) == 0);
+;	Transmitter_src.c:56: CLKSEL = 0x00;
+	mov	_CLKSEL,#0x00
+;	Transmitter_src.c:57: while ((CLKSEL & 0x80) == 0);
 L038001?:
 	mov	a,_CLKSEL
 	jnb	acc.7,L038001?
-;	Transmitter_src.c:57: CLKSEL = 0x03;
-	mov	_CLKSEL,#0x03
 ;	Transmitter_src.c:58: CLKSEL = 0x03;
 	mov	_CLKSEL,#0x03
-;	Transmitter_src.c:59: while ((CLKSEL & 0x80) == 0);
+;	Transmitter_src.c:59: CLKSEL = 0x03;
+	mov	_CLKSEL,#0x03
+;	Transmitter_src.c:60: while ((CLKSEL & 0x80) == 0);
 L038004?:
 	mov	a,_CLKSEL
 	jnb	acc.7,L038004?
-;	Transmitter_src.c:70: SCON0 = 0x10;
+;	Transmitter_src.c:71: SCON0 = 0x10;
 	mov	_SCON0,#0x10
-;	Transmitter_src.c:71: CKCON0 |= 0b_0000_0000 ; // Timer 1 uses the system clock divided by 12.
+;	Transmitter_src.c:72: CKCON0 |= 0b_0000_0000 ; // Timer 1 uses the system clock divided by 12.
 	mov	_CKCON0,_CKCON0
-;	Transmitter_src.c:72: TH1 = 0x100-((SYSCLK/BAUDRATE)/(2L*12L));
+;	Transmitter_src.c:73: TH1 = 0x100-((SYSCLK/BAUDRATE)/(2L*12L));
 	mov	_TH1,#0xE6
-;	Transmitter_src.c:73: TL1 = TH1;      // Init Timer1
+;	Transmitter_src.c:74: TL1 = TH1;      // Init Timer1
 	mov	_TL1,_TH1
-;	Transmitter_src.c:74: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit auto-reload
+;	Transmitter_src.c:75: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit auto-reload
 	anl	_TMOD,#0x0F
-;	Transmitter_src.c:75: TMOD |=  0x20;                       
+;	Transmitter_src.c:76: TMOD |=  0x20;                       
 	orl	_TMOD,#0x20
-;	Transmitter_src.c:76: TR1 = 1; // START Timer1
+;	Transmitter_src.c:77: TR1 = 1; // START Timer1
 	setb	_TR1
-;	Transmitter_src.c:77: TI = 1;  // Indicate TX0 ready
+;	Transmitter_src.c:78: TI = 1;  // Indicate TX0 ready
 	setb	_TI
-;	Transmitter_src.c:79: P0MDOUT |= 0x10; // Enable UART0 TX as push-pull output
-	orl	_P0MDOUT,#0x10
-;	Transmitter_src.c:80: P1MDOUT |= 0xff; // Enable Push/Pull on port 1
+;	Transmitter_src.c:80: P0MDOUT |= 0x14; // Enable UART0 TX as push-pull output and UART1 Tx (pin 0.2)
+	orl	_P0MDOUT,#0x14
+;	Transmitter_src.c:81: P1MDOUT |= 0xff; // Enable Push/Pull on port 1
 	mov	a,_P1MDOUT
 	mov	_P1MDOUT,#0xFF
-;	Transmitter_src.c:81: XBR0     = 0b_0000_0101; // Enable UART0 on P0.4(TX) and P0.5(RX)                     
+;	Transmitter_src.c:83: XBR0     = 0b_0000_0101; // Enable UART0 on P0.4(TX) and P0.5(RX) and SMB0 I/O on (0.0 SDA) and (0.1 SCL)               
 	mov	_XBR0,#0x05
-;	Transmitter_src.c:82: XBR1     = 0x00; // Enable T0 on P0.0
+;	Transmitter_src.c:84: XBR1     = 0x00; // Enable T0 on P0.0
 	mov	_XBR1,#0x00
-;	Transmitter_src.c:83: XBR2     = 0x40; // Enable crossbar and weak pull-ups
-	mov	_XBR2,#0x40
-;	Transmitter_src.c:85: Timer0_init();
+;	Transmitter_src.c:85: XBR2     = 0x41; // Enable crossbar and weak pull-ups .... (page 110) may need to set BIT0 to enable UART1 IO (0.2 Tx) and 0.3 RX
+	mov	_XBR2,#0x41
+;	Transmitter_src.c:87: Timer0_init();
 	lcall	_Timer0_init
-;	Transmitter_src.c:87: EA = 1;
+;	Transmitter_src.c:89: EA = 1;
 	setb	_EA
-;	Transmitter_src.c:90: SMB0CF = 0b_0101_1100; //INH | EXTHOLD | SMBTOE | SMBFTE ;
+;	Transmitter_src.c:92: SMB0CF = 0b_0101_1100; //INH | EXTHOLD | SMBTOE | SMBFTE ;
 	mov	_SMB0CF,#0x5C
-;	Transmitter_src.c:91: SMB0CF |= 0b_1000_0000;  // Enable SMBus
+;	Transmitter_src.c:93: SMB0CF |= 0b_1000_0000;  // Enable SMBus
 	orl	_SMB0CF,#0x80
-;	Transmitter_src.c:94: return 0;
+;	Transmitter_src.c:96: return 0;
 	mov	dpl,#0x00
 	ret
 ;------------------------------------------------------------
@@ -2888,7 +2906,7 @@ L038004?:
 ;c                         Allocated to registers r3 
 ;sloc0                     Allocated with name '_getsn_sloc0_1_0'
 ;------------------------------------------------------------
-;	Transmitter_src.c:98: int getsn (char * buff, int len){
+;	Transmitter_src.c:100: int getsn (char * buff, int len){
 ;	-----------------------------------------
 ;	 function getsn
 ;	-----------------------------------------
@@ -2896,7 +2914,7 @@ _getsn:
 	mov	_getsn_buff_1_171,dpl
 	mov	(_getsn_buff_1_171 + 1),dph
 	mov	(_getsn_buff_1_171 + 2),b
-;	Transmitter_src.c:103: for(j=0; j<(len-1); j++)
+;	Transmitter_src.c:105: for(j=0; j<(len-1); j++)
 	clr	a
 	mov	_getsn_sloc0_1_0,a
 	mov	(_getsn_sloc0_1_0 + 1),a
@@ -2918,7 +2936,7 @@ L039005?:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	L039008?
-;	Transmitter_src.c:105: c=getchar();
+;	Transmitter_src.c:107: c=getchar();
 	push	ar2
 	push	ar7
 	push	ar0
@@ -2929,13 +2947,13 @@ L039005?:
 	pop	ar0
 	pop	ar7
 	pop	ar2
-;	Transmitter_src.c:106: if ( (c=='\n') || (c=='\r') )
+;	Transmitter_src.c:108: if ( (c=='\n') || (c=='\r') )
 	cjne	r3,#0x0A,L039015?
 	sjmp	L039001?
 L039015?:
 	cjne	r3,#0x0D,L039002?
 L039001?:
-;	Transmitter_src.c:108: buff[j]=0;
+;	Transmitter_src.c:110: buff[j]=0;
 	mov	a,_getsn_sloc0_1_0
 	add	a,_getsn_buff_1_171
 	mov	r4,a
@@ -2948,12 +2966,12 @@ L039001?:
 	mov	b,r6
 	clr	a
 	lcall	__gptrput
-;	Transmitter_src.c:109: return j;
+;	Transmitter_src.c:111: return j;
 	mov	dpl,_getsn_sloc0_1_0
 	mov	dph,(_getsn_sloc0_1_0 + 1)
 	ret
 L039002?:
-;	Transmitter_src.c:113: buff[j]=c;
+;	Transmitter_src.c:115: buff[j]=c;
 	mov	a,r1
 	add	a,_getsn_buff_1_171
 	mov	r4,a
@@ -2966,7 +2984,7 @@ L039002?:
 	mov	b,r6
 	mov	a,r3
 	lcall	__gptrput
-;	Transmitter_src.c:103: for(j=0; j<(len-1); j++)
+;	Transmitter_src.c:105: for(j=0; j<(len-1); j++)
 	inc	r1
 	cjne	r1,#0x00,L039018?
 	inc	r2
@@ -2975,7 +2993,7 @@ L039018?:
 	mov	(_getsn_sloc0_1_0 + 1),r2
 	sjmp	L039005?
 L039008?:
-;	Transmitter_src.c:116: buff[j]=0;
+;	Transmitter_src.c:118: buff[j]=0;
 	mov	a,_getsn_sloc0_1_0
 	add	a,_getsn_buff_1_171
 	mov	r2,a
@@ -2988,7 +3006,7 @@ L039008?:
 	mov	b,r4
 	clr	a
 	lcall	__gptrput
-;	Transmitter_src.c:117: return len;
+;	Transmitter_src.c:119: return len;
 	mov	dpl,_getsn_PARM_2
 	mov	dph,(_getsn_PARM_2 + 1)
 	ret
@@ -3001,47 +3019,47 @@ L039008?:
 ;off_x                     Allocated to registers r2 r3 
 ;off_y                     Allocated with name '_main_off_y_1_177'
 ;------------------------------------------------------------
-;	Transmitter_src.c:120: void main(void) {
+;	Transmitter_src.c:122: void main(void) {
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	Transmitter_src.c:124: int off_x=0;
-;	Transmitter_src.c:125: int off_y=0;
+;	Transmitter_src.c:126: int off_x=0;
+;	Transmitter_src.c:127: int off_y=0;
 	clr	a
 	mov	r2,a
 	mov	r3,a
 	mov	_main_off_y_1_177,a
 	mov	(_main_off_y_1_177 + 1),a
-;	Transmitter_src.c:126: offset_flag=1;
+;	Transmitter_src.c:128: offset_flag=1;
 	setb	_offset_flag
-;	Transmitter_src.c:128: Tcom_init(110L); //enter baudrate for UART1
+;	Transmitter_src.c:131: Tcom_init(110L); //enter baudrate for UART1
 	mov	dptr,#(0x6E&0x00ff)
 	clr	a
 	mov	b,a
 	push	ar2
 	push	ar3
 	lcall	_Tcom_init
-;	Transmitter_src.c:129: LCD_4BIT();
+;	Transmitter_src.c:132: LCD_4BIT();
 	lcall	_LCD_4BIT
-;	Transmitter_src.c:133: waitms(200);
+;	Transmitter_src.c:135: waitms(200);
 	mov	dptr,#0x00C8
 	lcall	_waitms
-;	Transmitter_src.c:134: nunchuck_init(1);
+;	Transmitter_src.c:136: nunchuck_init(1);
 	setb	_nunchuck_init_PARM_1
 	lcall	_nunchuck_init
-;	Transmitter_src.c:135: waitms(100);
+;	Transmitter_src.c:137: waitms(100);
 	mov	dptr,#0x0064
 	lcall	_waitms
 	pop	ar3
 	pop	ar2
-;	Transmitter_src.c:137: if(offset_flag){
+;	Transmitter_src.c:139: if(offset_flag){
 	jnb	_offset_flag,L040002?
-;	Transmitter_src.c:138: nunchuck_getdata(buffer);
+;	Transmitter_src.c:140: nunchuck_getdata(buffer);
 	mov	dptr,#_main_buffer_1_177
 	mov	b,#0x40
 	lcall	_nunchuck_getdata
-;	Transmitter_src.c:139: off_x=(int)buffer[0]-128;
+;	Transmitter_src.c:141: off_x=(int)buffer[0]-128;
 	mov	r6,_main_buffer_1_177
 	mov	r7,#0x00
 	mov	a,r6
@@ -3050,7 +3068,7 @@ _main:
 	mov	a,r7
 	addc	a,#0xff
 	mov	r3,a
-;	Transmitter_src.c:140: off_y=(int)buffer[1]-128;
+;	Transmitter_src.c:142: off_y=(int)buffer[1]-128;
 	mov	r6,(_main_buffer_1_177 + 0x0001)
 	mov	r7,#0x00
 	mov	a,r6
@@ -3059,7 +3077,7 @@ _main:
 	mov	a,r7
 	addc	a,#0xff
 	mov	(_main_off_y_1_177 + 1),a
-;	Transmitter_src.c:141: printf("Offset_X:%4d Offset_Y:%4d\n\n", off_x, off_y);
+;	Transmitter_src.c:143: printf("Offset_X:%4d Offset_Y:%4d\n\n", off_x, off_y);
 	push	ar2
 	push	ar3
 	push	_main_off_y_1_177
@@ -3078,15 +3096,15 @@ _main:
 	mov	sp,a
 	pop	ar3
 	pop	ar2
-;	Transmitter_src.c:142: offset_flag=0; //clear offset flag, so not to re-get offset. 
+;	Transmitter_src.c:144: offset_flag=0; //clear offset flag, so not to re-get offset. 
 	clr	_offset_flag
 L040002?:
-;	Transmitter_src.c:145: waitms(500);
+;	Transmitter_src.c:147: waitms(500);
 	mov	dptr,#0x01F4
 	push	ar2
 	push	ar3
 	lcall	_waitms
-;	Transmitter_src.c:147: printf("LAB 6 Microcontroller\r\nWith extra features\r\n\n");
+;	Transmitter_src.c:149: printf("LAB 6 Microcontroller\r\nWith extra features\r\n\n");
 	mov	a,#__str_11
 	push	acc
 	mov	a,#(__str_11 >> 8)
@@ -3097,40 +3115,14 @@ L040002?:
 	dec	sp
 	dec	sp
 	dec	sp
-;	Transmitter_src.c:148: waitms(500);     
+;	Transmitter_src.c:150: waitms(500);     
 	mov	dptr,#0x01F4
 	lcall	_waitms
 	pop	ar3
 	pop	ar2
-;	Transmitter_src.c:154: while(1) {
-L040004?:
-;	Transmitter_src.c:163: printf("Enter command: \r\n");
-	push	ar2
-	push	ar3
-	mov	a,#__str_12
-	push	acc
-	mov	a,#(__str_12 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	dec	sp
-	dec	sp
-	dec	sp
-;	Transmitter_src.c:164: getsn(buffer, CHARS_PER_LINE);
-	mov	_getsn_PARM_2,#0x10
-	clr	a
-	mov	(_getsn_PARM_2 + 1),a
-	mov	dptr,#_main_buffer_1_177
-	mov	b,#0x40
-	lcall	_getsn
-;	Transmitter_src.c:165: getCommand(buffer); //after use, is clear, only used within functions
-	mov	dptr,#_main_buffer_1_177
-	mov	b,#0x40
-	lcall	_getCommand
-	pop	ar3
-	pop	ar2
-;	Transmitter_src.c:168: read_nunchuck(&direction, &speed, buffer, off_x, off_y);
+;	Transmitter_src.c:156: while(1) {
+L040007?:
+;	Transmitter_src.c:170: read_nunchuck(&direction, &speed, buffer, off_x, off_y);
 	mov	_read_nunchuck_PARM_2,#_main_speed_1_177
 	mov	(_read_nunchuck_PARM_2 + 1),#0x00
 	mov	(_read_nunchuck_PARM_2 + 2),#0x40
@@ -3146,7 +3138,34 @@ L040004?:
 	push	ar2
 	push	ar3
 	lcall	_read_nunchuck
-;	Transmitter_src.c:171: printf("direction: %c   speed: %c \n", direction, speed);
+	pop	ar3
+	pop	ar2
+;	Transmitter_src.c:172: if(speedbit){
+	jnb	_speedbit,L040004?
+;	Transmitter_src.c:173: sendCommand(SPEED_OP, speed);
+	mov	_sendCommand_PARM_2,_main_speed_1_177
+	mov	dpl,#0x00
+	push	ar2
+	push	ar3
+	lcall	_sendCommand
+	pop	ar3
+	pop	ar2
+;	Transmitter_src.c:174: speedbit=0;
+	clr	_speedbit
+	sjmp	L040005?
+L040004?:
+;	Transmitter_src.c:178: sendCommand(DIRECTION_OP, direction);
+	mov	_sendCommand_PARM_2,_main_direction_1_177
+	mov	dpl,#0x01
+	push	ar2
+	push	ar3
+	lcall	_sendCommand
+	pop	ar3
+	pop	ar2
+;	Transmitter_src.c:179: speedbit=1;
+	setb	_speedbit
+L040005?:
+;	Transmitter_src.c:183: printf("direction: %c   speed: %c \n", direction, speed);
 	mov	a,_main_speed_1_177
 	mov	r6,a
 	rlc	a
@@ -3157,13 +3176,15 @@ L040004?:
 	rlc	a
 	subb	a,acc
 	mov	r5,a
+	push	ar2
+	push	ar3
 	push	ar6
 	push	ar7
 	push	ar4
 	push	ar5
-	mov	a,#__str_13
+	mov	a,#__str_12
 	push	acc
-	mov	a,#(__str_13 >> 8)
+	mov	a,#(__str_12 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -3173,7 +3194,7 @@ L040004?:
 	mov	sp,a
 	pop	ar3
 	pop	ar2
-	ljmp	L040004?
+	ljmp	L040007?
 	rseg R_CSEG
 
 	rseg R_XINIT
@@ -3267,11 +3288,6 @@ __str_11:
 	db 0x0A
 	db 0x00
 __str_12:
-	db 'Enter command: '
-	db 0x0D
-	db 0x0A
-	db 0x00
-__str_13:
 	db 'direction: %c   speed: %c '
 	db 0x0A
 	db 0x00

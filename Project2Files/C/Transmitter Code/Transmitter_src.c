@@ -11,6 +11,7 @@
 #define VDD 3.3122 // The measured value of VDD in volts
 
 volatile unsigned bit offset_flag=1;
+volatile unsigned bit speedbit=1;
 
 char _c51_external_startup (void)
 {
@@ -76,11 +77,12 @@ char _c51_external_startup (void)
 	TR1 = 1; // START Timer1
 	TI = 1;  // Indicate TX0 ready
 
-	P0MDOUT |= 0x10; // Enable UART0 TX as push-pull output
+	P0MDOUT |= 0x14; // Enable UART0 TX as push-pull output and UART1 Tx (pin 0.2)
 	P1MDOUT |= 0xff; // Enable Push/Pull on port 1
-	XBR0     = 0b_0000_0101; // Enable UART0 on P0.4(TX) and P0.5(RX)                     
+	//P2MDOUT |= 0x01; //Push pull on pin 0
+	XBR0     = 0b_0000_0101; // Enable UART0 on P0.4(TX) and P0.5(RX) and SMB0 I/O on (0.0 SDA) and (0.1 SCL)               
 	XBR1     = 0x00; // Enable T0 on P0.0
-	XBR2     = 0x40; // Enable crossbar and weak pull-ups
+	XBR2     = 0x41; // Enable crossbar and weak pull-ups .... (page 110) may need to set BIT0 to enable UART1 IO (0.2 Tx) and 0.3 RX
 
 	Timer0_init();
 
@@ -125,6 +127,7 @@ void main(void) {
 	int off_y=0;
 	offset_flag=1;
 
+
 	Tcom_init(110L); //enter baudrate for UART1
 	LCD_4BIT();
 
@@ -159,13 +162,23 @@ while(1) {
 	// 	LCDprint(buffer, 2, 1);
 
 		
-		printf("Enter command: \r\n");
-		getsn(buffer, CHARS_PER_LINE);
-		getCommand(buffer); //after use, is clear, only used within functions
+	//	printf("Enter command: \r\n");
+	//	getsn(buffer, CHARS_PER_LINE);
+	//	getCommand(buffer); //after use, is clear, only used within functions
 
 
 		read_nunchuck(&direction, &speed, buffer, off_x, off_y);
+
+		if(speedbit){
+			sendCommand(SPEED_OP, speed);
+			speedbit=0;
+			}
+
+		else {
+		sendCommand(DIRECTION_OP, direction);
+			speedbit=1;
 		//printf("3\n\r");
+		}
 
 		printf("direction: %c   speed: %c \n", direction, speed);
 	}	

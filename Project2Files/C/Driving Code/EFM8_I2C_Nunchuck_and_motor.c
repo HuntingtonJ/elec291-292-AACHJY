@@ -70,6 +70,29 @@
 #define SEE 'o'//01110
 #define SWW 'p'//01111
 
+
+//SPEED CONSTANTS to SEND: 
+
+#define speed0 'a' //00000
+#define speed1 'b' //00001
+#define speed2 'c' //00010
+#define speed3 'd' //00011
+#define speed4 'e' //00100
+#define speed5 'f' //00101
+#define speed6 'g' //00110
+#define speed7 'h' //00111
+#define speed8 'i' //01000
+#define speed9 'j' //01001
+#define speed10 'k' //01010
+#define speed11 'l' //01011
+#define speed12 'm' //01100
+#define speed13 'n' //01101
+#define speed14 'o' //01110
+#define speed15 'p' //01111
+#define speed16 'q' //10000
+
+#define TRANSMISSION_SIZE 4
+
 //#define 
 //#define 
 
@@ -568,8 +591,8 @@ void turn_SWW(char speed){
 			number4=0;
 			}
 
-	int get_speed(int y_ax, int x_ax){
-		int spd=0;
+	char get_speed(int y_ax, int x_ax){
+		char spd=0;
 		y_ax=abs(y_ax);
 		x_ax=abs(x_ax);
 		
@@ -580,7 +603,7 @@ void turn_SWW(char speed){
 		}
 		else spd=x_ax;
 
-		return spd;
+		return spd/TRANSMISSION_SIZE;
 	}
 
 	char get_direction(int x_axis, int y_axis){
@@ -685,7 +708,7 @@ void main (void)
  	int joy_x, joy_y, off_x, off_y, acc_x, acc_y, acc_z;
  	bit but1, but2;
  //	char num1[ARRAY_SIZE];
-	int speed;
+	char speed;
 	char direction;
 	//char display[ARRAY_SIZE*2];
 
@@ -723,8 +746,8 @@ void main (void)
 		if (rbuf[5] & 0x40) acc_z+=2;
 		if (rbuf[5] & 0x80) acc_z+=1;
 		
-		printf("Buttons(Z:%c, C:%c) Joystick(%4d, %4d) Accelerometer(%3d, %3d, %3d)\x1b[0J\r",
-			   but1?'1':'0', but2?'1':'0', joy_x, joy_y, acc_x, acc_y, acc_z);
+//		printf("Buttons(Z:%c, C:%c) Joystick(%4d, %4d) Accelerometer(%3d, %3d, %3d)\x1b[0J\r",
+		//	   but1?'1':'0', but2?'1':'0', joy_x, joy_y, acc_x, acc_y, acc_z);
 		Timer4ms(100);
 
 
@@ -734,7 +757,7 @@ void main (void)
 	
 		speed = get_speed(joy_y, joy_x);
 
-
+	printf("speed: %i\n", speed);
 
 		//loads up direction from 
 		//sscanf(num2, "%c", &direction);

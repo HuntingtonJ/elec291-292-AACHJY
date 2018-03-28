@@ -32,47 +32,49 @@
 #define OFF 0
 
 //-10 to 10
-#define north 'a'//00000
-#define south 'b'//00001
+#define north 0b00000//'a'
+#define south 0b00001// 'b'
 //10 to 30 
-#define NNE 'c'//00010
-#define NNW 'd'//00011
+#define NNE 0b00010//'c'//00010
+#define NNW 0b00011//'d'//00011
 //parameters to change motor driving ratios 
 #define NNnum 
 
 //30 to 50
-#define NE 	'e'//00100
-#define NW  'f'//00101
+#define NE 0b00100//	'e'//00100
+#define NW 0b00101 // 'f'//00101
 //parameters to change motor driving ratios 
 #define midnum 2
 #define middenom 3
 
 //50 to 70 
-#define NEE 'g'//00110
-#define NWW 'h'//00111
+#define NEE 0b00110 //'g'//00110
+#define NWW 0b00111 //'h'//00111
 //#define 
 
 //70 to 90
-#define east 'i'//01000
-#define west 'j'//01001
+#define east 0b01000  //'i'//01000
+#define west 0b01001 //'j'//01001
 
 //south directions: 
 //10 to 30 
-#define SSE 'k'//01010
-#define SSW 'l'//01011
+#define SSE 0b01010//'k'//01010
+#define SSW 0b01011 //'l'//01011
 //30 to 50
-#define SE 	'm'//01100
-#define SW  'n'//01101
+#define SE 	0b01100 //'m'//01100
+#define SW  0b01100 //'n'//01101
 
 //50 to 70 
-#define SEE 'o'//01110
-#define SWW 'p'//01111
+#define SEE 0b01110 //'o'//01110
+#define SWW 0b01111 //'p'//01111
 
 //#define 
 //#define 
 
 #define headlight //pin?;
 #define taillight //pin?
+
+#define TRANSMISSION_SIZE 4
 
 //#define CHARS_PER_LINE 16
 extern volatile bit offset_flag;
@@ -242,7 +244,7 @@ char get_speed(char x_ax, char y_ax){
 		}
 		else spd=x_ax;
 
-		return spd;
+		return spd/TRANSMISSION_SIZE;
 	}
 
 char get_direction(char x_axis, char y_axis){
