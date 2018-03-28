@@ -1,6 +1,7 @@
 #include "stm32f05xxx.h"
 #include "serial.h"
 #include "USART2.h"
+#include "Motor_control.h"
 
 void ResetInit(void);
 void Default_Handler(void);

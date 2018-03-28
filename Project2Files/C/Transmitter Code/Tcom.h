@@ -18,11 +18,11 @@
 // volatile unsigned char duty_cycle1 = 0;
 
 //OPCODES to send 
-
 #define SPEED_OP 		0b000
 #define DIRECTION_OP 	0b001
-#define GRAB_OP 		0b001
 #define LIGHTS_OP		0b010
+#define GRAB_OP 		0b100
+#define Stop 			0b111
 
 bit reload_flag = 0;
 

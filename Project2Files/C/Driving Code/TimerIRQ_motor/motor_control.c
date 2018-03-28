@@ -414,34 +414,17 @@ void main (void)
 
 		}
 	direction='0'; //reset direction so it stops if no direction selected. 
-
-		
-
-
-
-	
 	 // motor_control(speed, direction);
-
 	  //New Architecture
 	  //Speed remains constant until updated
 	  //Direction is continually checked 
-
-
 		//Check if numbers are greater than 100, throw error if so. 
 	/*	
 		if(speed>100||direction>100){
 				printf("Error: Numbers need to be between 0 and 100, please enter again. \n");
 				speed=0;
 				direction=0;
-				}*/		
-		
-		//printf("Speed: %i, Direction: %i \n", speed, direction); 
-		
-		
-		
-		
-		
-
-
+				}*/				
+		//printf("Speed: %i, Direction: %i \n", speed, direction);
 	}
 }
