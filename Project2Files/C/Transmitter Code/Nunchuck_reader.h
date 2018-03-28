@@ -16,6 +16,9 @@
 
 // ~C51~  
 
+//#include "EFM8core.h"
+#include <EFM8LB1.h>
+
 #define SYSCLK 72000000L
 #define BAUDRATE 115200L
 
@@ -71,37 +74,13 @@
 #define headlight //pin?;
 #define taillight //pin?
 
-#define CHARS_PER_LINE 16
+//#define CHARS_PER_LINE 16
+extern volatile bit offset_flag;
 
-
-
-// Uses Timer4 to delay <ms> mili-seconds. 
-void Timer4ms(unsigned char ms)
-{
-	unsigned char i;// usec counter
-	unsigned char k;
-	
-	k=SFRPAGE;
-	SFRPAGE=0x10;
-	// The input for Timer 4 is selected as SYSCLK by setting bit 0 of CKCON1:
-	CKCON1|=0b_0000_0001;
-	
-	TMR4RL = 65536-(SYSCLK/1000L); // Set Timer4 to overflow in 1 ms.
-	TMR4 = TMR4RL;                 // Initialize Timer4 for first overflow
-	
-	TF4H=0; // Clear overflow flag
-	TR4=1;  // Start Timer4
-	for (i = 0; i < ms; i++)       // Count <ms> overflows
-	{
-		while (!TF4H);  // Wait for overflow
-		TF4H=0;         // Clear overflow indicator
-	}
-	TR4=0; // Stop Timer4
-	SFRPAGE=k;	
-}
 
 void I2C_write (unsigned char output_data)
 {
+
 	SMB0DAT = output_data; // Put data into buffer
 	SI = 0;
 	while (!SI); // Wait until done with send
@@ -110,7 +89,6 @@ void I2C_write (unsigned char output_data)
 unsigned char I2C_read (void)
 {
 	unsigned char input_data;
-
 	SI = 0;
 	while (!SI); // Wait until we have data to read
 	input_data = SMB0DAT; // Read the data
@@ -140,6 +118,7 @@ void nunchuck_init(bit print_extension_type)
 	unsigned char i, buf[6];
 	
 	// Newer initialization format that works for all nunchucks
+
 	I2C_start();
 	I2C_write(0xA4);
 	I2C_write(0xF0);
@@ -166,7 +145,7 @@ void nunchuck_init(bit print_extension_type)
 	I2C_write(0xA5);
 	
 	// Receive values
-	for(i=0; i<6; i++)
+	for(i=0; i<CHARS_PER_LINE; i++)
 	{
 		buf[i]=I2C_read();
 	}
@@ -240,7 +219,7 @@ void nunchuck_getdata(unsigned char * s)
 	I2C_write(0xA5);
 	
 	// Receive values
-	for(i=0; i<6; i++)
+	for(i=0; i<CHARS_PER_LINE; i++)
 	{
 		s[i]=(I2C_read()^0x17)+0x17; // Read and decrypt
 	}
@@ -251,8 +230,8 @@ void nunchuck_getdata(unsigned char * s)
 
 
 
-int get_speed(int y_ax, int x_ax){
-		int spd=0;
+char get_speed(char x_ax, char y_ax){
+		char spd;
 		y_ax=abs(y_ax);
 		x_ax=abs(x_ax);
 		
@@ -266,7 +245,7 @@ int get_speed(int y_ax, int x_ax){
 		return spd;
 	}
 
-char get_direction(int x_axis, int y_axis){
+char get_direction(char x_axis, char y_axis){
 
 			char direction=north;
 
@@ -277,7 +256,7 @@ char get_direction(int x_axis, int y_axis){
 
 					//if y_axis is not significantly differnet than zero-stop
 					if(y_axis>5&&y_axis>-5){
-						 stop();
+						 direction=north;
 						}
 					else direction=north;
 
@@ -319,7 +298,7 @@ char get_direction(int x_axis, int y_axis){
 
 				//if y_axis is not significantly differnet than zero-stop
 				if(y_axis>5&&y_axis>-5){
-					 stop();
+					 direction=south;
 					}
 					else direction=south;
 
@@ -362,60 +341,57 @@ char get_direction(int x_axis, int y_axis){
 
 
 
-void main (char * direction, int * speed)
+void read_nunchuck(char * direction, char * speed, char * rbuf, int off_x, int off_y)
 {
-	unsigned char rbuf[6];
- 	int joy_x, joy_y, off_x, off_y, acc_x, acc_y, acc_z;
+	//unsigned char rbuf[6];
+ 	char joy_x, joy_y;
  	bit but1, but2;
  //	char num1[ARRAY_SIZE];
-	int speed;
-	char direction;
+	// int speed;
+	// char direction;
 	//char display[ARRAY_SIZE*2];
+	// waitms(200);
+	// nunchuck_init(1);
+	// waitms(100);
 
 
-	printf("\x1b[2J\x1b[1;1H"); // Clear screen using ANSI escape sequence.
-	printf("\n\nEFM8LB1 WII Nunchuck I2C Reader\n");
+	// printf("\x1b[2J\x1b[1;1H"); // Clear screen using ANSI escape sequence.
+	// printf("\n\nEFM8LB1 WII Nunchuck I2C Reader\n");
 
-	waitms(200);
-	nunchuck_init(1);
-	waitms(100);
 
-	nunchuck_getdata(rbuf);
-
-	off_x=(int)rbuf[0]-128;
-	off_y=(int)rbuf[1]-128;
-	printf("Offset_X:%4d Offset_Y:%4d\n\n", off_x, off_y);
-
-	while(1)
-	{
+//	while(1)
+	
 		nunchuck_getdata(rbuf);
+
+	//	printf("rbuf0: %i, rbuf1: %i \n\r", (int) rbuf[0], (int) rbuf[1]);
+		
 
 		joy_x=(int)rbuf[0]-128-off_x;
 		joy_y=(int)rbuf[1]-128-off_y;
-		acc_x=rbuf[2]*4; 
-		acc_y=rbuf[3]*4;
-		acc_z=rbuf[4]*4;
+		// acc_x=rbuf[2]*4; 
+		// acc_y=rbuf[3]*4;
+		// acc_z=rbuf[4]*4;
 
 		but1=(rbuf[5] & 0x01)?1:0;
 		but2=(rbuf[5] & 0x02)?1:0;
-		if (rbuf[5] & 0x04) acc_x+=2;
-		if (rbuf[5] & 0x08) acc_x+=1;
-		if (rbuf[5] & 0x10) acc_y+=2;
-		if (rbuf[5] & 0x20) acc_y+=1;
-		if (rbuf[5] & 0x40) acc_z+=2;
-		if (rbuf[5] & 0x80) acc_z+=1;
+		// if (rbuf[5] & 0x04) acc_x+=2;
+		// if (rbuf[5] & 0x08) acc_x+=1;
+		// if (rbuf[5] & 0x10) acc_y+=2;
+		// if (rbuf[5] & 0x20) acc_y+=1;
+		// if (rbuf[5] & 0x40) acc_z+=2;
+		// if (rbuf[5] & 0x80) acc_z+=1;
 		
-		printf("Buttons(Z:%c, C:%c) Joystick(%4d, %4d) Accelerometer(%3d, %3d, %3d)\x1b[0J\r",
-			   but1?'1':'0', but2?'1':'0', joy_x, joy_y, acc_x, acc_y, acc_z);
+		printf("Buttons(Z:%c, C:%c) Joystick(%4d, %4d)\r",
+			   but1?'1':'0', but2?'1':'0', joy_x, joy_y);
 		waitms(100); //determine if we want to change this length
 	
 
 		//
-		speed = get_speed(joy_y, joy_x);
+
+		*direction=get_direction(joy_x, joy_y);
+		*speed = get_speed(joy_x, joy_y);
 		
-		direction=get_direction(joy_x, joy_y);
-		printf("direction: %c", direction);
 
 
    }
-}
+

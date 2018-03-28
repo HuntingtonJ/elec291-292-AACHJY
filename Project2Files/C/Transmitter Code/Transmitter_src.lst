@@ -1,0 +1,3361 @@
+0000              1   ;--------------------------------------------------------
+0000              2   ; File Created by C51
+0000              3   ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
+0000              4   ; This file was generated Tue Mar 27 18:49:00 2018
+0000              5   ;--------------------------------------------------------
+                  5   $name Transmitter_src
+                  6   $optc51 --model-small
+0000              8            R_DSEG    segment data
+0000              9            R_CSEG    segment code
+0000             10            R_BSEG    segment bit
+0000             11            R_XSEG    segment xdata
+0000             12            R_PSEG    segment xdata
+0000             13            R_ISEG    segment idata
+0000             14            R_OSEG    segment data overlay
+0000             15            BIT_BANK  segment data overlay
+0000             16            R_HOME    segment code
+0000             17            R_GSINIT  segment code
+0000             18            R_IXSEG   segment xdata
+0000             19            R_CONST   segment code
+0000             20            R_XINIT   segment code
+0000             21            R_DINIT   segment code
+0000             22   
+0000             23   ;--------------------------------------------------------
+0000             24   ; Public variables in this module
+0000             25   ;--------------------------------------------------------
+0000             26            public _get_direction_PARM_2
+0000             27            public _main
+0000             28            public _getsn
+0000             29            public __c51_external_startup
+0000             30            public _read_nunchuck
+0000             31            public _get_direction
+0000             32            public _get_speed
+0000             33            public _nunchuck_getdata
+0000             34            public _nunchuck_init
+0000             35            public _I2C_stop
+0000             36            public _I2C_start
+0000             37            public _I2C_read
+0000             38            public _I2C_write
+0000             39            public _LCDprint
+0000             40            public _LCD_4BIT
+0000             41            public _WriteCommand
+0000             42            public _WriteData
+0000             43            public _LCD_byte
+0000             44            public _LCD_pulse
+0000             45            public _waitms
+0000             46            public _Timer2us
+0000             47            public _Tcom_init
+0000             48            public _getCommand
+0000             49            public _PWMon
+0000             50            public _PWMoff
+0000             51            public _setReload
+0000             52            public _setFrequency
+0000             53            public _reloadToFrequency
+0000             54            public _frequencyToReload
+0000             55            public _sendCommandS
+0000             56            public _sendCommand
+0000             57            public _Timer4_ISR
+0000             58            public _Timer4_init
+0000             59            public _Timer2_ISR
+0000             60            public _Timer2_init
+0000             61            public _Timer0_ISR
+0000             62            public _Timer0_init
+0000             63            public _getchar1
+0000             64            public _putchar1
+0000             65            public _UART1_Init
+0000             66            public _offset_flag
+0000             67            public _nunchuck_init_PARM_1
+0000             68            public _LCDprint_PARM_3
+0000             69            public _reload_flag
+0000             70            public _getsn_PARM_2
+0000             71            public _read_nunchuck_PARM_5
+0000             72            public _read_nunchuck_PARM_4
+0000             73            public _read_nunchuck_PARM_3
+0000             74            public _read_nunchuck_PARM_2
+0000             75            public _get_speed_PARM_2
+0000             76            public _LCDprint_PARM_2
+0000             77            public _sendCommand_PARM_2
+0000             78   ;--------------------------------------------------------
+0000             79   ; Special Function Registers
+0000             80   ;--------------------------------------------------------
+0000             81   _ACC            DATA 0xe0
+0000             82   _ADC0ASAH       DATA 0xb6
+0000             83   _ADC0ASAL       DATA 0xb5
+0000             84   _ADC0ASCF       DATA 0xa1
+0000             85   _ADC0ASCT       DATA 0xc7
+0000             86   _ADC0CF0        DATA 0xbc
+0000             87   _ADC0CF1        DATA 0xb9
+0000             88   _ADC0CF2        DATA 0xdf
+0000             89   _ADC0CN0        DATA 0xe8
+0000             90   _ADC0CN1        DATA 0xb2
+0000             91   _ADC0CN2        DATA 0xb3
+0000             92   _ADC0GTH        DATA 0xc4
+0000             93   _ADC0GTL        DATA 0xc3
+0000             94   _ADC0H          DATA 0xbe
+0000             95   _ADC0L          DATA 0xbd
+0000             96   _ADC0LTH        DATA 0xc6
+0000             97   _ADC0LTL        DATA 0xc5
+0000             98   _ADC0MX         DATA 0xbb
+0000             99   _B              DATA 0xf0
+0000            100   _CKCON0         DATA 0x8e
+0000            101   _CKCON1         DATA 0xa6
+0000            102   _CLEN0          DATA 0xc6
+0000            103   _CLIE0          DATA 0xc7
+0000            104   _CLIF0          DATA 0xe8
+0000            105   _CLKSEL         DATA 0xa9
+0000            106   _CLOUT0         DATA 0xd1
+0000            107   _CLU0CF         DATA 0xb1
+0000            108   _CLU0FN         DATA 0xaf
+0000            109   _CLU0MX         DATA 0x84
+0000            110   _CLU1CF         DATA 0xb3
+0000            111   _CLU1FN         DATA 0xb2
+0000            112   _CLU1MX         DATA 0x85
+0000            113   _CLU2CF         DATA 0xb6
+0000            114   _CLU2FN         DATA 0xb5
+0000            115   _CLU2MX         DATA 0x91
+0000            116   _CLU3CF         DATA 0xbf
+0000            117   _CLU3FN         DATA 0xbe
+0000            118   _CLU3MX         DATA 0xae
+0000            119   _CMP0CN0        DATA 0x9b
+0000            120   _CMP0CN1        DATA 0x99
+0000            121   _CMP0MD         DATA 0x9d
+0000            122   _CMP0MX         DATA 0x9f
+0000            123   _CMP1CN0        DATA 0xbf
+0000            124   _CMP1CN1        DATA 0xac
+0000            125   _CMP1MD         DATA 0xab
+0000            126   _CMP1MX         DATA 0xaa
+0000            127   _CRC0CN0        DATA 0xce
+0000            128   _CRC0CN1        DATA 0x86
+0000            129   _CRC0CNT        DATA 0xd3
+0000            130   _CRC0DAT        DATA 0xcb
+0000            131   _CRC0FLIP       DATA 0xcf
+0000            132   _CRC0IN         DATA 0xca
+0000            133   _CRC0ST         DATA 0xd2
+0000            134   _DAC0CF0        DATA 0x91
+0000            135   _DAC0CF1        DATA 0x92
+0000            136   _DAC0H          DATA 0x85
+0000            137   _DAC0L          DATA 0x84
+0000            138   _DAC1CF0        DATA 0x93
+0000            139   _DAC1CF1        DATA 0x94
+0000            140   _DAC1H          DATA 0x8a
+0000            141   _DAC1L          DATA 0x89
+0000            142   _DAC2CF0        DATA 0x95
+0000            143   _DAC2CF1        DATA 0x96
+0000            144   _DAC2H          DATA 0x8c
+0000            145   _DAC2L          DATA 0x8b
+0000            146   _DAC3CF0        DATA 0x9a
+0000            147   _DAC3CF1        DATA 0x9c
+0000            148   _DAC3H          DATA 0x8e
+0000            149   _DAC3L          DATA 0x8d
+0000            150   _DACGCF0        DATA 0x88
+0000            151   _DACGCF1        DATA 0x98
+0000            152   _DACGCF2        DATA 0xa2
+0000            153   _DERIVID        DATA 0xad
+0000            154   _DEVICEID       DATA 0xb5
+0000            155   _DPH            DATA 0x83
+0000            156   _DPL            DATA 0x82
+0000            157   _EIE1           DATA 0xe6
+0000            158   _EIE2           DATA 0xf3
+0000            159   _EIP1           DATA 0xbb
+0000            160   _EIP1H          DATA 0xee
+0000            161   _EIP2           DATA 0xed
+0000            162   _EIP2H          DATA 0xf6
+0000            163   _EMI0CN         DATA 0xe7
+0000            164   _FLKEY          DATA 0xb7
+0000            165   _HFO0CAL        DATA 0xc7
+0000            166   _HFO1CAL        DATA 0xd6
+0000            167   _HFOCN          DATA 0xef
+0000            168   _I2C0ADM        DATA 0xff
+0000            169   _I2C0CN0        DATA 0xba
+0000            170   _I2C0DIN        DATA 0xbc
+0000            171   _I2C0DOUT       DATA 0xbb
+0000            172   _I2C0FCN0       DATA 0xad
+0000            173   _I2C0FCN1       DATA 0xab
+0000            174   _I2C0FCT        DATA 0xf5
+0000            175   _I2C0SLAD       DATA 0xbd
+0000            176   _I2C0STAT       DATA 0xb9
+0000            177   _IE             DATA 0xa8
+0000            178   _IP             DATA 0xb8
+0000            179   _IPH            DATA 0xf2
+0000            180   _IT01CF         DATA 0xe4
+0000            181   _LFO0CN         DATA 0xb1
+0000            182   _P0             DATA 0x80
+0000            183   _P0MASK         DATA 0xfe
+0000            184   _P0MAT          DATA 0xfd
+0000            185   _P0MDIN         DATA 0xf1
+0000            186   _P0MDOUT        DATA 0xa4
+0000            187   _P0SKIP         DATA 0xd4
+0000            188   _P1             DATA 0x90
+0000            189   _P1MASK         DATA 0xee
+0000            190   _P1MAT          DATA 0xed
+0000            191   _P1MDIN         DATA 0xf2
+0000            192   _P1MDOUT        DATA 0xa5
+0000            193   _P1SKIP         DATA 0xd5
+0000            194   _P2             DATA 0xa0
+0000            195   _P2MASK         DATA 0xfc
+0000            196   _P2MAT          DATA 0xfb
+0000            197   _P2MDIN         DATA 0xf3
+0000            198   _P2MDOUT        DATA 0xa6
+0000            199   _P2SKIP         DATA 0xcc
+0000            200   _P3             DATA 0xb0
+0000            201   _P3MDIN         DATA 0xf4
+0000            202   _P3MDOUT        DATA 0x9c
+0000            203   _PCA0CENT       DATA 0x9e
+0000            204   _PCA0CLR        DATA 0x9c
+0000            205   _PCA0CN0        DATA 0xd8
+0000            206   _PCA0CPH0       DATA 0xfc
+0000            207   _PCA0CPH1       DATA 0xea
+0000            208   _PCA0CPH2       DATA 0xec
+0000            209   _PCA0CPH3       DATA 0xf5
+0000            210   _PCA0CPH4       DATA 0x85
+0000            211   _PCA0CPH5       DATA 0xde
+0000            212   _PCA0CPL0       DATA 0xfb
+0000            213   _PCA0CPL1       DATA 0xe9
+0000            214   _PCA0CPL2       DATA 0xeb
+0000            215   _PCA0CPL3       DATA 0xf4
+0000            216   _PCA0CPL4       DATA 0x84
+0000            217   _PCA0CPL5       DATA 0xdd
+0000            218   _PCA0CPM0       DATA 0xda
+0000            219   _PCA0CPM1       DATA 0xdb
+0000            220   _PCA0CPM2       DATA 0xdc
+0000            221   _PCA0CPM3       DATA 0xae
+0000            222   _PCA0CPM4       DATA 0xaf
+0000            223   _PCA0CPM5       DATA 0xcc
+0000            224   _PCA0H          DATA 0xfa
+0000            225   _PCA0L          DATA 0xf9
+0000            226   _PCA0MD         DATA 0xd9
+0000            227   _PCA0POL        DATA 0x96
+0000            228   _PCA0PWM        DATA 0xf7
+0000            229   _PCON0          DATA 0x87
+0000            230   _PCON1          DATA 0xcd
+0000            231   _PFE0CN         DATA 0xc1
+0000            232   _PRTDRV         DATA 0xf6
+0000            233   _PSCTL          DATA 0x8f
+0000            234   _PSTAT0         DATA 0xaa
+0000            235   _PSW            DATA 0xd0
+0000            236   _REF0CN         DATA 0xd1
+0000            237   _REG0CN         DATA 0xc9
+0000            238   _REVID          DATA 0xb6
+0000            239   _RSTSRC         DATA 0xef
+0000            240   _SBCON1         DATA 0x94
+0000            241   _SBRLH1         DATA 0x96
+0000            242   _SBRLL1         DATA 0x95
+0000            243   _SBUF           DATA 0x99
+0000            244   _SBUF0          DATA 0x99
+0000            245   _SBUF1          DATA 0x92
+0000            246   _SCON           DATA 0x98
+0000            247   _SCON0          DATA 0x98
+0000            248   _SCON1          DATA 0xc8
+0000            249   _SFRPAGE        DATA 0xa7
+0000            250   _SFRPGCN        DATA 0xbc
+0000            251   _SFRSTACK       DATA 0xd7
+0000            252   _SMB0ADM        DATA 0xd6
+0000            253   _SMB0ADR        DATA 0xd7
+0000            254   _SMB0CF         DATA 0xc1
+0000            255   _SMB0CN0        DATA 0xc0
+0000            256   _SMB0DAT        DATA 0xc2
+0000            257   _SMB0FCN0       DATA 0xc3
+0000            258   _SMB0FCN1       DATA 0xc4
+0000            259   _SMB0FCT        DATA 0xef
+0000            260   _SMB0RXLN       DATA 0xc5
+0000            261   _SMB0TC         DATA 0xac
+0000            262   _SMOD1          DATA 0x93
+0000            263   _SP             DATA 0x81
+0000            264   _SPI0CFG        DATA 0xa1
+0000            265   _SPI0CKR        DATA 0xa2
+0000            266   _SPI0CN0        DATA 0xf8
+0000            267   _SPI0DAT        DATA 0xa3
+0000            268   _SPI0FCN0       DATA 0x9a
+0000            269   _SPI0FCN1       DATA 0x9b
+0000            270   _SPI0FCT        DATA 0xf7
+0000            271   _SPI0PCF        DATA 0xdf
+0000            272   _TCON           DATA 0x88
+0000            273   _TH0            DATA 0x8c
+0000            274   _TH1            DATA 0x8d
+0000            275   _TL0            DATA 0x8a
+0000            276   _TL1            DATA 0x8b
+0000            277   _TMOD           DATA 0x89
+0000            278   _TMR2CN0        DATA 0xc8
+0000            279   _TMR2CN1        DATA 0xfd
+0000            280   _TMR2H          DATA 0xcf
+0000            281   _TMR2L          DATA 0xce
+0000            282   _TMR2RLH        DATA 0xcb
+0000            283   _TMR2RLL        DATA 0xca
+0000            284   _TMR3CN0        DATA 0x91
+0000            285   _TMR3CN1        DATA 0xfe
+0000            286   _TMR3H          DATA 0x95
+0000            287   _TMR3L          DATA 0x94
+0000            288   _TMR3RLH        DATA 0x93
+0000            289   _TMR3RLL        DATA 0x92
+0000            290   _TMR4CN0        DATA 0x98
+0000            291   _TMR4CN1        DATA 0xff
+0000            292   _TMR4H          DATA 0xa5
+0000            293   _TMR4L          DATA 0xa4
+0000            294   _TMR4RLH        DATA 0xa3
+0000            295   _TMR4RLL        DATA 0xa2
+0000            296   _TMR5CN0        DATA 0xc0
+0000            297   _TMR5CN1        DATA 0xf1
+0000            298   _TMR5H          DATA 0xd5
+0000            299   _TMR5L          DATA 0xd4
+0000            300   _TMR5RLH        DATA 0xd3
+0000            301   _TMR5RLL        DATA 0xd2
+0000            302   _UART0PCF       DATA 0xd9
+0000            303   _UART1FCN0      DATA 0x9d
+0000            304   _UART1FCN1      DATA 0xd8
+0000            305   _UART1FCT       DATA 0xfa
+0000            306   _UART1LIN       DATA 0x9e
+0000            307   _UART1PCF       DATA 0xda
+0000            308   _VDM0CN         DATA 0xff
+0000            309   _WDTCN          DATA 0x97
+0000            310   _XBR0           DATA 0xe1
+0000            311   _XBR1           DATA 0xe2
+0000            312   _XBR2           DATA 0xe3
+0000            313   _XOSC0CN        DATA 0x86
+0000            314   _DPTR           DATA 0x8382
+0000            315   _TMR2RL         DATA 0xcbca
+0000            316   _TMR3RL         DATA 0x9392
+0000            317   _TMR4RL         DATA 0xa3a2
+0000            318   _TMR5RL         DATA 0xd3d2
+0000            319   _TMR0           DATA 0x8c8a
+0000            320   _TMR1           DATA 0x8d8b
+0000            321   _TMR2           DATA 0xcfce
+0000            322   _TMR3           DATA 0x9594
+0000            323   _TMR4           DATA 0xa5a4
+0000            324   _TMR5           DATA 0xd5d4
+0000            325   _SBRL1          DATA 0x9695
+0000            326   _PCA0           DATA 0xfaf9
+0000            327   _PCA0CP0        DATA 0xfcfb
+0000            328   _PCA0CP1        DATA 0xeae9
+0000            329   _PCA0CP2        DATA 0xeceb
+0000            330   _PCA0CP3        DATA 0xf5f4
+0000            331   _PCA0CP4        DATA 0x8584
+0000            332   _PCA0CP5        DATA 0xdedd
+0000            333   _ADC0ASA        DATA 0xb6b5
+0000            334   _ADC0GT         DATA 0xc4c3
+0000            335   _ADC0           DATA 0xbebd
+0000            336   _ADC0LT         DATA 0xc6c5
+0000            337   _DAC0           DATA 0x8584
+0000            338   _DAC1           DATA 0x8a89
+0000            339   _DAC2           DATA 0x8c8b
+0000            340   _DAC3           DATA 0x8e8d
+0000            341   ;--------------------------------------------------------
+0000            342   ; special function bits
+0000            343   ;--------------------------------------------------------
+0000            344   _ACC_0          BIT 0xe0
+0000            345   _ACC_1          BIT 0xe1
+0000            346   _ACC_2          BIT 0xe2
+0000            347   _ACC_3          BIT 0xe3
+0000            348   _ACC_4          BIT 0xe4
+0000            349   _ACC_5          BIT 0xe5
+0000            350   _ACC_6          BIT 0xe6
+0000            351   _ACC_7          BIT 0xe7
+0000            352   _TEMPE          BIT 0xe8
+0000            353   _ADGN0          BIT 0xe9
+0000            354   _ADGN1          BIT 0xea
+0000            355   _ADWINT         BIT 0xeb
+0000            356   _ADBUSY         BIT 0xec
+0000            357   _ADINT          BIT 0xed
+0000            358   _IPOEN          BIT 0xee
+0000            359   _ADEN           BIT 0xef
+0000            360   _B_0            BIT 0xf0
+0000            361   _B_1            BIT 0xf1
+0000            362   _B_2            BIT 0xf2
+0000            363   _B_3            BIT 0xf3
+0000            364   _B_4            BIT 0xf4
+0000            365   _B_5            BIT 0xf5
+0000            366   _B_6            BIT 0xf6
+0000            367   _B_7            BIT 0xf7
+0000            368   _C0FIF          BIT 0xe8
+0000            369   _C0RIF          BIT 0xe9
+0000            370   _C1FIF          BIT 0xea
+0000            371   _C1RIF          BIT 0xeb
+0000            372   _C2FIF          BIT 0xec
+0000            373   _C2RIF          BIT 0xed
+0000            374   _C3FIF          BIT 0xee
+0000            375   _C3RIF          BIT 0xef
+0000            376   _D1SRC0         BIT 0x88
+0000            377   _D1SRC1         BIT 0x89
+0000            378   _D1AMEN         BIT 0x8a
+0000            379   _D01REFSL       BIT 0x8b
+0000            380   _D3SRC0         BIT 0x8c
+0000            381   _D3SRC1         BIT 0x8d
+0000            382   _D3AMEN         BIT 0x8e
+0000            383   _D23REFSL       BIT 0x8f
+0000            384   _D0UDIS         BIT 0x98
+0000            385   _D1UDIS         BIT 0x99
+0000            386   _D2UDIS         BIT 0x9a
+0000            387   _D3UDIS         BIT 0x9b
+0000            388   _EX0            BIT 0xa8
+0000            389   _ET0            BIT 0xa9
+0000            390   _EX1            BIT 0xaa
+0000            391   _ET1            BIT 0xab
+0000            392   _ES0            BIT 0xac
+0000            393   _ET2            BIT 0xad
+0000            394   _ESPI0          BIT 0xae
+0000            395   _EA             BIT 0xaf
+0000            396   _PX0            BIT 0xb8
+0000            397   _PT0            BIT 0xb9
+0000            398   _PX1            BIT 0xba
+0000            399   _PT1            BIT 0xbb
+0000            400   _PS0            BIT 0xbc
+0000            401   _PT2            BIT 0xbd
+0000            402   _PSPI0          BIT 0xbe
+0000            403   _P0_0           BIT 0x80
+0000            404   _P0_1           BIT 0x81
+0000            405   _P0_2           BIT 0x82
+0000            406   _P0_3           BIT 0x83
+0000            407   _P0_4           BIT 0x84
+0000            408   _P0_5           BIT 0x85
+0000            409   _P0_6           BIT 0x86
+0000            410   _P0_7           BIT 0x87
+0000            411   _P1_0           BIT 0x90
+0000            412   _P1_1           BIT 0x91
+0000            413   _P1_2           BIT 0x92
+0000            414   _P1_3           BIT 0x93
+0000            415   _P1_4           BIT 0x94
+0000            416   _P1_5           BIT 0x95
+0000            417   _P1_6           BIT 0x96
+0000            418   _P1_7           BIT 0x97
+0000            419   _P2_0           BIT 0xa0
+0000            420   _P2_1           BIT 0xa1
+0000            421   _P2_2           BIT 0xa2
+0000            422   _P2_3           BIT 0xa3
+0000            423   _P2_4           BIT 0xa4
+0000            424   _P2_5           BIT 0xa5
+0000            425   _P2_6           BIT 0xa6
+0000            426   _P3_0           BIT 0xb0
+0000            427   _P3_1           BIT 0xb1
+0000            428   _P3_2           BIT 0xb2
+0000            429   _P3_3           BIT 0xb3
+0000            430   _P3_4           BIT 0xb4
+0000            431   _P3_7           BIT 0xb7
+0000            432   _CCF0           BIT 0xd8
+0000            433   _CCF1           BIT 0xd9
+0000            434   _CCF2           BIT 0xda
+0000            435   _CCF3           BIT 0xdb
+0000            436   _CCF4           BIT 0xdc
+0000            437   _CCF5           BIT 0xdd
+0000            438   _CR             BIT 0xde
+0000            439   _CF             BIT 0xdf
+0000            440   _PARITY         BIT 0xd0
+0000            441   _F1             BIT 0xd1
+0000            442   _OV             BIT 0xd2
+0000            443   _RS0            BIT 0xd3
+0000            444   _RS1            BIT 0xd4
+0000            445   _F0             BIT 0xd5
+0000            446   _AC             BIT 0xd6
+0000            447   _CY             BIT 0xd7
+0000            448   _RI             BIT 0x98
+0000            449   _TI             BIT 0x99
+0000            450   _RB8            BIT 0x9a
+0000            451   _TB8            BIT 0x9b
+0000            452   _REN            BIT 0x9c
+0000            453   _CE             BIT 0x9d
+0000            454   _SMODE          BIT 0x9e
+0000            455   _RI1            BIT 0xc8
+0000            456   _TI1            BIT 0xc9
+0000            457   _RBX1           BIT 0xca
+0000            458   _TBX1           BIT 0xcb
+0000            459   _REN1           BIT 0xcc
+0000            460   _PERR1          BIT 0xcd
+0000            461   _OVR1           BIT 0xce
+0000            462   _SI             BIT 0xc0
+0000            463   _ACK            BIT 0xc1
+0000            464   _ARBLOST        BIT 0xc2
+0000            465   _ACKRQ          BIT 0xc3
+0000            466   _STO            BIT 0xc4
+0000            467   _STA            BIT 0xc5
+0000            468   _TXMODE         BIT 0xc6
+0000            469   _MASTER         BIT 0xc7
+0000            470   _SPIEN          BIT 0xf8
+0000            471   _TXNF           BIT 0xf9
+0000            472   _NSSMD0         BIT 0xfa
+0000            473   _NSSMD1         BIT 0xfb
+0000            474   _RXOVRN         BIT 0xfc
+0000            475   _MODF           BIT 0xfd
+0000            476   _WCOL           BIT 0xfe
+0000            477   _SPIF           BIT 0xff
+0000            478   _IT0            BIT 0x88
+0000            479   _IE0            BIT 0x89
+0000            480   _IT1            BIT 0x8a
+0000            481   _IE1            BIT 0x8b
+0000            482   _TR0            BIT 0x8c
+0000            483   _TF0            BIT 0x8d
+0000            484   _TR1            BIT 0x8e
+0000            485   _TF1            BIT 0x8f
+0000            486   _T2XCLK0        BIT 0xc8
+0000            487   _T2XCLK1        BIT 0xc9
+0000            488   _TR2            BIT 0xca
+0000            489   _T2SPLIT        BIT 0xcb
+0000            490   _TF2CEN         BIT 0xcc
+0000            491   _TF2LEN         BIT 0xcd
+0000            492   _TF2L           BIT 0xce
+0000            493   _TF2H           BIT 0xcf
+0000            494   _T4XCLK0        BIT 0x98
+0000            495   _T4XCLK1        BIT 0x99
+0000            496   _TR4            BIT 0x9a
+0000            497   _T4SPLIT        BIT 0x9b
+0000            498   _TF4CEN         BIT 0x9c
+0000            499   _TF4LEN         BIT 0x9d
+0000            500   _TF4L           BIT 0x9e
+0000            501   _TF4H           BIT 0x9f
+0000            502   _T5XCLK0        BIT 0xc0
+0000            503   _T5XCLK1        BIT 0xc1
+0000            504   _TR5            BIT 0xc2
+0000            505   _T5SPLIT        BIT 0xc3
+0000            506   _TF5CEN         BIT 0xc4
+0000            507   _TF5LEN         BIT 0xc5
+0000            508   _TF5L           BIT 0xc6
+0000            509   _TF5H           BIT 0xc7
+0000            510   _RIE            BIT 0xd8
+0000            511   _RXTO0          BIT 0xd9
+0000            512   _RXTO1          BIT 0xda
+0000            513   _RFRQ           BIT 0xdb
+0000            514   _TIE            BIT 0xdc
+0000            515   _TXHOLD         BIT 0xdd
+0000            516   _TXNF1          BIT 0xde
+0000            517   _TFRQ           BIT 0xdf
+0000            518   ;--------------------------------------------------------
+0000            519   ; overlayable register banks
+0000            520   ;--------------------------------------------------------
+0000            521            rbank0 segment data overlay
+0000            522   ;--------------------------------------------------------
+0000            523   ; internal ram data
+0000            524   ;--------------------------------------------------------
+0000            525            rseg R_DSEG
+0000            526   _sendCommand_PARM_2:
+0000            527            ds 1
+0001            528   _sendCommandS_op_1_88:
+0001            529            ds 1
+0002            530   _sendCommandS_d_1_88:
+0002            531            ds 1
+0003            532   _setFrequency_frequency_1_95:
+0003            533            ds 2
+0005            534   _setReload_reload_1_97:
+0005            535            ds 2
+0007            536   _LCDprint_PARM_2:
+0007            537            ds 1
+0008            538   _nunchuck_init_buf_1_134:
+0008            539            ds 6
+000E            540   _nunchuck_init_sloc0_1_0:
+000E            541            ds 2
+0010            542   _nunchuck_init_sloc1_1_0:
+0010            543            ds 2
+0012            544   _nunchuck_init_sloc2_1_0:
+0012            545            ds 2
+0014            546   _get_speed_PARM_2:
+0014            547            ds 1
+0015            548   _read_nunchuck_PARM_2:
+0015            549            ds 3
+0018            550   _read_nunchuck_PARM_3:
+0018            551            ds 3
+001B            552   _read_nunchuck_PARM_4:
+001B            553            ds 2
+001D            554   _read_nunchuck_PARM_5:
+001D            555            ds 2
+001F            556   _read_nunchuck_direction_1_167:
+001F            557            ds 3
+0022            558   _read_nunchuck_joy_x_1_168:
+0022            559            ds 1
+0023            560   _read_nunchuck_joy_y_1_168:
+0023            561            ds 1
+0024            562   _read_nunchuck_sloc0_1_0:
+0024            563            ds 1
+0025            564   _getsn_PARM_2:
+0025            565            ds 2
+0027            566   _getsn_buff_1_171:
+0027            567            ds 3
+002A            568   _getsn_sloc0_1_0:
+002A            569            ds 2
+002C            570   _main_buffer_1_177:
+002C            571            ds 6
+0032            572   _main_speed_1_177:
+0032            573            ds 1
+0033            574   _main_direction_1_177:
+0033            575            ds 1
+0034            576   _main_off_y_1_177:
+0034            577            ds 2
+0036            578   ;--------------------------------------------------------
+0036            579   ; overlayable items in internal ram 
+0036            580   ;--------------------------------------------------------
+0000            581            rseg    R_OSEG
+0000            582            rseg    R_OSEG
+0000            583            rseg    R_OSEG
+0000            584            rseg    R_OSEG
+0000            585            rseg    R_OSEG
+0000            586            rseg    R_OSEG
+0000            587   _get_direction_PARM_2:
+0000            588            ds 1
+0001            589   ;--------------------------------------------------------
+0001            590   ; indirectly addressable internal ram data
+0001            591   ;--------------------------------------------------------
+0000            592            rseg R_ISEG
+0000            593   ;--------------------------------------------------------
+0000            594   ; absolute internal ram data
+0000            595   ;--------------------------------------------------------
+0000            596            DSEG
+0000            597   ;--------------------------------------------------------
+0000            598   ; bit data
+0000            599   ;--------------------------------------------------------
+0000            600            rseg R_BSEG
+0000            601   _reload_flag:
+0000            602            DBIT    1
+0001            603   _LCDprint_PARM_3:
+0001            604            DBIT    1
+0002            605   _nunchuck_init_PARM_1:
+0002            606            DBIT    1
+0003            607   _read_nunchuck_but1_1_168:
+0003            608            DBIT    1
+0004            609   _read_nunchuck_but2_1_168:
+0004            610            DBIT    1
+0005            611   _offset_flag:
+0005            612            DBIT    1
+0006            613   ;--------------------------------------------------------
+0006            614   ; paged external ram data
+0006            615   ;--------------------------------------------------------
+0000            616            rseg R_PSEG
+0000            617   ;--------------------------------------------------------
+0000            618   ; external ram data
+0000            619   ;--------------------------------------------------------
+0000            620            rseg R_XSEG
+0000            621   ;--------------------------------------------------------
+0000            622   ; absolute external ram data
+0000            623   ;--------------------------------------------------------
+0000            624            XSEG
+0000            625   ;--------------------------------------------------------
+0000            626   ; external initialized ram data
+0000            627   ;--------------------------------------------------------
+0000            628            rseg R_IXSEG
+0000            629            rseg R_HOME
+0000            630            rseg R_GSINIT
+0000            631            rseg R_CSEG
+0000            632   ;--------------------------------------------------------
+0000            633   ; Reset entry point and interrupt vectors
+0000            634   ;--------------------------------------------------------
+0000            635            CSEG at 0x0000
+0000 020100     636            ljmp    _crt0
+000B            637            CSEG at 0x000b
+000B 020100     638            ljmp    _Timer0_ISR
+002B            639            CSEG at 0x002b
+002B 020100     640            ljmp    _Timer2_ISR
+008B            641            CSEG at 0x008b
+008B 020100     642            ljmp    _Timer4_ISR
+008E            643   ;--------------------------------------------------------
+008E            644   ; global & static initialisations
+008E            645   ;--------------------------------------------------------
+0000            646            rseg R_HOME
+0000            647            rseg R_GSINIT
+0000            648            rseg R_GSINIT
+0000            649   ;--------------------------------------------------------
+0000            650   ; data variables initialization
+0000            651   ;--------------------------------------------------------
+0000            652            rseg R_DINIT
+0000            653   ;        Tcom.h:20: bit reload_flag = 0;
+0000 C210       654            clr     _reload_flag
+0002            655   ;        Transmitter_src.c:13: volatile unsigned bit offset_flag=1;
+0002 D290       656            setb    _offset_flag
+0004            657            ; The linker places a 'ret' at the end of segment R_DINIT.
+0004            658   ;--------------------------------------------------------
+0004            659   ; code
+0004            660   ;--------------------------------------------------------
+0000            661            rseg R_CSEG
+0000            662   ;------------------------------------------------------------
+0000            663   ;Allocation info for local variables in function 'UART1_Init'
+0000            664   ;------------------------------------------------------------
+0000            665   ;baudrate                  Allocated to registers r2 r3 r4 r5 
+0000            666   ;------------------------------------------------------------
+0000            667   ;        EFM8UART1lib.h:11: void UART1_Init (unsigned long baudrate)
+0000            668   ;        -----------------------------------------
+0000            669   ;         function UART1_Init
+0000            670   ;        -----------------------------------------
+0000            671   _UART1_Init:
+0000            672            using   0
+0000 AA82       673            mov     r2,dpl
+0002 AB83       674            mov     r3,dph
+0004 ACF0       675            mov     r4,b
+0006 FD         676            mov     r5,a
+0007            677   ;        EFM8UART1lib.h:13: SFRPAGE = 0x20;
+0007 75A720     678            mov     _SFRPAGE,#0x20
+000A            679   ;        EFM8UART1lib.h:14: SMOD1 = 0x0C; // no parity, 8 data bits, 1 stop bit
+000A 75930C     680            mov     _SMOD1,#0x0C
+000D            681   ;        EFM8UART1lib.h:15: SCON1 = 0x10; //Receive fifo overrun flag = 0; Parity Error Flag = 0; 0; Receive enable flag = 1; TBX = 0; RBX = 0; Transmit Interrupt Flag = 0; Receive Interrupt FLag = 0;
+000D 75C810     682            mov     _SCON1,#0x10
+0010            683   ;        EFM8UART1lib.h:16: SBCON1 =0x00;   // disable baud rate generator
+0010 759400     684            mov     _SBCON1,#0x00
+0013            685   ;        EFM8UART1lib.h:17: SBRL1 = 0x10000L-((SYSCLK/baudrate)/(12L*2L));  //Baud rate reload
+0013 8A00       686            mov     __divulong_PARM_2,r2
+0015 8B01       687            mov     (__divulong_PARM_2 + 1),r3
+0017 8C02       688            mov     (__divulong_PARM_2 + 2),r4
+0019 8D03       689            mov     (__divulong_PARM_2 + 3),r5
+001B 90A200     690            mov     dptr,#0xA200
+001E 75F04A     691            mov     b,#0x4A
+0021 7404       692            mov     a,#0x04
+0023 120100     693            lcall   __divulong
+0026 AA82       694            mov     r2,dpl
+0028 AB83       695            mov     r3,dph
+002A ACF0       696            mov     r4,b
+002C FD         697            mov     r5,a
+002D 750018     698            mov     __divulong_PARM_2,#0x18
+0030 E4         699            clr     a
+0031 F501       700            mov     (__divulong_PARM_2 + 1),a
+0033 F502       701            mov     (__divulong_PARM_2 + 2),a
+0035 F503       702            mov     (__divulong_PARM_2 + 3),a
+0037 8A82       703            mov     dpl,r2
+0039 8B83       704            mov     dph,r3
+003B 8CF0       705            mov     b,r4
+003D ED         706            mov     a,r5
+003E 120100     707            lcall   __divulong
+0041 AA82       708            mov     r2,dpl
+0043 AB83       709            mov     r3,dph
+0045 ACF0       710            mov     r4,b
+0047 FD         711            mov     r5,a
+0048 E4         712            clr     a
+0049 C3         713            clr     c
+004A 9A         714            subb    a,r2
+004B FA         715            mov     r2,a
+004C E4         716            clr     a
+004D 9B         717            subb    a,r3
+004E FB         718            mov     r3,a
+004F 7401       719            mov     a,#0x01
+0051 9C         720            subb    a,r4
+0052 E4         721            clr     a
+0053 9D         722            subb    a,r5
+0054 8A95       723            mov     _SBRL1,r2
+0056 8B96       724            mov     (_SBRL1 >> 8),r3
+0058            725   ;        EFM8UART1lib.h:18: TI1 = 1; // indicate ready for TX
+0058 D2C9       726            setb    _TI1
+005A            727   ;        EFM8UART1lib.h:19: SBCON1 |= 0x40;   // enable baud rate generator
+005A 439440     728            orl     _SBCON1,#0x40
+005D            729   ;        EFM8UART1lib.h:20: SFRPAGE = 0x00;
+005D 75A700     730            mov     _SFRPAGE,#0x00
+0060 22         731            ret
+0061            732   ;------------------------------------------------------------
+0061            733   ;Allocation info for local variables in function 'putchar1'
+0061            734   ;------------------------------------------------------------
+0061            735   ;c                         Allocated to registers r2 
+0061            736   ;------------------------------------------------------------
+0061            737   ;        EFM8UART1lib.h:23: void putchar1 (char c) 
+0061            738   ;        -----------------------------------------
+0061            739   ;         function putchar1
+0061            740   ;        -----------------------------------------
+0061            741   _putchar1:
+0061 AA82       742            mov     r2,dpl
+0063            743   ;        EFM8UART1lib.h:25: SFRPAGE = 0x20;
+0063 75A720     744            mov     _SFRPAGE,#0x20
+0066            745   ;        EFM8UART1lib.h:26: if (c == '\n') 
+0066 BA0A58     746            cjne    r2,#0x0A,L003006?
+0069            747   ;        EFM8UART1lib.h:28: while (!TI1);
+0069            748   L003001?:
+0069            749   ;        EFM8UART1lib.h:29: TI1=0;
+0069 10C9D8     750            jbc     _TI1,L003017?
+006C 8001       751            sjmp    L003001?
+006E            752   L003017?:
+006E            753   ;        EFM8UART1lib.h:30: SBUF1 = '\r';
+006E 75920D     754            mov     _SBUF1,#0x0D
+0071            755   ;        EFM8UART1lib.h:32: while (!TI1);
+0071            756   L003006?:
+0071            757   ;        EFM8UART1lib.h:33: TI1=0;
+0071 10C918     758            jbc     _TI1,L003018?
+0074 8001       759            sjmp    L003006?
+0076            760   L003018?:
+0076            761   ;        EFM8UART1lib.h:34: SBUF1 = c;
+0076 8A92       762            mov     _SBUF1,r2
+0078            763   ;        EFM8UART1lib.h:35: SFRPAGE = 0x00;
+0078 75A700     764            mov     _SFRPAGE,#0x00
+007B 22         765            ret
+007C            766   ;------------------------------------------------------------
+007C            767   ;Allocation info for local variables in function 'getchar1'
+007C            768   ;------------------------------------------------------------
+007C            769   ;c                         Allocated to registers 
+007C            770   ;------------------------------------------------------------
+007C            771   ;        EFM8UART1lib.h:38: char getchar1 (void)
+007C            772   ;        -----------------------------------------
+007C            773   ;         function getchar1
+007C            774   ;        -----------------------------------------
+007C            775   _getchar1:
+007C            776   ;        EFM8UART1lib.h:41: SFRPAGE = 0x20;
+007C 75A720     777            mov     _SFRPAGE,#0x20
+007F            778   ;        EFM8UART1lib.h:42: while (!RI1);
+007F            779   L004001?:
+007F            780   ;        EFM8UART1lib.h:43: RI1=0;
+007F 10C898     781            jbc     _RI1,L004008?
+0082 8001       782            sjmp    L004001?
+0084            783   L004008?:
+0084            784   ;        EFM8UART1lib.h:45: SCON1&=0b_0011_1111;
+0084 53C83F     785            anl     _SCON1,#0x3F
+0087            786   ;        EFM8UART1lib.h:46: c = SBUF1;
+0087 859282     787            mov     dpl,_SBUF1
+008A            788   ;        EFM8UART1lib.h:47: SFRPAGE = 0x00;
+008A 75A700     789            mov     _SFRPAGE,#0x00
+008D            790   ;        EFM8UART1lib.h:48: return (c);
+008D 22         791            ret
+008E            792   ;------------------------------------------------------------
+008E            793   ;Allocation info for local variables in function 'Timer0_init'
+008E            794   ;------------------------------------------------------------
+008E            795   ;------------------------------------------------------------
+008E            796   ;        Tcom.h:24: void Timer0_init(void){
+008E            797   ;        -----------------------------------------
+008E            798   ;         function Timer0_init
+008E            799   ;        -----------------------------------------
+008E            800   _Timer0_init:
+008E            801   ;        Tcom.h:27: CKCON0 |= 0b_0000_0100; // Timer0 clock source = SYSCLK/12
+008E 438E04     802            orl     _CKCON0,#0x04
+0091            803   ;        Tcom.h:28: TMOD &= 0xf0;  // Mask out timer 1 bits
+0091 5389F0     804            anl     _TMOD,#0xF0
+0094            805   ;        Tcom.h:29: TMOD |= 0x02;  // Timer0 in 8-bit auto-reload mode
+0094 438902     806            orl     _TMOD,#0x02
+0097            807   ;        Tcom.h:31: TL0 = TH0 = 256-(SYSCLK/SMB_FREQUENCY/3);
+0097 758C10     808            mov     _TH0,#0x10
+009A 758A10     809            mov     _TL0,#0x10
+009D            810   ;        Tcom.h:32: TR0 = 1; // Enable timer 0
+009D D28C       811            setb    _TR0
+009F 22         812            ret
+00A0            813   ;------------------------------------------------------------
+00A0            814   ;Allocation info for local variables in function 'Timer0_ISR'
+00A0            815   ;------------------------------------------------------------
+00A0            816   ;------------------------------------------------------------
+00A0            817   ;        Tcom.h:37: void Timer0_ISR (void) interrupt INTERRUPT_TIMER0 {
+00A0            818   ;        -----------------------------------------
+00A0            819   ;         function Timer0_ISR
+00A0            820   ;        -----------------------------------------
+00A0            821   _Timer0_ISR:
+00A0            822   ;        Tcom.h:38: TF0 = 0;
+00A0 C28D       823            clr     _TF0
+00A2            824   ;        Tcom.h:39: SI=0;
+00A2 C2C0       825            clr     _SI
+00A4 32         826            reti
+00A5            827   ;        eliminated unneeded push/pop psw
+00A5            828   ;        eliminated unneeded push/pop dpl
+00A5            829   ;        eliminated unneeded push/pop dph
+00A5            830   ;        eliminated unneeded push/pop b
+00A5            831   ;        eliminated unneeded push/pop acc
+00A5            832   ;------------------------------------------------------------
+00A5            833   ;Allocation info for local variables in function 'Timer2_init'
+00A5            834   ;------------------------------------------------------------
+00A5            835   ;------------------------------------------------------------
+00A5            836   ;        Tcom.h:44: void Timer2_init(void) {
+00A5            837   ;        -----------------------------------------
+00A5            838   ;         function Timer2_init
+00A5            839   ;        -----------------------------------------
+00A5            840   _Timer2_init:
+00A5            841   ;        Tcom.h:45: TMR2CN0=0b_0000_0000;   // Stop Timer2; Clear TF2; T2XCLK uses Sysclk/12
+00A5 75C800     842            mov     _TMR2CN0,#0x00
+00A8            843   ;        Tcom.h:46: CKCON0|=0b_0000_0000; // Timer 2 uses the system clock; Timer2 uses T2XCLK
+00A8 858E8E     844            mov     _CKCON0,_CKCON0
+00AB            845   ;        Tcom.h:47: TMR2RL=64936; //Initilizes reload value for 100hz;
+00AB 75CAA8     846            mov     _TMR2RL,#0xA8
+00AE 75CBFD     847            mov     (_TMR2RL >> 8),#0xFD
+00B1            848   ;        Tcom.h:48: TMR2=0xffff;   // Set to reload immediately
+00B1 75CEFF     849            mov     _TMR2,#0xFF
+00B4 75CFFF     850            mov     (_TMR2 >> 8),#0xFF
+00B7            851   ;        Tcom.h:49: ET2=0;         // Enable Timer2 interrupts
+00B7 C2AD       852            clr     _ET2
+00B9            853   ;        Tcom.h:50: TR2=1;         // Start Timer2 (TMR2CN is bit addressable)
+00B9 D2CA       854            setb    _TR2
+00BB 22         855            ret
+00BC            856   ;------------------------------------------------------------
+00BC            857   ;Allocation info for local variables in function 'Timer2_ISR'
+00BC            858   ;------------------------------------------------------------
+00BC            859   ;------------------------------------------------------------
+00BC            860   ;        Tcom.h:53: void Timer2_ISR (void) interrupt 5 {
+00BC            861   ;        -----------------------------------------
+00BC            862   ;         function Timer2_ISR
+00BC            863   ;        -----------------------------------------
+00BC            864   _Timer2_ISR:
+00BC            865   ;        Tcom.h:54: SFRPAGE=0x00;
+00BC 75A700     866            mov     _SFRPAGE,#0x00
+00BF            867   ;        Tcom.h:56: TF2H = 0; // Clear Timer2 interrupt flag
+00BF C2CF       868            clr     _TF2H
+00C1 32         869            reti
+00C2            870   ;        eliminated unneeded push/pop psw
+00C2            871   ;        eliminated unneeded push/pop dpl
+00C2            872   ;        eliminated unneeded push/pop dph
+00C2            873   ;        eliminated unneeded push/pop b
+00C2            874   ;        eliminated unneeded push/pop acc
+00C2            875   ;------------------------------------------------------------
+00C2            876   ;Allocation info for local variables in function 'Timer4_init'
+00C2            877   ;------------------------------------------------------------
+00C2            878   ;------------------------------------------------------------
+00C2            879   ;        Tcom.h:78: void Timer4_init(void) {
+00C2            880   ;        -----------------------------------------
+00C2            881   ;         function Timer4_init
+00C2            882   ;        -----------------------------------------
+00C2            883   _Timer4_init:
+00C2            884   ;        Tcom.h:79: SFRPAGE=0x10;
+00C2 75A710     885            mov     _SFRPAGE,#0x10
+00C5            886   ;        Tcom.h:80: TMR4CN0=0b_0000_0000;
+00C5 759800     887            mov     _TMR4CN0,#0x00
+00C8            888   ;        Tcom.h:81: TMR4CN1=0b_0110_0000;
+00C8 75FF60     889            mov     _TMR4CN1,#0x60
+00CB            890   ;        Tcom.h:83: TMR4RL=65336; //reload = 2^16 - (SYSCLK/12)/(F*2); 15kHz
+00CB 75A238     891            mov     _TMR4RL,#0x38
+00CE 75A3FF     892            mov     (_TMR4RL >> 8),#0xFF
+00D1            893   ;        Tcom.h:84: TMR4=0xffff;
+00D1 75A4FF     894            mov     _TMR4,#0xFF
+00D4 75A5FF     895            mov     (_TMR4 >> 8),#0xFF
+00D7            896   ;        Tcom.h:86: EIE2|=0b_0000_0100;
+00D7 43F304     897            orl     _EIE2,#0x04
+00DA            898   ;        Tcom.h:87: TR4=1;
+00DA D29A       899            setb    _TR4
+00DC            900   ;        Tcom.h:88: SFRPAGE=0x00;
+00DC 75A700     901            mov     _SFRPAGE,#0x00
+00DF 22         902            ret
+00E0            903   ;------------------------------------------------------------
+00E0            904   ;Allocation info for local variables in function 'Timer4_ISR'
+00E0            905   ;------------------------------------------------------------
+00E0            906   ;------------------------------------------------------------
+00E0            907   ;        Tcom.h:92: void Timer4_ISR(void) interrupt INTERRUPT_TIMER4 {
+00E0            908   ;        -----------------------------------------
+00E0            909   ;         function Timer4_ISR
+00E0            910   ;        -----------------------------------------
+00E0            911   _Timer4_ISR:
+00E0            912   ;        Tcom.h:93: TF4H = 0; //interrupt flag
+00E0 C29F       913            clr     _TF4H
+00E2            914   ;        Tcom.h:95: OUT0 = !OUT0;
+00E2 B2A0       915            cpl     _P2_0
+00E4 32         916            reti
+00E5            917   ;        eliminated unneeded push/pop psw
+00E5            918   ;        eliminated unneeded push/pop dpl
+00E5            919   ;        eliminated unneeded push/pop dph
+00E5            920   ;        eliminated unneeded push/pop b
+00E5            921   ;        eliminated unneeded push/pop acc
+00E5            922   ;------------------------------------------------------------
+00E5            923   ;Allocation info for local variables in function 'sendCommand'
+00E5            924   ;------------------------------------------------------------
+00E5            925   ;value                     Allocated with name '_sendCommand_PARM_2'
+00E5            926   ;op                        Allocated to registers r2 
+00E5            927   ;------------------------------------------------------------
+00E5            928   ;        Tcom.h:98: void sendCommand(unsigned char op, unsigned char value) {
+00E5            929   ;        -----------------------------------------
+00E5            930   ;         function sendCommand
+00E5            931   ;        -----------------------------------------
+00E5            932   _sendCommand:
+00E5 AA82       933            mov     r2,dpl
+00E7            934   ;        Tcom.h:99: if (op < 0b_1000 && value < 0b_100000) {
+00E7 BA08D8     935            cjne    r2,#0x08,L011009?
+00EA            936   L011009?:
+00EA 5001       937            jnc     L011002?
+00EC 74E0       938            mov     a,#0x100 - 0x20
+00EE 2580       939            add     a,_sendCommand_PARM_2
+00F0 4001       940            jc      L011002?
+00F2            941   ;        Tcom.h:100: putchar1(op*0b_100000 + value);
+00F2 EA         942            mov     a,r2
+00F3 C4         943            swap    a
+00F4 23         944            rl      a
+00F5 54E0       945            anl     a,#0xe0
+00F7 FB         946            mov     r3,a
+00F8 E580       947            mov     a,_sendCommand_PARM_2
+00FA 2B         948            add     a,r3
+00FB F582       949            mov     dpl,a
+00FD C002       950            push    ar2
+00FF 120100     951            lcall   _putchar1
+0102 D002       952            pop     ar2
+0104            953   ;        Tcom.h:101: printf("Sent: %d\r\n", op*0b_100000 + value);
+0104 EA         954            mov     a,r2
+0105 75F020     955            mov     b,#0x20
+0108 A4         956            mul     ab
+0109 FA         957            mov     r2,a
+010A ABF0       958            mov     r3,b
+010C AC80       959            mov     r4,_sendCommand_PARM_2
+010E 7D00       960            mov     r5,#0x00
+0110 EC         961            mov     a,r4
+0111 2A         962            add     a,r2
+0112 FA         963            mov     r2,a
+0113 ED         964            mov     a,r5
+0114 3B         965            addc    a,r3
+0115 FB         966            mov     r3,a
+0116 C002       967            push    ar2
+0118 C003       968            push    ar3
+011A 7458       969            mov     a,#__str_0
+011C C0E0       970            push    acc
+011E 74C9       971            mov     a,#(__str_0 >> 8)
+0120 C0E0       972            push    acc
+0122 7480       973            mov     a,#0x80
+0124 C0E0       974            push    acc
+0126 120100     975            lcall   _printf
+0129 E581       976            mov     a,sp
+012B 24FB       977            add     a,#0xfb
+012D F581       978            mov     sp,a
+012F 22         979            ret
+0130            980   L011002?:
+0130            981   ;        Tcom.h:103: printf("c err\r\n");
+0130 7458       982            mov     a,#__str_1
+0132 C0E0       983            push    acc
+0134 74CA       984            mov     a,#(__str_1 >> 8)
+0136 C0E0       985            push    acc
+0138 7480       986            mov     a,#0x80
+013A C0E0       987            push    acc
+013C 120100     988            lcall   _printf
+013F 1581       989            dec     sp
+0141 1581       990            dec     sp
+0143 1581       991            dec     sp
+0145 22         992            ret
+0146            993   ;------------------------------------------------------------
+0146            994   ;Allocation info for local variables in function 'sendCommandS'
+0146            995   ;------------------------------------------------------------
+0146            996   ;input                     Allocated to registers r2 r3 r4 
+0146            997   ;op                        Allocated with name '_sendCommandS_op_1_88'
+0146            998   ;d                         Allocated with name '_sendCommandS_d_1_88'
+0146            999   ;------------------------------------------------------------
+0146           1000   ;        Tcom.h:107: void sendCommandS(char* input) {
+0146           1001   ;        -----------------------------------------
+0146           1002   ;         function sendCommandS
+0146           1003   ;        -----------------------------------------
+0146           1004   _sendCommandS:
+0146 AA82      1005            mov     r2,dpl
+0148 AB83      1006            mov     r3,dph
+014A ACF0      1007            mov     r4,b
+014C           1008   ;        Tcom.h:111: sscanf(input, "%*s %c %c", &op, &d);
+014C 74E8      1009            mov     a,#_sendCommandS_d_1_88
+014E C0E0      1010            push    acc
+0150 74BF      1011            mov     a,#(_sendCommandS_d_1_88 >> 8)
+0152 C0E0      1012            push    acc
+0154 7440      1013            mov     a,#0x40
+0156 C0E0      1014            push    acc
+0158 7490      1015            mov     a,#_sendCommandS_op_1_88
+015A C0E0      1016            push    acc
+015C 74BF      1017            mov     a,#(_sendCommandS_op_1_88 >> 8)
+015E C0E0      1018            push    acc
+0160 7440      1019            mov     a,#0x40
+0162 C0E0      1020            push    acc
+0164 7498      1021            mov     a,#__str_2
+0166 C0E0      1022            push    acc
+0168 74CA      1023            mov     a,#(__str_2 >> 8)
+016A C0E0      1024            push    acc
+016C 7480      1025            mov     a,#0x80
+016E C0E0      1026            push    acc
+0170 C002      1027            push    ar2
+0172 C003      1028            push    ar3
+0174 C004      1029            push    ar4
+0176 120100    1030            lcall   _sscanf
+0179 E581      1031            mov     a,sp
+017B 24F4      1032            add     a,#0xf4
+017D F581      1033            mov     sp,a
+017F           1034   ;        Tcom.h:113: switch(op) {
+017F AA90      1035            mov     r2,_sendCommandS_op_1_88
+0181 BA6618    1036            cjne    r2,#0x66,L012011?
+0184 8001      1037            sjmp    L012002?
+0186           1038   L012011?:
+0186 8A03      1039            mov     ar3,r2
+0188 BB7298    1040            cjne    r3,#0x72,L012012?
+018B 8001      1041            sjmp    L012003?
+018D           1042   L012012?:
+018D BA7318    1043            cjne    r2,#0x73,L012004?
+0190           1044   ;        Tcom.h:115: op = 0;
+0190 759000    1045            mov     _sendCommandS_op_1_88,#0x00
+0193           1046   ;        Tcom.h:116: break;
+0193           1047   ;        Tcom.h:117: case 'f':
+0193 8001      1048            sjmp    L012005?
+0195           1049   L012002?:
+0195           1050   ;        Tcom.h:118: op = 0b_001;
+0195 759001    1051            mov     _sendCommandS_op_1_88,#0x01
+0198           1052   ;        Tcom.h:119: break;
+0198           1053   ;        Tcom.h:120: case 'r':
+0198 8001      1054            sjmp    L012005?
+019A           1055   L012003?:
+019A           1056   ;        Tcom.h:121: op = 0b_010;
+019A 759002    1057            mov     _sendCommandS_op_1_88,#0x02
+019D           1058   ;        Tcom.h:122: break;
+019D           1059   ;        Tcom.h:123: default:
+019D 8001      1060            sjmp    L012005?
+019F           1061   L012004?:
+019F           1062   ;        Tcom.h:124: return;
+019F           1063   ;        Tcom.h:125: }
+019F 22        1064            ret
+01A0           1065   L012005?:
+01A0           1066   ;        Tcom.h:126: sendCommand(op, d);
+01A0 85E880    1067            mov     _sendCommand_PARM_2,_sendCommandS_d_1_88
+01A3 859082    1068            mov     dpl,_sendCommandS_op_1_88
+01A6 020100    1069            ljmp    _sendCommand
+01A9           1070   ;------------------------------------------------------------
+01A9           1071   ;Allocation info for local variables in function 'frequencyToReload'
+01A9           1072   ;------------------------------------------------------------
+01A9           1073   ;freq                      Allocated to registers r2 r3 
+01A9           1074   ;------------------------------------------------------------
+01A9           1075   ;        Tcom.h:145: unsigned int frequencyToReload(unsigned int freq) {
+01A9           1076   ;        -----------------------------------------
+01A9           1077   ;         function frequencyToReload
+01A9           1078   ;        -----------------------------------------
+01A9           1079   _frequencyToReload:
+01A9 AA82      1080            mov     r2,dpl
+01AB AB83      1081            mov     r3,dph
+01AD           1082   ;        Tcom.h:146: return 65536 - (60000/(freq));
+01AD 8A00      1083            mov     __divslong_PARM_2,r2
+01AF 8B01      1084            mov     (__divslong_PARM_2 + 1),r3
+01B1 750200    1085            mov     (__divslong_PARM_2 + 2),#0x00
+01B4 750300    1086            mov     (__divslong_PARM_2 + 3),#0x00
+01B7 90EA60    1087            mov     dptr,#0xEA60
+01BA E4        1088            clr     a
+01BB F5F0      1089            mov     b,a
+01BD 120100    1090            lcall   __divslong
+01C0 AA82      1091            mov     r2,dpl
+01C2 AB83      1092            mov     r3,dph
+01C4 ACF0      1093            mov     r4,b
+01C6 FD        1094            mov     r5,a
+01C7 E4        1095            clr     a
+01C8 C3        1096            clr     c
+01C9 9A        1097            subb    a,r2
+01CA FA        1098            mov     r2,a
+01CB E4        1099            clr     a
+01CC 9B        1100            subb    a,r3
+01CD FB        1101            mov     r3,a
+01CE 7401      1102            mov     a,#0x01
+01D0 9C        1103            subb    a,r4
+01D1 E4        1104            clr     a
+01D2 9D        1105            subb    a,r5
+01D3 8A82      1106            mov     dpl,r2
+01D5 8B83      1107            mov     dph,r3
+01D7 22        1108            ret
+01D8           1109   ;------------------------------------------------------------
+01D8           1110   ;Allocation info for local variables in function 'reloadToFrequency'
+01D8           1111   ;------------------------------------------------------------
+01D8           1112   ;reload                    Allocated to registers r2 r3 
+01D8           1113   ;------------------------------------------------------------
+01D8           1114   ;        Tcom.h:149: unsigned int reloadToFrequency(unsigned int reload) {
+01D8           1115   ;        -----------------------------------------
+01D8           1116   ;         function reloadToFrequency
+01D8           1117   ;        -----------------------------------------
+01D8           1118   _reloadToFrequency:
+01D8 AA82      1119            mov     r2,dpl
+01DA AB83      1120            mov     r3,dph
+01DC           1121   ;        Tcom.h:150: return ((SYSCLK/12)/(65536 - reload))/100;
+01DC 7C00      1122            mov     r4,#0x00
+01DE E4        1123            clr     a
+01DF FD        1124            mov     r5,a
+01E0 C3        1125            clr     c
+01E1 9A        1126            subb    a,r2
+01E2 F500      1127            mov     __divslong_PARM_2,a
+01E4 E4        1128            clr     a
+01E5 9B        1129            subb    a,r3
+01E6 F501      1130            mov     (__divslong_PARM_2 + 1),a
+01E8 7401      1131            mov     a,#0x01
+01EA 9C        1132            subb    a,r4
+01EB F502      1133            mov     (__divslong_PARM_2 + 2),a
+01ED E4        1134            clr     a
+01EE 9D        1135            subb    a,r5
+01EF F503      1136            mov     (__divslong_PARM_2 + 3),a
+01F1 908D80    1137            mov     dptr,#0x8D80
+01F4 75F05B    1138            mov     b,#0x5B
+01F7 E4        1139            clr     a
+01F8 120100    1140            lcall   __divslong
+01FB AA82      1141            mov     r2,dpl
+01FD AB83      1142            mov     r3,dph
+01FF ACF0      1143            mov     r4,b
+0201 FD        1144            mov     r5,a
+0202 750064    1145            mov     __divslong_PARM_2,#0x64
+0205 E4        1146            clr     a
+0206 F501      1147            mov     (__divslong_PARM_2 + 1),a
+0208 F502      1148            mov     (__divslong_PARM_2 + 2),a
+020A F503      1149            mov     (__divslong_PARM_2 + 3),a
+020C 8A82      1150            mov     dpl,r2
+020E 8B83      1151            mov     dph,r3
+0210 8CF0      1152            mov     b,r4
+0212 ED        1153            mov     a,r5
+0213 020100    1154            ljmp    __divslong
+0216           1155   ;------------------------------------------------------------
+0216           1156   ;Allocation info for local variables in function 'setFrequency'
+0216           1157   ;------------------------------------------------------------
+0216           1158   ;input                     Allocated to registers r2 r3 r4 
+0216           1159   ;frequency                 Allocated with name '_setFrequency_frequency_1_95'
+0216           1160   ;------------------------------------------------------------
+0216           1161   ;        Tcom.h:153: void setFrequency(char* input) {
+0216           1162   ;        -----------------------------------------
+0216           1163   ;         function setFrequency
+0216           1164   ;        -----------------------------------------
+0216           1165   _setFrequency:
+0216 AA82      1166            mov     r2,dpl
+0218 AB83      1167            mov     r3,dph
+021A ACF0      1168            mov     r4,b
+021C           1169   ;        Tcom.h:155: sscanf(input, "%*s %u", &frequency);
+021C 7438      1170            mov     a,#_setFrequency_frequency_1_95
+021E C0E0      1171            push    acc
+0220 74C0      1172            mov     a,#(_setFrequency_frequency_1_95 >> 8)
+0222 C0E0      1173            push    acc
+0224 7440      1174            mov     a,#0x40
+0226 C0E0      1175            push    acc
+0228 7428      1176            mov     a,#__str_3
+022A C0E0      1177            push    acc
+022C 74CD      1178            mov     a,#(__str_3 >> 8)
+022E C0E0      1179            push    acc
+0230 7480      1180            mov     a,#0x80
+0232 C0E0      1181            push    acc
+0234 C002      1182            push    ar2
+0236 C003      1183            push    ar3
+0238 C004      1184            push    ar4
+023A 120100    1185            lcall   _sscanf
+023D E581      1186            mov     a,sp
+023F 24F7      1187            add     a,#0xf7
+0241 F581      1188            mov     sp,a
+0243           1189   ;        Tcom.h:156: while(reload_flag != 0);
+0243           1190   L015001?:
+0243 201068    1191            jb      _reload_flag,L015001?
+0246           1192   ;        Tcom.h:157: TMR2RL = frequencyToReload(frequency);
+0246 853882    1193            mov     dpl,_setFrequency_frequency_1_95
+0249 853983    1194            mov     dph,(_setFrequency_frequency_1_95 + 1)
+024C 120100    1195            lcall   _frequencyToReload
+024F 8582CA    1196            mov     _TMR2RL,dpl
+0252 8583CB    1197            mov     (_TMR2RL >> 8),dph
+0255 22        1198            ret
+0256           1199   ;------------------------------------------------------------
+0256           1200   ;Allocation info for local variables in function 'setReload'
+0256           1201   ;------------------------------------------------------------
+0256           1202   ;input                     Allocated to registers r2 r3 r4 
+0256           1203   ;reload                    Allocated with name '_setReload_reload_1_97'
+0256           1204   ;------------------------------------------------------------
+0256           1205   ;        Tcom.h:160: void setReload(char* input) {
+0256           1206   ;        -----------------------------------------
+0256           1207   ;         function setReload
+0256           1208   ;        -----------------------------------------
+0256           1209   _setReload:
+0256 AA82      1210            mov     r2,dpl
+0258 AB83      1211            mov     r3,dph
+025A ACF0      1212            mov     r4,b
+025C           1213   ;        Tcom.h:162: sscanf(input, "%*s %u", &reload);
+025C 7488      1214            mov     a,#_setReload_reload_1_97
+025E C0E0      1215            push    acc
+0260 74C0      1216            mov     a,#(_setReload_reload_1_97 >> 8)
+0262 C0E0      1217            push    acc
+0264 7440      1218            mov     a,#0x40
+0266 C0E0      1219            push    acc
+0268 7428      1220            mov     a,#__str_3
+026A C0E0      1221            push    acc
+026C 74CD      1222            mov     a,#(__str_3 >> 8)
+026E C0E0      1223            push    acc
+0270 7480      1224            mov     a,#0x80
+0272 C0E0      1225            push    acc
+0274 C002      1226            push    ar2
+0276 C003      1227            push    ar3
+0278 C004      1228            push    ar4
+027A 120100    1229            lcall   _sscanf
+027D E581      1230            mov     a,sp
+027F 24F7      1231            add     a,#0xf7
+0281 F581      1232            mov     sp,a
+0283           1233   ;        Tcom.h:163: while(reload_flag != 0);
+0283           1234   L016001?:
+0283 2010A8    1235            jb      _reload_flag,L016001?
+0286           1236   ;        Tcom.h:164: TMR2RL = reload;
+0286 8588CA    1237            mov     _TMR2RL,_setReload_reload_1_97
+0289 8589CB    1238            mov     (_TMR2RL >> 8),(_setReload_reload_1_97 + 1)
+028C 22        1239            ret
+028D           1240   ;------------------------------------------------------------
+028D           1241   ;Allocation info for local variables in function 'PWMoff'
+028D           1242   ;------------------------------------------------------------
+028D           1243   ;------------------------------------------------------------
+028D           1244   ;        Tcom.h:182: void PWMoff() {
+028D           1245   ;        -----------------------------------------
+028D           1246   ;         function PWMoff
+028D           1247   ;        -----------------------------------------
+028D           1248   _PWMoff:
+028D           1249   ;        Tcom.h:183: OUT0 = 0;
+028D C2A0      1250            clr     _P2_0
+028F           1251   ;        Tcom.h:184: OUT1 = 0;
+028F C296      1252            clr     _P1_6
+0291           1253   ;        Tcom.h:185: TR2 = 0;
+0291 C2CA      1254            clr     _TR2
+0293 22        1255            ret
+0294           1256   ;------------------------------------------------------------
+0294           1257   ;Allocation info for local variables in function 'PWMon'
+0294           1258   ;------------------------------------------------------------
+0294           1259   ;------------------------------------------------------------
+0294           1260   ;        Tcom.h:188: void PWMon() {
+0294           1261   ;        -----------------------------------------
+0294           1262   ;         function PWMon
+0294           1263   ;        -----------------------------------------
+0294           1264   _PWMon:
+0294           1265   ;        Tcom.h:189: TR2 = 1;
+0294 D2CA      1266            setb    _TR2
+0296 22        1267            ret
+0297           1268   ;------------------------------------------------------------
+0297           1269   ;Allocation info for local variables in function 'getCommand'
+0297           1270   ;------------------------------------------------------------
+0297           1271   ;input                     Allocated to registers r2 r3 r4 
+0297           1272   ;------------------------------------------------------------
+0297           1273   ;        Tcom.h:192: void getCommand(char* input) {
+0297           1274   ;        -----------------------------------------
+0297           1275   ;         function getCommand
+0297           1276   ;        -----------------------------------------
+0297           1277   _getCommand:
+0297           1278   ;        Tcom.h:194: if (input[0] == '-') {
+0297 AA82      1279            mov     r2,dpl
+0299 AB83      1280            mov     r3,dph
+029B ACF0      1281            mov     r4,b
+029D 120100    1282            lcall   __gptrget
+02A0 FD        1283            mov     r5,a
+02A1 BD2D28    1284            cjne    r5,#0x2D,L019031?
+02A4 8001      1285            sjmp    L019032?
+02A6           1286   L019031?:
+02A6 020100    1287            ljmp    L019016?
+02A9           1288   L019032?:
+02A9           1289   ;        Tcom.h:195: switch(input[1]) {
+02A9 7401      1290            mov     a,#0x01
+02AB 2A        1291            add     a,r2
+02AC FD        1292            mov     r5,a
+02AD E4        1293            clr     a
+02AE 3B        1294            addc    a,r3
+02AF FE        1295            mov     r6,a
+02B0 8C07      1296            mov     ar7,r4
+02B2 8D82      1297            mov     dpl,r5
+02B4 8E83      1298            mov     dph,r6
+02B6 8FF0      1299            mov     b,r7
+02B8 120100    1300            lcall   __gptrget
+02BB FD        1301            mov     r5,a
+02BC BD2FE8    1302            cjne    r5,#0x2F,L019033?
+02BF 8001      1303            sjmp    L019001?
+02C1           1304   L019033?:
+02C1 BD6668    1305            cjne    r5,#0x66,L019034?
+02C4 8001      1306            sjmp    L019002?
+02C6           1307   L019034?:
+02C6 BD68E8    1308            cjne    r5,#0x68,L019035?
+02C9 8001      1309            sjmp    L019003?
+02CB           1310   L019035?:
+02CB BD6968    1311            cjne    r5,#0x69,L019036?
+02CE 8001      1312            sjmp    L019004?
+02D0           1313   L019036?:
+02D0 BD6FE8    1314            cjne    r5,#0x6F,L019037?
+02D3 8001      1315            sjmp    L019005?
+02D5           1316   L019037?:
+02D5 BD7268    1317            cjne    r5,#0x72,L019038?
+02D8 020100    1318            ljmp    L019008?
+02DB           1319   L019038?:
+02DB BD73E8    1320            cjne    r5,#0x73,L019039?
+02DE 020100    1321            ljmp    L019009?
+02E1           1322   L019039?:
+02E1 BD7468    1323            cjne    r5,#0x74,L019040?
+02E4 020100    1324            ljmp    L019012?
+02E7           1325   L019040?:
+02E7 020100    1326            ljmp    L019013?
+02EA           1327   ;        Tcom.h:196: case '/':
+02EA           1328   L019001?:
+02EA           1329   ;        Tcom.h:197: sendCommandS(input);
+02EA 8A82      1330            mov     dpl,r2
+02EC 8B83      1331            mov     dph,r3
+02EE 8CF0      1332            mov     b,r4
+02F0 120100    1333            lcall   _sendCommandS
+02F3           1334   ;        Tcom.h:198: break;
+02F3 020100    1335            ljmp    L019017?
+02F6           1336   ;        Tcom.h:211: case 'f':
+02F6           1337   L019002?:
+02F6           1338   ;        Tcom.h:212: setFrequency(input);
+02F6 8A82      1339            mov     dpl,r2
+02F8 8B83      1340            mov     dph,r3
+02FA 8CF0      1341            mov     b,r4
+02FC 120100    1342            lcall   _setFrequency
+02FF           1343   ;        Tcom.h:213: break;
+02FF 020100    1344            ljmp    L019017?
+0302           1345   ;        Tcom.h:214: case 'h':
+0302           1346   L019003?:
+0302           1347   ;        Tcom.h:215: printf("Help Menu\r\nList of Commands: \r\n-cw [duty value]\r\n-ccw [duty value]\r\n-f [freq value]\r\n-r [reload value]\r\n-o\r\n-s\r\n-i\r\n\n");
+0302 7468      1348            mov     a,#__str_4
+0304 C0E0      1349            push    acc
+0306 74D3      1350            mov     a,#(__str_4 >> 8)
+0308 C0E0      1351            push    acc
+030A 7480      1352            mov     a,#0x80
+030C C0E0      1353            push    acc
+030E 120100    1354            lcall   _printf
+0311 1581      1355            dec     sp
+0313 1581      1356            dec     sp
+0315 1581      1357            dec     sp
+0317           1358   ;        Tcom.h:216: break;
+0317 020100    1359            ljmp    L019017?
+031A           1360   ;        Tcom.h:217: case 'i':
+031A           1361   L019004?:
+031A           1362   ;        Tcom.h:218: printf("Reload: %u, Freq: %d \r\n", TMR2RL, reloadToFrequency(TMR2RL));
+031A 85CA82    1363            mov     dpl,_TMR2RL
+031D 85CB83    1364            mov     dph,(_TMR2RL >> 8)
+0320 120100    1365            lcall   _reloadToFrequency
+0323 AD82      1366            mov     r5,dpl
+0325 AE83      1367            mov     r6,dph
+0327 C005      1368            push    ar5
+0329 C006      1369            push    ar6
+032B C0CA      1370            push    _TMR2RL
+032D C0CB      1371            push    (_TMR2RL >> 8)
+032F 74A8      1372            mov     a,#__str_5
+0331 C0E0      1373            push    acc
+0333 74D3      1374            mov     a,#(__str_5 >> 8)
+0335 C0E0      1375            push    acc
+0337 7480      1376            mov     a,#0x80
+0339 C0E0      1377            push    acc
+033B 120100    1378            lcall   _printf
+033E E581      1379            mov     a,sp
+0340 24F9      1380            add     a,#0xf9
+0342 F581      1381            mov     sp,a
+0344           1382   ;        Tcom.h:220: break;
+0344 020100    1383            ljmp    L019017?
+0347           1384   ;        Tcom.h:221: case 'o':
+0347           1385   L019005?:
+0347           1386   ;        Tcom.h:222: if (input[2] == 0)
+0347 7402      1387            mov     a,#0x02
+0349 2A        1388            add     a,r2
+034A FD        1389            mov     r5,a
+034B E4        1390            clr     a
+034C 3B        1391            addc    a,r3
+034D FE        1392            mov     r6,a
+034E 8C07      1393            mov     ar7,r4
+0350 8D82      1394            mov     dpl,r5
+0352 8E83      1395            mov     dph,r6
+0354 8FF0      1396            mov     b,r7
+0356 120100    1397            lcall   __gptrget
+0359 7001      1398            jnz     L019017?
+035B           1399   ;        Tcom.h:223: PWMoff();
+035B 120100    1400            lcall   _PWMoff
+035E           1401   ;        Tcom.h:224: break;      
+035E           1402   ;        Tcom.h:225: case 'r':
+035E 8001      1403            sjmp    L019017?
+0360           1404   L019008?:
+0360           1405   ;        Tcom.h:226: setReload(input);
+0360 8A82      1406            mov     dpl,r2
+0362 8B83      1407            mov     dph,r3
+0364 8CF0      1408            mov     b,r4
+0366 120100    1409            lcall   _setReload
+0369           1410   ;        Tcom.h:227: break;
+0369           1411   ;        Tcom.h:228: case 's':
+0369 8001      1412            sjmp    L019017?
+036B           1413   L019009?:
+036B           1414   ;        Tcom.h:229: if (input[2] == 0)
+036B 7402      1415            mov     a,#0x02
+036D 2A        1416            add     a,r2
+036E FD        1417            mov     r5,a
+036F E4        1418            clr     a
+0370 3B        1419            addc    a,r3
+0371 FE        1420            mov     r6,a
+0372 8C07      1421            mov     ar7,r4
+0374 8D82      1422            mov     dpl,r5
+0376 8E83      1423            mov     dph,r6
+0378 8FF0      1424            mov     b,r7
+037A 120100    1425            lcall   __gptrget
+037D 7001      1426            jnz     L019017?
+037F           1427   ;        Tcom.h:230: PWMon();
+037F 120100    1428            lcall   _PWMon
+0382           1429   ;        Tcom.h:231: break;
+0382           1430   ;        Tcom.h:232: case 't':
+0382 8001      1431            sjmp    L019017?
+0384           1432   L019012?:
+0384           1433   ;        Tcom.h:233: putchar1(0b_1010_1010);
+0384 7582AA    1434            mov     dpl,#0xAA
+0387 120100    1435            lcall   _putchar1
+038A           1436   ;        Tcom.h:234: break;
+038A           1437   ;        Tcom.h:235: default:
+038A 8001      1438            sjmp    L019017?
+038C           1439   L019013?:
+038C           1440   ;        Tcom.h:236: printf("\"%s\" invalid command\r\n", input);
+038C C002      1441            push    ar2
+038E C003      1442            push    ar3
+0390 C004      1443            push    ar4
+0392 74E8      1444            mov     a,#__str_6
+0394 C0E0      1445            push    acc
+0396 74D3      1446            mov     a,#(__str_6 >> 8)
+0398 C0E0      1447            push    acc
+039A 7480      1448            mov     a,#0x80
+039C C0E0      1449            push    acc
+039E 120100    1450            lcall   _printf
+03A1 E581      1451            mov     a,sp
+03A3 24FA      1452            add     a,#0xfa
+03A5 F581      1453            mov     sp,a
+03A7           1454   ;        Tcom.h:238: }
+03A7 8001      1455            sjmp    L019017?
+03A9           1456   L019016?:
+03A9           1457   ;        Tcom.h:240: printf("Not Valid input\r\n");
+03A9 7428      1458            mov     a,#__str_7
+03AB C0E0      1459            push    acc
+03AD 74D4      1460            mov     a,#(__str_7 >> 8)
+03AF C0E0      1461            push    acc
+03B1 7480      1462            mov     a,#0x80
+03B3 C0E0      1463            push    acc
+03B5 120100    1464            lcall   _printf
+03B8 1581      1465            dec     sp
+03BA 1581      1466            dec     sp
+03BC 1581      1467            dec     sp
+03BE           1468   L019017?:
+03BE           1469   ;        Tcom.h:242: return;
+03BE 22        1470            ret
+03BF           1471   ;------------------------------------------------------------
+03BF           1472   ;Allocation info for local variables in function 'Tcom_init'
+03BF           1473   ;------------------------------------------------------------
+03BF           1474   ;baudrate                  Allocated to registers r2 r3 r4 r5 
+03BF           1475   ;------------------------------------------------------------
+03BF           1476   ;        Tcom.h:245: void Tcom_init(unsigned long baudrate) {
+03BF           1477   ;        -----------------------------------------
+03BF           1478   ;         function Tcom_init
+03BF           1479   ;        -----------------------------------------
+03BF           1480   _Tcom_init:
+03BF AA82      1481            mov     r2,dpl
+03C1 AB83      1482            mov     r3,dph
+03C3 ACF0      1483            mov     r4,b
+03C5 FD        1484            mov     r5,a
+03C6           1485   ;        Tcom.h:251: Timer4_init(); //used for frequency-resolution interrupts
+03C6 C002      1486            push    ar2
+03C8 C003      1487            push    ar3
+03CA C004      1488            push    ar4
+03CC C005      1489            push    ar5
+03CE 120100    1490            lcall   _Timer4_init
+03D1 D005      1491            pop     ar5
+03D3 D004      1492            pop     ar4
+03D5 D003      1493            pop     ar3
+03D7 D002      1494            pop     ar2
+03D9           1495   ;        Tcom.h:254: UART1_Init(baudrate);
+03D9 8A82      1496            mov     dpl,r2
+03DB 8B83      1497            mov     dph,r3
+03DD 8CF0      1498            mov     b,r4
+03DF ED        1499            mov     a,r5
+03E0 020100    1500            ljmp    _UART1_Init
+03E3           1501   ;------------------------------------------------------------
+03E3           1502   ;Allocation info for local variables in function 'Timer2us'
+03E3           1503   ;------------------------------------------------------------
+03E3           1504   ;us                        Allocated to registers r2 
+03E3           1505   ;i                         Allocated to registers r3 
+03E3           1506   ;------------------------------------------------------------
+03E3           1507   ;        EFM8core.h:9: void Timer2us(unsigned char us)
+03E3           1508   ;        -----------------------------------------
+03E3           1509   ;         function Timer2us
+03E3           1510   ;        -----------------------------------------
+03E3           1511   _Timer2us:
+03E3 AA82      1512            mov     r2,dpl
+03E5           1513   ;        EFM8core.h:13: SFRPAGE=0x00;
+03E5 75A700    1514            mov     _SFRPAGE,#0x00
+03E8           1515   ;        EFM8core.h:15: CKCON0|=0b_0001_0000;
+03E8 438E10    1516            orl     _CKCON0,#0x10
+03EB           1517   ;        EFM8core.h:17: TMR2RL = (-(SYSCLK)/1000000L); // Set Timer3 to overflow in 1us.
+03EB 75CAB8    1518            mov     _TMR2RL,#0xB8
+03EE 75CBFF    1519            mov     (_TMR2RL >> 8),#0xFF
+03F1           1520   ;        EFM8core.h:18: TMR2 = TMR2RL;                 // Initialize Timer3 for first overflow
+03F1 85CACE    1521            mov     _TMR2,_TMR2RL
+03F4 85CBCF    1522            mov     (_TMR2 >> 8),(_TMR2RL >> 8)
+03F7           1523   ;        EFM8core.h:20: TMR2CN0 = 0x04;                 // Start Timer3 and clear overflow flag
+03F7 75C804    1524            mov     _TMR2CN0,#0x04
+03FA           1525   ;        EFM8core.h:22: for (i = 0; i < us; i++)       // Count <us> overflows
+03FA 7B00      1526            mov     r3,#0x00
+03FC           1527   L021004?:
+03FC C3        1528            clr     c
+03FD EB        1529            mov     a,r3
+03FE 9A        1530            subb    a,r2
+03FF 5001      1531            jnc     L021007?
+0401           1532   ;        EFM8core.h:24: while (!(TMR2CN0 & 0x80));  // Wait for overflow
+0401           1533   L021001?:
+0401 E5C8      1534            mov     a,_TMR2CN0
+0403 30E7E8    1535            jnb     acc.7,L021001?
+0406           1536   ;        EFM8core.h:26: TMR2CN0 &= ~(0x80);         // Clear overflow indicator
+0406 53C87F    1537            anl     _TMR2CN0,#0x7F
+0409           1538   ;        EFM8core.h:22: for (i = 0; i < us; i++)       // Count <us> overflows
+0409 0B        1539            inc     r3
+040A 8001      1540            sjmp    L021004?
+040C           1541   L021007?:
+040C           1542   ;        EFM8core.h:29: TMR2CN0 = 0 ;                   // Stop Timer3 and clear overflow flag
+040C 75C800    1543            mov     _TMR2CN0,#0x00
+040F 22        1544            ret
+0410           1545   ;------------------------------------------------------------
+0410           1546   ;Allocation info for local variables in function 'waitms'
+0410           1547   ;------------------------------------------------------------
+0410           1548   ;ms                        Allocated to registers r2 r3 
+0410           1549   ;j                         Allocated to registers r2 r3 
+0410           1550   ;------------------------------------------------------------
+0410           1551   ;        EFM8core.h:32: void waitms (unsigned int ms)
+0410           1552   ;        -----------------------------------------
+0410           1553   ;         function waitms
+0410           1554   ;        -----------------------------------------
+0410           1555   _waitms:
+0410 AA82      1556            mov     r2,dpl
+0412 AB83      1557            mov     r3,dph
+0414           1558   ;        EFM8core.h:35: for(j=ms; j!=0; j--)
+0414           1559   L022001?:
+0414 BA0068    1560            cjne    r2,#0x00,L022010?
+0417 BB0068    1561            cjne    r3,#0x00,L022010?
+041A 22        1562            ret
+041B           1563   L022010?:
+041B           1564   ;        EFM8core.h:37: Timer2us(249);
+041B 7582F9    1565            mov     dpl,#0xF9
+041E C002      1566            push    ar2
+0420 C003      1567            push    ar3
+0422 120100    1568            lcall   _Timer2us
+0425           1569   ;        EFM8core.h:38: Timer2us(249);
+0425 7582F9    1570            mov     dpl,#0xF9
+0428 120100    1571            lcall   _Timer2us
+042B           1572   ;        EFM8core.h:39: Timer2us(249);
+042B 7582F9    1573            mov     dpl,#0xF9
+042E 120100    1574            lcall   _Timer2us
+0431           1575   ;        EFM8core.h:40: Timer2us(250);
+0431 7582FA    1576            mov     dpl,#0xFA
+0434 120100    1577            lcall   _Timer2us
+0437 D003      1578            pop     ar3
+0439 D002      1579            pop     ar2
+043B           1580   ;        EFM8core.h:35: for(j=ms; j!=0; j--)
+043B 1A        1581            dec     r2
+043C BAFFA8    1582            cjne    r2,#0xff,L022011?
+043F 1B        1583            dec     r3
+0440           1584   L022011?:
+0440 8001      1585            sjmp    L022001?
+0442           1586   ;------------------------------------------------------------
+0442           1587   ;Allocation info for local variables in function 'LCD_pulse'
+0442           1588   ;------------------------------------------------------------
+0442           1589   ;------------------------------------------------------------
+0442           1590   ;        EFM8LCDlib.h:15: void LCD_pulse (void)
+0442           1591   ;        -----------------------------------------
+0442           1592   ;         function LCD_pulse
+0442           1593   ;        -----------------------------------------
+0442           1594   _LCD_pulse:
+0442           1595   ;        EFM8LCDlib.h:17: LCD_E=1;
+0442 D2A5      1596            setb    _P2_5
+0444           1597   ;        EFM8LCDlib.h:18: Timer2us(40);
+0444 758228    1598            mov     dpl,#0x28
+0447 120100    1599            lcall   _Timer2us
+044A           1600   ;        EFM8LCDlib.h:19: LCD_E=0;
+044A C2A5      1601            clr     _P2_5
+044C 22        1602            ret
+044D           1603   ;------------------------------------------------------------
+044D           1604   ;Allocation info for local variables in function 'LCD_byte'
+044D           1605   ;------------------------------------------------------------
+044D           1606   ;x                         Allocated to registers r2 
+044D           1607   ;------------------------------------------------------------
+044D           1608   ;        EFM8LCDlib.h:22: void LCD_byte (unsigned char x)
+044D           1609   ;        -----------------------------------------
+044D           1610   ;         function LCD_byte
+044D           1611   ;        -----------------------------------------
+044D           1612   _LCD_byte:
+044D AA82      1613            mov     r2,dpl
+044F           1614   ;        EFM8LCDlib.h:25: ACC=x; //Send high nible
+044F 8AE0      1615            mov     _ACC,r2
+0451           1616   ;        EFM8LCDlib.h:26: LCD_D7=ACC_7;
+0451 A2E7      1617            mov     c,_ACC_7
+0453 92A1      1618            mov     _P2_1,c
+0455           1619   ;        EFM8LCDlib.h:27: LCD_D6=ACC_6;
+0455 A2E6      1620            mov     c,_ACC_6
+0457 92A2      1621            mov     _P2_2,c
+0459           1622   ;        EFM8LCDlib.h:28: LCD_D5=ACC_5;
+0459 A2E5      1623            mov     c,_ACC_5
+045B 92A3      1624            mov     _P2_3,c
+045D           1625   ;        EFM8LCDlib.h:29: LCD_D4=ACC_4;
+045D A2E4      1626            mov     c,_ACC_4
+045F 92A4      1627            mov     _P2_4,c
+0461           1628   ;        EFM8LCDlib.h:30: LCD_pulse();
+0461 C002      1629            push    ar2
+0463 120100    1630            lcall   _LCD_pulse
+0466           1631   ;        EFM8LCDlib.h:31: Timer2us(40);
+0466 758228    1632            mov     dpl,#0x28
+0469 120100    1633            lcall   _Timer2us
+046C D002      1634            pop     ar2
+046E           1635   ;        EFM8LCDlib.h:32: ACC=x; //Send low nible
+046E 8AE0      1636            mov     _ACC,r2
+0470           1637   ;        EFM8LCDlib.h:33: LCD_D7=ACC_3;
+0470 A2E3      1638            mov     c,_ACC_3
+0472 92A1      1639            mov     _P2_1,c
+0474           1640   ;        EFM8LCDlib.h:34: LCD_D6=ACC_2;
+0474 A2E2      1641            mov     c,_ACC_2
+0476 92A2      1642            mov     _P2_2,c
+0478           1643   ;        EFM8LCDlib.h:35: LCD_D5=ACC_1;
+0478 A2E1      1644            mov     c,_ACC_1
+047A 92A3      1645            mov     _P2_3,c
+047C           1646   ;        EFM8LCDlib.h:36: LCD_D4=ACC_0;
+047C A2E0      1647            mov     c,_ACC_0
+047E 92A4      1648            mov     _P2_4,c
+0480           1649   ;        EFM8LCDlib.h:37: LCD_pulse();
+0480 020100    1650            ljmp    _LCD_pulse
+0483           1651   ;------------------------------------------------------------
+0483           1652   ;Allocation info for local variables in function 'WriteData'
+0483           1653   ;------------------------------------------------------------
+0483           1654   ;x                         Allocated to registers r2 
+0483           1655   ;------------------------------------------------------------
+0483           1656   ;        EFM8LCDlib.h:40: void WriteData (unsigned char x)
+0483           1657   ;        -----------------------------------------
+0483           1658   ;         function WriteData
+0483           1659   ;        -----------------------------------------
+0483           1660   _WriteData:
+0483 AA82      1661            mov     r2,dpl
+0485           1662   ;        EFM8LCDlib.h:42: LCD_RS=1;
+0485 D2A6      1663            setb    _P2_6
+0487           1664   ;        EFM8LCDlib.h:43: LCD_byte(x);
+0487 8A82      1665            mov     dpl,r2
+0489 120100    1666            lcall   _LCD_byte
+048C           1667   ;        EFM8LCDlib.h:44: waitms(2);
+048C 900002    1668            mov     dptr,#0x0002
+048F 020100    1669            ljmp    _waitms
+0492           1670   ;------------------------------------------------------------
+0492           1671   ;Allocation info for local variables in function 'WriteCommand'
+0492           1672   ;------------------------------------------------------------
+0492           1673   ;x                         Allocated to registers r2 
+0492           1674   ;------------------------------------------------------------
+0492           1675   ;        EFM8LCDlib.h:47: void WriteCommand (unsigned char x)
+0492           1676   ;        -----------------------------------------
+0492           1677   ;         function WriteCommand
+0492           1678   ;        -----------------------------------------
+0492           1679   _WriteCommand:
+0492 AA82      1680            mov     r2,dpl
+0494           1681   ;        EFM8LCDlib.h:49: LCD_RS=0;
+0494 C2A6      1682            clr     _P2_6
+0496           1683   ;        EFM8LCDlib.h:50: LCD_byte(x);
+0496 8A82      1684            mov     dpl,r2
+0498 120100    1685            lcall   _LCD_byte
+049B           1686   ;        EFM8LCDlib.h:51: waitms(5);
+049B 900005    1687            mov     dptr,#0x0005
+049E 020100    1688            ljmp    _waitms
+04A1           1689   ;------------------------------------------------------------
+04A1           1690   ;Allocation info for local variables in function 'LCD_4BIT'
+04A1           1691   ;------------------------------------------------------------
+04A1           1692   ;------------------------------------------------------------
+04A1           1693   ;        EFM8LCDlib.h:54: void LCD_4BIT (void)
+04A1           1694   ;        -----------------------------------------
+04A1           1695   ;         function LCD_4BIT
+04A1           1696   ;        -----------------------------------------
+04A1           1697   _LCD_4BIT:
+04A1           1698   ;        EFM8LCDlib.h:56: LCD_E=0; // Resting state of LCD's enable is zero
+04A1 C2A5      1699            clr     _P2_5
+04A3           1700   ;        EFM8LCDlib.h:58: waitms(20);
+04A3 900014    1701            mov     dptr,#0x0014
+04A6 120100    1702            lcall   _waitms
+04A9           1703   ;        EFM8LCDlib.h:60: WriteCommand(0x33);
+04A9 758233    1704            mov     dpl,#0x33
+04AC 120100    1705            lcall   _WriteCommand
+04AF           1706   ;        EFM8LCDlib.h:61: WriteCommand(0x33);
+04AF 758233    1707            mov     dpl,#0x33
+04B2 120100    1708            lcall   _WriteCommand
+04B5           1709   ;        EFM8LCDlib.h:62: WriteCommand(0x32); // Change to 4-bit mode
+04B5 758232    1710            mov     dpl,#0x32
+04B8 120100    1711            lcall   _WriteCommand
+04BB           1712   ;        EFM8LCDlib.h:65: WriteCommand(0x28);
+04BB 758228    1713            mov     dpl,#0x28
+04BE 120100    1714            lcall   _WriteCommand
+04C1           1715   ;        EFM8LCDlib.h:66: WriteCommand(0x0c);
+04C1 75820C    1716            mov     dpl,#0x0C
+04C4 120100    1717            lcall   _WriteCommand
+04C7           1718   ;        EFM8LCDlib.h:67: WriteCommand(0x01); // Clear screen command (takes some time)
+04C7 758201    1719            mov     dpl,#0x01
+04CA 120100    1720            lcall   _WriteCommand
+04CD           1721   ;        EFM8LCDlib.h:68: waitms(20); // Wait for clear screen command to finsih.
+04CD 900014    1722            mov     dptr,#0x0014
+04D0 020100    1723            ljmp    _waitms
+04D3           1724   ;------------------------------------------------------------
+04D3           1725   ;Allocation info for local variables in function 'LCDprint'
+04D3           1726   ;------------------------------------------------------------
+04D3           1727   ;line                      Allocated with name '_LCDprint_PARM_2'
+04D3           1728   ;string                    Allocated to registers r2 r3 r4 
+04D3           1729   ;j                         Allocated to registers r5 r6 
+04D3           1730   ;------------------------------------------------------------
+04D3           1731   ;        EFM8LCDlib.h:71: void LCDprint(char * string, unsigned char line, bit clear)
+04D3           1732   ;        -----------------------------------------
+04D3           1733   ;         function LCDprint
+04D3           1734   ;        -----------------------------------------
+04D3           1735   _LCDprint:
+04D3 AA82      1736            mov     r2,dpl
+04D5 AB83      1737            mov     r3,dph
+04D7 ACF0      1738            mov     r4,b
+04D9           1739   ;        EFM8LCDlib.h:75: WriteCommand(line==2?0xc0:0x80);
+04D9 7402      1740            mov     a,#0x02
+04DB B530E8    1741            cjne    a,_LCDprint_PARM_2,L028013?
+04DE 7DC0      1742            mov     r5,#0xC0
+04E0 8001      1743            sjmp    L028014?
+04E2           1744   L028013?:
+04E2 7D80      1745            mov     r5,#0x80
+04E4           1746   L028014?:
+04E4 8D82      1747            mov     dpl,r5
+04E6 C002      1748            push    ar2
+04E8 C003      1749            push    ar3
+04EA C004      1750            push    ar4
+04EC 120100    1751            lcall   _WriteCommand
+04EF           1752   ;        EFM8LCDlib.h:76: waitms(5);
+04EF 900005    1753            mov     dptr,#0x0005
+04F2 120100    1754            lcall   _waitms
+04F5 D004      1755            pop     ar4
+04F7 D003      1756            pop     ar3
+04F9 D002      1757            pop     ar2
+04FB           1758   ;        EFM8LCDlib.h:77: for(j=0; string[j]!=0; j++)    WriteData(string[j]);// Write the message
+04FB 7D00      1759            mov     r5,#0x00
+04FD 7E00      1760            mov     r6,#0x00
+04FF           1761   L028003?:
+04FF ED        1762            mov     a,r5
+0500 2A        1763            add     a,r2
+0501 FF        1764            mov     r7,a
+0502 EE        1765            mov     a,r6
+0503 3B        1766            addc    a,r3
+0504 F8        1767            mov     r0,a
+0505 8C01      1768            mov     ar1,r4
+0507 8F82      1769            mov     dpl,r7
+0509 8883      1770            mov     dph,r0
+050B 89F0      1771            mov     b,r1
+050D 120100    1772            lcall   __gptrget
+0510 FF        1773            mov     r7,a
+0511 6001      1774            jz      L028006?
+0513 8F82      1775            mov     dpl,r7
+0515 C002      1776            push    ar2
+0517 C003      1777            push    ar3
+0519 C004      1778            push    ar4
+051B C005      1779            push    ar5
+051D C006      1780            push    ar6
+051F 120100    1781            lcall   _WriteData
+0522 D006      1782            pop     ar6
+0524 D005      1783            pop     ar5
+0526 D004      1784            pop     ar4
+0528 D003      1785            pop     ar3
+052A D002      1786            pop     ar2
+052C 0D        1787            inc     r5
+052D BD0068    1788            cjne    r5,#0x00,L028003?
+0530 0E        1789            inc     r6
+0531 8001      1790            sjmp    L028003?
+0533           1791   L028006?:
+0533           1792   ;        EFM8LCDlib.h:78: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
+0533 30D0E8    1793            jnb     _LCDprint_PARM_3,L028011?
+0536 8D02      1794            mov     ar2,r5
+0538 8E03      1795            mov     ar3,r6
+053A           1796   L028007?:
+053A C3        1797            clr     c
+053B EA        1798            mov     a,r2
+053C 9410      1799            subb    a,#0x10
+053E EB        1800            mov     a,r3
+053F 6480      1801            xrl     a,#0x80
+0541 9480      1802            subb    a,#0x80
+0543 5001      1803            jnc     L028011?
+0545 758220    1804            mov     dpl,#0x20
+0548 C002      1805            push    ar2
+054A C003      1806            push    ar3
+054C 120100    1807            lcall   _WriteData
+054F D003      1808            pop     ar3
+0551 D002      1809            pop     ar2
+0553 0A        1810            inc     r2
+0554 BA0028    1811            cjne    r2,#0x00,L028007?
+0557 0B        1812            inc     r3
+0558 8001      1813            sjmp    L028007?
+055A           1814   L028011?:
+055A 22        1815            ret
+055B           1816   ;------------------------------------------------------------
+055B           1817   ;Allocation info for local variables in function 'I2C_write'
+055B           1818   ;------------------------------------------------------------
+055B           1819   ;output_data               Allocated to registers 
+055B           1820   ;------------------------------------------------------------
+055B           1821   ;        Nunchuck_reader.h:81: void I2C_write (unsigned char output_data)
+055B           1822   ;        -----------------------------------------
+055B           1823   ;         function I2C_write
+055B           1824   ;        -----------------------------------------
+055B           1825   _I2C_write:
+055B 8582C2    1826            mov     _SMB0DAT,dpl
+055E           1827   ;        Nunchuck_reader.h:85: SI = 0;
+055E C2C0      1828            clr     _SI
+0560           1829   ;        Nunchuck_reader.h:86: while (!SI); // Wait until done with send
+0560           1830   L029001?:
+0560 30C068    1831            jnb     _SI,L029001?
+0563 22        1832            ret
+0564           1833   ;------------------------------------------------------------
+0564           1834   ;Allocation info for local variables in function 'I2C_read'
+0564           1835   ;------------------------------------------------------------
+0564           1836   ;input_data                Allocated to registers 
+0564           1837   ;------------------------------------------------------------
+0564           1838   ;        Nunchuck_reader.h:89: unsigned char I2C_read (void)
+0564           1839   ;        -----------------------------------------
+0564           1840   ;         function I2C_read
+0564           1841   ;        -----------------------------------------
+0564           1842   _I2C_read:
+0564           1843   ;        Nunchuck_reader.h:92: SI = 0;
+0564 C2C0      1844            clr     _SI
+0566           1845   ;        Nunchuck_reader.h:93: while (!SI); // Wait until we have data to read
+0566           1846   L030001?:
+0566 30C0A8    1847            jnb     _SI,L030001?
+0569           1848   ;        Nunchuck_reader.h:94: input_data = SMB0DAT; // Read the data
+0569 85C282    1849            mov     dpl,_SMB0DAT
+056C           1850   ;        Nunchuck_reader.h:96: return input_data;
+056C 22        1851            ret
+056D           1852   ;------------------------------------------------------------
+056D           1853   ;Allocation info for local variables in function 'I2C_start'
+056D           1854   ;------------------------------------------------------------
+056D           1855   ;------------------------------------------------------------
+056D           1856   ;        Nunchuck_reader.h:99: void I2C_start (void)
+056D           1857   ;        -----------------------------------------
+056D           1858   ;         function I2C_start
+056D           1859   ;        -----------------------------------------
+056D           1860   _I2C_start:
+056D           1861   ;        Nunchuck_reader.h:101: ACK = 1;
+056D D2C1      1862            setb    _ACK
+056F           1863   ;        Nunchuck_reader.h:102: STA = 1;     // Send I2C start
+056F D2C5      1864            setb    _STA
+0571           1865   ;        Nunchuck_reader.h:103: STO = 0;
+0571 C2C4      1866            clr     _STO
+0573           1867   ;        Nunchuck_reader.h:104: SI = 0;
+0573 C2C0      1868            clr     _SI
+0575           1869   ;        Nunchuck_reader.h:105: while (!SI); // Wait until start sent
+0575           1870   L031001?:
+0575 30C0E8    1871            jnb     _SI,L031001?
+0578           1872   ;        Nunchuck_reader.h:106: STA = 0;     // Reset I2C start
+0578 C2C5      1873            clr     _STA
+057A 22        1874            ret
+057B           1875   ;------------------------------------------------------------
+057B           1876   ;Allocation info for local variables in function 'I2C_stop'
+057B           1877   ;------------------------------------------------------------
+057B           1878   ;------------------------------------------------------------
+057B           1879   ;        Nunchuck_reader.h:109: void I2C_stop(void)
+057B           1880   ;        -----------------------------------------
+057B           1881   ;         function I2C_stop
+057B           1882   ;        -----------------------------------------
+057B           1883   _I2C_stop:
+057B           1884   ;        Nunchuck_reader.h:111: STO = 1;         // Perform I2C stop
+057B D2C4      1885            setb    _STO
+057D           1886   ;        Nunchuck_reader.h:112: SI = 0;  // Clear SI
+057D C2C0      1887            clr     _SI
+057F 22        1888            ret
+0580           1889   ;------------------------------------------------------------
+0580           1890   ;Allocation info for local variables in function 'nunchuck_init'
+0580           1891   ;------------------------------------------------------------
+0580           1892   ;i                         Allocated to registers r2 
+0580           1893   ;buf                       Allocated with name '_nunchuck_init_buf_1_134'
+0580           1894   ;sloc0                     Allocated with name '_nunchuck_init_sloc0_1_0'
+0580           1895   ;sloc1                     Allocated with name '_nunchuck_init_sloc1_1_0'
+0580           1896   ;sloc2                     Allocated with name '_nunchuck_init_sloc2_1_0'
+0580           1897   ;------------------------------------------------------------
+0580           1898   ;        Nunchuck_reader.h:116: void nunchuck_init(bit print_extension_type)
+0580           1899   ;        -----------------------------------------
+0580           1900   ;         function nunchuck_init
+0580           1901   ;        -----------------------------------------
+0580           1902   _nunchuck_init:
+0580           1903   ;        Nunchuck_reader.h:122: I2C_start();
+0580 120100    1904            lcall   _I2C_start
+0583           1905   ;        Nunchuck_reader.h:123: I2C_write(0xA4);
+0583 7582A4    1906            mov     dpl,#0xA4
+0586 120100    1907            lcall   _I2C_write
+0589           1908   ;        Nunchuck_reader.h:124: I2C_write(0xF0);
+0589 7582F0    1909            mov     dpl,#0xF0
+058C 120100    1910            lcall   _I2C_write
+058F           1911   ;        Nunchuck_reader.h:125: I2C_write(0x55);
+058F 758255    1912            mov     dpl,#0x55
+0592 120100    1913            lcall   _I2C_write
+0595           1914   ;        Nunchuck_reader.h:126: I2C_stop();
+0595 120100    1915            lcall   _I2C_stop
+0598           1916   ;        Nunchuck_reader.h:127: waitms(1);
+0598 900001    1917            mov     dptr,#0x0001
+059B 120100    1918            lcall   _waitms
+059E           1919   ;        Nunchuck_reader.h:129: I2C_start();
+059E 120100    1920            lcall   _I2C_start
+05A1           1921   ;        Nunchuck_reader.h:130: I2C_write(0xA4);
+05A1 7582A4    1922            mov     dpl,#0xA4
+05A4 120100    1923            lcall   _I2C_write
+05A7           1924   ;        Nunchuck_reader.h:131: I2C_write(0xFB);
+05A7 7582FB    1925            mov     dpl,#0xFB
+05AA 120100    1926            lcall   _I2C_write
+05AD           1927   ;        Nunchuck_reader.h:132: I2C_write(0x00);
+05AD 758200    1928            mov     dpl,#0x00
+05B0 120100    1929            lcall   _I2C_write
+05B3           1930   ;        Nunchuck_reader.h:133: I2C_stop();
+05B3 120100    1931            lcall   _I2C_stop
+05B6           1932   ;        Nunchuck_reader.h:134: waitms(1);
+05B6 900001    1933            mov     dptr,#0x0001
+05B9 120100    1934            lcall   _waitms
+05BC           1935   ;        Nunchuck_reader.h:138: I2C_start();
+05BC 120100    1936            lcall   _I2C_start
+05BF           1937   ;        Nunchuck_reader.h:139: I2C_write(0xA4);
+05BF 7582A4    1938            mov     dpl,#0xA4
+05C2 120100    1939            lcall   _I2C_write
+05C5           1940   ;        Nunchuck_reader.h:140: I2C_write(0xFA); // extension type register
+05C5 7582FA    1941            mov     dpl,#0xFA
+05C8 120100    1942            lcall   _I2C_write
+05CB           1943   ;        Nunchuck_reader.h:141: I2C_stop();
+05CB 120100    1944            lcall   _I2C_stop
+05CE           1945   ;        Nunchuck_reader.h:142: waitms(3); // 3 ms required to complete acquisition
+05CE 900003    1946            mov     dptr,#0x0003
+05D1 120100    1947            lcall   _waitms
+05D4           1948   ;        Nunchuck_reader.h:144: I2C_start();
+05D4 120100    1949            lcall   _I2C_start
+05D7           1950   ;        Nunchuck_reader.h:145: I2C_write(0xA5);
+05D7 7582A5    1951            mov     dpl,#0xA5
+05DA 120100    1952            lcall   _I2C_write
+05DD           1953   ;        Nunchuck_reader.h:148: for(i=0; i<CHARS_PER_LINE; i++)
+05DD 7A00      1954            mov     r2,#0x00
+05DF           1955   L033003?:
+05DF BA1068    1956            cjne    r2,#0x10,L033013?
+05E2           1957   L033013?:
+05E2 5001      1958            jnc     L033006?
+05E4           1959   ;        Nunchuck_reader.h:150: buf[i]=I2C_read();
+05E4 EA        1960            mov     a,r2
+05E5 24D8      1961            add     a,#_nunchuck_init_buf_1_134
+05E7 F8        1962            mov     r0,a
+05E8 C002      1963            push    ar2
+05EA C000      1964            push    ar0
+05EC 120100    1965            lcall   _I2C_read
+05EF E582      1966            mov     a,dpl
+05F1 D000      1967            pop     ar0
+05F3 D002      1968            pop     ar2
+05F5 F6        1969            mov     @r0,a
+05F6           1970   ;        Nunchuck_reader.h:148: for(i=0; i<CHARS_PER_LINE; i++)
+05F6 0A        1971            inc     r2
+05F7 8001      1972            sjmp    L033003?
+05F9           1973   L033006?:
+05F9           1974   ;        Nunchuck_reader.h:152: ACK=0;
+05F9 C2C1      1975            clr     _ACK
+05FB           1976   ;        Nunchuck_reader.h:153: I2C_stop();
+05FB 120100    1977            lcall   _I2C_stop
+05FE           1978   ;        Nunchuck_reader.h:154: waitms(3);
+05FE 900003    1979            mov     dptr,#0x0003
+0601 120100    1980            lcall   _waitms
+0604           1981   ;        Nunchuck_reader.h:156: if(print_extension_type)
+0604 3080E8    1982            jnb     _nunchuck_init_PARM_1,L033002?
+0607           1983   ;        Nunchuck_reader.h:159: buf[0],  buf[1], buf[2], buf[3], buf[4], buf[5]);
+0607 AADD      1984            mov     r2,(_nunchuck_init_buf_1_134 + 0x0005)
+0609 7B00      1985            mov     r3,#0x00
+060B ACDC      1986            mov     r4,(_nunchuck_init_buf_1_134 + 0x0004)
+060D 7D00      1987            mov     r5,#0x00
+060F 85DB28    1988            mov     _nunchuck_init_sloc0_1_0,(_nunchuck_init_buf_1_134 + 0x0003)
+0612 752900    1989            mov     (_nunchuck_init_sloc0_1_0 + 1),#0x00
+0615 85DA78    1990            mov     _nunchuck_init_sloc1_1_0,(_nunchuck_init_buf_1_134 + 0x0002)
+0618 757900    1991            mov     (_nunchuck_init_sloc1_1_0 + 1),#0x00
+061B 85D9C8    1992            mov     _nunchuck_init_sloc2_1_0,(_nunchuck_init_buf_1_134 + 0x0001)
+061E 75C900    1993            mov     (_nunchuck_init_sloc2_1_0 + 1),#0x00
+0621 AED8      1994            mov     r6,_nunchuck_init_buf_1_134
+0623 7F00      1995            mov     r7,#0x00
+0625           1996   ;        Nunchuck_reader.h:158: printf("Extension type: %02x  %02x  %02x  %02x  %02x  %02x\n", 
+0625 C002      1997            push    ar2
+0627 C003      1998            push    ar3
+0629 C004      1999            push    ar4
+062B C005      2000            push    ar5
+062D C028      2001            push    _nunchuck_init_sloc0_1_0
+062F C029      2002            push    (_nunchuck_init_sloc0_1_0 + 1)
+0631 C078      2003            push    _nunchuck_init_sloc1_1_0
+0633 C079      2004            push    (_nunchuck_init_sloc1_1_0 + 1)
+0635 C0C8      2005            push    _nunchuck_init_sloc2_1_0
+0637 C0C9      2006            push    (_nunchuck_init_sloc2_1_0 + 1)
+0639 C006      2007            push    ar6
+063B C007      2008            push    ar7
+063D 7428      2009            mov     a,#__str_8
+063F C0E0      2010            push    acc
+0641 74D9      2011            mov     a,#(__str_8 >> 8)
+0643 C0E0      2012            push    acc
+0645 7480      2013            mov     a,#0x80
+0647 C0E0      2014            push    acc
+0649 120100    2015            lcall   _printf
+064C E581      2016            mov     a,sp
+064E 24F1      2017            add     a,#0xf1
+0650 F581      2018            mov     sp,a
+0652           2019   L033002?:
+0652           2020   ;        Nunchuck_reader.h:164: I2C_start();
+0652 120100    2021            lcall   _I2C_start
+0655           2022   ;        Nunchuck_reader.h:165: I2C_write(0xA4);
+0655 7582A4    2023            mov     dpl,#0xA4
+0658 120100    2024            lcall   _I2C_write
+065B           2025   ;        Nunchuck_reader.h:166: I2C_write(0xF0);
+065B 7582F0    2026            mov     dpl,#0xF0
+065E 120100    2027            lcall   _I2C_write
+0661           2028   ;        Nunchuck_reader.h:167: I2C_write(0xAA);
+0661 7582AA    2029            mov     dpl,#0xAA
+0664 120100    2030            lcall   _I2C_write
+0667           2031   ;        Nunchuck_reader.h:168: I2C_stop();
+0667 120100    2032            lcall   _I2C_stop
+066A           2033   ;        Nunchuck_reader.h:169: waitms(1);
+066A 900001    2034            mov     dptr,#0x0001
+066D 120100    2035            lcall   _waitms
+0670           2036   ;        Nunchuck_reader.h:171: I2C_start();
+0670 120100    2037            lcall   _I2C_start
+0673           2038   ;        Nunchuck_reader.h:172: I2C_write(0xA4);
+0673 7582A4    2039            mov     dpl,#0xA4
+0676 120100    2040            lcall   _I2C_write
+0679           2041   ;        Nunchuck_reader.h:173: I2C_write(0x40);
+0679 758240    2042            mov     dpl,#0x40
+067C 120100    2043            lcall   _I2C_write
+067F           2044   ;        Nunchuck_reader.h:174: I2C_write(0x00);
+067F 758200    2045            mov     dpl,#0x00
+0682 120100    2046            lcall   _I2C_write
+0685           2047   ;        Nunchuck_reader.h:175: I2C_write(0x00);
+0685 758200    2048            mov     dpl,#0x00
+0688 120100    2049            lcall   _I2C_write
+068B           2050   ;        Nunchuck_reader.h:176: I2C_write(0x00);
+068B 758200    2051            mov     dpl,#0x00
+068E 120100    2052            lcall   _I2C_write
+0691           2053   ;        Nunchuck_reader.h:177: I2C_write(0x00);
+0691 758200    2054            mov     dpl,#0x00
+0694 120100    2055            lcall   _I2C_write
+0697           2056   ;        Nunchuck_reader.h:178: I2C_write(0x00);
+0697 758200    2057            mov     dpl,#0x00
+069A 120100    2058            lcall   _I2C_write
+069D           2059   ;        Nunchuck_reader.h:179: I2C_write(0x00);
+069D 758200    2060            mov     dpl,#0x00
+06A0 120100    2061            lcall   _I2C_write
+06A3           2062   ;        Nunchuck_reader.h:180: I2C_stop();
+06A3 120100    2063            lcall   _I2C_stop
+06A6           2064   ;        Nunchuck_reader.h:181: waitms(1);
+06A6 900001    2065            mov     dptr,#0x0001
+06A9 120100    2066            lcall   _waitms
+06AC           2067   ;        Nunchuck_reader.h:183: I2C_start();
+06AC 120100    2068            lcall   _I2C_start
+06AF           2069   ;        Nunchuck_reader.h:184: I2C_write(0xA4);
+06AF 7582A4    2070            mov     dpl,#0xA4
+06B2 120100    2071            lcall   _I2C_write
+06B5           2072   ;        Nunchuck_reader.h:185: I2C_write(0x40);
+06B5 758240    2073            mov     dpl,#0x40
+06B8 120100    2074            lcall   _I2C_write
+06BB           2075   ;        Nunchuck_reader.h:186: I2C_write(0x00);
+06BB 758200    2076            mov     dpl,#0x00
+06BE 120100    2077            lcall   _I2C_write
+06C1           2078   ;        Nunchuck_reader.h:187: I2C_write(0x00);
+06C1 758200    2079            mov     dpl,#0x00
+06C4 120100    2080            lcall   _I2C_write
+06C7           2081   ;        Nunchuck_reader.h:188: I2C_write(0x00);
+06C7 758200    2082            mov     dpl,#0x00
+06CA 120100    2083            lcall   _I2C_write
+06CD           2084   ;        Nunchuck_reader.h:189: I2C_write(0x00);
+06CD 758200    2085            mov     dpl,#0x00
+06D0 120100    2086            lcall   _I2C_write
+06D3           2087   ;        Nunchuck_reader.h:190: I2C_write(0x00);
+06D3 758200    2088            mov     dpl,#0x00
+06D6 120100    2089            lcall   _I2C_write
+06D9           2090   ;        Nunchuck_reader.h:191: I2C_write(0x00);
+06D9 758200    2091            mov     dpl,#0x00
+06DC 120100    2092            lcall   _I2C_write
+06DF           2093   ;        Nunchuck_reader.h:192: I2C_stop();
+06DF 120100    2094            lcall   _I2C_stop
+06E2           2095   ;        Nunchuck_reader.h:193: waitms(1);
+06E2 900001    2096            mov     dptr,#0x0001
+06E5 120100    2097            lcall   _waitms
+06E8           2098   ;        Nunchuck_reader.h:195: I2C_start();
+06E8 120100    2099            lcall   _I2C_start
+06EB           2100   ;        Nunchuck_reader.h:196: I2C_write(0xA4);
+06EB 7582A4    2101            mov     dpl,#0xA4
+06EE 120100    2102            lcall   _I2C_write
+06F1           2103   ;        Nunchuck_reader.h:197: I2C_write(0x40);
+06F1 758240    2104            mov     dpl,#0x40
+06F4 120100    2105            lcall   _I2C_write
+06F7           2106   ;        Nunchuck_reader.h:198: I2C_write(0x00);
+06F7 758200    2107            mov     dpl,#0x00
+06FA 120100    2108            lcall   _I2C_write
+06FD           2109   ;        Nunchuck_reader.h:199: I2C_write(0x00);
+06FD 758200    2110            mov     dpl,#0x00
+0700 120100    2111            lcall   _I2C_write
+0703           2112   ;        Nunchuck_reader.h:200: I2C_write(0x00);
+0703 758200    2113            mov     dpl,#0x00
+0706 120100    2114            lcall   _I2C_write
+0709           2115   ;        Nunchuck_reader.h:201: I2C_write(0x00);
+0709 758200    2116            mov     dpl,#0x00
+070C 120100    2117            lcall   _I2C_write
+070F           2118   ;        Nunchuck_reader.h:202: I2C_stop();
+070F 120100    2119            lcall   _I2C_stop
+0712           2120   ;        Nunchuck_reader.h:203: waitms(1);
+0712 900001    2121            mov     dptr,#0x0001
+0715 020100    2122            ljmp    _waitms
+0718           2123   ;------------------------------------------------------------
+0718           2124   ;Allocation info for local variables in function 'nunchuck_getdata'
+0718           2125   ;------------------------------------------------------------
+0718           2126   ;s                         Allocated to registers r2 r3 r4 
+0718           2127   ;i                         Allocated to registers r5 
+0718           2128   ;------------------------------------------------------------
+0718           2129   ;        Nunchuck_reader.h:206: void nunchuck_getdata(unsigned char * s)
+0718           2130   ;        -----------------------------------------
+0718           2131   ;         function nunchuck_getdata
+0718           2132   ;        -----------------------------------------
+0718           2133   _nunchuck_getdata:
+0718 AA82      2134            mov     r2,dpl
+071A AB83      2135            mov     r3,dph
+071C ACF0      2136            mov     r4,b
+071E           2137   ;        Nunchuck_reader.h:211: I2C_start();
+071E C002      2138            push    ar2
+0720 C003      2139            push    ar3
+0722 C004      2140            push    ar4
+0724 120100    2141            lcall   _I2C_start
+0727           2142   ;        Nunchuck_reader.h:212: I2C_write(0xA4);
+0727 7582A4    2143            mov     dpl,#0xA4
+072A 120100    2144            lcall   _I2C_write
+072D           2145   ;        Nunchuck_reader.h:213: I2C_write(0x00);
+072D 758200    2146            mov     dpl,#0x00
+0730 120100    2147            lcall   _I2C_write
+0733           2148   ;        Nunchuck_reader.h:214: I2C_stop();
+0733 120100    2149            lcall   _I2C_stop
+0736           2150   ;        Nunchuck_reader.h:215: waitms(3);       // 3 ms required to complete acquisition
+0736 900003    2151            mov     dptr,#0x0003
+0739 120100    2152            lcall   _waitms
+073C           2153   ;        Nunchuck_reader.h:218: I2C_start();
+073C 120100    2154            lcall   _I2C_start
+073F           2155   ;        Nunchuck_reader.h:219: I2C_write(0xA5);
+073F 7582A5    2156            mov     dpl,#0xA5
+0742 120100    2157            lcall   _I2C_write
+0745 D004      2158            pop     ar4
+0747 D003      2159            pop     ar3
+0749 D002      2160            pop     ar2
+074B           2161   ;        Nunchuck_reader.h:222: for(i=0; i<CHARS_PER_LINE; i++)
+074B 7D00      2162            mov     r5,#0x00
+074D           2163   L034001?:
+074D BD10A8    2164            cjne    r5,#0x10,L034010?
+0750           2165   L034010?:
+0750 5001      2166            jnc     L034004?
+0752           2167   ;        Nunchuck_reader.h:224: s[i]=(I2C_read()^0x17)+0x17; // Read and decrypt
+0752 ED        2168            mov     a,r5
+0753 2A        2169            add     a,r2
+0754 FE        2170            mov     r6,a
+0755 E4        2171            clr     a
+0756 3B        2172            addc    a,r3
+0757 FF        2173            mov     r7,a
+0758 8C00      2174            mov     ar0,r4
+075A C002      2175            push    ar2
+075C C003      2176            push    ar3
+075E C004      2177            push    ar4
+0760 C005      2178            push    ar5
+0762 C006      2179            push    ar6
+0764 C007      2180            push    ar7
+0766 C000      2181            push    ar0
+0768 120100    2182            lcall   _I2C_read
+076B E582      2183            mov     a,dpl
+076D D000      2184            pop     ar0
+076F D007      2185            pop     ar7
+0771 D006      2186            pop     ar6
+0773 D005      2187            pop     ar5
+0775 D004      2188            pop     ar4
+0777 D003      2189            pop     ar3
+0779 D002      2190            pop     ar2
+077B 6417      2191            xrl     a,#0x17
+077D 2417      2192            add     a,#0x17
+077F F9        2193            mov     r1,a
+0780 8E82      2194            mov     dpl,r6
+0782 8F83      2195            mov     dph,r7
+0784 88F0      2196            mov     b,r0
+0786 120100    2197            lcall   __gptrput
+0789           2198   ;        Nunchuck_reader.h:222: for(i=0; i<CHARS_PER_LINE; i++)
+0789 0D        2199            inc     r5
+078A 8001      2200            sjmp    L034001?
+078C           2201   L034004?:
+078C           2202   ;        Nunchuck_reader.h:226: ACK=0;
+078C C2C1      2203            clr     _ACK
+078E           2204   ;        Nunchuck_reader.h:227: I2C_stop();
+078E 020100    2205            ljmp    _I2C_stop
+0791           2206   ;------------------------------------------------------------
+0791           2207   ;Allocation info for local variables in function 'get_speed'
+0791           2208   ;------------------------------------------------------------
+0791           2209   ;y_ax                      Allocated with name '_get_speed_PARM_2'
+0791           2210   ;x_ax                      Allocated to registers r2 
+0791           2211   ;spd                       Allocated to registers r4 
+0791           2212   ;------------------------------------------------------------
+0791           2213   ;        Nunchuck_reader.h:233: char get_speed(char x_ax, char y_ax){
+0791           2214   ;        -----------------------------------------
+0791           2215   ;         function get_speed
+0791           2216   ;        -----------------------------------------
+0791           2217   _get_speed:
+0791 AA82      2218            mov     r2,dpl
+0793           2219   ;        Nunchuck_reader.h:235: y_ax=abs(y_ax);
+0793 E5E0      2220            mov     a,_get_speed_PARM_2
+0795 FB        2221            mov     r3,a
+0796 33        2222            rlc     a
+0797 95E0      2223            subb    a,acc
+0799 FC        2224            mov     r4,a
+079A 8B82      2225            mov     dpl,r3
+079C 8C83      2226            mov     dph,r4
+079E C002      2227            push    ar2
+07A0 120100    2228            lcall   _abs
+07A3 AB82      2229            mov     r3,dpl
+07A5 D002      2230            pop     ar2
+07A7           2231   ;        Nunchuck_reader.h:236: x_ax=abs(x_ax);
+07A7 EA        2232            mov     a,r2
+07A8 FC        2233            mov     r4,a
+07A9 33        2234            rlc     a
+07AA 95E0      2235            subb    a,acc
+07AC FD        2236            mov     r5,a
+07AD 8C82      2237            mov     dpl,r4
+07AF 8D83      2238            mov     dph,r5
+07B1 C003      2239            push    ar3
+07B3 120100    2240            lcall   _abs
+07B6 AC82      2241            mov     r4,dpl
+07B8 AD83      2242            mov     r5,dph
+07BA D003      2243            pop     ar3
+07BC 8C02      2244            mov     ar2,r4
+07BE           2245   ;        Nunchuck_reader.h:238: if(y_ax>x_ax){
+07BE C3        2246            clr     c
+07BF EA        2247            mov     a,r2
+07C0 6480      2248            xrl     a,#0x80
+07C2 8BF0      2249            mov     b,r3
+07C4 63F080    2250            xrl     b,#0x80
+07C7 95F0      2251            subb    a,b
+07C9 5001      2252            jnc     L035004?
+07CB           2253   ;        Nunchuck_reader.h:239: spd=y_ax;
+07CB 8B04      2254            mov     ar4,r3
+07CD           2255   ;        Nunchuck_reader.h:240: if(y_ax>85)
+07CD C3        2256            clr     c
+07CE 74D5      2257            mov     a,#(0x55 ^ 0x80)
+07D0 8BF0      2258            mov     b,r3
+07D2 63F080    2259            xrl     b,#0x80
+07D5 95F0      2260            subb    a,b
+07D7 5001      2261            jnc     L035005?
+07D9           2262   ;        Nunchuck_reader.h:241: spd=100;
+07D9 7C64      2263            mov     r4,#0x64
+07DB 8001      2264            sjmp    L035005?
+07DD           2265   L035004?:
+07DD           2266   ;        Nunchuck_reader.h:243: else spd=x_ax;
+07DD 8A04      2267            mov     ar4,r2
+07DF           2268   L035005?:
+07DF           2269   ;        Nunchuck_reader.h:245: return spd;
+07DF 8C82      2270            mov     dpl,r4
+07E1 22        2271            ret
+07E2           2272   ;------------------------------------------------------------
+07E2           2273   ;Allocation info for local variables in function 'get_direction'
+07E2           2274   ;------------------------------------------------------------
+07E2           2275   ;y_axis                    Allocated with name '_get_direction_PARM_2'
+07E2           2276   ;x_axis                    Allocated to registers r2 
+07E2           2277   ;direction                 Allocated to registers r3 
+07E2           2278   ;------------------------------------------------------------
+07E2           2279   ;        Nunchuck_reader.h:248: char get_direction(char x_axis, char y_axis){
+07E2           2280   ;        -----------------------------------------
+07E2           2281   ;         function get_direction
+07E2           2282   ;        -----------------------------------------
+07E2           2283   _get_direction:
+07E2 AA82      2284            mov     r2,dpl
+07E4           2285   ;        Nunchuck_reader.h:250: char direction=north;
+07E4 7B61      2286            mov     r3,#0x61
+07E6           2287   ;        Nunchuck_reader.h:253: if(y_axis>0){
+07E6 C3        2288            clr     c
+07E7 E4        2289            clr     a
+07E8 6480      2290            xrl     a,#0x80
+07EA 8550F0    2291            mov     b,_get_direction_PARM_2
+07ED 63F080    2292            xrl     b,#0x80
+07F0 95F0      2293            subb    a,b
+07F2 4001      2294            jc      L036130?
+07F4 020100    2295            ljmp    L036084?
+07F7           2296   L036130?:
+07F7           2297   ;        Nunchuck_reader.h:255: if ((x_axis<10)&&(x_axis>-10)){
+07F7 C3        2298            clr     c
+07F8 EA        2299            mov     a,r2
+07F9 6480      2300            xrl     a,#0x80
+07FB 948A      2301            subb    a,#0x8a
+07FD 5001      2302            jnc     L036038?
+07FF C3        2303            clr     c
+0800 7476      2304            mov     a,#(0xF6 ^ 0x80)
+0802 8AF0      2305            mov     b,r2
+0804 63F080    2306            xrl     b,#0x80
+0807 95F0      2307            subb    a,b
+0809 5001      2308            jnc     L036038?
+080B           2309   ;        Nunchuck_reader.h:258: if(y_axis>5&&y_axis>-5){
+080B C3        2310            clr     c
+080C 7485      2311            mov     a,#(0x05 ^ 0x80)
+080E 8550F0    2312            mov     b,_get_direction_PARM_2
+0811 63F080    2313            xrl     b,#0x80
+0814 95F0      2314            subb    a,b
+0816 5001      2315            jnc     L036002?
+0818 C3        2316            clr     c
+0819 747B      2317            mov     a,#(0xFB ^ 0x80)
+081B 8550F0    2318            mov     b,_get_direction_PARM_2
+081E 63F080    2319            xrl     b,#0x80
+0821 95F0      2320            subb    a,b
+0823 5001      2321            jnc     L036002?
+0825           2322   ;        Nunchuck_reader.h:259: direction=north;
+0825 7B61      2323            mov     r3,#0x61
+0827 020100    2324            ljmp    L036085?
+082A           2325   L036002?:
+082A           2326   ;        Nunchuck_reader.h:261: else direction=north;
+082A 7B61      2327            mov     r3,#0x61
+082C 020100    2328            ljmp    L036085?
+082F           2329   L036038?:
+082F           2330   ;        Nunchuck_reader.h:265: else if(x_axis>10&&x_axis<=30){
+082F C3        2331            clr     c
+0830 748A      2332            mov     a,#(0x0A ^ 0x80)
+0832 8AF0      2333            mov     b,r2
+0834 63F080    2334            xrl     b,#0x80
+0837 95F0      2335            subb    a,b
+0839 5001      2336            jnc     L036034?
+083B C3        2337            clr     c
+083C 749E      2338            mov     a,#(0x1E ^ 0x80)
+083E 8AF0      2339            mov     b,r2
+0840 63F080    2340            xrl     b,#0x80
+0843 95F0      2341            subb    a,b
+0845 4001      2342            jc      L036034?
+0847           2343   ;        Nunchuck_reader.h:266: direction=NNE;
+0847 7B63      2344            mov     r3,#0x63
+0849 020100    2345            ljmp    L036085?
+084C           2346   L036034?:
+084C           2347   ;        Nunchuck_reader.h:268: else if(x_axis>30&&x_axis<=50){
+084C C3        2348            clr     c
+084D 749E      2349            mov     a,#(0x1E ^ 0x80)
+084F 8AF0      2350            mov     b,r2
+0851 63F080    2351            xrl     b,#0x80
+0854 95F0      2352            subb    a,b
+0856 5001      2353            jnc     L036030?
+0858 C3        2354            clr     c
+0859 74B2      2355            mov     a,#(0x32 ^ 0x80)
+085B 8AF0      2356            mov     b,r2
+085D 63F080    2357            xrl     b,#0x80
+0860 95F0      2358            subb    a,b
+0862 4001      2359            jc      L036030?
+0864           2360   ;        Nunchuck_reader.h:269: direction=NE;
+0864 7B65      2361            mov     r3,#0x65
+0866 020100    2362            ljmp    L036085?
+0869           2363   L036030?:
+0869           2364   ;        Nunchuck_reader.h:271: else if(x_axis>50&&x_axis<=70){
+0869 C3        2365            clr     c
+086A 74B2      2366            mov     a,#(0x32 ^ 0x80)
+086C 8AF0      2367            mov     b,r2
+086E 63F080    2368            xrl     b,#0x80
+0871 95F0      2369            subb    a,b
+0873 5001      2370            jnc     L036026?
+0875 C3        2371            clr     c
+0876 74C6      2372            mov     a,#(0x46 ^ 0x80)
+0878 8AF0      2373            mov     b,r2
+087A 63F080    2374            xrl     b,#0x80
+087D 95F0      2375            subb    a,b
+087F 4001      2376            jc      L036026?
+0881           2377   ;        Nunchuck_reader.h:272: direction=NEE;
+0881 7B67      2378            mov     r3,#0x67
+0883 020100    2379            ljmp    L036085?
+0886           2380   L036026?:
+0886           2381   ;        Nunchuck_reader.h:274: else if(x_axis>70&&x_axis<=100){
+0886 C3        2382            clr     c
+0887 74C6      2383            mov     a,#(0x46 ^ 0x80)
+0889 8AF0      2384            mov     b,r2
+088B 63F080    2385            xrl     b,#0x80
+088E 95F0      2386            subb    a,b
+0890 5001      2387            jnc     L036022?
+0892 C3        2388            clr     c
+0893 74E4      2389            mov     a,#(0x64 ^ 0x80)
+0895 8AF0      2390            mov     b,r2
+0897 63F080    2391            xrl     b,#0x80
+089A 95F0      2392            subb    a,b
+089C 4001      2393            jc      L036022?
+089E           2394   ;        Nunchuck_reader.h:275: direction=east;
+089E 7B69      2395            mov     r3,#0x69
+08A0 020100    2396            ljmp    L036085?
+08A3           2397   L036022?:
+08A3           2398   ;        Nunchuck_reader.h:278: else if(x_axis<-10&&x_axis>=-30){
+08A3 C3        2399            clr     c
+08A4 EA        2400            mov     a,r2
+08A5 6480      2401            xrl     a,#0x80
+08A7 9476      2402            subb    a,#0x76
+08A9 5001      2403            jnc     L036018?
+08AB C3        2404            clr     c
+08AC EA        2405            mov     a,r2
+08AD 6480      2406            xrl     a,#0x80
+08AF 9462      2407            subb    a,#0x62
+08B1 4001      2408            jc      L036018?
+08B3           2409   ;        Nunchuck_reader.h:279: direction=NNW;
+08B3 7B64      2410            mov     r3,#0x64
+08B5 020100    2411            ljmp    L036085?
+08B8           2412   L036018?:
+08B8           2413   ;        Nunchuck_reader.h:281: else if(x_axis<-30&&x_axis>=-50){
+08B8 C3        2414            clr     c
+08B9 EA        2415            mov     a,r2
+08BA 6480      2416            xrl     a,#0x80
+08BC 9462      2417            subb    a,#0x62
+08BE 5001      2418            jnc     L036014?
+08C0 C3        2419            clr     c
+08C1 EA        2420            mov     a,r2
+08C2 6480      2421            xrl     a,#0x80
+08C4 944E      2422            subb    a,#0x4e
+08C6 4001      2423            jc      L036014?
+08C8           2424   ;        Nunchuck_reader.h:282: direction=NW;
+08C8 7B66      2425            mov     r3,#0x66
+08CA 020100    2426            ljmp    L036085?
+08CD           2427   L036014?:
+08CD           2428   ;        Nunchuck_reader.h:284: else if(x_axis<-50&&x_axis>=-70){
+08CD C3        2429            clr     c
+08CE EA        2430            mov     a,r2
+08CF 6480      2431            xrl     a,#0x80
+08D1 944E      2432            subb    a,#0x4e
+08D3 5001      2433            jnc     L036010?
+08D5 C3        2434            clr     c
+08D6 EA        2435            mov     a,r2
+08D7 6480      2436            xrl     a,#0x80
+08D9 943A      2437            subb    a,#0x3a
+08DB 4001      2438            jc      L036010?
+08DD           2439   ;        Nunchuck_reader.h:285: direction=NWW;
+08DD 7B68      2440            mov     r3,#0x68
+08DF 020100    2441            ljmp    L036085?
+08E2           2442   L036010?:
+08E2           2443   ;        Nunchuck_reader.h:287: else if(x_axis<-70&&x_axis>=-110){
+08E2 C3        2444            clr     c
+08E3 EA        2445            mov     a,r2
+08E4 6480      2446            xrl     a,#0x80
+08E6 943A      2447            subb    a,#0x3a
+08E8 5001      2448            jnc     L036006?
+08EA C3        2449            clr     c
+08EB EA        2450            mov     a,r2
+08EC 6480      2451            xrl     a,#0x80
+08EE 9412      2452            subb    a,#0x12
+08F0 4001      2453            jc      L036006?
+08F2           2454   ;        Nunchuck_reader.h:288: direction=west;
+08F2 7B6A      2455            mov     r3,#0x6A
+08F4 020100    2456            ljmp    L036085?
+08F7           2457   L036006?:
+08F7           2458   ;        Nunchuck_reader.h:291: direction=north;
+08F7 7B61      2459            mov     r3,#0x61
+08F9 020100    2460            ljmp    L036085?
+08FC           2461   L036084?:
+08FC           2462   ;        Nunchuck_reader.h:295: else if (y_axis<0){
+08FC E550      2463            mov     a,_get_direction_PARM_2
+08FE 20E768    2464            jb      acc.7,L036151?
+0901 020100    2465            ljmp    L036085?
+0904           2466   L036151?:
+0904           2467   ;        Nunchuck_reader.h:297: if ((x_axis<10)&&(x_axis>-10)){
+0904 C3        2468            clr     c
+0905 EA        2469            mov     a,r2
+0906 6480      2470            xrl     a,#0x80
+0908 948A      2471            subb    a,#0x8a
+090A 5001      2472            jnc     L036078?
+090C C3        2473            clr     c
+090D 7476      2474            mov     a,#(0xF6 ^ 0x80)
+090F 8AF0      2475            mov     b,r2
+0911 63F080    2476            xrl     b,#0x80
+0914 95F0      2477            subb    a,b
+0916 5001      2478            jnc     L036078?
+0918           2479   ;        Nunchuck_reader.h:300: if(y_axis>5&&y_axis>-5){
+0918 C3        2480            clr     c
+0919 7485      2481            mov     a,#(0x05 ^ 0x80)
+091B 8550F0    2482            mov     b,_get_direction_PARM_2
+091E 63F080    2483            xrl     b,#0x80
+0921 95F0      2484            subb    a,b
+0923 5001      2485            jnc     L036042?
+0925 C3        2486            clr     c
+0926 747B      2487            mov     a,#(0xFB ^ 0x80)
+0928 8550F0    2488            mov     b,_get_direction_PARM_2
+092B 63F080    2489            xrl     b,#0x80
+092E 95F0      2490            subb    a,b
+0930 5001      2491            jnc     L036042?
+0932           2492   ;        Nunchuck_reader.h:301: direction=south;
+0932 7B62      2493            mov     r3,#0x62
+0934 020100    2494            ljmp    L036085?
+0937           2495   L036042?:
+0937           2496   ;        Nunchuck_reader.h:303: else direction=south;
+0937 7B62      2497            mov     r3,#0x62
+0939 020100    2498            ljmp    L036085?
+093C           2499   L036078?:
+093C           2500   ;        Nunchuck_reader.h:307: else if(x_axis>10&&x_axis<=30){
+093C C3        2501            clr     c
+093D 748A      2502            mov     a,#(0x0A ^ 0x80)
+093F 8AF0      2503            mov     b,r2
+0941 63F080    2504            xrl     b,#0x80
+0944 95F0      2505            subb    a,b
+0946 5001      2506            jnc     L036074?
+0948 C3        2507            clr     c
+0949 749E      2508            mov     a,#(0x1E ^ 0x80)
+094B 8AF0      2509            mov     b,r2
+094D 63F080    2510            xrl     b,#0x80
+0950 95F0      2511            subb    a,b
+0952 4001      2512            jc      L036074?
+0954           2513   ;        Nunchuck_reader.h:308: direction=SSE;
+0954 7B6B      2514            mov     r3,#0x6B
+0956 020100    2515            ljmp    L036085?
+0959           2516   L036074?:
+0959           2517   ;        Nunchuck_reader.h:310: else if(x_axis>30&&x_axis<=50){
+0959 C3        2518            clr     c
+095A 749E      2519            mov     a,#(0x1E ^ 0x80)
+095C 8AF0      2520            mov     b,r2
+095E 63F080    2521            xrl     b,#0x80
+0961 95F0      2522            subb    a,b
+0963 5001      2523            jnc     L036070?
+0965 C3        2524            clr     c
+0966 74B2      2525            mov     a,#(0x32 ^ 0x80)
+0968 8AF0      2526            mov     b,r2
+096A 63F080    2527            xrl     b,#0x80
+096D 95F0      2528            subb    a,b
+096F 4001      2529            jc      L036070?
+0971           2530   ;        Nunchuck_reader.h:311: direction=SE;
+0971 7B6D      2531            mov     r3,#0x6D
+0973 020100    2532            ljmp    L036085?
+0976           2533   L036070?:
+0976           2534   ;        Nunchuck_reader.h:313: else if(x_axis>50&&x_axis<=70){
+0976 C3        2535            clr     c
+0977 74B2      2536            mov     a,#(0x32 ^ 0x80)
+0979 8AF0      2537            mov     b,r2
+097B 63F080    2538            xrl     b,#0x80
+097E 95F0      2539            subb    a,b
+0980 5001      2540            jnc     L036066?
+0982 C3        2541            clr     c
+0983 74C6      2542            mov     a,#(0x46 ^ 0x80)
+0985 8AF0      2543            mov     b,r2
+0987 63F080    2544            xrl     b,#0x80
+098A 95F0      2545            subb    a,b
+098C 4001      2546            jc      L036066?
+098E           2547   ;        Nunchuck_reader.h:314: direction=SEE;
+098E 7B6F      2548            mov     r3,#0x6F
+0990 020100    2549            ljmp    L036085?
+0993           2550   L036066?:
+0993           2551   ;        Nunchuck_reader.h:316: else if(x_axis>70&&x_axis<=100){
+0993 C3        2552            clr     c
+0994 74C6      2553            mov     a,#(0x46 ^ 0x80)
+0996 8AF0      2554            mov     b,r2
+0998 63F080    2555            xrl     b,#0x80
+099B 95F0      2556            subb    a,b
+099D 5001      2557            jnc     L036062?
+099F C3        2558            clr     c
+09A0 74E4      2559            mov     a,#(0x64 ^ 0x80)
+09A2 8AF0      2560            mov     b,r2
+09A4 63F080    2561            xrl     b,#0x80
+09A7 95F0      2562            subb    a,b
+09A9 4001      2563            jc      L036062?
+09AB           2564   ;        Nunchuck_reader.h:317: direction=east;
+09AB 7B69      2565            mov     r3,#0x69
+09AD 8001      2566            sjmp    L036085?
+09AF           2567   L036062?:
+09AF           2568   ;        Nunchuck_reader.h:320: else if(x_axis<-10&&x_axis>=-30){
+09AF C3        2569            clr     c
+09B0 EA        2570            mov     a,r2
+09B1 6480      2571            xrl     a,#0x80
+09B3 9476      2572            subb    a,#0x76
+09B5 5001      2573            jnc     L036058?
+09B7 C3        2574            clr     c
+09B8 EA        2575            mov     a,r2
+09B9 6480      2576            xrl     a,#0x80
+09BB 9462      2577            subb    a,#0x62
+09BD 4001      2578            jc      L036058?
+09BF           2579   ;        Nunchuck_reader.h:321: direction=SSW;
+09BF 7B6C      2580            mov     r3,#0x6C
+09C1 8001      2581            sjmp    L036085?
+09C3           2582   L036058?:
+09C3           2583   ;        Nunchuck_reader.h:323: else if(x_axis<-30&&x_axis>=-50){
+09C3 C3        2584            clr     c
+09C4 EA        2585            mov     a,r2
+09C5 6480      2586            xrl     a,#0x80
+09C7 9462      2587            subb    a,#0x62
+09C9 5001      2588            jnc     L036054?
+09CB C3        2589            clr     c
+09CC EA        2590            mov     a,r2
+09CD 6480      2591            xrl     a,#0x80
+09CF 944E      2592            subb    a,#0x4e
+09D1 4001      2593            jc      L036054?
+09D3           2594   ;        Nunchuck_reader.h:324: direction=SW;
+09D3 7B6E      2595            mov     r3,#0x6E
+09D5 8001      2596            sjmp    L036085?
+09D7           2597   L036054?:
+09D7           2598   ;        Nunchuck_reader.h:326: else if(x_axis<-50&&x_axis>=-80){
+09D7 C3        2599            clr     c
+09D8 EA        2600            mov     a,r2
+09D9 6480      2601            xrl     a,#0x80
+09DB 944E      2602            subb    a,#0x4e
+09DD 5001      2603            jnc     L036050?
+09DF C3        2604            clr     c
+09E0 EA        2605            mov     a,r2
+09E1 6480      2606            xrl     a,#0x80
+09E3 9430      2607            subb    a,#0x30
+09E5 4001      2608            jc      L036050?
+09E7           2609   ;        Nunchuck_reader.h:327: direction=SWW;
+09E7 7B70      2610            mov     r3,#0x70
+09E9 8001      2611            sjmp    L036085?
+09EB           2612   L036050?:
+09EB           2613   ;        Nunchuck_reader.h:329: else if(x_axis<-80&&x_axis>=-110){
+09EB C3        2614            clr     c
+09EC EA        2615            mov     a,r2
+09ED 6480      2616            xrl     a,#0x80
+09EF 9430      2617            subb    a,#0x30
+09F1 5001      2618            jnc     L036046?
+09F3 C3        2619            clr     c
+09F4 EA        2620            mov     a,r2
+09F5 6480      2621            xrl     a,#0x80
+09F7 9412      2622            subb    a,#0x12
+09F9 4001      2623            jc      L036046?
+09FB           2624   ;        Nunchuck_reader.h:330: direction=west;
+09FB 7B6A      2625            mov     r3,#0x6A
+09FD 8001      2626            sjmp    L036085?
+09FF           2627   L036046?:
+09FF           2628   ;        Nunchuck_reader.h:333: direction=north;
+09FF 7B61      2629            mov     r3,#0x61
+0A01           2630   L036085?:
+0A01           2631   ;        Nunchuck_reader.h:339: return direction;
+0A01 8B82      2632            mov     dpl,r3
+0A03 22        2633            ret
+0A04           2634   ;------------------------------------------------------------
+0A04           2635   ;Allocation info for local variables in function 'read_nunchuck'
+0A04           2636   ;------------------------------------------------------------
+0A04           2637   ;speed                     Allocated with name '_read_nunchuck_PARM_2'
+0A04           2638   ;rbuf                      Allocated with name '_read_nunchuck_PARM_3'
+0A04           2639   ;off_x                     Allocated with name '_read_nunchuck_PARM_4'
+0A04           2640   ;off_y                     Allocated with name '_read_nunchuck_PARM_5'
+0A04           2641   ;direction                 Allocated with name '_read_nunchuck_direction_1_167'
+0A04           2642   ;joy_x                     Allocated with name '_read_nunchuck_joy_x_1_168'
+0A04           2643   ;joy_y                     Allocated with name '_read_nunchuck_joy_y_1_168'
+0A04           2644   ;sloc0                     Allocated with name '_read_nunchuck_sloc0_1_0'
+0A04           2645   ;------------------------------------------------------------
+0A04           2646   ;        Nunchuck_reader.h:344: void read_nunchuck(char * direction, char * speed, char * rbuf, int off_x, int off_y)
+0A04           2647   ;        -----------------------------------------
+0A04           2648   ;         function read_nunchuck
+0A04           2649   ;        -----------------------------------------
+0A04           2650   _read_nunchuck:
+0A04 858218    2651            mov     _read_nunchuck_direction_1_167,dpl
+0A07 858319    2652            mov     (_read_nunchuck_direction_1_167 + 1),dph
+0A0A 85F01A    2653            mov     (_read_nunchuck_direction_1_167 + 2),b
+0A0D           2654   ;        Nunchuck_reader.h:364: nunchuck_getdata(rbuf);
+0A0D AD40      2655            mov     r5,_read_nunchuck_PARM_3
+0A0F AE41      2656            mov     r6,(_read_nunchuck_PARM_3 + 1)
+0A11 AF42      2657            mov     r7,(_read_nunchuck_PARM_3 + 2)
+0A13 8D82      2658            mov     dpl,r5
+0A15 8E83      2659            mov     dph,r6
+0A17 8FF0      2660            mov     b,r7
+0A19 120100    2661            lcall   _nunchuck_getdata
+0A1C           2662   ;        Nunchuck_reader.h:369: joy_x=(int)rbuf[0]-128-off_x;
+0A1C AD40      2663            mov     r5,_read_nunchuck_PARM_3
+0A1E AE41      2664            mov     r6,(_read_nunchuck_PARM_3 + 1)
+0A20 AF42      2665            mov     r7,(_read_nunchuck_PARM_3 + 2)
+0A22 8D82      2666            mov     dpl,r5
+0A24 8E83      2667            mov     dph,r6
+0A26 8FF0      2668            mov     b,r7
+0A28 120100    2669            lcall   __gptrget
+0A2B F8        2670            mov     r0,a
+0A2C 33        2671            rlc     a
+0A2D 95E0      2672            subb    a,acc
+0A2F E8        2673            mov     a,r0
+0A30 2480      2674            add     a,#0x80
+0A32 F8        2675            mov     r0,a
+0A33 A9F0      2676            mov     r1,_read_nunchuck_PARM_4
+0A35 C3        2677            clr     c
+0A36 99        2678            subb    a,r1
+0A37 F568      2679            mov     _read_nunchuck_joy_x_1_168,a
+0A39           2680   ;        Nunchuck_reader.h:370: joy_y=(int)rbuf[1]-128-off_y;
+0A39 7401      2681            mov     a,#0x01
+0A3B 2D        2682            add     a,r5
+0A3C F9        2683            mov     r1,a
+0A3D E4        2684            clr     a
+0A3E 3E        2685            addc    a,r6
+0A3F FA        2686            mov     r2,a
+0A40 8F03      2687            mov     ar3,r7
+0A42 8982      2688            mov     dpl,r1
+0A44 8A83      2689            mov     dph,r2
+0A46 8BF0      2690            mov     b,r3
+0A48 120100    2691            lcall   __gptrget
+0A4B F9        2692            mov     r1,a
+0A4C 33        2693            rlc     a
+0A4D 95E0      2694            subb    a,acc
+0A4F E9        2695            mov     a,r1
+0A50 2480      2696            add     a,#0x80
+0A52 F9        2697            mov     r1,a
+0A53 AAA0      2698            mov     r2,_read_nunchuck_PARM_5
+0A55 C3        2699            clr     c
+0A56 9A        2700            subb    a,r2
+0A57 F5B8      2701            mov     _read_nunchuck_joy_y_1_168,a
+0A59           2702   ;        Nunchuck_reader.h:375: but1=(rbuf[5] & 0x01)?1:0;
+0A59 7405      2703            mov     a,#0x05
+0A5B 2D        2704            add     a,r5
+0A5C FD        2705            mov     r5,a
+0A5D E4        2706            clr     a
+0A5E 3E        2707            addc    a,r6
+0A5F FE        2708            mov     r6,a
+0A60 8D82      2709            mov     dpl,r5
+0A62 8E83      2710            mov     dph,r6
+0A64 8FF0      2711            mov     b,r7
+0A66 120100    2712            lcall   __gptrget
+0A69 FD        2713            mov     r5,a
+0A6A 13        2714            rrc     a
+0A6B 9238      2715            mov     _read_nunchuck_but1_1_168,c
+0A6D           2716   ;        Nunchuck_reader.h:376: but2=(rbuf[5] & 0x02)?1:0;
+0A6D ED        2717            mov     a,r5
+0A6E A2E1      2718            mov     c,acc.1
+0A70 9288      2719            mov     _read_nunchuck_but2_1_168,c
+0A72           2720   ;        Nunchuck_reader.h:385: but1?'1':'0', but2?'1':'0', joy_x, joy_y);
+0A72 E5B8      2721            mov     a,_read_nunchuck_joy_y_1_168
+0A74 FB        2722            mov     r3,a
+0A75 33        2723            rlc     a
+0A76 95E0      2724            subb    a,acc
+0A78 FC        2725            mov     r4,a
+0A79 E568      2726            mov     a,_read_nunchuck_joy_x_1_168
+0A7B FD        2727            mov     r5,a
+0A7C 33        2728            rlc     a
+0A7D 95E0      2729            subb    a,acc
+0A7F FE        2730            mov     r6,a
+0A80 308828    2731            jnb     _read_nunchuck_but2_1_168,L037003?
+0A83 7F31      2732            mov     r7,#0x31
+0A85 8001      2733            sjmp    L037004?
+0A87           2734   L037003?:
+0A87 7F30      2735            mov     r7,#0x30
+0A89           2736   L037004?:
+0A89 EF        2737            mov     a,r7
+0A8A 33        2738            rlc     a
+0A8B 95E0      2739            subb    a,acc
+0A8D F9        2740            mov     r1,a
+0A8E 3038A8    2741            jnb     _read_nunchuck_but1_1_168,L037005?
+0A91 750831    2742            mov     _read_nunchuck_sloc0_1_0,#0x31
+0A94 8001      2743            sjmp    L037006?
+0A96           2744   L037005?:
+0A96 750830    2745            mov     _read_nunchuck_sloc0_1_0,#0x30
+0A99           2746   L037006?:
+0A99 E508      2747            mov     a,_read_nunchuck_sloc0_1_0
+0A9B FA        2748            mov     r2,a
+0A9C 33        2749            rlc     a
+0A9D 95E0      2750            subb    a,acc
+0A9F F8        2751            mov     r0,a
+0AA0           2752   ;        Nunchuck_reader.h:384: printf("Buttons(Z:%c, C:%c) Joystick(%4d, %4d)\r",
+0AA0 C003      2753            push    ar3
+0AA2 C004      2754            push    ar4
+0AA4 C005      2755            push    ar5
+0AA6 C006      2756            push    ar6
+0AA8 C007      2757            push    ar7
+0AAA C001      2758            push    ar1
+0AAC C002      2759            push    ar2
+0AAE C000      2760            push    ar0
+0AB0 7428      2761            mov     a,#__str_9
+0AB2 C0E0      2762            push    acc
+0AB4 74E2      2763            mov     a,#(__str_9 >> 8)
+0AB6 C0E0      2764            push    acc
+0AB8 7480      2765            mov     a,#0x80
+0ABA C0E0      2766            push    acc
+0ABC 120100    2767            lcall   _printf
+0ABF E581      2768            mov     a,sp
+0AC1 24F5      2769            add     a,#0xf5
+0AC3 F581      2770            mov     sp,a
+0AC5           2771   ;        Nunchuck_reader.h:386: waitms(100); //determine if we want to change this length
+0AC5 900064    2772            mov     dptr,#0x0064
+0AC8 120100    2773            lcall   _waitms
+0ACB           2774   ;        Nunchuck_reader.h:391: *direction=get_direction(joy_x, joy_y);
+0ACB 85B850    2775            mov     _get_direction_PARM_2,_read_nunchuck_joy_y_1_168
+0ACE 856882    2776            mov     dpl,_read_nunchuck_joy_x_1_168
+0AD1 120100    2777            lcall   _get_direction
+0AD4 AA82      2778            mov     r2,dpl
+0AD6 851882    2779            mov     dpl,_read_nunchuck_direction_1_167
+0AD9 851983    2780            mov     dph,(_read_nunchuck_direction_1_167 + 1)
+0ADC 851AF0    2781            mov     b,(_read_nunchuck_direction_1_167 + 2)
+0ADF EA        2782            mov     a,r2
+0AE0 120100    2783            lcall   __gptrput
+0AE3           2784   ;        Nunchuck_reader.h:392: *speed = get_speed(joy_x, joy_y);
+0AE3 AA90      2785            mov     r2,_read_nunchuck_PARM_2
+0AE5 AB91      2786            mov     r3,(_read_nunchuck_PARM_2 + 1)
+0AE7 AC92      2787            mov     r4,(_read_nunchuck_PARM_2 + 2)
+0AE9 85B8E0    2788            mov     _get_speed_PARM_2,_read_nunchuck_joy_y_1_168
+0AEC 856882    2789            mov     dpl,_read_nunchuck_joy_x_1_168
+0AEF C002      2790            push    ar2
+0AF1 C003      2791            push    ar3
+0AF3 C004      2792            push    ar4
+0AF5 120100    2793            lcall   _get_speed
+0AF8 AD82      2794            mov     r5,dpl
+0AFA D004      2795            pop     ar4
+0AFC D003      2796            pop     ar3
+0AFE D002      2797            pop     ar2
+0B00 8A82      2798            mov     dpl,r2
+0B02 8B83      2799            mov     dph,r3
+0B04 8CF0      2800            mov     b,r4
+0B06 ED        2801            mov     a,r5
+0B07 020100    2802            ljmp    __gptrput
+0B0A           2803   ;------------------------------------------------------------
+0B0A           2804   ;Allocation info for local variables in function '_c51_external_startup'
+0B0A           2805   ;------------------------------------------------------------
+0B0A           2806   ;------------------------------------------------------------
+0B0A           2807   ;        Transmitter_src.c:15: char _c51_external_startup (void)
+0B0A           2808   ;        -----------------------------------------
+0B0A           2809   ;         function _c51_external_startup
+0B0A           2810   ;        -----------------------------------------
+0B0A           2811   __c51_external_startup:
+0B0A           2812   ;        Transmitter_src.c:19: SFRPAGE = 0x00;
+0B0A 75A700    2813            mov     _SFRPAGE,#0x00
+0B0D           2814   ;        Transmitter_src.c:20: WDTCN = 0xDE; //First key
+0B0D 7597DE    2815            mov     _WDTCN,#0xDE
+0B10           2816   ;        Transmitter_src.c:21: WDTCN = 0xAD; //Second key
+0B10 7597AD    2817            mov     _WDTCN,#0xAD
+0B13           2818   ;        Transmitter_src.c:23: VDM0CN |= 0x80;  // enable VDD mon
+0B13 43FF80    2819            orl     _VDM0CN,#0x80
+0B16           2820   ;        Transmitter_src.c:24: RSTSRC = 0x02;
+0B16 75EF02    2821            mov     _RSTSRC,#0x02
+0B19           2822   ;        Transmitter_src.c:31: SFRPAGE = 0x10;
+0B19 75A710    2823            mov     _SFRPAGE,#0x10
+0B1C           2824   ;        Transmitter_src.c:32: PFE0CN  = 0x20; // SYSCLK < 75 MHz.
+0B1C 75C120    2825            mov     _PFE0CN,#0x20
+0B1F           2826   ;        Transmitter_src.c:33: SFRPAGE = 0x00;
+0B1F 75A700    2827            mov     _SFRPAGE,#0x00
+0B22           2828   ;        Transmitter_src.c:54: CLKSEL = 0x00;
+0B22 75A900    2829            mov     _CLKSEL,#0x00
+0B25           2830   ;        Transmitter_src.c:55: CLKSEL = 0x00;
+0B25 75A900    2831            mov     _CLKSEL,#0x00
+0B28           2832   ;        Transmitter_src.c:56: while ((CLKSEL & 0x80) == 0);
+0B28           2833   L038001?:
+0B28 E5A9      2834            mov     a,_CLKSEL
+0B2A 30E768    2835            jnb     acc.7,L038001?
+0B2D           2836   ;        Transmitter_src.c:57: CLKSEL = 0x03;
+0B2D 75A903    2837            mov     _CLKSEL,#0x03
+0B30           2838   ;        Transmitter_src.c:58: CLKSEL = 0x03;
+0B30 75A903    2839            mov     _CLKSEL,#0x03
+0B33           2840   ;        Transmitter_src.c:59: while ((CLKSEL & 0x80) == 0);
+0B33           2841   L038004?:
+0B33 E5A9      2842            mov     a,_CLKSEL
+0B35 30E7A8    2843            jnb     acc.7,L038004?
+0B38           2844   ;        Transmitter_src.c:70: SCON0 = 0x10;
+0B38 759810    2845            mov     _SCON0,#0x10
+0B3B           2846   ;        Transmitter_src.c:71: CKCON0 |= 0b_0000_0000 ; // Timer 1 uses the system clock divided by 12.
+0B3B 858E8E    2847            mov     _CKCON0,_CKCON0
+0B3E           2848   ;        Transmitter_src.c:72: TH1 = 0x100-((SYSCLK/BAUDRATE)/(2L*12L));
+0B3E 758DE6    2849            mov     _TH1,#0xE6
+0B41           2850   ;        Transmitter_src.c:73: TL1 = TH1;      // Init Timer1
+0B41 858D8B    2851            mov     _TL1,_TH1
+0B44           2852   ;        Transmitter_src.c:74: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit auto-reload
+0B44 53890F    2853            anl     _TMOD,#0x0F
+0B47           2854   ;        Transmitter_src.c:75: TMOD |=  0x20;                       
+0B47 438920    2855            orl     _TMOD,#0x20
+0B4A           2856   ;        Transmitter_src.c:76: TR1 = 1; // START Timer1
+0B4A D28E      2857            setb    _TR1
+0B4C           2858   ;        Transmitter_src.c:77: TI = 1;  // Indicate TX0 ready
+0B4C D299      2859            setb    _TI
+0B4E           2860   ;        Transmitter_src.c:79: P0MDOUT |= 0x10; // Enable UART0 TX as push-pull output
+0B4E 43A410    2861            orl     _P0MDOUT,#0x10
+0B51           2862   ;        Transmitter_src.c:80: P1MDOUT |= 0xff; // Enable Push/Pull on port 1
+0B51 E5A5      2863            mov     a,_P1MDOUT
+0B53 75A5FF    2864            mov     _P1MDOUT,#0xFF
+0B56           2865   ;        Transmitter_src.c:81: XBR0     = 0b_0000_0101; // Enable UART0 on P0.4(TX) and P0.5(RX)                     
+0B56 75E105    2866            mov     _XBR0,#0x05
+0B59           2867   ;        Transmitter_src.c:82: XBR1     = 0x00; // Enable T0 on P0.0
+0B59 75E200    2868            mov     _XBR1,#0x00
+0B5C           2869   ;        Transmitter_src.c:83: XBR2     = 0x40; // Enable crossbar and weak pull-ups
+0B5C 75E340    2870            mov     _XBR2,#0x40
+0B5F           2871   ;        Transmitter_src.c:85: Timer0_init();
+0B5F 120100    2872            lcall   _Timer0_init
+0B62           2873   ;        Transmitter_src.c:87: EA = 1;
+0B62 D2AF      2874            setb    _EA
+0B64           2875   ;        Transmitter_src.c:90: SMB0CF = 0b_0101_1100; //INH | EXTHOLD | SMBTOE | SMBFTE ;
+0B64 75C15C    2876            mov     _SMB0CF,#0x5C
+0B67           2877   ;        Transmitter_src.c:91: SMB0CF |= 0b_1000_0000;  // Enable SMBus
+0B67 43C180    2878            orl     _SMB0CF,#0x80
+0B6A           2879   ;        Transmitter_src.c:94: return 0;
+0B6A 758200    2880            mov     dpl,#0x00
+0B6D 22        2881            ret
+0B6E           2882   ;------------------------------------------------------------
+0B6E           2883   ;Allocation info for local variables in function 'getsn'
+0B6E           2884   ;------------------------------------------------------------
+0B6E           2885   ;len                       Allocated with name '_getsn_PARM_2'
+0B6E           2886   ;buff                      Allocated with name '_getsn_buff_1_171'
+0B6E           2887   ;j                         Allocated with name '_getsn_sloc0_1_0'
+0B6E           2888   ;c                         Allocated to registers r3 
+0B6E           2889   ;sloc0                     Allocated with name '_getsn_sloc0_1_0'
+0B6E           2890   ;------------------------------------------------------------
+0B6E           2891   ;        Transmitter_src.c:98: int getsn (char * buff, int len){
+0B6E           2892   ;        -----------------------------------------
+0B6E           2893   ;         function getsn
+0B6E           2894   ;        -----------------------------------------
+0B6E           2895   _getsn:
+0B6E 858258    2896            mov     _getsn_buff_1_171,dpl
+0B71 858359    2897            mov     (_getsn_buff_1_171 + 1),dph
+0B74 85F05A    2898            mov     (_getsn_buff_1_171 + 2),b
+0B77           2899   ;        Transmitter_src.c:103: for(j=0; j<(len-1); j++)
+0B77 E4        2900            clr     a
+0B78 F5A8      2901            mov     _getsn_sloc0_1_0,a
+0B7A F5A9      2902            mov     (_getsn_sloc0_1_0 + 1),a
+0B7C E550      2903            mov     a,_getsn_PARM_2
+0B7E 24FF      2904            add     a,#0xff
+0B80 FF        2905            mov     r7,a
+0B81 E551      2906            mov     a,(_getsn_PARM_2 + 1)
+0B83 34FF      2907            addc    a,#0xff
+0B85 F8        2908            mov     r0,a
+0B86 7900      2909            mov     r1,#0x00
+0B88 7A00      2910            mov     r2,#0x00
+0B8A           2911   L039005?:
+0B8A C3        2912            clr     c
+0B8B E9        2913            mov     a,r1
+0B8C 9F        2914            subb    a,r7
+0B8D EA        2915            mov     a,r2
+0B8E 6480      2916            xrl     a,#0x80
+0B90 88F0      2917            mov     b,r0
+0B92 63F080    2918            xrl     b,#0x80
+0B95 95F0      2919            subb    a,b
+0B97 5001      2920            jnc     L039008?
+0B99           2921   ;        Transmitter_src.c:105: c=getchar();
+0B99 C002      2922            push    ar2
+0B9B C007      2923            push    ar7
+0B9D C000      2924            push    ar0
+0B9F C001      2925            push    ar1
+0BA1 120100    2926            lcall   _getchar
+0BA4 AB82      2927            mov     r3,dpl
+0BA6 D001      2928            pop     ar1
+0BA8 D000      2929            pop     ar0
+0BAA D007      2930            pop     ar7
+0BAC D002      2931            pop     ar2
+0BAE           2932   ;        Transmitter_src.c:106: if ( (c=='\n') || (c=='\r') )
+0BAE BB0AA8    2933            cjne    r3,#0x0A,L039015?
+0BB1 8001      2934            sjmp    L039001?
+0BB3           2935   L039015?:
+0BB3 BB0D28    2936            cjne    r3,#0x0D,L039002?
+0BB6           2937   L039001?:
+0BB6           2938   ;        Transmitter_src.c:108: buff[j]=0;
+0BB6 E5A8      2939            mov     a,_getsn_sloc0_1_0
+0BB8 2558      2940            add     a,_getsn_buff_1_171
+0BBA FC        2941            mov     r4,a
+0BBB E5A9      2942            mov     a,(_getsn_sloc0_1_0 + 1)
+0BBD 3559      2943            addc    a,(_getsn_buff_1_171 + 1)
+0BBF FD        2944            mov     r5,a
+0BC0 AE5A      2945            mov     r6,(_getsn_buff_1_171 + 2)
+0BC2 8C82      2946            mov     dpl,r4
+0BC4 8D83      2947            mov     dph,r5
+0BC6 8EF0      2948            mov     b,r6
+0BC8 E4        2949            clr     a
+0BC9 120100    2950            lcall   __gptrput
+0BCC           2951   ;        Transmitter_src.c:109: return j;
+0BCC 85A882    2952            mov     dpl,_getsn_sloc0_1_0
+0BCF 85A983    2953            mov     dph,(_getsn_sloc0_1_0 + 1)
+0BD2 22        2954            ret
+0BD3           2955   L039002?:
+0BD3           2956   ;        Transmitter_src.c:113: buff[j]=c;
+0BD3 E9        2957            mov     a,r1
+0BD4 2558      2958            add     a,_getsn_buff_1_171
+0BD6 FC        2959            mov     r4,a
+0BD7 EA        2960            mov     a,r2
+0BD8 3559      2961            addc    a,(_getsn_buff_1_171 + 1)
+0BDA FD        2962            mov     r5,a
+0BDB AE5A      2963            mov     r6,(_getsn_buff_1_171 + 2)
+0BDD 8C82      2964            mov     dpl,r4
+0BDF 8D83      2965            mov     dph,r5
+0BE1 8EF0      2966            mov     b,r6
+0BE3 EB        2967            mov     a,r3
+0BE4 120100    2968            lcall   __gptrput
+0BE7           2969   ;        Transmitter_src.c:103: for(j=0; j<(len-1); j++)
+0BE7 09        2970            inc     r1
+0BE8 B90068    2971            cjne    r1,#0x00,L039018?
+0BEB 0A        2972            inc     r2
+0BEC           2973   L039018?:
+0BEC 89A8      2974            mov     _getsn_sloc0_1_0,r1
+0BEE 8AA9      2975            mov     (_getsn_sloc0_1_0 + 1),r2
+0BF0 8001      2976            sjmp    L039005?
+0BF2           2977   L039008?:
+0BF2           2978   ;        Transmitter_src.c:116: buff[j]=0;
+0BF2 E5A8      2979            mov     a,_getsn_sloc0_1_0
+0BF4 2558      2980            add     a,_getsn_buff_1_171
+0BF6 FA        2981            mov     r2,a
+0BF7 E5A9      2982            mov     a,(_getsn_sloc0_1_0 + 1)
+0BF9 3559      2983            addc    a,(_getsn_buff_1_171 + 1)
+0BFB FB        2984            mov     r3,a
+0BFC AC5A      2985            mov     r4,(_getsn_buff_1_171 + 2)
+0BFE 8A82      2986            mov     dpl,r2
+0C00 8B83      2987            mov     dph,r3
+0C02 8CF0      2988            mov     b,r4
+0C04 E4        2989            clr     a
+0C05 120100    2990            lcall   __gptrput
+0C08           2991   ;        Transmitter_src.c:117: return len;
+0C08 855082    2992            mov     dpl,_getsn_PARM_2
+0C0B 855183    2993            mov     dph,(_getsn_PARM_2 + 1)
+0C0E 22        2994            ret
+0C0F           2995   ;------------------------------------------------------------
+0C0F           2996   ;Allocation info for local variables in function 'main'
+0C0F           2997   ;------------------------------------------------------------
+0C0F           2998   ;buffer                    Allocated with name '_main_buffer_1_177'
+0C0F           2999   ;speed                     Allocated with name '_main_speed_1_177'
+0C0F           3000   ;direction                 Allocated with name '_main_direction_1_177'
+0C0F           3001   ;off_x                     Allocated to registers r2 r3 
+0C0F           3002   ;off_y                     Allocated with name '_main_off_y_1_177'
+0C0F           3003   ;------------------------------------------------------------
+0C0F           3004   ;        Transmitter_src.c:120: void main(void) {
+0C0F           3005   ;        -----------------------------------------
+0C0F           3006   ;         function main
+0C0F           3007   ;        -----------------------------------------
+0C0F           3008   _main:
+0C0F           3009   ;        Transmitter_src.c:124: int off_x=0;
+0C0F           3010   ;        Transmitter_src.c:125: int off_y=0;
+0C0F E4        3011            clr     a
+0C10 FA        3012            mov     r2,a
+0C11 FB        3013            mov     r3,a
+0C12 F5E8      3014            mov     _main_off_y_1_177,a
+0C14 F5E9      3015            mov     (_main_off_y_1_177 + 1),a
+0C16           3016   ;        Transmitter_src.c:126: offset_flag=1;
+0C16 D290      3017            setb    _offset_flag
+0C18           3018   ;        Transmitter_src.c:128: Tcom_init(110L); //enter baudrate for UART1
+0C18 90006E    3019            mov     dptr,#(0x6E&0x00ff)
+0C1B E4        3020            clr     a
+0C1C F5F0      3021            mov     b,a
+0C1E C002      3022            push    ar2
+0C20 C003      3023            push    ar3
+0C22 120100    3024            lcall   _Tcom_init
+0C25           3025   ;        Transmitter_src.c:129: LCD_4BIT();
+0C25 120100    3026            lcall   _LCD_4BIT
+0C28           3027   ;        Transmitter_src.c:133: waitms(200);
+0C28 9000C8    3028            mov     dptr,#0x00C8
+0C2B 120100    3029            lcall   _waitms
+0C2E           3030   ;        Transmitter_src.c:134: nunchuck_init(1);
+0C2E D280      3031            setb    _nunchuck_init_PARM_1
+0C30 120100    3032            lcall   _nunchuck_init
+0C33           3033   ;        Transmitter_src.c:135: waitms(100);
+0C33 900064    3034            mov     dptr,#0x0064
+0C36 120100    3035            lcall   _waitms
+0C39 D003      3036            pop     ar3
+0C3B D002      3037            pop     ar2
+0C3D           3038   ;        Transmitter_src.c:137: if(offset_flag){
+0C3D 3090A8    3039            jnb     _offset_flag,L040002?
+0C40           3040   ;        Transmitter_src.c:138: nunchuck_getdata(buffer);
+0C40 90C3F8    3041            mov     dptr,#_main_buffer_1_177
+0C43 75F040    3042            mov     b,#0x40
+0C46 120100    3043            lcall   _nunchuck_getdata
+0C49           3044   ;        Transmitter_src.c:139: off_x=(int)buffer[0]-128;
+0C49 AEF8      3045            mov     r6,_main_buffer_1_177
+0C4B 7F00      3046            mov     r7,#0x00
+0C4D EE        3047            mov     a,r6
+0C4E 2480      3048            add     a,#0x80
+0C50 FA        3049            mov     r2,a
+0C51 EF        3050            mov     a,r7
+0C52 34FF      3051            addc    a,#0xff
+0C54 FB        3052            mov     r3,a
+0C55           3053   ;        Transmitter_src.c:140: off_y=(int)buffer[1]-128;
+0C55 AEF9      3054            mov     r6,(_main_buffer_1_177 + 0x0001)
+0C57 7F00      3055            mov     r7,#0x00
+0C59 EE        3056            mov     a,r6
+0C5A 2480      3057            add     a,#0x80
+0C5C F5E8      3058            mov     _main_off_y_1_177,a
+0C5E EF        3059            mov     a,r7
+0C5F 34FF      3060            addc    a,#0xff
+0C61 F5E9      3061            mov     (_main_off_y_1_177 + 1),a
+0C63           3062   ;        Transmitter_src.c:141: printf("Offset_X:%4d Offset_Y:%4d\n\n", off_x, off_y);
+0C63 C002      3063            push    ar2
+0C65 C003      3064            push    ar3
+0C67 C0E8      3065            push    _main_off_y_1_177
+0C69 C0E9      3066            push    (_main_off_y_1_177 + 1)
+0C6B C002      3067            push    ar2
+0C6D C003      3068            push    ar3
+0C6F 74E8      3069            mov     a,#__str_10
+0C71 C0E0      3070            push    acc
+0C73 74E4      3071            mov     a,#(__str_10 >> 8)
+0C75 C0E0      3072            push    acc
+0C77 7480      3073            mov     a,#0x80
+0C79 C0E0      3074            push    acc
+0C7B 120100    3075            lcall   _printf
+0C7E E581      3076            mov     a,sp
+0C80 24F9      3077            add     a,#0xf9
+0C82 F581      3078            mov     sp,a
+0C84 D003      3079            pop     ar3
+0C86 D002      3080            pop     ar2
+0C88           3081   ;        Transmitter_src.c:142: offset_flag=0; //clear offset flag, so not to re-get offset. 
+0C88 C290      3082            clr     _offset_flag
+0C8A           3083   L040002?:
+0C8A           3084   ;        Transmitter_src.c:145: waitms(500);
+0C8A 9001F4    3085            mov     dptr,#0x01F4
+0C8D C002      3086            push    ar2
+0C8F C003      3087            push    ar3
+0C91 120100    3088            lcall   _waitms
+0C94           3089   ;        Transmitter_src.c:147: printf("LAB 6 Microcontroller\r\nWith extra features\r\n\n");
+0C94 7428      3090            mov     a,#__str_11
+0C96 C0E0      3091            push    acc
+0C98 74E5      3092            mov     a,#(__str_11 >> 8)
+0C9A C0E0      3093            push    acc
+0C9C 7480      3094            mov     a,#0x80
+0C9E C0E0      3095            push    acc
+0CA0 120100    3096            lcall   _printf
+0CA3 1581      3097            dec     sp
+0CA5 1581      3098            dec     sp
+0CA7 1581      3099            dec     sp
+0CA9           3100   ;        Transmitter_src.c:148: waitms(500);     
+0CA9 9001F4    3101            mov     dptr,#0x01F4
+0CAC 120100    3102            lcall   _waitms
+0CAF D003      3103            pop     ar3
+0CB1 D002      3104            pop     ar2
+0CB3           3105   ;        Transmitter_src.c:154: while(1) {
+0CB3           3106   L040004?:
+0CB3           3107   ;        Transmitter_src.c:163: printf("Enter command: \r\n");
+0CB3 C002      3108            push    ar2
+0CB5 C003      3109            push    ar3
+0CB7 74A8      3110            mov     a,#__str_12
+0CB9 C0E0      3111            push    acc
+0CBB 74E5      3112            mov     a,#(__str_12 >> 8)
+0CBD C0E0      3113            push    acc
+0CBF 7480      3114            mov     a,#0x80
+0CC1 C0E0      3115            push    acc
+0CC3 120100    3116            lcall   _printf
+0CC6 1581      3117            dec     sp
+0CC8 1581      3118            dec     sp
+0CCA 1581      3119            dec     sp
+0CCC           3120   ;        Transmitter_src.c:164: getsn(buffer, CHARS_PER_LINE);
+0CCC 755010    3121            mov     _getsn_PARM_2,#0x10
+0CCF E4        3122            clr     a
+0CD0 F551      3123            mov     (_getsn_PARM_2 + 1),a
+0CD2 90C3F8    3124            mov     dptr,#_main_buffer_1_177
+0CD5 75F040    3125            mov     b,#0x40
+0CD8 120100    3126            lcall   _getsn
+0CDB           3127   ;        Transmitter_src.c:165: getCommand(buffer); //after use, is clear, only used within functions
+0CDB 90C3F8    3128            mov     dptr,#_main_buffer_1_177
+0CDE 75F040    3129            mov     b,#0x40
+0CE1 120100    3130            lcall   _getCommand
+0CE4 D003      3131            pop     ar3
+0CE6 D002      3132            pop     ar2
+0CE8           3133   ;        Transmitter_src.c:168: read_nunchuck(&direction, &speed, buffer, off_x, off_y);
+0CE8 759048    3134            mov     _read_nunchuck_PARM_2,#_main_speed_1_177
+0CEB 759100    3135            mov     (_read_nunchuck_PARM_2 + 1),#0x00
+0CEE 759240    3136            mov     (_read_nunchuck_PARM_2 + 2),#0x40
+0CF1 7540F8    3137            mov     _read_nunchuck_PARM_3,#_main_buffer_1_177
+0CF4 754100    3138            mov     (_read_nunchuck_PARM_3 + 1),#0x00
+0CF7 754240    3139            mov     (_read_nunchuck_PARM_3 + 2),#0x40
+0CFA 8AF0      3140            mov     _read_nunchuck_PARM_4,r2
+0CFC 8BF1      3141            mov     (_read_nunchuck_PARM_4 + 1),r3
+0CFE 85E8A0    3142            mov     _read_nunchuck_PARM_5,_main_off_y_1_177
+0D01 85E9A1    3143            mov     (_read_nunchuck_PARM_5 + 1),(_main_off_y_1_177 + 1)
+0D04 90C498    3144            mov     dptr,#_main_direction_1_177
+0D07 75F040    3145            mov     b,#0x40
+0D0A C002      3146            push    ar2
+0D0C C003      3147            push    ar3
+0D0E 120100    3148            lcall   _read_nunchuck
+0D11           3149   ;        Transmitter_src.c:171: printf("direction: %c   speed: %c \n", direction, speed);
+0D11 E548      3150            mov     a,_main_speed_1_177
+0D13 FE        3151            mov     r6,a
+0D14 33        3152            rlc     a
+0D15 95E0      3153            subb    a,acc
+0D17 FF        3154            mov     r7,a
+0D18 E598      3155            mov     a,_main_direction_1_177
+0D1A FC        3156            mov     r4,a
+0D1B 33        3157            rlc     a
+0D1C 95E0      3158            subb    a,acc
+0D1E FD        3159            mov     r5,a
+0D1F C006      3160            push    ar6
+0D21 C007      3161            push    ar7
+0D23 C004      3162            push    ar4
+0D25 C005      3163            push    ar5
+0D27 74E8      3164            mov     a,#__str_13
+0D29 C0E0      3165            push    acc
+0D2B 74E5      3166            mov     a,#(__str_13 >> 8)
+0D2D C0E0      3167            push    acc
+0D2F 7480      3168            mov     a,#0x80
+0D31 C0E0      3169            push    acc
+0D33 120100    3170            lcall   _printf
+0D36 E581      3171            mov     a,sp
+0D38 24F9      3172            add     a,#0xf9
+0D3A F581      3173            mov     sp,a
+0D3C D003      3174            pop     ar3
+0D3E D002      3175            pop     ar2
+0D40 020100    3176            ljmp    L040004?
+0D43           3177            rseg R_CSEG
+0D43           3178   
+0000           3179            rseg R_XINIT
+0000           3180   
+0000           3181            rseg R_CONST
+0000           3182   __str_0:
+0000 53656E74  3183            db 'Sent: %d'
+     3A202564
+0008 0D        3184            db 0x0D
+0009 0A        3185            db 0x0A
+000A 00        3186            db 0x00
+000B           3187   __str_1:
+000B 63206572  3188            db 'c err'
+     72
+0010 0D        3189            db 0x0D
+0011 0A        3190            db 0x0A
+0012 00        3191            db 0x00
+0013           3192   __str_2:
+0013 252A7320  3193            db '%*s %c %c'
+     25632025
+     63
+001C 00        3194            db 0x00
+001D           3195   __str_3:
+001D 252A7320  3196            db '%*s %u'
+     2575
+0023 00        3197            db 0x00
+0024           3198   __str_4:
+0024 48656C70  3199            db 'Help Menu'
+     204D656E
+     75
+002D 0D        3200            db 0x0D
+002E 0A        3201            db 0x0A
+002F 4C697374  3202            db 'List of Commands: '
+     206F6620
+     436F6D6D
+     616E6473
+     3A20
+0041 0D        3203            db 0x0D
+0042 0A        3204            db 0x0A
+0043 2D637720  3205            db '-cw [duty value]'
+     5B647574
+     79207661
+     6C75655D
+0053 0D        3206            db 0x0D
+0054 0A        3207            db 0x0A
+0055 2D636377  3208            db '-ccw [duty '
+     205B6475
+     747920
+0060 76616C75  3209            db 'value]'
+     655D
+0066 0D        3210            db 0x0D
+0067 0A        3211            db 0x0A
+0068 2D66205B  3212            db '-f [freq value]'
+     66726571
+     2076616C
+     75655D
+0077 0D        3213            db 0x0D
+0078 0A        3214            db 0x0A
+0079 2D72205B  3215            db '-r [reload value]'
+     72656C6F
+     61642076
+     616C7565
+     5D
+008A 0D        3216            db 0x0D
+008B 0A        3217            db 0x0A
+008C 2D6F      3218            db '-o'
+008E 0D        3219            db 0x0D
+008F 0A        3220            db 0x0A
+0090 2D73      3221            db '-s'
+0092 0D        3222            db 0x0D
+0093 0A        3223            db 0x0A
+0094 2D69      3224            db '-i'
+0096 0D        3225            db 0x0D
+0097 0A        3226            db 0x0A
+0098 0A        3227            db 0x0A
+0099 00        3228            db 0x00
+009A           3229   __str_5:
+009A 52656C6F  3230            db 'Reload: %u, Freq: %d '
+     61643A20
+     25752C20
+     46726571
+     3A202564
+     20
+00AF 0D        3231            db 0x0D
+00B0 0A        3232            db 0x0A
+00B1 00        3233            db 0x00
+00B2           3234   __str_6:
+00B2 22        3235            db 0x22
+00B3 2573      3236            db '%s'
+00B5 22        3237            db 0x22
+00B6 20696E76  3238            db ' invalid command'
+     616C6964
+     20636F6D
+     6D616E64
+00C6 0D        3239            db 0x0D
+00C7 0A        3240            db 0x0A
+00C8 00        3241            db 0x00
+00C9           3242   __str_7:
+00C9 4E6F7420  3243            db 'Not Valid input'
+     56616C69
+     6420696E
+     707574
+00D8 0D        3244            db 0x0D
+00D9 0A        3245            db 0x0A
+00DA 00        3246            db 0x00
+00DB           3247   __str_8:
+00DB 45787465  3248            db 'Extension type: %02x  %02x  %02x  %02x  %02x  %02x'
+     6E73696F
+     6E207479
+     70653A20
+     25303278
+     20202530
+     32782020
+     25303278
+     20202530
+     32782020
+     25303278
+     20202530
+     3278
+010D 0A        3249            db 0x0A
+010E 00        3250            db 0x00
+010F           3251   __str_9:
+010F 42757474  3252            db 'Buttons(Z:%c, C:%c) Joystick(%4d, %4d)'
+     6F6E7328
+     5A3A2563
+     2C20433A
+     25632920
+     4A6F7973
+     7469636B
+     28253464
+     2C202534
+     6429
+0135 0D        3253            db 0x0D
+0136 00        3254            db 0x00
+0137           3255   __str_10:
+0137 4F666673  3256            db 'Offset_X:%4d Offset_Y:%4d'
+     65745F58
+     3A253464
+     204F6666
+     7365745F
+     593A2534
+     64
+0150 0A        3257            db 0x0A
+0151 0A        3258            db 0x0A
+0152 00        3259            db 0x00
+0153           3260   __str_11:
+0153 4C414220  3261            db 'LAB 6 Microcontroller'
+     36204D69
+     63726F63
+     6F6E7472
+     6F6C6C65
+     72
+0168 0D        3262            db 0x0D
+0169 0A        3263            db 0x0A
+016A 57697468  3264            db 'With extra features'
+     20657874
+     72612066
+     65617475
+     726573
+017D 0D        3265            db 0x0D
+017E 0A        3266            db 0x0A
+017F 0A        3267            db 0x0A
+0180 00        3268            db 0x00
+0181           3269   __str_12:
+0181 456E7465  3270            db 'Enter command: '
+     7220636F
+     6D6D616E
+     643A20
+0190 0D        3271            db 0x0D
+0191 0A        3272            db 0x0A
+0192 00        3273            db 0x00
+0193           3274   __str_13:
+0193 64697265  3275            db 'direction: %c   speed: %c '
+     6374696F
+     6E3A2025
+     63202020
+     73706565
+     643A2025
+     6320
+01AD 0A        3276            db 0x0A
+01AE 00        3277            db 0x00
+01AF           3278   
+008E           3279            CSEG
+008E           3280   
+008E           3281   end

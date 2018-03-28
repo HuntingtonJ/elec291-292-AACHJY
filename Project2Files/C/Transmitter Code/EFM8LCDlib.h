@@ -15,7 +15,7 @@
 void LCD_pulse (void)
 {
 	LCD_E=1;
-	Timer3us(40);
+	Timer2us(40);
 	LCD_E=0;
 }
 
@@ -28,7 +28,7 @@ void LCD_byte (unsigned char x)
 	LCD_D5=ACC_5;
 	LCD_D4=ACC_4;
 	LCD_pulse();
-	Timer3us(40);
+	Timer2us(40);
 	ACC=x; //Send low nible
 	LCD_D7=ACC_3;
 	LCD_D6=ACC_2;
