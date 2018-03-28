@@ -9,3 +9,4 @@ extern volatile unsigned char U2_RXO_flag;
 void initUSART2(int BaudRate);
 void usart2_rx(void);
 void usart2_rxo(void);
+void putc2(unsigned char c);

@@ -90,5 +90,6 @@ int main(void) {
     		printf("Receive Overflow\r\n");
     		U2_RXO_flag = 0;
     	}
+    	putc2(0x55);
 	}
 }

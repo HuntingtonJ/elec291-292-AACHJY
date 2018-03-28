@@ -93,7 +93,7 @@ void initUART(int BaudRate)
 	// Turn on the clock for GPIOA (usart 1 uses it)
 	RCC_AHBENR  |= BIT17;
 	
-	BaudRateDivisor = 48000000; // assuming 48MHz clock 
+	BaudRateDivisor = 48000000 / 8; // assuming 48MHz clock 
 	BaudRateDivisor = BaudRateDivisor / (long) BaudRate;
 
 	//Configure PA9 (TXD for USART1, pin 19 in LQFP32 package)
