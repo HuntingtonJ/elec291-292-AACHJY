@@ -16,10 +16,23 @@ extern unsigned char duty_cycleRR;  //Right wheel reverse
 
 int getsn (char * buff, int len);  
 void TogglePins(void);
-// void go_straight(char speed);
-// void go_reverse(char speed);
-// void turn_west(char speed);
-// void turn_east(char speed);
-// void turn_NW(char speed);
-// void turn_NE(char speed);
-// void stop();
+void go_straight(char speed);
+void go_reverse(char speed);
+void turn_west(char speed);
+void turn_east(char speed);
+void turn_NW(char speed);
+void turn_NE(char speed);
+void turn_NNE(char speed);
+void turn_NNW(char speed);
+void turn_NEE(char speed);
+void turn_NWW(char speed);
+void turn_SW(char speed);
+void turn_SE(char speed);
+void turn_SSE(char speed);
+void turn_SSW(char speed);
+void turn_SEE(char speed);
+void turn_SWW(char speed);
+
+void stop();
+
+void drive(unsigned char speed, unsigned char direction);

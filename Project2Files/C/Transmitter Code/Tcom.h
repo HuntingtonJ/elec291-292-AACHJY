@@ -20,16 +20,10 @@
 //OPCODES to send 
 #define SPEED_OP 		0b000
 #define DIRECTION_OP 	0b001
-<<<<<<< HEAD
 #define GRAB_OP 		0b010
 #define LIGHTS_OP		0b011
-
 #define STOP_OP			0b111
-=======
-#define LIGHTS_OP		0b010
-#define GRAB_OP 		0b100
-#define Stop 			0b111
->>>>>>> f11b8157a18b77b10fb002f8498f1890d2502b61
+
 
 volatile bit reload_flag = 0;
 unsigned int freq4 = 15000;

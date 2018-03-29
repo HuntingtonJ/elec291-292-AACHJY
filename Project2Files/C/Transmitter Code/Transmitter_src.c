@@ -13,7 +13,7 @@
 volatile unsigned bit offset_flag=1;
 volatile unsigned bit speedbit=1;
 
-volatile unsigned char mode = 0;
+volatile unsigned char mode = 1;
 
 char _c51_external_startup (void)
 {
@@ -156,13 +156,14 @@ void main(void) {
 	// printf("\x1b[2J\x1b[1;1H"); // Clear screen using ANSI escape sequence.
 	// printf("\n\nEFM8LB1 WII Nunchuck I2C Reader\n");
 	while(1) {
-		sprintf(buffer, "Test print");
-		LCDprint(buffer, 2, 1);
+		//sprintf(buffer, "Test print");
+		//LCDprint(buffer, 2, 1);
 	
 		if (mode == 0) {
 			printf("Enter command: \r\n");
 			getsn(buffer, CHARS_PER_LINE);
 			getCommand(buffer); //after use, is clear, only used within functions
+
 		} else if (mode == 1) {
 			read_nunchuck(&direction, &speed, buffer, off_x, off_y);
 		

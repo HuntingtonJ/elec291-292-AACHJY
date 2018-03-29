@@ -76,12 +76,12 @@ void SysInit(void)
 
 //Take RX_data value recieved from EFM8 and convert the char back to get the 
 //	opcode and the value as seen in Transmitter_src.c file
-void Extract_op_val(unsigned char RX_data){
-	unsigned char opcode;
-	unsigned char value;
+void Extract_op_val(unsigned char RX_data, unsigned char *speed, unsigned char * direction){
+unsigned char opcode, value;
 
-	opcode = RX_data/(0b100000);
-	value =  RX_data - opcode;
+	opcode = RX_data&&(0b11100000)/0b00100000;
+	value =  RX_data&&(0b00011111);
+	
 
 	printf("Opcode:%d\r\n", opcode);
 	printf("Value:%d\r\n", value);
@@ -89,9 +89,11 @@ void Extract_op_val(unsigned char RX_data){
 	switch(opcode){
 		case 0b000: 
 			printf("SPEED_OP\n");
+			*speed= value*(0b100);
 			break;
 		case 0b001: 
 			printf("DIRECTION_OP\n");
+			*direction=value;
 			break;
 		case 0b010: 
 			printf("LIGHTS_OP\n");
@@ -106,11 +108,14 @@ void Extract_op_val(unsigned char RX_data){
 			printf("Unknown_OP\n");
 			return;
 	}
+
 }
 
 int main(void) {
     char buf[32];
     int newF, reload;
+    unsigned char opcode, value;
+    unsigned char speed, direction;
 
 	SysInit();
 	
@@ -119,10 +124,13 @@ int main(void) {
 	while (1){
 		//Receives data on Pin 9.
     	if (U2_RX_flag & 1) {\
-    		Extract_op_val(RX_data);
+    		Extract_op_val(RX_data, &speed, &direction);
     		//printf("Received: %d\r\n", RX_data);
     		U2_RX_flag = 0;
     	}
+    	
+    	drive(speed, direction);
+
     	if (U2_RXO_flag & 1) {
     		printf("Receive Overflow\r\n");
     		U2_RXO_flag = 0;

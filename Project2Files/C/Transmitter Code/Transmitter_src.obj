@@ -11,7 +11,7 @@ R_GSINIT,code,0000,NO
 R_BSEG,bit,0007,NO
 R_XSEG,xdata,0000,NO
 BIT_BANK,data,0000,OV
-R_CONST,code,01F4,NO
+R_CONST,code,01E9,NO
 rbank0,data,0000,OV
 R_PSEG,xdata,0000,NO
 R_DINIT,code,0015,NO
@@ -21,7 +21,7 @@ R_IXSEG,xdata,0000,NO
 R_ISEG,idata,0000,NO
 R_HOME,code,0000,NO
 R_XINIT,code,0000,NO
-R_CSEG,code,0E43,NO
+R_CSEG,code,0E0C,NO
 </SEGMENTS>
 
 <LOCALS>
@@ -67,8 +67,7 @@ __str_12,R_CONST,016B,0000
 __str_13,R_CONST,0187,0000
 __str_14,R_CONST,01B5,0000
 __str_15,R_CONST,01BB,0000
-__str_16,R_CONST,01C6,0000
-__str_17,R_CONST,01D8,0000
+__str_16,R_CONST,01CD,0000
 _nunchuck_init_sloc1_1_0,R_DSEG,0010,0002
 L004001?,R_CSEG,007F,0000
 L035013?,R_CSEG,0842,0000
@@ -105,7 +104,7 @@ _read_nunchuck_joy_y_1_168,R_DSEG,0023,0001
 L036038?,R_CSEG,0892,0000
 L040015?,R_CSEG,0D3E,0000
 L036034?,R_CSEG,08AF,0000
-L040012?,R_CSEG,0DB0,0000
+L040012?,R_CSEG,0D79,0000
 L036030?,R_CSEG,08CC,0000
 L034004?,R_CSEG,07DC,0000
 L036046?,R_CSEG,0A62,0000
@@ -146,8 +145,8 @@ L012004?,R_CSEG,01A3,0000
 L012003?,R_CSEG,019E,0000
 L012002?,R_CSEG,0199,0000
 L036151?,R_CSEG,0967,0000
-L040008?,R_CSEG,0E0D,0000
-L040007?,R_CSEG,0DFA,0000
+L040008?,R_CSEG,0DD6,0000
+L040007?,R_CSEG,0DC3,0000
 L040004?,R_CSEG,0D07,0000
 L037006?,R_CSEG,0AFC,0000
 L028014?,R_CSEG,0534,0000
@@ -238,7 +237,6 @@ _printf,any,0000,0000
 __divulong_PARM_2,any,0000,0000
 _getchar,any,0000,0000
 __gptrput,any,0000,0000
-_sprintf,any,0000,0000
 _crt0,any,0000,0000
 </EXTERNALS>
 
@@ -284,7 +282,7 @@ _crt0,any,0000,0000
 75 data8(_freq4;0x0001;+;) 3A
 75 data8(_reload4;) 38
 75 data8(_reload4;0x0001;+;) FF
-75 data8(_mode;) 00
+75 data8(_mode;) 01
 C2 bit(_reload_flag;)
 D2 bit(_offset_flag;)
 D2 bit(_speedbit;)
@@ -1897,38 +1895,13 @@ D2 bit(_LCDprint_PARM_3;)
 12 addr16(_LCDprint;)  
 D0 03
 D0 02
+E5 data8(_mode;)
+70 rel2(L040012?;)
 C0 02
 C0 03
 74 data8(__str_15;)
 C0 E0
 74 data8(__str_15;0x0008;>>;)
-C0 E0
-74 80
-C0 E0
-74 data8(_main_buffer_1_177;)
-C0 E0
-74 data8(_main_buffer_1_177;0x0008;>>;)
-C0 E0
-74 40
-C0 E0
-12 addr16(_sprintf;)  
-E5 81
-24 FA
-F5 81
-75 data8(_LCDprint_PARM_2;) 02
-D2 bit(_LCDprint_PARM_3;)
-90 data16(_main_buffer_1_177;)  
-75 F0 40
-12 addr16(_LCDprint;)  
-D0 03
-D0 02
-E5 data8(_mode;)
-70 rel2(L040012?;)
-C0 02
-C0 03
-74 data8(__str_16;)
-C0 E0
-74 data8(__str_16;0x0008;>>;)
 C0 E0
 74 80
 C0 E0
@@ -2001,9 +1974,9 @@ C0 06
 C0 07
 C0 04
 C0 05
-74 data8(__str_17;)
+74 data8(__str_16;)
 C0 E0
-74 data8(__str_17;0x0008;>>;)
+74 data8(__str_16;0x0008;>>;)
 C0 E0
 74 80
 C0 E0
@@ -2120,8 +2093,6 @@ D0 02
 0A
 00
 52 65 61 64 79 
-00
-54 65 73 74 20 70 72 69 6E 74 
 00
 45 6E 74 65 72 20 63 6F 6D 6D 61 6E 64 3A 20 
 0D
