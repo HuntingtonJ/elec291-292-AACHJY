@@ -21,8 +21,10 @@
 
 #define SPEED_OP 		0b000
 #define DIRECTION_OP 	0b001
-#define GRAB_OP 		0b001
-#define LIGHTS_OP		0b010
+#define GRAB_OP 		0b010
+#define LIGHTS_OP		0b011
+
+#define STOP_OP			0b111
 
 bit reload_flag = 0;
 
