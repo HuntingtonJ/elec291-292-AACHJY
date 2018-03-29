@@ -1,6 +1,8 @@
 ubc\aacjhy\realbot\Midi_Window.class
-ubc\aacjhy\realbot\Main_Window.class
+ubc\aacjhy\realbot\Controller_Window.class
 ubc\aacjhy\realbot\Console_Window.class
-ubc\aacjhy\realbot\Midi_Note.class
 ubc\aacjhy\realbot\main.class
+ubc\aacjhy\realbot\Main_Window.class
+ubc\aacjhy\realbot\Midi_Note.class
+ubc\aacjhy\realbot\Button.class
 ubc\aacjhy\realbot\Window.class

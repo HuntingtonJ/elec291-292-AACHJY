@@ -12,11 +12,14 @@ public class Button {
     private PVector position;
     private PVector dimension;
 
+    private boolean pressed = false;
+
     private boolean stroke_flag = true; //enables stroke
     private int s_w = 2;                //stroke weight+
     private PVector stroke_c = new PVector(200, 200, 200);
 
     private PVector fill_c = new PVector(100, 100, 100);
+    private PVector fill_c_pressed = new PVector(130, 130, 130);
 
     public Button(PApplet p, Window win, String l, int x, int y, int w, int h) {
         this.p = p;
@@ -37,7 +40,13 @@ public class Button {
             p.noStroke();
         }
 
-        p.fill(fill_c.x, fill_c.y, fill_c.z);
+        if (isPressed()) {
+            p.strokeWeight(s_w + 2);
+            p.fill(fill_c_pressed.x, fill_c_pressed.y, fill_c_pressed.z);
+        } else {
+            p.strokeWeight(s_w);
+            p.fill(fill_c.x, fill_c.y, fill_c.z);
+        }
 
         p.rect(window.getX() + position.x, window.getY() + position.y, dimension.x, dimension.y);
         p.fill(stroke_c.x, stroke_c.y, stroke_c.z);
@@ -68,7 +77,15 @@ public class Button {
         return (int)dimension.y;
     }
 
+    public boolean isPressed() {
+        return pressed;
+    }
+
     public void pressed() {
-        
+        pressed = true;
+    }
+
+    public void released() {
+        pressed = false;
     }
 }

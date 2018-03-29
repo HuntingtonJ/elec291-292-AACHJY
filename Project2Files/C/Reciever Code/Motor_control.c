@@ -50,16 +50,7 @@ int getsn (char * buff, int len)
 
 void Timer1ISR(void) 
 {
-	TIM1_SR &= ~BIT0; // clear update interrupt flag
-		
-	// pwm_count++;
-	// if(pwm_count>100) pwm_count=0;
-	
-	// Mot1_forward=pwm_count>number1?0:1;
-	// Mot1_reverse=pwm_count>number2?0:1;
-
-	// Mot2_forward=pwm_count>number3?0:1;
-	// Mot2_reverse=pwm_count>number4?0:1;	
+	TIM1_SR &= ~BIT0; // clear update interrupt flag	
     
     TogglePins(); // toggle the state of the LED every second  
 }
