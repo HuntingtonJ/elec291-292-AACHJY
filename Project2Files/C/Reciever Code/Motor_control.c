@@ -1,17 +1,17 @@
 #include  "stm32f05xxx.h"
 #include "Motor_control.h"
 
-unsigned char count = 0;
-unsigned char duty_cycleLF = 75; //Left wheel forward
-unsigned char duty_cycleLR = 0;  //Left wheel reverse (default 0)
-unsigned char duty_cycleRF = 25; //Right wheel forward
-unsigned char duty_cycleRR = 0;  //Right wheel reverse
+volatile unsigned char count = 0;
+volatile unsigned char duty_cycleLF = 75; //Left wheel forward
+volatile unsigned char duty_cycleLR = 0;  //Left wheel reverse (default 0)
+volatile unsigned char duty_cycleRF = 25; //Right wheel forward
+volatile unsigned char duty_cycleRR = 0;  //Right wheel reverse
 
 // volatile unsigned char pwm_count=0;
-// volatile unsigned char number1=0;
-// volatile unsigned char number2=0; 
-// volatile unsigned char number3=0;
-// volatile unsigned char number4=0; 
+// volatile unsigned char duty_cycleLF=0;
+// volatile unsigned char duty_cycleLR=0; 
+// volatile unsigned char duty_cycleRF=0;
+// volatile unsigned char duty_cycleRR=0; 
 
 
 // #define Mot1_forward P1_6
@@ -19,12 +19,48 @@ unsigned char duty_cycleRR = 0;  //Right wheel reverse
 // #define Mot2_forward P1_3
 // #define Mot2_reverse P1_4
 
-// #define north 'w'
-// #define south 's'
-// #define west    'a'
-// #define east   'd'
-// #define NW      'e'
-// #define NE      'q'
+#define ON 	1
+#define OFF 0
+
+//-10 to 10
+#define north 0b00000//'a'
+#define south 0b00001// 'b'
+//10 to 30 
+#define NNE 0b00010//'c'//00010
+#define NNW 0b00011//'d'//00011
+//parameters to change motor driving ratios 
+#define NNnum 
+
+//30 to 50
+#define NE 0b00100//	'e'//00100
+#define NW 0b00101 // 'f'//00101
+//parameters to change motor driving ratios 
+#define midnum 2
+#define middenom 3
+
+//50 to 70 
+#define NEE 0b00110 //'g'//00110
+#define NWW 0b00111 //'h'//00111
+//#define 
+
+//70 to 90
+#define east 0b01000  //'i'//01000
+#define west 0b01001 //'j'//01001
+
+//south directions: 
+//10 to 30 
+#define SSE 0b01010//'k'//01010
+#define SSW 0b01011 //'l'//01011
+//30 to 50
+#define SE 	0b01100 //'m'//01100
+#define SW  0b01101 //'n'//01101
+
+//50 to 70 
+#define SEE 0b01110 //'o'//01110
+#define SWW 0b01111 //'p'//01111
+
+//Unknow OP recieved, drive function goes stationary 
+#define uknownOP 0b11111
 
 int getsn (char * buff, int len)
 {
@@ -50,27 +86,40 @@ int getsn (char * buff, int len)
 
 void Timer1ISR(void) 
 {
+<<<<<<< HEAD
 	TIM1_SR &= ~BIT0; // clear update interrupt flag	
+=======
+	TIM1_SR &= ~BIT0; // clear update interrupt flag
+		
+	// pwm_count++;
+	// if(pwm_count>100) pwm_count=0;
+	
+	// Mot1_forward=pwm_count>duty_cycleLF?0:1;
+	// Mot1_reverse=pwm_count>duty_cycleLR?0:1;
+
+	// Mot2_forward=pwm_count>duty_cycleRF?0:1;
+	// Mot2_reverse=pwm_count>duty_cycleRR?0:1;	
+>>>>>>> 0058459bf41386d0117071ae9bac42d68ff7f0bd
     
     TogglePins(); // toggle the state of the LED every second  
 }
 
 void TogglePins(void) 
 {    
-	if (count == duty_cycleLF) {
-		GPIOA_ODR &= ~( BIT4 );
+	if (count >= duty_cycleLF) {
+		GPIOA_ODR ^= BIT4;	//&= ~( BIT4 );
 	} 
 	
-	if (count == duty_cycleLR) {
-		GPIOA_ODR &= ~( BIT5 );
+	if (count >= duty_cycleLR) {
+		GPIOA_ODR ^= BIT5;	//&= ~( BIT5 );
 	}
 	
-	if (count == duty_cycleRF) {
-		GPIOA_ODR &= ~( BIT6 );
+	if (count >= duty_cycleRF) {
+		GPIOA_ODR ^= BIT6;	//&= ~( BIT6 );
 	}
 	
-	if (count == duty_cycleRR) {
-		GPIOA_ODR &= ~( BIT7 );
+	if (count >= duty_cycleRR) {
+		GPIOA_ODR ^= BIT7;	//&= ~( BIT7 );
 	}
 	
 	if (count == 100) {
@@ -81,57 +130,279 @@ void TogglePins(void)
 	}	
 }
 
-// void go_straight(char speed){
-// 	//Let the speed will become the duty of both motors equally
-// 	number1=speed;
-// 	number3=speed;
-// 	number2=0;
-// 	number4=0;
-// 	}
+//a function that describes going straight
+void go_straight(char speed){
+				//Let the speed will become the duty of both motors equally
+	 			duty_cycleLF=speed;
+		 		duty_cycleRF=speed;
+		 		duty_cycleLR=0;
+		 		duty_cycleRR=0;
+		
+	 		}
 
-// void go_reverse(char speed){
-// 	//Let the speed will become the duty of both motors equally
-// 	number1=0;
-// 	number3=0;
-// 	number2=speed;
-// 	number4=speed;
-// 	}
+void go_reverse(char speed){
+				//Let the speed will become the duty of both motors equally
+	 			duty_cycleLF=0;
+		 		duty_cycleRF=0;
+		 		duty_cycleLR=speed;
+		 		duty_cycleRR=speed;
+		
+	 		}
 
-// void turn_west(char speed){
-// 	//Let the speed will become the duty of both motors equally
-//     number1=0;
-// 	number3=speed;
-// 	number2=speed;
-// 	number4=0;
-// 	}
+void turn_west(char speed ){
+				//Let the speed will become the duty of both motors equally
 
-// void turn_east(char speed){
-// 	//Let the speed will become the duty of both motors equally
-// 	number1=speed;
-// 	number3=0;
-// 	number2=0;
-// 	number4=speed;
-// 	}
+	 			duty_cycleLF=0;
+		 		duty_cycleRF=speed;
+		 		duty_cycleLR=speed;
+		 		duty_cycleRR=0;
+		
+	 		}
+void turn_east(char speed){
+				//Let the speed will become the duty of both motors equally
+	 			duty_cycleLF=speed;
+		 		duty_cycleRF=0;
+		 		duty_cycleLR=0;
+		 		duty_cycleRR=speed;
+		
+	 		}
 
-// void turn_NW(char speed){
-// 	//Let the speed will become the duty of both motors equally
-// 	number1=speed;
-// 	number3=speed/2;
-// 	number2=0;
-// 	number4=0;
-// 	}
+void turn_NW(char speed){
+				//Let the speed will become the duty of both motors equally
+	 			duty_cycleLF=speed/3;
+		 		duty_cycleRF=speed*2;
+		 		duty_cycleLR=0;
+		 		duty_cycleRR=0;
+		
+	 		}
 
-// void turn_NE(char speed){
-// 	//Let the speed will become the duty of both motors equally
-// 	number1=speed/2;
-// 	number3=speed;
-// 	number2=0;
-// 	number4=0;
-// 	}
+void turn_NE(char speed){
+				//Let the speed will become the duty of both motors equally
+	 			duty_cycleLF=speed*2;
+		 		duty_cycleRF=speed/3;
+		 		duty_cycleLR=0;
+		 		duty_cycleRR=0;
+	 		}
 
-// void stop(){
-    // number1=0;
-	// number2=0;
-	// number3=0;
-	// number4=0;
-	// }
+void turn_NNE(char speed){
+				duty_cycleLF=speed;
+		 		duty_cycleRF=speed/2;
+		 		duty_cycleLR=0;
+		 		duty_cycleRR=0;
+			}
+
+void turn_NNW(char speed){
+				duty_cycleLF=speed/2;
+		 		duty_cycleRF=speed;
+		 		duty_cycleLR=0;
+		 		duty_cycleRR=0;
+			}
+
+void turn_NEE(char speed){
+				duty_cycleLF=speed;
+		 		duty_cycleRF=speed/5;
+		 		duty_cycleLR=0;
+		 		duty_cycleRR=0;
+			}
+
+void turn_NWW(char speed){
+				duty_cycleLF=speed/5;
+		 		duty_cycleRF=speed;
+		 		duty_cycleLR=0;
+		 		duty_cycleRR=0;
+			}
+
+void turn_SW(char speed){
+//Let the speed will become the duty of both motors equally
+	duty_cycleLF=0;
+	duty_cycleRF=0;
+	duty_cycleLR=speed/3;
+	duty_cycleRR=speed;
+
+}
+
+
+void turn_SE(char speed){
+				//Let the speed will become the duty of both motors equally
+	 			duty_cycleLF=0;
+		 		duty_cycleRF=0;
+		 		duty_cycleLR=speed;
+		 		duty_cycleRR=speed/3;
+	 		}
+
+void turn_SSE(char speed){
+				duty_cycleLF=0;
+		 		duty_cycleRF=0;
+		 		duty_cycleLR=speed;
+		 		duty_cycleRR=speed/2;
+			}
+
+void turn_SSW(char speed){
+				duty_cycleLF=0;
+		 		duty_cycleRF=0;
+		 		duty_cycleLR=speed/2;
+		 		duty_cycleRR=speed;
+			}
+
+void turn_SEE(char speed){
+				duty_cycleLF=0;
+		 		duty_cycleRF=0;
+		 		duty_cycleLR=speed;
+		 		duty_cycleRR=speed/5;
+			}
+
+void turn_SWW(char speed){
+				duty_cycleLF=0;
+		 		duty_cycleRF=0;
+		 		duty_cycleLR=speed/5;
+		 		duty_cycleRR=speed;
+			}
+
+
+	void stop(){
+			duty_cycleLF=0;
+			duty_cycleLR=0;
+			duty_cycleRF=0;
+			duty_cycleRR=0;
+			}
+
+void drive(unsigned char speed, unsigned char direction){
+
+			switch(direction){
+
+			case north :
+					{
+						go_straight(speed);
+						printf("carson likes fish\r\n");
+						//headlight=ON;
+						//taillight=OFF;
+						break;
+					}
+
+			case south: 
+				{
+					go_reverse(speed);
+					printf("go reverse\n");
+					//headlight=ON;
+					//taillight=ON;
+					break;
+				}
+
+			case west: 
+				{
+					turn_west(speed);
+					printf("turn west\n");
+					break;
+				}
+
+			case east: 
+				{
+					turn_east(speed);
+					printf("turn east\n");
+					break;
+				}
+
+			case NW: 
+				{
+					turn_NW(speed);
+					printf("turn nw\n");
+					break;
+
+				}
+
+			case NNE: 
+				{ 
+					turn_NNE(speed);
+					printf("turn nne\n");
+					break;
+					}
+
+			case NNW: 
+				{ 
+					turn_NNW(speed);
+					printf("turn nnw\n");
+					break;
+					}
+
+			case NE: 
+				{ 
+					turn_NE(speed);
+					printf("turn ne\n");
+					break;
+					}
+
+			case NEE: 
+				{ 
+					turn_NEE(speed);
+					printf("turn nee\n");
+					break;
+					}
+
+			case NWW: 
+				{ 
+					turn_NWW(speed);
+					printf("turn nww\n");
+					break;
+					}
+
+
+			case SW: 
+				{
+					turn_SW(speed);
+					printf("turn sw\n");
+					break;
+
+				}
+
+			case SSE: 
+				{ 
+					turn_SSE(speed);
+					printf("turn sse\n");
+					break;
+					}
+
+			case SSW: 
+				{ 
+					turn_SSW(speed);
+					printf("turn ssw\n");
+					break;
+					}
+
+			case SE: 
+				{ 
+					turn_SE(speed);
+					printf("turn se\n");
+					break;
+					}
+
+			case SEE: 
+				{ 
+					turn_SEE(speed);
+					printf("turn see\n");
+					break;
+					}
+
+			case SWW: 
+				{ 
+					turn_SWW(speed);
+					printf("turn sww\n");
+					break;
+					}
+			case uknownOP:
+				{
+					printf("Drive Stationary\r\n");
+					stop();
+					break;
+				}
+			
+			default: 
+				{
+					stop();
+					direction='x';
+					printf("default\r\n");
+					break;
+				}
+
+		}
+}
+

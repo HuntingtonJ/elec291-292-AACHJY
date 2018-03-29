@@ -12,8 +12,9 @@
 
 volatile unsigned bit offset_flag=1;
 volatile unsigned bit speedbit=1;
+volatile unsigned bit  Z_but=0;
 
-volatile unsigned char mode = 0;
+volatile unsigned char mode = 1;
 
 char _c51_external_startup (void)
 {
@@ -128,6 +129,7 @@ void main(void) {
 	int off_x=0;
 	int off_y=0;
 	offset_flag=1;
+	
 
 	Tcom_init(110L); //enter baudrate for UART1
 	LCD_4BIT();
@@ -156,26 +158,36 @@ void main(void) {
 	// printf("\x1b[2J\x1b[1;1H"); // Clear screen using ANSI escape sequence.
 	// printf("\n\nEFM8LB1 WII Nunchuck I2C Reader\n");
 	while(1) {
-		sprintf(buffer, "Test print");
-		LCDprint(buffer, 2, 1);
+		//sprintf(buffer, "Test print");
+		//LCDprint(buffer, 2, 1);
 	
 		if (mode == 0) {
 			printf("Enter command: \r\n");
 			getsn(buffer, CHARS_PER_LINE);
 			getCommand(buffer); //after use, is clear, only used within functions
-		} else if (mode == 1) {
-			read_nunchuck(&direction, &speed, buffer, off_x, off_y);
+
+		} else if ((mode == 1)) {
+		Z_but=read_nunchuck(&direction, &speed, buffer, off_x, off_y);
+
+			printf("Z_but: %i", Z_but);
 		
+		if(Z_but==0){ 
 			if(speedbit){
 				sendCommand(SPEED_OP, speed);
+				printf("yesssss\n\n");
 				speedbit=0;
-			} else {
+			} 
+			else {
+				printf("dirrrrrrrrr: %i \n\n", direction);
 				sendCommand(DIRECTION_OP, direction);
 				speedbit=1;
+				
 				//printf("3\n\r");
 			}
-		
-			printf("direction: %c   speed: %c \n", direction, speed);
+		}
+		//	mode=0;
+			printf("direction: %d   speed: %d \n", direction, speed);
+		//	printf("\x1b[2J");
 		}
 	}	
 }
