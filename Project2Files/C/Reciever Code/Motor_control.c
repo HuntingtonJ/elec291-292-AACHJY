@@ -1,11 +1,11 @@
 #include  "stm32f05xxx.h"
 #include "Motor_control.h"
 
-unsigned char count = 0;
-unsigned char duty_cycleLF = 75; //Left wheel forward
-unsigned char duty_cycleLR = 0;  //Left wheel reverse (default 0)
-unsigned char duty_cycleRF = 25; //Right wheel forward
-unsigned char duty_cycleRR = 0;  //Right wheel reverse
+volatile unsigned char count = 0;
+volatile unsigned char duty_cycleLF = 75; //Left wheel forward
+volatile unsigned char duty_cycleLR = 0;  //Left wheel reverse (default 0)
+volatile unsigned char duty_cycleRF = 25; //Right wheel forward
+volatile unsigned char duty_cycleRR = 0;  //Right wheel reverse
 
 // volatile unsigned char pwm_count=0;
 // volatile unsigned char duty_cycleLF=0;
@@ -59,6 +59,9 @@ unsigned char duty_cycleRR = 0;  //Right wheel reverse
 #define SEE 0b01110 //'o'//01110
 #define SWW 0b01111 //'p'//01111
 
+//Unknow OP recieved, drive function goes stationary 
+#define uknownOP 0b11111
+
 int getsn (char * buff, int len)
 {
 	int j;
@@ -99,20 +102,20 @@ void Timer1ISR(void)
 
 void TogglePins(void) 
 {    
-	if (count == duty_cycleLF) {
-		GPIOA_ODR &= ~( BIT4 );
+	if (count >= duty_cycleLF) {
+		GPIOA_ODR ^= BIT4;	//&= ~( BIT4 );
 	} 
 	
-	if (count == duty_cycleLR) {
-		GPIOA_ODR &= ~( BIT5 );
+	if (count >= duty_cycleLR) {
+		GPIOA_ODR ^= BIT5;	//&= ~( BIT5 );
 	}
 	
-	if (count == duty_cycleRF) {
-		GPIOA_ODR &= ~( BIT6 );
+	if (count >= duty_cycleRF) {
+		GPIOA_ODR ^= BIT6;	//&= ~( BIT6 );
 	}
 	
-	if (count == duty_cycleRR) {
-		GPIOA_ODR &= ~( BIT7 );
+	if (count >= duty_cycleRR) {
+		GPIOA_ODR ^= BIT7;	//&= ~( BIT7 );
 	}
 	
 	if (count == 100) {
@@ -253,7 +256,6 @@ void turn_SWW(char speed){
 
 
 	void stop(){
-
 			duty_cycleLF=0;
 			duty_cycleLR=0;
 			duty_cycleRF=0;
@@ -267,6 +269,7 @@ void drive(unsigned char speed, unsigned char direction){
 			case north :
 					{
 						go_straight(speed);
+						printf("carson likes fish\r\n");
 						//headlight=ON;
 						//taillight=OFF;
 						break;
@@ -275,6 +278,7 @@ void drive(unsigned char speed, unsigned char direction){
 			case south: 
 				{
 					go_reverse(speed);
+					printf("go reverse\n");
 					//headlight=ON;
 					//taillight=ON;
 					break;
@@ -283,18 +287,21 @@ void drive(unsigned char speed, unsigned char direction){
 			case west: 
 				{
 					turn_west(speed);
+					printf("turn west\n");
 					break;
 				}
 
 			case east: 
 				{
 					turn_east(speed);
+					printf("turn east\n");
 					break;
 				}
 
 			case NW: 
 				{
 					turn_NW(speed);
+					printf("turn nw\n");
 					break;
 
 				}
@@ -302,30 +309,35 @@ void drive(unsigned char speed, unsigned char direction){
 			case NNE: 
 				{ 
 					turn_NNE(speed);
+					printf("turn nne\n");
 					break;
 					}
 
 			case NNW: 
 				{ 
 					turn_NNW(speed);
+					printf("turn nnw\n");
 					break;
 					}
 
 			case NE: 
 				{ 
 					turn_NE(speed);
+					printf("turn ne\n");
 					break;
 					}
 
 			case NEE: 
 				{ 
 					turn_NEE(speed);
+					printf("turn nee\n");
 					break;
 					}
 
 			case NWW: 
 				{ 
 					turn_NWW(speed);
+					printf("turn nww\n");
 					break;
 					}
 
@@ -333,6 +345,7 @@ void drive(unsigned char speed, unsigned char direction){
 			case SW: 
 				{
 					turn_SW(speed);
+					printf("turn sw\n");
 					break;
 
 				}
@@ -340,38 +353,49 @@ void drive(unsigned char speed, unsigned char direction){
 			case SSE: 
 				{ 
 					turn_SSE(speed);
+					printf("turn sse\n");
 					break;
 					}
 
 			case SSW: 
 				{ 
 					turn_SSW(speed);
+					printf("turn ssw\n");
 					break;
 					}
 
 			case SE: 
 				{ 
 					turn_SE(speed);
+					printf("turn se\n");
 					break;
 					}
 
 			case SEE: 
 				{ 
 					turn_SEE(speed);
+					printf("turn see\n");
 					break;
 					}
 
 			case SWW: 
 				{ 
 					turn_SWW(speed);
+					printf("turn sww\n");
 					break;
 					}
-
-
+			case uknownOP:
+				{
+					printf("Drive Stationary\r\n");
+					stop();
+					break;
+				}
+			
 			default: 
 				{
 					stop();
 					direction='x';
+					printf("default\r\n");
 					break;
 				}
 

@@ -70,27 +70,6 @@
 #define SEE 'o'//01110
 #define SWW 'p'//01111
 
-
-//SPEED CONSTANTS to SEND: 
-
-#define speed0 'a' //00000
-#define speed1 'b' //00001
-#define speed2 'c' //00010
-#define speed3 'd' //00011
-#define speed4 'e' //00100
-#define speed5 'f' //00101
-#define speed6 'g' //00110
-#define speed7 'h' //00111
-#define speed8 'i' //01000
-#define speed9 'j' //01001
-#define speed10 'k' //01010
-#define speed11 'l' //01011
-#define speed12 'm' //01100
-#define speed13 'n' //01101
-#define speed14 'o' //01110
-#define speed15 'p' //01111
-#define speed16 'q' //10000
-
 #define TRANSMISSION_SIZE 4
 
 //#define 

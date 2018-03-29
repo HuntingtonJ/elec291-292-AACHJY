@@ -1,7 +1,11 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
+<<<<<<< HEAD
 ; This file was generated Thu Mar 29 15:05:40 2018
+=======
+; This file was generated Thu Mar 29 14:01:35 2018
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 ;--------------------------------------------------------
 $name Transmitter_src
 $optc51 --model-small
@@ -63,7 +67,10 @@ $optc51 --model-small
 	public _getchar1
 	public _putchar1
 	public _UART1_Init
+<<<<<<< HEAD
 	public _Z_but
+=======
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	public _speedbit
 	public _offset_flag
 	public _nunchuck_init_PARM_1
@@ -560,6 +567,15 @@ _read_nunchuck_PARM_5:
 	ds 2
 _read_nunchuck_direction_1_167:
 	ds 3
+<<<<<<< HEAD
+=======
+_read_nunchuck_joy_x_1_168:
+	ds 1
+_read_nunchuck_joy_y_1_168:
+	ds 1
+_read_nunchuck_sloc0_1_0:
+	ds 1
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 _mode:
 	ds 1
 _getsn_PARM_2:
@@ -605,14 +621,23 @@ _LCDprint_PARM_3:
 	DBIT	1
 _nunchuck_init_PARM_1:
 	DBIT	1
+<<<<<<< HEAD
 _read_nunchuck_Z_but_1_168:
+=======
+_read_nunchuck_but1_1_168:
+	DBIT	1
+_read_nunchuck_but2_1_168:
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	DBIT	1
 _offset_flag:
 	DBIT	1
 _speedbit:
 	DBIT	1
+<<<<<<< HEAD
 _Z_but:
 	DBIT	1
+=======
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 ;--------------------------------------------------------
 ; paged external ram data
 ;--------------------------------------------------------
@@ -659,7 +684,11 @@ _Z_but:
 ;	Tcom.h:30: unsigned int reload4 = 65109;
 	mov	_reload4,#0x55
 	mov	(_reload4 + 1),#0xFE
+<<<<<<< HEAD
 ;	Transmitter_src.c:17: volatile unsigned char mode = 1;
+=======
+;	Transmitter_src.c:16: volatile unsigned char mode = 1;
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	_mode,#0x01
 ;	Tcom.h:28: volatile bit reload_flag = 0;
 	clr	_reload_flag
@@ -667,8 +696,11 @@ _Z_but:
 	setb	_offset_flag
 ;	Transmitter_src.c:14: volatile unsigned bit speedbit=1;
 	setb	_speedbit
+<<<<<<< HEAD
 ;	Transmitter_src.c:15: volatile unsigned bit  Z_but=0;
 	clr	_Z_but
+=======
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	; The linker places a 'ret' at the end of segment R_DINIT.
 ;--------------------------------------------------------
 ; code
@@ -957,7 +989,11 @@ L011009?:
 	mov	a,#0x100 - 0x20
 	add	a,_sendCommand_PARM_2
 	jc	L011002?
+<<<<<<< HEAD
 ;	Tcom.h:112: putchar1(op*0b_100000 + value); // This code is problematic as it multiplies 32 by our value..... Temporary fix is to subtract 31 from our direction on receiver side. 
+=======
+;	Tcom.h:112: putchar1(op*0b_100000 + value);
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	a,r2
 	swap	a
 	rl	a
@@ -2712,10 +2748,18 @@ L036085?:
 ;off_x                     Allocated with name '_read_nunchuck_PARM_4'
 ;off_y                     Allocated with name '_read_nunchuck_PARM_5'
 ;direction                 Allocated with name '_read_nunchuck_direction_1_167'
+<<<<<<< HEAD
 ;joy_x                     Allocated to registers r0 
 ;joy_y                     Allocated to registers r1 
 ;------------------------------------------------------------
 ;	Nunchuck_reader.h:346: bit read_nunchuck(char * direction, char * speed, char * rbuf, int off_x, int off_y)
+=======
+;joy_x                     Allocated with name '_read_nunchuck_joy_x_1_168'
+;joy_y                     Allocated with name '_read_nunchuck_joy_y_1_168'
+;sloc0                     Allocated with name '_read_nunchuck_sloc0_1_0'
+;------------------------------------------------------------
+;	Nunchuck_reader.h:346: void read_nunchuck(char * direction, char * speed, char * rbuf, int off_x, int off_y)
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 ;	-----------------------------------------
 ;	 function read_nunchuck
 ;	-----------------------------------------
@@ -2744,10 +2788,18 @@ _read_nunchuck:
 	subb	a,acc
 	mov	a,r0
 	add	a,#0x80
+<<<<<<< HEAD
 	mov	r1,_read_nunchuck_PARM_4
 	clr	c
 	subb	a,r1
 	mov	r0,a
+=======
+	mov	r0,a
+	mov	r1,_read_nunchuck_PARM_4
+	clr	c
+	subb	a,r1
+	mov	_read_nunchuck_joy_x_1_168,a
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 ;	Nunchuck_reader.h:372: joy_y=(int)rbuf[1]-128-off_y;
 	mov	a,#0x01
 	add	a,r5
@@ -2765,11 +2817,20 @@ _read_nunchuck:
 	subb	a,acc
 	mov	a,r1
 	add	a,#0x80
+<<<<<<< HEAD
 	mov	r2,_read_nunchuck_PARM_5
 	clr	c
 	subb	a,r2
 	mov	r1,a
 ;	Nunchuck_reader.h:377: Z_but=(rbuf[5] & 0x01)?1:0;
+=======
+	mov	r1,a
+	mov	r2,_read_nunchuck_PARM_5
+	clr	c
+	subb	a,r2
+	mov	_read_nunchuck_joy_y_1_168,a
+;	Nunchuck_reader.h:377: but1=(rbuf[5] & 0x01)?1:0;
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	a,#0x05
 	add	a,r5
 	mov	r5,a
@@ -2780,6 +2841,7 @@ _read_nunchuck:
 	mov	dph,r6
 	mov	b,r7
 	lcall	__gptrget
+<<<<<<< HEAD
 	rrc	a
 	mov	_read_nunchuck_Z_but_1_168,c
 ;	Nunchuck_reader.h:388: waitms(100); //determine if we want to change this length
@@ -2798,6 +2860,74 @@ _read_nunchuck:
 	mov	r2,dpl
 	pop	ar1
 	pop	ar0
+=======
+	mov	r5,a
+	rrc	a
+	mov	_read_nunchuck_but1_1_168,c
+;	Nunchuck_reader.h:378: but2=(rbuf[5] & 0x02)?1:0;
+	mov	a,r5
+	mov	c,acc.1
+	mov	_read_nunchuck_but2_1_168,c
+;	Nunchuck_reader.h:387: but1?'1':'0', but2?'1':'0', joy_x, joy_y);
+	mov	a,_read_nunchuck_joy_y_1_168
+	mov	r3,a
+	rlc	a
+	subb	a,acc
+	mov	r4,a
+	mov	a,_read_nunchuck_joy_x_1_168
+	mov	r5,a
+	rlc	a
+	subb	a,acc
+	mov	r6,a
+	jnb	_read_nunchuck_but2_1_168,L037003?
+	mov	r7,#0x31
+	sjmp	L037004?
+L037003?:
+	mov	r7,#0x30
+L037004?:
+	mov	a,r7
+	rlc	a
+	subb	a,acc
+	mov	r1,a
+	jnb	_read_nunchuck_but1_1_168,L037005?
+	mov	_read_nunchuck_sloc0_1_0,#0x31
+	sjmp	L037006?
+L037005?:
+	mov	_read_nunchuck_sloc0_1_0,#0x30
+L037006?:
+	mov	a,_read_nunchuck_sloc0_1_0
+	mov	r2,a
+	rlc	a
+	subb	a,acc
+	mov	r0,a
+;	Nunchuck_reader.h:386: printf("Buttons(Z:%c, C:%c) Joystick(%4d, %4d)\r",
+	push	ar3
+	push	ar4
+	push	ar5
+	push	ar6
+	push	ar7
+	push	ar1
+	push	ar2
+	push	ar0
+	mov	a,#__str_11
+	push	acc
+	mov	a,#(__str_11 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	mov	a,sp
+	add	a,#0xf5
+	mov	sp,a
+;	Nunchuck_reader.h:388: waitms(100); //determine if we want to change this length
+	mov	dptr,#0x0064
+	lcall	_waitms
+;	Nunchuck_reader.h:393: *direction=get_direction(joy_x, joy_y);
+	mov	_get_direction_PARM_2,_read_nunchuck_joy_y_1_168
+	mov	dpl,_read_nunchuck_joy_x_1_168
+	lcall	_get_direction
+	mov	r2,dpl
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	dpl,_read_nunchuck_direction_1_167
 	mov	dph,(_read_nunchuck_direction_1_167 + 1)
 	mov	b,(_read_nunchuck_direction_1_167 + 2)
@@ -2807,8 +2937,13 @@ _read_nunchuck:
 	mov	r2,_read_nunchuck_PARM_2
 	mov	r3,(_read_nunchuck_PARM_2 + 1)
 	mov	r4,(_read_nunchuck_PARM_2 + 2)
+<<<<<<< HEAD
 	mov	_get_speed_PARM_2,r1
 	mov	dpl,r0
+=======
+	mov	_get_speed_PARM_2,_read_nunchuck_joy_y_1_168
+	mov	dpl,_read_nunchuck_joy_x_1_168
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	push	ar2
 	push	ar3
 	push	ar4
@@ -2821,19 +2956,28 @@ _read_nunchuck:
 	mov	dph,r3
 	mov	b,r4
 	mov	a,r5
+<<<<<<< HEAD
 	lcall	__gptrput
 ;	Nunchuck_reader.h:396: return Z_but;
 	mov	c,_read_nunchuck_Z_but_1_168
 	ret
+=======
+	ljmp	__gptrput
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 ;------------------------------------------------------------
 ;Allocation info for local variables in function '_c51_external_startup'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
+<<<<<<< HEAD
 ;	Transmitter_src.c:19: char _c51_external_startup (void)
+=======
+;	Transmitter_src.c:18: char _c51_external_startup (void)
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 ;	-----------------------------------------
 ;	 function _c51_external_startup
 ;	-----------------------------------------
 __c51_external_startup:
+<<<<<<< HEAD
 ;	Transmitter_src.c:23: SFRPAGE = 0x00;
 	mov	_SFRPAGE,#0x00
 ;	Transmitter_src.c:24: WDTCN = 0xDE; //First key
@@ -2902,6 +3046,76 @@ L038004?:
 ;	Transmitter_src.c:96: SMB0CF |= 0b_1000_0000;  // Enable SMBus
 	orl	_SMB0CF,#0x80
 ;	Transmitter_src.c:99: return 0;
+=======
+;	Transmitter_src.c:22: SFRPAGE = 0x00;
+	mov	_SFRPAGE,#0x00
+;	Transmitter_src.c:23: WDTCN = 0xDE; //First key
+	mov	_WDTCN,#0xDE
+;	Transmitter_src.c:24: WDTCN = 0xAD; //Second key
+	mov	_WDTCN,#0xAD
+;	Transmitter_src.c:26: VDM0CN |= 0x80;  // enable VDD mon
+	orl	_VDM0CN,#0x80
+;	Transmitter_src.c:27: RSTSRC = 0x02;
+	mov	_RSTSRC,#0x02
+;	Transmitter_src.c:34: SFRPAGE = 0x10;
+	mov	_SFRPAGE,#0x10
+;	Transmitter_src.c:35: PFE0CN  = 0x20; // SYSCLK < 75 MHz.
+	mov	_PFE0CN,#0x20
+;	Transmitter_src.c:36: SFRPAGE = 0x00;
+	mov	_SFRPAGE,#0x00
+;	Transmitter_src.c:57: CLKSEL = 0x00;
+	mov	_CLKSEL,#0x00
+;	Transmitter_src.c:58: CLKSEL = 0x00;
+	mov	_CLKSEL,#0x00
+;	Transmitter_src.c:59: while ((CLKSEL & 0x80) == 0);
+L038001?:
+	mov	a,_CLKSEL
+	jnb	acc.7,L038001?
+;	Transmitter_src.c:60: CLKSEL = 0x03;
+	mov	_CLKSEL,#0x03
+;	Transmitter_src.c:61: CLKSEL = 0x03;
+	mov	_CLKSEL,#0x03
+;	Transmitter_src.c:62: while ((CLKSEL & 0x80) == 0);
+L038004?:
+	mov	a,_CLKSEL
+	jnb	acc.7,L038004?
+;	Transmitter_src.c:73: SCON0 = 0x10;
+	mov	_SCON0,#0x10
+;	Transmitter_src.c:74: CKCON0 |= 0b_0000_0000 ; // Timer 1 uses the system clock divided by 12.
+	mov	_CKCON0,_CKCON0
+;	Transmitter_src.c:75: TH1 = 0x100-((SYSCLK/BAUDRATE)/(2L*12L));
+	mov	_TH1,#0xE6
+;	Transmitter_src.c:76: TL1 = TH1;      // Init Timer1
+	mov	_TL1,_TH1
+;	Transmitter_src.c:77: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit auto-reload
+	anl	_TMOD,#0x0F
+;	Transmitter_src.c:78: TMOD |=  0x20;                       
+	orl	_TMOD,#0x20
+;	Transmitter_src.c:79: TR1 = 1; // START Timer1
+	setb	_TR1
+;	Transmitter_src.c:80: TI = 1;  // Indicate TX0 ready
+	setb	_TI
+;	Transmitter_src.c:82: P0MDOUT |= 0x14; // Enable UART0 TX as push-pull output and UART1 Tx (pin 0.2)
+	orl	_P0MDOUT,#0x14
+;	Transmitter_src.c:83: P1MDOUT |= 0xff; // Enable Push/Pull on port 1
+	mov	a,_P1MDOUT
+	mov	_P1MDOUT,#0xFF
+;	Transmitter_src.c:85: XBR0     = 0b_0000_0101; // Enable UART0 on P0.4(TX) and P0.5(RX) and SMB0 I/O on (0.0 SDA) and (0.1 SCL)               
+	mov	_XBR0,#0x05
+;	Transmitter_src.c:86: XBR1     = 0x00; // Enable T0 on P0.0
+	mov	_XBR1,#0x00
+;	Transmitter_src.c:87: XBR2     = 0x41; // Enable crossbar and weak pull-ups .... (page 110) may need to set BIT0 to enable UART1 IO (0.2 Tx) and 0.3 RX
+	mov	_XBR2,#0x41
+;	Transmitter_src.c:89: Timer0_init();
+	lcall	_Timer0_init
+;	Transmitter_src.c:91: EA = 1;
+	setb	_EA
+;	Transmitter_src.c:94: SMB0CF = 0b_0101_1100; //INH | EXTHOLD | SMBTOE | SMBFTE ;
+	mov	_SMB0CF,#0x5C
+;	Transmitter_src.c:95: SMB0CF |= 0b_1000_0000;  // Enable SMBus
+	orl	_SMB0CF,#0x80
+;	Transmitter_src.c:98: return 0;
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	dpl,#0x00
 	ret
 ;------------------------------------------------------------
@@ -2913,7 +3127,11 @@ L038004?:
 ;c                         Allocated to registers r3 
 ;sloc0                     Allocated with name '_getsn_sloc0_1_0'
 ;------------------------------------------------------------
+<<<<<<< HEAD
 ;	Transmitter_src.c:103: int getsn (char * buff, int len){
+=======
+;	Transmitter_src.c:102: int getsn (char * buff, int len){
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 ;	-----------------------------------------
 ;	 function getsn
 ;	-----------------------------------------
@@ -2921,7 +3139,11 @@ _getsn:
 	mov	_getsn_buff_1_171,dpl
 	mov	(_getsn_buff_1_171 + 1),dph
 	mov	(_getsn_buff_1_171 + 2),b
+<<<<<<< HEAD
 ;	Transmitter_src.c:108: for(j=0; j<(len-1); j++)
+=======
+;	Transmitter_src.c:107: for(j=0; j<(len-1); j++)
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	clr	a
 	mov	_getsn_sloc0_1_0,a
 	mov	(_getsn_sloc0_1_0 + 1),a
@@ -2943,7 +3165,11 @@ L039005?:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	L039008?
+<<<<<<< HEAD
 ;	Transmitter_src.c:110: c=getchar();
+=======
+;	Transmitter_src.c:109: c=getchar();
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	push	ar2
 	push	ar7
 	push	ar0
@@ -2954,13 +3180,21 @@ L039005?:
 	pop	ar0
 	pop	ar7
 	pop	ar2
+<<<<<<< HEAD
 ;	Transmitter_src.c:111: if ( (c=='\n') || (c=='\r') )
+=======
+;	Transmitter_src.c:110: if ( (c=='\n') || (c=='\r') )
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	cjne	r3,#0x0A,L039015?
 	sjmp	L039001?
 L039015?:
 	cjne	r3,#0x0D,L039002?
 L039001?:
+<<<<<<< HEAD
 ;	Transmitter_src.c:113: buff[j]=0;
+=======
+;	Transmitter_src.c:112: buff[j]=0;
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	a,_getsn_sloc0_1_0
 	add	a,_getsn_buff_1_171
 	mov	r4,a
@@ -2973,12 +3207,20 @@ L039001?:
 	mov	b,r6
 	clr	a
 	lcall	__gptrput
+<<<<<<< HEAD
 ;	Transmitter_src.c:114: return j;
+=======
+;	Transmitter_src.c:113: return j;
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	dpl,_getsn_sloc0_1_0
 	mov	dph,(_getsn_sloc0_1_0 + 1)
 	ret
 L039002?:
+<<<<<<< HEAD
 ;	Transmitter_src.c:118: buff[j]=c;
+=======
+;	Transmitter_src.c:117: buff[j]=c;
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	a,r1
 	add	a,_getsn_buff_1_171
 	mov	r4,a
@@ -2991,7 +3233,11 @@ L039002?:
 	mov	b,r6
 	mov	a,r3
 	lcall	__gptrput
+<<<<<<< HEAD
 ;	Transmitter_src.c:108: for(j=0; j<(len-1); j++)
+=======
+;	Transmitter_src.c:107: for(j=0; j<(len-1); j++)
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	inc	r1
 	cjne	r1,#0x00,L039018?
 	inc	r2
@@ -3000,7 +3246,11 @@ L039018?:
 	mov	(_getsn_sloc0_1_0 + 1),r2
 	sjmp	L039005?
 L039008?:
+<<<<<<< HEAD
 ;	Transmitter_src.c:121: buff[j]=0;
+=======
+;	Transmitter_src.c:120: buff[j]=0;
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	a,_getsn_sloc0_1_0
 	add	a,_getsn_buff_1_171
 	mov	r2,a
@@ -3013,7 +3263,11 @@ L039008?:
 	mov	b,r4
 	clr	a
 	lcall	__gptrput
+<<<<<<< HEAD
 ;	Transmitter_src.c:122: return len;
+=======
+;	Transmitter_src.c:121: return len;
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	dpl,_getsn_PARM_2
 	mov	dph,(_getsn_PARM_2 + 1)
 	ret
@@ -3026,38 +3280,66 @@ L039008?:
 ;off_x                     Allocated to registers r2 r3 
 ;off_y                     Allocated with name '_main_off_y_1_177'
 ;------------------------------------------------------------
+<<<<<<< HEAD
 ;	Transmitter_src.c:125: void main(void) {
+=======
+;	Transmitter_src.c:124: void main(void) {
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
+<<<<<<< HEAD
 ;	Transmitter_src.c:129: int off_x=0;
 ;	Transmitter_src.c:130: int off_y=0;
+=======
+;	Transmitter_src.c:128: int off_x=0;
+;	Transmitter_src.c:129: int off_y=0;
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	clr	a
 	mov	r2,a
 	mov	r3,a
 	mov	_main_off_y_1_177,a
 	mov	(_main_off_y_1_177 + 1),a
+<<<<<<< HEAD
 ;	Transmitter_src.c:131: offset_flag=1;
 	setb	_offset_flag
 ;	Transmitter_src.c:134: Tcom_init(110L); //enter baudrate for UART1
+=======
+;	Transmitter_src.c:130: offset_flag=1;
+	setb	_offset_flag
+;	Transmitter_src.c:132: Tcom_init(110L); //enter baudrate for UART1
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	dptr,#(0x6E&0x00ff)
 	clr	a
 	mov	b,a
 	push	ar2
 	push	ar3
 	lcall	_Tcom_init
+<<<<<<< HEAD
 ;	Transmitter_src.c:135: LCD_4BIT();
 	lcall	_LCD_4BIT
 ;	Transmitter_src.c:137: waitms(200);
+=======
+;	Transmitter_src.c:133: LCD_4BIT();
+	lcall	_LCD_4BIT
+;	Transmitter_src.c:135: waitms(200);
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	dptr,#0x00C8
 	lcall	_waitms
 	pop	ar3
 	pop	ar2
+<<<<<<< HEAD
 ;	Transmitter_src.c:138: if (mode == 1) {
 	mov	a,#0x01
 	cjne	a,_mode,L040002?
 ;	Transmitter_src.c:139: nunchuck_init(1);
+=======
+;	Transmitter_src.c:136: if (mode == 1) {
+	mov	a,#0x01
+	cjne	a,_mode,L040002?
+;	Transmitter_src.c:137: nunchuck_init(1);
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	setb	_nunchuck_init_PARM_1
 	push	ar2
 	push	ar3
@@ -3065,13 +3347,18 @@ _main:
 	pop	ar3
 	pop	ar2
 L040002?:
+<<<<<<< HEAD
 ;	Transmitter_src.c:141: waitms(100);
+=======
+;	Transmitter_src.c:139: waitms(100);
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	dptr,#0x0064
 	push	ar2
 	push	ar3
 	lcall	_waitms
 	pop	ar3
 	pop	ar2
+<<<<<<< HEAD
 ;	Transmitter_src.c:143: if(offset_flag && mode == 1){
 	jnb	_offset_flag,L040004?
 	mov	a,#0x01
@@ -3081,6 +3368,17 @@ L040002?:
 	mov	b,#0x40
 	lcall	_nunchuck_getdata
 ;	Transmitter_src.c:145: off_x=(int)buffer[0]-128;
+=======
+;	Transmitter_src.c:141: if(offset_flag && mode == 1){
+	jnb	_offset_flag,L040004?
+	mov	a,#0x01
+	cjne	a,_mode,L040004?
+;	Transmitter_src.c:142: nunchuck_getdata(buffer);
+	mov	dptr,#_main_buffer_1_177
+	mov	b,#0x40
+	lcall	_nunchuck_getdata
+;	Transmitter_src.c:143: off_x=(int)buffer[0]-128;
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	r6,_main_buffer_1_177
 	mov	r7,#0x00
 	mov	a,r6
@@ -3089,7 +3387,11 @@ L040002?:
 	mov	a,r7
 	addc	a,#0xff
 	mov	r3,a
+<<<<<<< HEAD
 ;	Transmitter_src.c:146: off_y=(int)buffer[1]-128;
+=======
+;	Transmitter_src.c:144: off_y=(int)buffer[1]-128;
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	r6,(_main_buffer_1_177 + 0x0001)
 	mov	r7,#0x00
 	mov	a,r6
@@ -3098,16 +3400,26 @@ L040002?:
 	mov	a,r7
 	addc	a,#0xff
 	mov	(_main_off_y_1_177 + 1),a
+<<<<<<< HEAD
 ;	Transmitter_src.c:147: printf("Offset_X:%4d Offset_Y:%4d\n\n", off_x, off_y);
+=======
+;	Transmitter_src.c:145: printf("Offset_X:%4d Offset_Y:%4d\n\n", off_x, off_y);
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	push	ar2
 	push	ar3
 	push	_main_off_y_1_177
 	push	(_main_off_y_1_177 + 1)
 	push	ar2
 	push	ar3
+<<<<<<< HEAD
 	mov	a,#__str_11
 	push	acc
 	mov	a,#(__str_11 >> 8)
+=======
+	mov	a,#__str_12
+	push	acc
+	mov	a,#(__str_12 >> 8)
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -3117,18 +3429,32 @@ L040002?:
 	mov	sp,a
 	pop	ar3
 	pop	ar2
+<<<<<<< HEAD
 ;	Transmitter_src.c:148: offset_flag=0; //clear offset flag, so not to re-get offset. 
 	clr	_offset_flag
 L040004?:
 ;	Transmitter_src.c:151: waitms(500);
+=======
+;	Transmitter_src.c:146: offset_flag=0; //clear offset flag, so not to re-get offset. 
+	clr	_offset_flag
+L040004?:
+;	Transmitter_src.c:149: waitms(500);
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	dptr,#0x01F4
 	push	ar2
 	push	ar3
 	lcall	_waitms
+<<<<<<< HEAD
 ;	Transmitter_src.c:153: printf("LAB 6 Microcontroller\r\nWith extra features\r\n\n");
 	mov	a,#__str_12
 	push	acc
 	mov	a,#(__str_12 >> 8)
+=======
+;	Transmitter_src.c:151: printf("LAB 6 Microcontroller\r\nWith extra features\r\n\n");
+	mov	a,#__str_13
+	push	acc
+	mov	a,#(__str_13 >> 8)
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -3136,6 +3462,7 @@ L040004?:
 	dec	sp
 	dec	sp
 	dec	sp
+<<<<<<< HEAD
 ;	Transmitter_src.c:154: waitms(500);     
 	mov	dptr,#0x01F4
 	lcall	_waitms
@@ -3143,10 +3470,20 @@ L040004?:
 	mov	_LCDprint_PARM_2,#0x01
 	setb	_LCDprint_PARM_3
 	mov	dptr,#__str_13
+=======
+;	Transmitter_src.c:152: waitms(500);     
+	mov	dptr,#0x01F4
+	lcall	_waitms
+;	Transmitter_src.c:153: LCDprint("Ready", 1, 1);
+	mov	_LCDprint_PARM_2,#0x01
+	setb	_LCDprint_PARM_3
+	mov	dptr,#__str_14
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	b,#0x80
 	lcall	_LCDprint
 	pop	ar3
 	pop	ar2
+<<<<<<< HEAD
 ;	Transmitter_src.c:160: while(1) {
 L040017?:
 ;	Transmitter_src.c:164: if (mode == 0) {
@@ -3158,6 +3495,19 @@ L040017?:
 	mov	a,#__str_14
 	push	acc
 	mov	a,#(__str_14 >> 8)
+=======
+;	Transmitter_src.c:158: while(1) {
+L040015?:
+;	Transmitter_src.c:162: if (mode == 0) {
+	mov	a,_mode
+	jnz	L040012?
+;	Transmitter_src.c:163: printf("Enter command: \r\n");
+	push	ar2
+	push	ar3
+	mov	a,#__str_15
+	push	acc
+	mov	a,#(__str_15 >> 8)
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -3165,25 +3515,42 @@ L040017?:
 	dec	sp
 	dec	sp
 	dec	sp
+<<<<<<< HEAD
 ;	Transmitter_src.c:166: getsn(buffer, CHARS_PER_LINE);
+=======
+;	Transmitter_src.c:164: getsn(buffer, CHARS_PER_LINE);
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	_getsn_PARM_2,#0x10
 	clr	a
 	mov	(_getsn_PARM_2 + 1),a
 	mov	dptr,#_main_buffer_1_177
 	mov	b,#0x40
 	lcall	_getsn
+<<<<<<< HEAD
 ;	Transmitter_src.c:167: getCommand(buffer); //after use, is clear, only used within functions
+=======
+;	Transmitter_src.c:165: getCommand(buffer); //after use, is clear, only used within functions
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	dptr,#_main_buffer_1_177
 	mov	b,#0x40
 	lcall	_getCommand
 	pop	ar3
 	pop	ar2
+<<<<<<< HEAD
 	sjmp	L040017?
 L040014?:
 ;	Transmitter_src.c:169: } else if ((mode == 1)) {
 	mov	a,#0x01
 	cjne	a,_mode,L040017?
 ;	Transmitter_src.c:170: Z_but=read_nunchuck(&direction, &speed, buffer, off_x, off_y);
+=======
+	sjmp	L040015?
+L040012?:
+;	Transmitter_src.c:167: } else if (mode == 1) {
+	mov	a,#0x01
+	cjne	a,_mode,L040015?
+;	Transmitter_src.c:168: read_nunchuck(&direction, &speed, buffer, off_x, off_y);
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	_read_nunchuck_PARM_2,#_main_speed_1_177
 	mov	(_read_nunchuck_PARM_2 + 1),#0x00
 	mov	(_read_nunchuck_PARM_2 + 2),#0x40
@@ -3199,6 +3566,7 @@ L040014?:
 	push	ar2
 	push	ar3
 	lcall	_read_nunchuck
+<<<<<<< HEAD
 	mov	_Z_but,c
 ;	Transmitter_src.c:172: printf("Z_but: %i", Z_but);
 	mov	c,_Z_but
@@ -3225,11 +3593,19 @@ L040014?:
 ;	Transmitter_src.c:175: if(speedbit){
 	jnb	_speedbit,L040007?
 ;	Transmitter_src.c:176: sendCommand(SPEED_OP, speed);
+=======
+	pop	ar3
+	pop	ar2
+;	Transmitter_src.c:170: if(speedbit){
+	jnb	_speedbit,L040007?
+;	Transmitter_src.c:171: sendCommand(SPEED_OP, speed);
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	_sendCommand_PARM_2,_main_speed_1_177
 	mov	dpl,#0x00
 	push	ar2
 	push	ar3
 	lcall	_sendCommand
+<<<<<<< HEAD
 ;	Transmitter_src.c:177: printf("yesssss\n\n");
 	mov	a,#__str_16
 	push	acc
@@ -3277,6 +3653,26 @@ L040007?:
 	setb	_speedbit
 L040010?:
 ;	Transmitter_src.c:189: printf("direction: %d   speed: %d \n", direction, speed);
+=======
+	pop	ar3
+	pop	ar2
+;	Transmitter_src.c:172: speedbit=0;
+	clr	_speedbit
+	sjmp	L040008?
+L040007?:
+;	Transmitter_src.c:174: sendCommand(DIRECTION_OP, direction);
+	mov	_sendCommand_PARM_2,_main_direction_1_177
+	mov	dpl,#0x01
+	push	ar2
+	push	ar3
+	lcall	_sendCommand
+	pop	ar3
+	pop	ar2
+;	Transmitter_src.c:175: speedbit=1;
+	setb	_speedbit
+L040008?:
+;	Transmitter_src.c:179: printf("direction: %c   speed: %c \n", direction, speed);
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	mov	a,_main_speed_1_177
 	mov	r6,a
 	rlc	a
@@ -3293,9 +3689,15 @@ L040010?:
 	push	ar7
 	push	ar4
 	push	ar5
+<<<<<<< HEAD
 	mov	a,#__str_18
 	push	acc
 	mov	a,#(__str_18 >> 8)
+=======
+	mov	a,#__str_16
+	push	acc
+	mov	a,#(__str_16 >> 8)
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -3305,7 +3707,11 @@ L040010?:
 	mov	sp,a
 	pop	ar3
 	pop	ar2
+<<<<<<< HEAD
 	ljmp	L040017?
+=======
+	ljmp	L040015?
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	rseg R_CSEG
 
 	rseg R_XINIT
@@ -3391,11 +3797,22 @@ __str_10:
 	db 0x0A
 	db 0x00
 __str_11:
+<<<<<<< HEAD
+=======
+	db 'Buttons(Z:%c, C:%c) Joystick(%4d, %4d)'
+	db 0x0D
+	db 0x00
+__str_12:
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	db 'Offset_X:%4d Offset_Y:%4d'
 	db 0x0A
 	db 0x0A
 	db 0x00
+<<<<<<< HEAD
 __str_12:
+=======
+__str_13:
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	db 'LAB 6 Microcontroller'
 	db 0x0D
 	db 0x0A
@@ -3404,14 +3821,22 @@ __str_12:
 	db 0x0A
 	db 0x0A
 	db 0x00
+<<<<<<< HEAD
 __str_13:
 	db 'Ready'
 	db 0x00
 __str_14:
+=======
+__str_14:
+	db 'Ready'
+	db 0x00
+__str_15:
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	db 'Enter command: '
 	db 0x0D
 	db 0x0A
 	db 0x00
+<<<<<<< HEAD
 __str_15:
 	db 'Z_but: %i'
 	db 0x00
@@ -3427,6 +3852,10 @@ __str_17:
 	db 0x00
 __str_18:
 	db 'direction: %d   speed: %d '
+=======
+__str_16:
+	db 'direction: %c   speed: %c '
+>>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 	db 0x0A
 	db 0x00
 
