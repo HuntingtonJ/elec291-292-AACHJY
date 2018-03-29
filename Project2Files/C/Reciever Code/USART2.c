@@ -30,7 +30,7 @@ void initUSART2(int BaudRate) {
 	// Turn on the clock for the USART2 peripheral
 	RCC_CFGR      |= ( BIT10 | BIT9 ); //Divide APB clk by 8
 	//RCC_CFGR3     &= ~( BIT17 | BIT16 );
-	RCC_APB1ENR   |= BIT17; 
+	RCC_APB1ENR   |= BIT17;  //Timer2.
 	
 	//Configure USART2 Parameters (1 start, 1 Stop, No parity
 	USART2_CR1     = 0x00000000;
@@ -50,9 +50,9 @@ void initUSART2(int BaudRate) {
 
 void isr_usart2(void) {
 	//Checks if RXNE flag is enables
-	if (USART2_ISR & BIT5) {
+	if (USART2_ISR & BIT5) { //RXNE 
 		usart2_rx();
-	} else if (USART2_ISR & BIT3) {
+	} else if (USART2_ISR & BIT3) { //ORE
 		usart2_rxo();
 	}
 }

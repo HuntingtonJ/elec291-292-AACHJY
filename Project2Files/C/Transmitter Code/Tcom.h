@@ -109,7 +109,7 @@ void Timer4_ISR(void) interrupt INTERRUPT_TIMER4 {
 
 void sendCommand(unsigned char op, unsigned char value) {
 	if (op < 0b_1000 && value < 0b_100000) {
-		putchar1(op*0b_100000 + value);
+		putchar1(op*0b_100000 + value); // This code is problematic as it multiplies 32 by our value..... Temporary fix is to subtract 31 from our direction on receiver side. 
 		printf("Sent: %d\r\n", op*0b_100000 + value);
 	} else {
 		printf("c err\r\n");

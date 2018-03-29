@@ -343,11 +343,11 @@ char get_direction(char x_axis, char y_axis){
 
 
 
-void read_nunchuck(char * direction, char * speed, char * rbuf, int off_x, int off_y)
+bit read_nunchuck(char * direction, char * speed, char * rbuf, int off_x, int off_y)
 {
 	//unsigned char rbuf[6];
  	char joy_x, joy_y;
- 	bit but1, but2;
+ 	bit Z_but, but2;
  //	char num1[ARRAY_SIZE];
 	// int speed;
 	// char direction;
@@ -374,7 +374,7 @@ void read_nunchuck(char * direction, char * speed, char * rbuf, int off_x, int o
 		// acc_y=rbuf[3]*4;
 		// acc_z=rbuf[4]*4;
 
-		but1=(rbuf[5] & 0x01)?1:0;
+		Z_but=(rbuf[5] & 0x01)?1:0;
 		but2=(rbuf[5] & 0x02)?1:0;
 		// if (rbuf[5] & 0x04) acc_x+=2;
 		// if (rbuf[5] & 0x08) acc_x+=1;
@@ -383,8 +383,8 @@ void read_nunchuck(char * direction, char * speed, char * rbuf, int off_x, int o
 		// if (rbuf[5] & 0x40) acc_z+=2;
 		// if (rbuf[5] & 0x80) acc_z+=1;
 		
-		printf("Buttons(Z:%c, C:%c) Joystick(%4d, %4d)\r",
-			   but1?'1':'0', but2?'1':'0', joy_x, joy_y);
+	//	printf("Buttons(Z:%c, C:%c) Joystick(%4d, %4d)\r",
+	//		   Z_but?'1':'0', but2?'1':'0', joy_x, joy_y);
 		waitms(100); //determine if we want to change this length
 	
 
@@ -393,7 +393,7 @@ void read_nunchuck(char * direction, char * speed, char * rbuf, int off_x, int o
 		*direction=get_direction(joy_x, joy_y);
 		*speed = get_speed(joy_x, joy_y);
 		
-
+		return Z_but;
 
    }
 

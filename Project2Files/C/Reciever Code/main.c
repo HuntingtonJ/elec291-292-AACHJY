@@ -79,9 +79,8 @@ void SysInit(void)
 void Extract_op_val(unsigned char RX_data, unsigned char *speed, unsigned char * direction){
 unsigned char opcode, value;
 
-	opcode = RX_data&&(0b11100000)/0b00100000;
-	value =  RX_data&&(0b00011111);
-	
+	opcode = RX_data/(0b100000);
+	value =  RX_data - opcode;
 
 	printf("Opcode:%d\r\n", opcode);
 	printf("Value:%d\r\n", value);
@@ -89,7 +88,7 @@ unsigned char opcode, value;
 	switch(opcode){
 		case 0b000: 
 			printf("SPEED_OP\n");
-			*speed= value*(0b100);
+			*speed= value*4;
 			break;
 		case 0b001: 
 			printf("DIRECTION_OP\n");
@@ -103,6 +102,7 @@ unsigned char opcode, value;
 			break;
 		case 0b111: 
 			printf("STOP_OP\n");
+			stop();
 			break;
 		default:
 			printf("Unknown_OP\n");
@@ -123,7 +123,7 @@ int main(void) {
 	
 	while (1){
 		//Receives data on Pin 9.
-    	if (U2_RX_flag & 1) {\
+    	if (U2_RX_flag & 1) {
     		Extract_op_val(RX_data, &speed, &direction);
     		//printf("Received: %d\r\n", RX_data);
     		U2_RX_flag = 0;
