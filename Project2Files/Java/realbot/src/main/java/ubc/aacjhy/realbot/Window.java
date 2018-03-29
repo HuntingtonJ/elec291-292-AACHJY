@@ -3,22 +3,33 @@ package ubc.aacjhy.realbot;
 import processing.core.PApplet;
 import processing.core.PVector;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Window {
     protected PApplet p;
+
+    private String type;
 
     private PVector position;
     private PVector dimension;
 
     private int bezel_width = 6;
 
+    ArrayList<Button> buttons;
+
     private PVector base_color = new PVector(100, 100, 100);
     private PVector bezel_color = new PVector(200, 200, 200);
 
-    public Window(PApplet p, int x, int y, int w, int h) {
+    public Window(PApplet p, String type,  int x, int y, int w, int h) {
         this.p = p;
+
+        this.type = type;
 
         this.position = new PVector(x,y);
         this.dimension = new PVector(w,h);
+
+        buttons = new ArrayList<Button>();
     }
 
     public void render() {
@@ -35,6 +46,14 @@ public class Window {
         //Draw Window
         p.fill(base_color.x, base_color.y, base_color.z);
         p.rect(position.x + bezel_width, position.y + bezel_width, dimension.x - bezel_width*2, dimension.y - bezel_width*2);
+    }
+
+    protected void render_buttons() {
+        if (buttons.size() > 0) {
+            for (Button button : buttons) {
+                button.render();
+            }
+        }
     }
 
     protected void updateValues() {
@@ -103,6 +122,33 @@ public class Window {
 
     public void mouseReleasedWindow() {
 
+    }
+
+    public void addButton(String label, int x, int y, int width, int height) {
+        buttons.add(new Button(p, this, label, x, y, width, height));
+    }
+
+    public void updateButtons() {
+        if (buttons.size() > 0) {
+            for (Button button : buttons ) {
+                button.update();
+            }
+        }
+    }
+
+    public Button getButtonByLabel(String l) {
+        if (buttons.size() > 0) {
+            for (Button but : buttons) {
+                if (l.equals(but.getLabel())) {
+                    return but;
+                }
+            }
+        }
+        return null;
+    }
+
+    public String getType() {
+        return type;
     }
 }
 

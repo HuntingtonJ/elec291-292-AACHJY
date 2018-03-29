@@ -32,8 +32,8 @@ public class Midi_Window extends Window {
     private PVector note_color = new PVector(255, 102, 0);
     private PVector selected_note_color = new PVector(255, 51, 0);
 
-    public Midi_Window(PApplet p, Serial port, int x, int y, int w, int h) {
-        super(p, x, y, w ,h);
+    public Midi_Window(PApplet p, String type, Serial port, int x, int y, int w, int h) {
+        super(p, type, x, y, w ,h);
 
         this.myPort = port;
 

@@ -4,6 +4,10 @@ C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-e
                               serial.o (__aeabi_idiv)
 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_dvmd_tls.o)
                               C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o) (__aeabi_idiv0)
+C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o)
+                              Motor_control.o (getchar)
+C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
+                              C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o) (_impure_ptr)
 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
                               main.o (printf)
 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
@@ -17,11 +21,11 @@ C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\
 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
                               C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o) (_fflush_r)
 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
-                              C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o) (__sinit)
+                              C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o) (__sinit)
 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
                               C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o) (_fwalk)
-C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
-                              C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o) (_global_impure_ptr)
+C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
+                              C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o) (_getc_r)
 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-makebuf.o)
                               C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o) (__smakebuf_r)
 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memset.o)
@@ -34,6 +38,8 @@ C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\
                               C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o) (_vfprintf_r)
 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
                               C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o) (_printf_i)
+C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
+                              C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o) (__srget_r)
 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-sbrkr.o)
                               C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-mallocr.o) (_sbrk_r)
 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
@@ -62,6 +68,8 @@ C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\
                               C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fvwrite.o) (_realloc_r)
 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-readr.o)
                               C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o) (_read_r)
+C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
+                              C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o) (__srefill_r)
 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-msizer.o)
                               C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-reallocr.o) (_malloc_usable_size_r)
 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_udivsi3.o)
@@ -91,6 +99,7 @@ LOAD serial.o
 LOAD startup.o
 LOAD newlib_stubs.o
 LOAD USART2.o
+LOAD Motor_control.o
 START GROUP
 LOAD C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a
 LOAD C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a
@@ -98,10 +107,14 @@ LOAD C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi
 END GROUP
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 .text           0x08000000     0x25cc
 =======
 .text           0x08000000     0x26c0
 >>>>>>> 955922376710ff3aac685ad536fbae9824830878
+=======
+.text           0x08000000     0x2a0c
+>>>>>>> f11b8157a18b77b10fb002f8498f1890d2502b61
  *(.vectors)
  .vectors       0x08000000       0xc0 startup.o
                 0x08000000                Vectors
@@ -110,6 +123,7 @@ END GROUP
                 0x080000c0       0x20 startup.o
                 0x080000c0                ResetInit
  *(.text*)
+<<<<<<< HEAD
 <<<<<<< HEAD
  .text          0x080000e0      0x1dc main.o
                 0x080000e0                TogglePins
@@ -471,289 +485,380 @@ END GROUP
                 0x08000fcc                __aeabi_idiv0
                 0x08000fcc                __aeabi_ldiv0
  .text          0x08000fd0        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
+=======
+ .text          0x080000e0      0x1c8 main.o
+                0x080000e0                SysInit
+                0x0800017c                Extract_op_val
+                0x0800023c                main
+ .text          0x080002a8      0x508 serial.o
+                0x080002a8                ReadCom
+                0x0800031c                WriteCom
+                0x080003c0                initUART
+                0x08000508                isr_usart1
+                0x08000534                usart_rx
+                0x08000564                usart_tx
+                0x080005dc                PutBuf
+                0x0800063a                GetBuf
+                0x0800068c                GetBufCount
+                0x080006a0                eputs
+                0x080006dc                eputc
+                0x080006fa                egetc
+                0x08000714                egets
+ .text          0x080007b0      0x148 startup.o
+                0x08000824                initClock
+                0x080008d0                Default_Handler
+                0x080008e4                Hard_Fault_Handler
+ .text          0x080008f8      0x2a8 newlib_stubs.o
+                0x080008f8                _exit
+                0x08000902                _close
+                0x08000916                _execve
+                0x08000938                _fork
+                0x08000950                _fstat
+                0x0800096c                _getpid
+                0x08000978                _kill
+                0x08000998                _link
+                0x080009b8                _lseek
+                0x080009ce                _stat
+                0x080009ea                _times
+                0x080009fe                _unlink
+                0x08000a1c                _wait
+                0x08000a3c                _isatty
+                0x08000a64                _sbrk
+                0x08000ad4                _read
+                0x08000b4c                _write
+ .text          0x08000ba0      0x194 USART2.o
+                0x08000ba0                initUSART2
+                0x08000c9c                isr_usart2
+                0x08000cc8                usart2_rx
+                0x08000cf0                usart2_rxo
+                0x08000d14                putc2
+ .text          0x08000d34      0x138 Motor_control.o
+                0x08000d34                getsn
+                0x08000da2                Timer1ISR
+                0x08000dc0                TogglePins
+ .text          0x08000e6c      0x1d4 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
+                0x08000e6c                __divsi3
+                0x08000e6c                __aeabi_idiv
+                0x08001038                __aeabi_idivmod
+ .text          0x08001040        0x4 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_dvmd_tls.o)
+                0x08001040                __aeabi_idiv0
+                0x08001040                __aeabi_ldiv0
+ .text          0x08001044        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o)
+ .text._getchar_r
+                0x08001044       0x1a C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o)
+                0x08001044                _getchar_r
+ *fill*         0x0800105e        0x2 
+ .text.getchar  0x08001060       0x24 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o)
+                0x08001060                getchar
+ .text          0x08001084        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
+ .text          0x08001084        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
+>>>>>>> f11b8157a18b77b10fb002f8498f1890d2502b61
  .text._printf_r
-                0x08000fd0       0x28 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
-                0x08000fd0                _iprintf_r
-                0x08000fd0                _printf_r
- .text.printf   0x08000ff8       0x34 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
-                0x08000ff8                iprintf
-                0x08000ff8                printf
- .text          0x0800102c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
- .text._puts_r  0x0800102c       0xc0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
-                0x0800102c                _puts_r
- .text.puts     0x080010ec       0x14 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
-                0x080010ec                puts
- .text          0x08001100        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-reent.o)
+                0x08001084       0x28 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
+                0x08001084                _iprintf_r
+                0x08001084                _printf_r
+ .text.printf   0x080010ac       0x34 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
+                0x080010ac                iprintf
+                0x080010ac                printf
+ .text          0x080010e0        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
+ .text._puts_r  0x080010e0       0xc0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
+                0x080010e0                _puts_r
+ .text.puts     0x080011a0       0x14 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
+                0x080011a0                puts
+ .text          0x080011b4        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-reent.o)
  .text.cleanup_glue
-                0x08001100       0x1a C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-reent.o)
-                0x08001100                cleanup_glue
- *fill*         0x0800111a        0x2 
+                0x080011b4       0x1a C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-reent.o)
+                0x080011b4                cleanup_glue
+ *fill*         0x080011ce        0x2 
  .text._reclaim_reent
-                0x0800111c       0xcc C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-reent.o)
-                0x0800111c                _reclaim_reent
- .text          0x080011e8        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
+                0x080011d0       0xcc C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-reent.o)
+                0x080011d0                _reclaim_reent
+ .text          0x0800129c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
  .text.__swbuf_r
-                0x080011e8       0xac C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
-                0x080011e8                __swbuf_r
- .text.__swbuf  0x08001294       0x14 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
-                0x08001294                __swbuf
- .text          0x080012a8        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
+                0x0800129c       0xac C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
+                0x0800129c                __swbuf_r
+ .text.__swbuf  0x08001348       0x14 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
+                0x08001348                __swbuf
+ .text          0x0800135c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
  .text.__swsetup_r
-                0x080012a8       0xec C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
-                0x080012a8                __swsetup_r
- .text          0x08001394        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
+                0x0800135c       0xec C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
+                0x0800135c                __swsetup_r
+ .text          0x08001448        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
  .text.__sflush_r
-                0x08001394      0x114 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
-                0x08001394                __sflush_r
+                0x08001448      0x114 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
+                0x08001448                __sflush_r
  .text._fflush_r
-                0x080014a8       0x58 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
-                0x080014a8                _fflush_r
- .text.fflush   0x08001500       0x28 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
-                0x08001500                fflush
- .text          0x08001528        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x0800155c       0x58 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
+                0x0800155c                _fflush_r
+ .text.fflush   0x080015b4       0x28 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
+                0x080015b4                fflush
+ .text          0x080015dc        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
  .text.__fp_lock
-                0x08001528        0x4 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
- .text.std      0x0800152c       0x48 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x080015dc        0x4 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+ .text.std      0x080015e0       0x48 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
  .text._cleanup_r
-                0x08001574       0x10 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
-                0x08001574                _cleanup_r
+                0x08001628       0x10 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x08001628                _cleanup_r
  .text.__fp_unlock
-                0x08001584        0x4 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x08001638        0x4 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
  .text.__sfmoreglue
-                0x08001588       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
-                0x08001588                __sfmoreglue
+                0x0800163c       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x0800163c                __sfmoreglue
  .text._cleanup
-                0x080015b4       0x10 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
-                0x080015b4                _cleanup
- .text.__sinit  0x080015c4       0x68 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
-                0x080015c4                __sinit
- .text.__sfp    0x0800162c       0x7c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
-                0x0800162c                __sfp
+                0x08001668       0x10 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x08001668                _cleanup
+ .text.__sinit  0x08001678       0x68 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x08001678                __sinit
+ .text.__sfp    0x080016e0       0x7c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x080016e0                __sfp
  .text.__sfp_lock_acquire
-                0x080016a8        0x2 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
-                0x080016a8                __sfp_lock_acquire
+                0x0800175c        0x2 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x0800175c                __sfp_lock_acquire
  .text.__sfp_lock_release
-                0x080016aa        0x2 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
-                0x080016aa                __sfp_lock_release
+                0x0800175e        0x2 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x0800175e                __sfp_lock_release
  .text.__sinit_lock_acquire
-                0x080016ac        0x2 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
-                0x080016ac                __sinit_lock_acquire
+                0x08001760        0x2 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x08001760                __sinit_lock_acquire
  .text.__sinit_lock_release
-                0x080016ae        0x2 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
-                0x080016ae                __sinit_lock_release
+                0x08001762        0x2 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x08001762                __sinit_lock_release
  .text.__fp_lock_all
-                0x080016b0       0x18 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
-                0x080016b0                __fp_lock_all
+                0x08001764       0x18 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x08001764                __fp_lock_all
  .text.__fp_unlock_all
-                0x080016c8       0x18 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
-                0x080016c8                __fp_unlock_all
- .text          0x080016e0        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
- .text._fwalk   0x080016e0       0x38 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
-                0x080016e0                _fwalk
+                0x0800177c       0x18 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x0800177c                __fp_unlock_all
+ .text          0x08001794        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
+ .text._fwalk   0x08001794       0x38 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
+                0x08001794                _fwalk
  .text._fwalk_reent
-                0x08001718       0x42 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
-                0x08001718                _fwalk_reent
- .text          0x0800175a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
- .text          0x0800175a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-makebuf.o)
- *fill*         0x0800175a        0x2 
+                0x080017cc       0x42 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
+                0x080017cc                _fwalk_reent
+ .text          0x0800180e        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
+ *fill*         0x0800180e        0x2 
+ .text._getc_r  0x08001810       0x5c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
+                0x08001810                _getc_r
+ .text.getc     0x0800186c       0x64 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
+                0x0800186c                getc
+ .text          0x080018d0        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-makebuf.o)
  .text.__swhatbuf_r
-                0x0800175c       0x50 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-makebuf.o)
-                0x0800175c                __swhatbuf_r
+                0x080018d0       0x50 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-makebuf.o)
+                0x080018d0                __swhatbuf_r
  .text.__smakebuf_r
-                0x080017ac       0x88 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-makebuf.o)
-                0x080017ac                __smakebuf_r
- .text          0x08001834        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memset.o)
- .text.memset   0x08001834       0x10 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memset.o)
-                0x08001834                memset
- .text          0x08001844        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-freer.o)
- .text._free_r  0x08001844       0x94 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-freer.o)
-                0x08001844                _free_r
- .text          0x080018d8        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-mallocr.o)
+                0x08001920       0x88 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-makebuf.o)
+                0x08001920                __smakebuf_r
+ .text          0x080019a8        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memset.o)
+ .text.memset   0x080019a8       0x10 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memset.o)
+                0x080019a8                memset
+ .text          0x080019b8        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-freer.o)
+ .text._free_r  0x080019b8       0x94 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-freer.o)
+                0x080019b8                _free_r
+ .text          0x08001a4c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-mallocr.o)
  .text._malloc_r
-                0x080018d8       0xbc C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-mallocr.o)
-                0x080018d8                _malloc_r
- .text          0x08001994        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
+                0x08001a4c       0xbc C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-mallocr.o)
+                0x08001a4c                _malloc_r
+ .text          0x08001b08        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
  .text.__sfputc_r
-                0x08001994       0x2a C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
+                0x08001b08       0x2a C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
  .text.__sfputs_r
-                0x080019be       0x24 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
-                0x080019be                __sfputs_r
+                0x08001b32       0x24 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
+                0x08001b32                __sfputs_r
  .text.__sprint_r
-                0x080019e2       0x1c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
-                0x080019e2                __sprint_r
- *fill*         0x080019fe        0x2 
+                0x08001b56       0x1c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
+                0x08001b56                __sprint_r
+ *fill*         0x08001b72        0x2 
  .text._vfprintf_r
-                0x08001a00      0x22c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
-                0x08001a00                _vfprintf_r
-                0x08001a00                _vfiprintf_r
+                0x08001b74      0x22c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
+                0x08001b74                _vfprintf_r
+                0x08001b74                _vfiprintf_r
  .text.vfprintf
-                0x08001c2c       0x18 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
-                0x08001c2c                vfprintf
-                0x08001c2c                vfiprintf
- .text          0x08001c44        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x08001da0       0x18 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
+                0x08001da0                vfprintf
+                0x08001da0                vfiprintf
+ .text          0x08001db8        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
  .text._printf_common
-                0x08001c44       0xda C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
-                0x08001c44                _printf_common
- *fill*         0x08001d1e        0x2 
+                0x08001db8       0xda C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x08001db8                _printf_common
+ *fill*         0x08001e92        0x2 
  .text._printf_i
-                0x08001d20      0x210 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
-                0x08001d20                _printf_i
- .text          0x08001f30        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-sbrkr.o)
- .text._sbrk_r  0x08001f30       0x24 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-sbrkr.o)
-                0x08001f30                _sbrk_r
- .text          0x08001f54        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
- .text.__sread  0x08001f54       0x28 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
-                0x08001f54                __sread
+                0x08001e94      0x210 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x08001e94                _printf_i
+ .text          0x080020a4        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
+ .text.__srget_r
+                0x080020a4       0x60 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
+                0x080020a4                __srget_r
+ .text.__srget  0x08002104       0x14 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
+                0x08002104                __srget
+ .text          0x08002118        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-sbrkr.o)
+ .text._sbrk_r  0x08002118       0x24 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-sbrkr.o)
+                0x08002118                _sbrk_r
+ .text          0x0800213c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
+ .text.__sread  0x0800213c       0x28 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
+                0x0800213c                __sread
  .text.__seofread
-                0x08001f7c        0x4 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
-                0x08001f7c                __seofread
+                0x08002164        0x4 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
+                0x08002164                __seofread
  .text.__swrite
-                0x08001f80       0x38 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
-                0x08001f80                __swrite
- .text.__sseek  0x08001fb8       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
-                0x08001fb8                __sseek
+                0x08002168       0x38 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
+                0x08002168                __swrite
+ .text.__sseek  0x080021a0       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
+                0x080021a0                __sseek
  .text.__sclose
-                0x08001fe4        0xc C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
-                0x08001fe4                __sclose
- .text          0x08001ff0        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-writer.o)
+                0x080021cc        0xc C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
+                0x080021cc                __sclose
+ .text          0x080021d8        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-writer.o)
  .text._write_r
-                0x08001ff0       0x28 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-writer.o)
-                0x08001ff0                _write_r
- .text          0x08002018        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-closer.o)
+                0x080021d8       0x28 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-writer.o)
+                0x080021d8                _write_r
+ .text          0x08002200        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-closer.o)
  .text._close_r
-                0x08002018       0x24 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-closer.o)
-                0x08002018                _close_r
- .text          0x0800203c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fstatr.o)
+                0x08002200       0x24 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-closer.o)
+                0x08002200                _close_r
+ .text          0x08002224        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fstatr.o)
  .text._fstat_r
-                0x0800203c       0x24 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fstatr.o)
-                0x0800203c                _fstat_r
- .text          0x08002060        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fvwrite.o)
+                0x08002224       0x24 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fstatr.o)
+                0x08002224                _fstat_r
+ .text          0x08002248        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fvwrite.o)
  .text.__sfvwrite_r
-                0x08002060      0x2c0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fvwrite.o)
-                0x08002060                __sfvwrite_r
- .text          0x08002320        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-isattyr.o)
+                0x08002248      0x2c0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fvwrite.o)
+                0x08002248                __sfvwrite_r
+ .text          0x08002508        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-isattyr.o)
  .text._isatty_r
-                0x08002320       0x24 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-isattyr.o)
-                0x08002320                _isatty_r
- .text          0x08002344        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-lseekr.o)
+                0x08002508       0x24 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-isattyr.o)
+                0x08002508                _isatty_r
+ .text          0x0800252c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-lseekr.o)
  .text._lseek_r
-                0x08002344       0x28 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-lseekr.o)
-                0x08002344                _lseek_r
- .text          0x0800236c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memchr-stub.o)
- .text.memchr   0x0800236c       0x16 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memchr-stub.o)
-                0x0800236c                memchr
- .text          0x08002382        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memcpy-stub.o)
- .text.memcpy   0x08002382       0x12 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memcpy-stub.o)
-                0x08002382                memcpy
- .text          0x08002394        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memmove.o)
- .text.memmove  0x08002394       0x26 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memmove.o)
-                0x08002394                memmove
- .text          0x080023ba        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-mlock.o)
+                0x0800252c       0x28 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-lseekr.o)
+                0x0800252c                _lseek_r
+ .text          0x08002554        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memchr-stub.o)
+ .text.memchr   0x08002554       0x16 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memchr-stub.o)
+                0x08002554                memchr
+ .text          0x0800256a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memcpy-stub.o)
+ .text.memcpy   0x0800256a       0x12 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memcpy-stub.o)
+                0x0800256a                memcpy
+ .text          0x0800257c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memmove.o)
+ .text.memmove  0x0800257c       0x26 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memmove.o)
+                0x0800257c                memmove
+ .text          0x080025a2        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-mlock.o)
  .text.__malloc_lock
-                0x080023ba        0x2 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-mlock.o)
-                0x080023ba                __malloc_lock
+                0x080025a2        0x2 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-mlock.o)
+                0x080025a2                __malloc_lock
  .text.__malloc_unlock
-                0x080023bc        0x2 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-mlock.o)
-                0x080023bc                __malloc_unlock
- .text          0x080023be        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-reallocr.o)
+                0x080025a4        0x2 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-mlock.o)
+                0x080025a4                __malloc_unlock
+ .text          0x080025a6        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-reallocr.o)
  .text._realloc_r
-                0x080023be       0x4c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-reallocr.o)
-                0x080023be                _realloc_r
- .text          0x0800240a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-readr.o)
- *fill*         0x0800240a        0x2 
- .text._read_r  0x0800240c       0x28 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-readr.o)
-                0x0800240c                _read_r
- .text          0x08002434        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-msizer.o)
+                0x080025a6       0x4c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-reallocr.o)
+                0x080025a6                _realloc_r
+ .text          0x080025f2        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-readr.o)
+ *fill*         0x080025f2        0x2 
+ .text._read_r  0x080025f4       0x28 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-readr.o)
+                0x080025f4                _read_r
+ .text          0x0800261c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
+ .text.lflush   0x0800261c       0x18 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
+ .text.__srefill_r
+                0x08002634      0x124 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
+                0x08002634                __srefill_r
+ .text          0x08002758        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-msizer.o)
  .text._malloc_usable_size_r
-                0x08002434       0x10 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-msizer.o)
-                0x08002434                _malloc_usable_size_r
- .text          0x08002444      0x114 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_udivsi3.o)
-                0x08002444                __aeabi_uidiv
-                0x08002444                __udivsi3
-                0x08002550                __aeabi_uidivmod
+                0x08002758       0x10 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-msizer.o)
+                0x08002758                _malloc_usable_size_r
+ .text          0x08002768      0x114 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_udivsi3.o)
+                0x08002768                __aeabi_uidiv
+                0x08002768                __udivsi3
+                0x08002874                __aeabi_uidivmod
  *(.rodata*)
- .rodata        0x08002558       0x82 main.o
- *fill*         0x080025da        0x2 
- .rodata        0x080025dc       0x4c startup.o
- .rodata.__sf_fake_stderr
-                0x08002628       0x20 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
-                0x08002628                __sf_fake_stderr
- .rodata.__sf_fake_stdin
-                0x08002648       0x20 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
-                0x08002648                __sf_fake_stdin
- .rodata.__sf_fake_stdout
-                0x08002668       0x20 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
-                0x08002668                __sf_fake_stdout
+ .rodata        0x0800287c       0xaa main.o
+ *fill*         0x08002926        0x2 
+ .rodata        0x08002928       0x4c startup.o
  .rodata._global_impure_ptr
-                0x08002688        0x4 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
-                0x08002688                _global_impure_ptr
+                0x08002974        0x4 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
+                0x08002974                _global_impure_ptr
+ .rodata.__sf_fake_stderr
+                0x08002978       0x20 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x08002978                __sf_fake_stderr
+ .rodata.__sf_fake_stdin
+                0x08002998       0x20 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x08002998                __sf_fake_stdin
+ .rodata.__sf_fake_stdout
+                0x080029b8       0x20 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x080029b8                __sf_fake_stdout
  .rodata._vfprintf_r.str1.1
-                0x0800268c       0x11 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
+                0x080029d8       0x11 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
  .rodata._printf_i.str1.1
-                0x0800269d       0x22 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
-                0x080026c0                . = ALIGN (0x4)
- *fill*         0x080026bf        0x1 
-                0x080026c0                PROVIDE (__init_array_start, .)
+                0x080029e9       0x22 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x08002a0c                . = ALIGN (0x4)
+ *fill*         0x08002a0b        0x1 
+                0x08002a0c                PROVIDE (__init_array_start, .)
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array)
-                0x080026c0                PROVIDE (__init_array_end, .)
-                0x080026c0                . = ALIGN (0x4)
-                0x080026c0                _etext = .
+                0x08002a0c                PROVIDE (__init_array_end, .)
+                0x08002a0c                . = ALIGN (0x4)
+                0x08002a0c                _etext = .
 
-.glue_7         0x080026c0        0x0
- .glue_7        0x080026c0        0x0 linker stubs
+.glue_7         0x08002a0c        0x0
+ .glue_7        0x08002a0c        0x0 linker stubs
 
-.glue_7t        0x080026c0        0x0
- .glue_7t       0x080026c0        0x0 linker stubs
+.glue_7t        0x08002a0c        0x0
+ .glue_7t       0x08002a0c        0x0 linker stubs
 
-.vfp11_veneer   0x080026c0        0x0
- .vfp11_veneer  0x080026c0        0x0 linker stubs
+.vfp11_veneer   0x08002a0c        0x0
+ .vfp11_veneer  0x08002a0c        0x0 linker stubs
 
-.v4_bx          0x080026c0        0x0
- .v4_bx         0x080026c0        0x0 linker stubs
+.v4_bx          0x08002a0c        0x0
+ .v4_bx         0x08002a0c        0x0 linker stubs
 
-.iplt           0x080026c0        0x0
- .iplt          0x080026c0        0x0 main.o
+.iplt           0x08002a0c        0x0
+ .iplt          0x08002a0c        0x0 main.o
 
-.rel.dyn        0x080026c0        0x0
- .rel.iplt      0x080026c0        0x0 main.o
+.rel.dyn        0x08002a0c        0x0
+ .rel.iplt      0x08002a0c        0x0 main.o
 
+<<<<<<< HEAD
 .data           0x20000000       0x6c load address 0x080026c0
 >>>>>>> 955922376710ff3aac685ad536fbae9824830878
+=======
+.data           0x20000000       0x6c load address 0x08002a0c
+>>>>>>> f11b8157a18b77b10fb002f8498f1890d2502b61
                 0x20000000                . = ALIGN (0x4)
                 0x20000000                _data = .
  *(.data*)
- .data          0x20000000        0x2 main.o
-                0x20000000                duty_cycleLF
-                0x20000001                duty_cycleRF
- .data          0x20000002        0x0 serial.o
- .data          0x20000002        0x0 startup.o
- *fill*         0x20000002        0x2 
- .data          0x20000004        0x4 newlib_stubs.o
-                0x20000004                environ
- .data          0x20000008        0x0 USART2.o
- .data          0x20000008        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
- .data          0x20000008        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_dvmd_tls.o)
- .data          0x20000008        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
- .data          0x20000008        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
- .data          0x20000008        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-reent.o)
- .data          0x20000008        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
- .data          0x20000008        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
- .data          0x20000008        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
- .data          0x20000008        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
- .data          0x20000008        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
- .data          0x20000008        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
+ .data          0x20000000        0x0 main.o
+ .data          0x20000000        0x0 serial.o
+ .data          0x20000000        0x0 startup.o
+ .data          0x20000000        0x4 newlib_stubs.o
+                0x20000000                environ
+ .data          0x20000004        0x0 USART2.o
+ .data          0x20000004        0x2 Motor_control.o
+                0x20000004                duty_cycleLF
+                0x20000005                duty_cycleRF
+ .data          0x20000006        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
+ .data          0x20000006        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_dvmd_tls.o)
+ .data          0x20000006        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o)
+ .data          0x20000006        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
+ *fill*         0x20000006        0x2 
  .data._impure_ptr
                 0x20000008        0x4 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
                 0x20000008                _impure_ptr
  .data.impure_data
                 0x2000000c       0x60 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
+ .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
+ .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
+ .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-reent.o)
+ .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
+ .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
+ .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
+ .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+ .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
+ .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
  .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-makebuf.o)
  .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memset.o)
  .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-freer.o)
  .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-mallocr.o)
  .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
  .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
  .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-sbrkr.o)
  .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
  .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-writer.o)
@@ -768,11 +873,13 @@ END GROUP
  .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-mlock.o)
  .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-reallocr.o)
  .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-readr.o)
+ .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
  .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-msizer.o)
  .data          0x2000006c        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_udivsi3.o)
                 0x2000006c                . = ALIGN (0x4)
                 0x2000006c                _edata = .
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 .igot.plt       0x2000006c        0x0 load address 0x08002638
  .igot.plt      0x2000006c        0x0 main.o
@@ -784,37 +891,45 @@ END GROUP
 
 .bss            0x2000006c       0xc0 load address 0x0800272c
 >>>>>>> 955922376710ff3aac685ad536fbae9824830878
+=======
+.igot.plt       0x2000006c        0x0 load address 0x08002a78
+ .igot.plt      0x2000006c        0x0 main.o
+
+.bss            0x2000006c       0xc0 load address 0x08002a78
+>>>>>>> f11b8157a18b77b10fb002f8498f1890d2502b61
                 0x2000006c                _bss = .
  *(.bss*)
- .bss           0x2000006c        0x3 main.o
-                0x2000006c                count
-                0x2000006d                duty_cycleLR
-                0x2000006e                duty_cycleRR
- .bss           0x2000006f        0x0 serial.o
- .bss           0x2000006f        0x0 startup.o
- *fill*         0x2000006f        0x1 
- .bss           0x20000070        0x8 newlib_stubs.o
-                0x20000070                __env
- .bss           0x20000078        0x3 USART2.o
-                0x20000078                U2_RX_flag
-                0x20000079                U2_RXO_flag
-                0x2000007a                RX_data
- .bss           0x2000007b        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
- .bss           0x2000007b        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_dvmd_tls.o)
- .bss           0x2000007b        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
- .bss           0x2000007b        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
- .bss           0x2000007b        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-reent.o)
- .bss           0x2000007b        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
- .bss           0x2000007b        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
- .bss           0x2000007b        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
- .bss           0x2000007b        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
- .bss           0x2000007b        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
- .bss           0x2000007b        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
- .bss           0x2000007b        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-makebuf.o)
- .bss           0x2000007b        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memset.o)
- .bss           0x2000007b        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-freer.o)
- .bss           0x2000007b        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-mallocr.o)
- *fill*         0x2000007b        0x1 
+ .bss           0x2000006c        0x0 main.o
+ .bss           0x2000006c        0x0 serial.o
+ .bss           0x2000006c        0x0 startup.o
+ .bss           0x2000006c        0x8 newlib_stubs.o
+                0x2000006c                __env
+ .bss           0x20000074        0x3 USART2.o
+                0x20000074                U2_RX_flag
+                0x20000075                U2_RXO_flag
+                0x20000076                RX_data
+ .bss           0x20000077        0x3 Motor_control.o
+                0x20000077                count
+                0x20000078                duty_cycleLR
+                0x20000079                duty_cycleRR
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_dvmd_tls.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-reent.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-makebuf.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memset.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-freer.o)
+ .bss           0x2000007a        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-mallocr.o)
+ *fill*         0x2000007a        0x2 
  .bss.__malloc_free_list
                 0x2000007c        0x4 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-mallocr.o)
                 0x2000007c                __malloc_free_list
@@ -823,6 +938,7 @@ END GROUP
                 0x20000080                __malloc_sbrk_start
  .bss           0x20000084        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
  .bss           0x20000084        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .bss           0x20000084        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
  .bss           0x20000084        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-sbrkr.o)
  .bss           0x20000084        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
  .bss           0x20000084        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-writer.o)
@@ -837,6 +953,7 @@ END GROUP
  .bss           0x20000084        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-mlock.o)
  .bss           0x20000084        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-reallocr.o)
  .bss           0x20000084        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-readr.o)
+ .bss           0x20000084        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
  .bss           0x20000084        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-msizer.o)
  .bss           0x20000084        0x0 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_udivsi3.o)
  *(COMMON)
@@ -855,6 +972,7 @@ END GROUP
                 0x20002000                PROVIDE (_StackTop, (ORIGIN (ram) + LENGTH (ram)))
 OUTPUT(main.elf elf32-littlearm)
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 .debug_info     0x00000000     0x379d
  .debug_info    0x00000000      0x99c main.o
@@ -884,8 +1002,25 @@ OUTPUT(main.elf elf32-littlearm)
  .debug_abbrev  0x000006d1      0x26b newlib_stubs.o
  .debug_abbrev  0x0000093c      0x232 USART2.o
 >>>>>>> 955922376710ff3aac685ad536fbae9824830878
+=======
+.debug_info     0x00000000     0x4158
+ .debug_info    0x00000000      0x99c main.o
+ .debug_info    0x0000099c      0xb77 serial.o
+ .debug_info    0x00001513      0x9f9 startup.o
+ .debug_info    0x00001f0c      0xf58 newlib_stubs.o
+ .debug_info    0x00002e64      0x970 USART2.o
+ .debug_info    0x000037d4      0x984 Motor_control.o
 
-.debug_aranges  0x00000000       0xa8
+.debug_abbrev   0x00000000      0xd58
+ .debug_abbrev  0x00000000      0x21e main.o
+ .debug_abbrev  0x0000021e      0x27a serial.o
+ .debug_abbrev  0x00000498      0x210 startup.o
+ .debug_abbrev  0x000006a8      0x26b newlib_stubs.o
+ .debug_abbrev  0x00000913      0x232 USART2.o
+ .debug_abbrev  0x00000b45      0x213 Motor_control.o
+>>>>>>> f11b8157a18b77b10fb002f8498f1890d2502b61
+
+.debug_aranges  0x00000000       0xc8
  .debug_aranges
                 0x00000000       0x20 main.o
  .debug_aranges
@@ -896,7 +1031,10 @@ OUTPUT(main.elf elf32-littlearm)
                 0x00000068       0x20 newlib_stubs.o
  .debug_aranges
                 0x00000088       0x20 USART2.o
+ .debug_aranges
+                0x000000a8       0x20 Motor_control.o
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 .debug_line     0x00000000      0xa67
  .debug_line    0x00000000      0x1b7 main.o
@@ -918,24 +1056,33 @@ OUTPUT(main.elf elf32-littlearm)
                                 0x5c6 (size before relaxing)
 =======
 .debug_line     0x00000000      0xa79
+=======
+.debug_line     0x00000000      0xc5e
+>>>>>>> f11b8157a18b77b10fb002f8498f1890d2502b61
  .debug_line    0x00000000      0x1c9 main.o
  .debug_line    0x000001c9      0x272 serial.o
- .debug_line    0x0000043b      0x1e4 startup.o
- .debug_line    0x0000061f      0x2ab newlib_stubs.o
- .debug_line    0x000008ca      0x1af USART2.o
+ .debug_line    0x0000043b      0x1f7 startup.o
+ .debug_line    0x00000632      0x2ab newlib_stubs.o
+ .debug_line    0x000008dd      0x1af USART2.o
+ .debug_line    0x00000a8c      0x1d2 Motor_control.o
 
-.debug_str      0x00000000      0x94a
- .debug_str     0x00000000      0x544 main.o
-                                0x5c4 (size before relaxing)
- .debug_str     0x00000544       0xd8 serial.o
+.debug_str      0x00000000      0x965
+ .debug_str     0x00000000      0x52f main.o
+                                0x5af (size before relaxing)
+ .debug_str     0x0000052f       0xd8 serial.o
                                 0x609 (size before relaxing)
- .debug_str     0x0000061c       0x9a startup.o
-                                0x5d3 (size before relaxing)
- .debug_str     0x000006b6      0x25a newlib_stubs.o
+ .debug_str     0x00000607       0x9a startup.o
+                                0x60d (size before relaxing)
+ .debug_str     0x000006a1      0x25a newlib_stubs.o
                                 0x7e3 (size before relaxing)
- .debug_str     0x00000910       0x3a USART2.o
+ .debug_str     0x000008fb       0x3a USART2.o
                                 0x58c (size before relaxing)
+<<<<<<< HEAD
 >>>>>>> 955922376710ff3aac685ad536fbae9824830878
+=======
+ .debug_str     0x00000935       0x30 Motor_control.o
+                                0x584 (size before relaxing)
+>>>>>>> f11b8157a18b77b10fb002f8498f1890d2502b61
 
 .comment        0x00000000       0x7e
  .comment       0x00000000       0x7e main.o
@@ -944,6 +1091,7 @@ OUTPUT(main.elf elf32-littlearm)
  .comment       0x0000007e       0x7f startup.o
  .comment       0x0000007e       0x7f newlib_stubs.o
  .comment       0x0000007e       0x7f USART2.o
+ .comment       0x0000007e       0x7f Motor_control.o
 
 .ARM.attributes
                 0x00000000       0x31
@@ -958,72 +1106,83 @@ OUTPUT(main.elf elf32-littlearm)
  .ARM.attributes
                 0x000000c4       0x31 USART2.o
  .ARM.attributes
-                0x000000f5       0x1e C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
+                0x000000f5       0x31 Motor_control.o
  .ARM.attributes
-                0x00000113       0x1e C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_dvmd_tls.o)
+                0x00000126       0x1e C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
  .ARM.attributes
-                0x00000131       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
+                0x00000144       0x1e C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_dvmd_tls.o)
  .ARM.attributes
-                0x0000015d       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
+                0x00000162       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o)
  .ARM.attributes
-                0x00000189       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-reent.o)
+                0x0000018e       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
  .ARM.attributes
-                0x000001b5       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
+                0x000001ba       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
  .ARM.attributes
-                0x000001e1       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
+                0x000001e6       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
  .ARM.attributes
-                0x0000020d       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
+                0x00000212       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-reent.o)
  .ARM.attributes
-                0x00000239       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                0x0000023e       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
  .ARM.attributes
-                0x00000265       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
+                0x0000026a       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
  .ARM.attributes
-                0x00000291       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
+                0x00000296       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
  .ARM.attributes
-                0x000002bd       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-makebuf.o)
+                0x000002c2       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
  .ARM.attributes
-                0x000002e9       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memset.o)
+                0x000002ee       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
  .ARM.attributes
-                0x00000315       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-freer.o)
+                0x0000031a       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
  .ARM.attributes
-                0x00000341       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-mallocr.o)
+                0x00000346       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-makebuf.o)
  .ARM.attributes
-                0x0000036d       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
+                0x00000372       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memset.o)
  .ARM.attributes
-                0x00000399       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x0000039e       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-freer.o)
  .ARM.attributes
-                0x000003c5       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-sbrkr.o)
+                0x000003ca       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-mallocr.o)
  .ARM.attributes
-                0x000003f1       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
+                0x000003f6       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
  .ARM.attributes
-                0x0000041d       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-writer.o)
+                0x00000422       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
  .ARM.attributes
-                0x00000449       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-closer.o)
+                0x0000044e       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
  .ARM.attributes
-                0x00000475       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fstatr.o)
+                0x0000047a       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-sbrkr.o)
  .ARM.attributes
-                0x000004a1       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fvwrite.o)
+                0x000004a6       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
  .ARM.attributes
-                0x000004cd       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-isattyr.o)
+                0x000004d2       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-writer.o)
  .ARM.attributes
-                0x000004f9       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-lseekr.o)
+                0x000004fe       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-closer.o)
  .ARM.attributes
-                0x00000525       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memchr-stub.o)
+                0x0000052a       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fstatr.o)
  .ARM.attributes
-                0x00000551       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memcpy-stub.o)
+                0x00000556       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fvwrite.o)
  .ARM.attributes
-                0x0000057d       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memmove.o)
+                0x00000582       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-isattyr.o)
  .ARM.attributes
-                0x000005a9       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-mlock.o)
+                0x000005ae       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-lseekr.o)
  .ARM.attributes
-                0x000005d5       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-reallocr.o)
+                0x000005da       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memchr-stub.o)
  .ARM.attributes
-                0x00000601       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-readr.o)
+                0x00000606       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memcpy-stub.o)
  .ARM.attributes
-                0x0000062d       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-msizer.o)
+                0x00000632       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memmove.o)
  .ARM.attributes
-                0x00000659       0x1e C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_udivsi3.o)
+                0x0000065e       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-mlock.o)
+ .ARM.attributes
+                0x0000068a       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-reallocr.o)
+ .ARM.attributes
+                0x000006b6       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-readr.o)
+ .ARM.attributes
+                0x000006e2       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
+ .ARM.attributes
+                0x0000070e       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-msizer.o)
+ .ARM.attributes
+                0x0000073a       0x1e C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_udivsi3.o)
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 .debug_frame    0x00000000      0xdb8
  .debug_frame   0x00000000       0x84 main.o
@@ -1101,6 +1260,50 @@ OUTPUT(main.elf elf32-littlearm)
  .debug_frame   0x00000d9c       0x20 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-msizer.o)
  .debug_frame   0x00000dbc       0x20 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_udivsi3.o)
 >>>>>>> 955922376710ff3aac685ad536fbae9824830878
+=======
+.debug_frame    0x00000000      0xf20
+ .debug_frame   0x00000000       0x70 main.o
+ .debug_frame   0x00000070      0x1a4 serial.o
+ .debug_frame   0x00000214       0x94 startup.o
+ .debug_frame   0x000002a8      0x228 newlib_stubs.o
+ .debug_frame   0x000004d0       0xa4 USART2.o
+ .debug_frame   0x00000574       0x68 Motor_control.o
+ .debug_frame   0x000005dc       0x20 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_divsi3.o)
+ .debug_frame   0x000005fc       0x40 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o)
+ .debug_frame   0x0000063c       0x50 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
+ .debug_frame   0x0000068c       0x44 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
+ .debug_frame   0x000006d0       0x48 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-reent.o)
+ .debug_frame   0x00000718       0x48 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
+ .debug_frame   0x00000760       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
+ .debug_frame   0x0000078c       0x68 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
+ .debug_frame   0x000007f4      0x140 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+ .debug_frame   0x00000934       0x58 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
+ .debug_frame   0x0000098c       0x48 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
+ .debug_frame   0x000009d4       0x54 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-makebuf.o)
+ .debug_frame   0x00000a28       0x20 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memset.o)
+ .debug_frame   0x00000a48       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-freer.o)
+ .debug_frame   0x00000a74       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-mallocr.o)
+ .debug_frame   0x00000aa0       0x9c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
+ .debug_frame   0x00000b3c       0x54 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .debug_frame   0x00000b90       0x44 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
+ .debug_frame   0x00000bd4       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-sbrkr.o)
+ .debug_frame   0x00000c00       0x90 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
+ .debug_frame   0x00000c90       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-writer.o)
+ .debug_frame   0x00000cbc       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-closer.o)
+ .debug_frame   0x00000ce8       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fstatr.o)
+ .debug_frame   0x00000d14       0x30 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fvwrite.o)
+ .debug_frame   0x00000d44       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-isattyr.o)
+ .debug_frame   0x00000d70       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-lseekr.o)
+ .debug_frame   0x00000d9c       0x20 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memchr-stub.o)
+ .debug_frame   0x00000dbc       0x28 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memcpy-stub.o)
+ .debug_frame   0x00000de4       0x28 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-memmove.o)
+ .debug_frame   0x00000e0c       0x30 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-mlock.o)
+ .debug_frame   0x00000e3c       0x30 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-reallocr.o)
+ .debug_frame   0x00000e6c       0x2c C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-readr.o)
+ .debug_frame   0x00000e98       0x48 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
+ .debug_frame   0x00000ee0       0x20 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-msizer.o)
+ .debug_frame   0x00000f00       0x20 C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\lib\gcc\arm-none-eabi\7.2.1\thumb\v6-m\libgcc.a(_udivsi3.o)
+>>>>>>> f11b8157a18b77b10fb002f8498f1890d2502b61
 
 .debug_ranges   0x00000000       0x18
  .debug_ranges  0x00000000       0x18 startup.o
@@ -1127,9 +1330,9 @@ RX_data                                           USART2.o
 ReadCom                                           serial.o
 ResetInit                                         startup.o
 SysInit                                           main.o
-Timer1ISR                                         main.o
+Timer1ISR                                         Motor_control.o
                                                   startup.o
-TogglePins                                        main.o
+TogglePins                                        Motor_control.o
 U2_RXO_flag                                       USART2.o
                                                   main.o
 U2_RX_flag                                        USART2.o
@@ -1170,27 +1373,37 @@ __sclose                                          C:\Program Files (x86)\GNU Too
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
 __seofread                                        C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
 __sf_fake_stderr                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
-                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
 __sf_fake_stdin                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
-                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
 __sf_fake_stdout                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
-                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
 __sflush_r                                        C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
 __sfmoreglue                                      C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
 __sfp                                             C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
 __sfp_lock_acquire                                C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
@@ -1199,19 +1412,29 @@ __sfputs_r                                        C:\Program Files (x86)\GNU Too
 __sfvwrite_r                                      C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fvwrite.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
 __sinit                                           C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o)
 __sinit_lock_acquire                              C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
 __sinit_lock_release                              C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
 __smakebuf_r                                      C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-makebuf.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
 __sprint_r                                        C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
 __sread                                           C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
+__srefill_r                                       C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
+__srget                                           C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
+__srget_r                                         C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
 __sseek                                           C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
 __swbuf                                           C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
@@ -1241,11 +1464,13 @@ _etext                                            startup.o
 _execve                                           newlib_stubs.o
 _exit                                             newlib_stubs.o
 _fflush_r                                         C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fvwrite.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wbuf.o)
 _fork                                             newlib_stubs.o
 _free_r                                           C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-freer.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-reallocr.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fvwrite.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
@@ -1256,16 +1481,23 @@ _fstat                                            newlib_stubs.o
 _fstat_r                                          C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fstatr.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-makebuf.o)
 _fwalk                                            C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
 _fwalk_reent                                      C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fwalk.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
+_getc_r                                           C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o)
+_getchar_r                                        C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o)
 _getpid                                           newlib_stubs.o
 _global_impure_ptr                                C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
 _impure_ptr                                       C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-impure.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-rget.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-nano-vfprintf.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-findfp.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-wsetup.o)
@@ -1273,6 +1505,7 @@ _impure_ptr                                       C:\Program Files (x86)\GNU Too
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-reent.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-puts.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o)
 _iprintf_r                                        C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-printf.o)
 _isatty                                           newlib_stubs.o
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-isattyr.o)
@@ -1320,11 +1553,11 @@ _write                                            newlib_stubs.o
 _write_r                                          C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-writer.o)
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-stdio.o)
 cleanup_glue                                      C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-reent.o)
-count                                             main.o
-duty_cycleLF                                      main.o
-duty_cycleLR                                      main.o
-duty_cycleRF                                      main.o
-duty_cycleRR                                      main.o
+count                                             Motor_control.o
+duty_cycleLF                                      Motor_control.o
+duty_cycleLR                                      Motor_control.o
+duty_cycleRF                                      Motor_control.o
+duty_cycleRR                                      Motor_control.o
 egetc                                             serial.o
                                                   newlib_stubs.o
 egets                                             serial.o
@@ -1343,6 +1576,11 @@ errno                                             C:\Program Files (x86)\GNU Too
                                                   C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-sbrkr.o)
                                                   newlib_stubs.o
 fflush                                            C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-fflush.o)
+                                                  C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-refill.o)
+getc                                              C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getc.o)
+getchar                                           C:\Program Files (x86)\GNU Tools ARM Embedded\7 2017-q4-major\arm-none-eabi\lib\thumb\v6-m\libc_nano.a(lib_a-getchar.o)
+                                                  Motor_control.o
+getsn                                             Motor_control.o
 initClock                                         startup.o
 initUART                                          serial.o
                                                   startup.o

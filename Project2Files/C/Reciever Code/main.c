@@ -1,47 +1,47 @@
 #include "stm32f05xxx.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "Motor_control.h"
 #include "USART2.h"
 
 #define SYSCLK 48000000L
 #define DEF_F 5000L
 
-unsigned char count = 0;
-unsigned char duty_cycleLF = 75; //Left wheel forward
-unsigned char duty_cycleLR = 0;  //Left wheel reverse (default 0)
-unsigned char duty_cycleRF = 25; //Right wheel forward
-unsigned char duty_cycleRR = 0;  //Right wheel reverse
+// unsigned char count = 0;
+// unsigned char duty_cycleLF = 75; //Left wheel forward
+// unsigned char duty_cycleLR = 0;  //Left wheel reverse (default 0)
+// unsigned char duty_cycleRF = 25; //Right wheel forward
+// unsigned char duty_cycleRR = 0;  //Right wheel reverse
 //unsigned char opcode;
 //unsigned char 
 
 int egets(char *s, int Max);
 
-void TogglePins(void) 
-{    
-	if (count == duty_cycleLF) {
-		GPIOA_ODR &= ~( BIT4 );
-	} 
+// void TogglePins(void) 
+// {    
+// 	if (count == duty_cycleLF) {
+// 		GPIOA_ODR &= ~( BIT4 );
+// 	} 
 	
-	if (count == duty_cycleLR) {
-		GPIOA_ODR &= ~( BIT5 );
-	}
+// 	if (count == duty_cycleLR) {
+// 		GPIOA_ODR &= ~( BIT5 );
+// 	}
 	
-	if (count == duty_cycleRF) {
-		GPIOA_ODR &= ~( BIT6 );
-	}
+// 	if (count == duty_cycleRF) {
+// 		GPIOA_ODR &= ~( BIT6 );
+// 	}
 	
-	if (count == duty_cycleRR) {
-		GPIOA_ODR &= ~( BIT7 );
-	}
+// 	if (count == duty_cycleRR) {
+// 		GPIOA_ODR &= ~( BIT7 );
+// 	}
 	
-	if (count == 100) {
-		GPIOA_ODR |= ( BIT4 | BIT5| BIT6 | BIT7 );
-		count = 0;
-	} else {
-		count++;
-	}	
-}
+// 	if (count == 100) {
+// 		GPIOA_ODR |= ( BIT4 | BIT5| BIT6 | BIT7 );
+// 		count = 0;
+// 	} else {
+// 		count++;
+// 	}	
+// }
 
 
 // Interrupt service routines are the same as normal
@@ -49,11 +49,11 @@ void TogglePins(void)
 // The following should happen at a rate of 1kHz.
 // The following function is associated with the TIM1 interrupt 
 // via the interrupt vector table defined in startup.s
-void Timer1ISR(void)
-{
-	TIM1_SR &= ~BIT0; // clear update interrupt flag
-	TogglePins(); // toggle the state of the LED every second
-}
+// void Timer1ISR(void)
+// {
+// 	TIM1_SR &= ~BIT0; // clear update interrupt flag
+// 	TogglePins(); // toggle the state of the LED every second
+// }
 
 void SysInit(void)
 {
