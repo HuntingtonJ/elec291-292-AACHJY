@@ -26,7 +26,7 @@
 
 volatile bit reload_flag = 0;
 unsigned int freq4 = 15000;
-unsigned int reload4 = 65336;
+unsigned int reload4 = 65109;
 
 
 //initialize timer0 for I2C clk synchronizations with the Wii Nunchuck
