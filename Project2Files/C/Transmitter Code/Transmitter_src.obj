@@ -280,9 +280,15 @@ _crt0,any,0000,0000
 <CODE R_DINIT>
 75 data8(_freq4;) 98
 75 data8(_freq4;0x0001;+;) 3A
+<<<<<<< HEAD
 75 data8(_reload4;) 38
 75 data8(_reload4;0x0001;+;) FF
 75 data8(_mode;) 01
+=======
+75 data8(_reload4;) 55
+75 data8(_reload4;0x0001;+;) FE
+75 data8(_mode;) 00
+>>>>>>> 56cde3a1af405844b1b75a268c590955ce327614
 C2 bit(_reload_flag;)
 D2 bit(_offset_flag;)
 D2 bit(_speedbit;)
