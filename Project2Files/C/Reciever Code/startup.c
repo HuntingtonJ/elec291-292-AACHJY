@@ -46,7 +46,7 @@ const void * Vectors[] __attribute__((section(".vectors"))) ={
 	Default_Handler, 	/* DMA_CH2_3 */
 	Default_Handler, 	/* DMA_CH4_5 */
 	Default_Handler,	/* ADC_COMP */
-	Timer1ISR ,     	/* TIM1_BRK_UP_TRG_COM */
+	Timer1ISR,     	/* TIM1_BRK_UP_TRG_COM */
 	Default_Handler, 	/* TIM1_CC */
 	Default_Handler, 	/* TIM2 */
 	Default_Handler, 	/* TIM3 */

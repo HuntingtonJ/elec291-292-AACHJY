@@ -76,37 +76,42 @@ void SysInit(void)
 
 //Take RX_data value recieved from EFM8 and convert the char back to get the 
 //	opcode and the value as seen in Transmitter_src.c file
-void Extract_op_val(unsigned char RX_data, unsigned char *speed, unsigned char * direction){
-unsigned char opcode, value;
+void Extract_op_val(unsigned char RX_data, unsigned char *speed, unsigned char *direction){
+	unsigned char opcode, value;
 
-	opcode = RX_data&&(0b11100000)/0b00100000;
-	value =  RX_data&&(0b00011111);
+	//opcode = RX_data&&(0b11100000);	//0b100000;
+	opcode = RX_data/0b100000;
 	
+	//value = RX_data&&(0b00011111);
+	
+	value = (RX_data - opcode);
 
-	printf("Opcode:%d\r\n", opcode);
-	printf("Value:%d\r\n", value);
+	printf("\t\t\tOpcode:%d\r\n", opcode);
+	printf("\t\t\tValue:%d\r\n", value);
 
 	switch(opcode){
 		case 0b000: 
-			printf("SPEED_OP\n");
+			printf("\t\t\tSPEED_OP\n");
 			*speed= value*(0b100);
 			break;
 		case 0b001: 
-			printf("DIRECTION_OP\n");
-			*direction=value;
+			printf("\t\t\tDIRECTION_OP\n");
+			*direction=(value-0b11111);
 			break;
 		case 0b010: 
-			printf("LIGHTS_OP\n");
+			printf("\t\t\tLIGHTS_OP\n");
 			break;
 		case 0b100: 
-			printf("GRAB_OP\n");
+			printf("\t\t\tGRAB_OP\n");
 			break;
 		case 0b111: 
-			printf("STOP_OP\n");
+			printf("\t\t\tSTOP_OP\n");
+			*direction = 0b11111;
 			break;
 		default:
-			printf("Unknown_OP\n");
-			return;
+			printf("\t\t\tUnknown_OP\n");
+			*direction = 0b11111; 
+			break;
 	}
 
 }
@@ -123,18 +128,20 @@ int main(void) {
 	
 	while (1){
 		//Receives data on Pin 9.
-    	if (U2_RX_flag & 1) {\
+    	if (U2_RX_flag & 1) {
     		Extract_op_val(RX_data, &speed, &direction);
+			printf("speed=%d, direction=%d\r\n", speed, direction);
+			drive(speed, direction);
     		//printf("Received: %d\r\n", RX_data);
     		U2_RX_flag = 0;
     	}
-    	
-    	drive(speed, direction);
-
     	if (U2_RXO_flag & 1) {
     		printf("Receive Overflow\r\n");
     		U2_RXO_flag = 0;
     	}
+		//printf("speed=%d, direction=%d\r\n", speed, direction);
+		//printf("speed=%d, direction=%d\r\n", speed, direction);
+		//drive(speed, direction);
     	putc2(0x55);
 	}
 }

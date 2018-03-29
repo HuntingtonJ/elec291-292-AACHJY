@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include "serial.h"
 
-extern unsigned char count;
-extern unsigned char duty_cycleLF; //Left wheel forward
-extern unsigned char duty_cycleLR;  //Left wheel reverse (default 0)
-extern unsigned char duty_cycleRF; //Right wheel forward
-extern unsigned char duty_cycleRR;  //Right wheel reverse
+extern volatile unsigned char count;
+extern volatile unsigned char duty_cycleLF; //Left wheel forward
+extern volatile unsigned char duty_cycleLR;  //Left wheel reverse (default 0)
+extern volatile unsigned char duty_cycleRF; //Right wheel forward
+extern volatile unsigned char duty_cycleRR;  //Right wheel reverse
 
 // extern volatile unsigned char pwm_count;
 // extern volatile unsigned char number1;
