@@ -79,30 +79,16 @@ void SysInit(void)
 void Extract_op_val(unsigned char RX_data, unsigned char *speed, unsigned char *direction){
 	unsigned char opcode, value;
 
-<<<<<<< HEAD
 	opcode = RX_data/(0b100000);
 	value =  RX_data - opcode;
-=======
-	//opcode = RX_data&&(0b11100000);	//0b100000;
-	opcode = RX_data/0b100000;
-	
-	//value = RX_data&&(0b00011111);
-	
-	value = (RX_data - opcode);
->>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 
 	printf("\t\t\tOpcode:%d\r\n", opcode);
 	printf("\t\t\tValue:%d\r\n", value);
 
 	switch(opcode){
 		case 0b000: 
-<<<<<<< HEAD
-			printf("SPEED_OP\n");
-			*speed= value*4;
-=======
 			printf("\t\t\tSPEED_OP\n");
 			*speed= value*(0b100);
->>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 			break;
 		case 0b001: 
 			printf("\t\t\tDIRECTION_OP\n");
@@ -115,13 +101,8 @@ void Extract_op_val(unsigned char RX_data, unsigned char *speed, unsigned char *
 			printf("\t\t\tGRAB_OP\n");
 			break;
 		case 0b111: 
-<<<<<<< HEAD
-			printf("STOP_OP\n");
-			stop();
-=======
 			printf("\t\t\tSTOP_OP\n");
 			*direction = 0b11111;
->>>>>>> afe2bea48aa7feb8ae96f661afe768b5c52ada3c
 			break;
 		default:
 			printf("\t\t\tUnknown_OP\n");

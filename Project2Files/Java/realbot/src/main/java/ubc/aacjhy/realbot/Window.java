@@ -20,6 +20,7 @@ public class Window {
 
     private PVector base_color = new PVector(100, 100, 100);
     private PVector bezel_color = new PVector(200, 200, 200);
+    private boolean selected = false;
 
     public Window(PApplet p, String type,  int x, int y, int w, int h) {
         this.p = p;
@@ -37,7 +38,13 @@ public class Window {
     }
 
     protected void render_base() {
-        p.noStroke();
+
+        if (selected) {
+            p.strokeWeight(1);
+            p.stroke(0);
+        } else {
+            p.noStroke();
+        }
 
         //Draw Bezel
         p.fill(bezel_color.x, bezel_color.y, bezel_color.z);
@@ -124,8 +131,8 @@ public class Window {
 
     }
 
-    public void addButton(String label, int x, int y, int width, int height) {
-        buttons.add(new Button(p, this, label, x, y, width, height));
+    public void addButton(String label, Function_Matrix function_matrix, int x, int y, int width, int height) {
+        buttons.add(new Button(p, this, function_matrix, label, x, y, width, height));
     }
 
     public void updateButtons() {
@@ -149,6 +156,21 @@ public class Window {
 
     public String getType() {
         return type;
+    }
+
+    public void setSelected() {
+        selected = true;
+    }
+
+    public void clearSelected() {
+        selected = false;
+    }
+
+    public void keyPressed(int keyCode) {
+    }
+
+    public void keyReleased() {
+
     }
 }
 

@@ -112,7 +112,7 @@ void sendCommand(unsigned char op, unsigned char value) {
 		putchar1(op*0b_100000 + value); // This code is problematic as it multiplies 32 by our value..... Temporary fix is to subtract 31 from our direction on receiver side. 
 		printf("Sent: %d\r\n", op*0b_100000 + value);
 	} else {
-		printf("c err\r\n");
+		printf("c err: %c, %d\r\n", op, value);
 	}
 }
 
@@ -120,22 +120,46 @@ void sendCommandS(char* input) {
 	unsigned char op;
 	unsigned char d;
 	
-	sscanf(input, "%*s %c %c", &op, &d);
+	sscanf(input, "%*s %c %d", &op, &d);
 	
 	switch(op) {
 		case 's':
-			op = 0;
+			op = SPEED_OP;
+			d = 0;
+			sendCommand(op, d);
 			break;
 		case 'f':
-			op = 0b_001;
+			op = SPEED_OP;
+			sendCommand(op, d);
+			op = DIRECTION_OP;
+			d = 0;//north
+			sendCommand(op, d);
 			break;
 		case 'r':
-			op = 0b_010;
+			op = SPEED_OP;
+			sendCommand(op, d);
+			op = DIRECTION_OP;
+			d = 1;//south
+			sendCommand(op, d);
+			break;
+		case 'd':
+			op = SPEED_OP;
+			sendCommand(op, d);
+			op = DIRECTION_OP;
+			d = 9;//west
+			sendCommand(op, d);
+			break;
+		case 'p':
+			op = SPEED_OP;
+			sendCommand(op, d);
+			op = DIRECTION_OP;
+			d = 8;//east
+			sendCommand(op, d);
 			break;
 		default:
 			return;
 	}
-	sendCommand(op, d);
+	
 }
 
 

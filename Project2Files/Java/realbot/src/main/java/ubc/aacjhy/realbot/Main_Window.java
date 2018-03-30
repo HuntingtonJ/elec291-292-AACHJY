@@ -12,6 +12,8 @@ public class Main_Window extends Window {
     private boolean console_f = false;
     private boolean midi_f = false;
 
+    public Window selected_window;
+
     public Main_Window(PApplet p, String type, Serial myPort) {
         super(p, type,0, 0, p.width, p.height);
 
@@ -81,6 +83,15 @@ public class Main_Window extends Window {
     public Window getMouseWindow() {
         for (Window window : windows) {
             if (p.mouseX >= window.getX() && p.mouseX <= window.getX() + window.getWidth() && p.mouseY >= window.getY() && p.mouseY <= window.getY() + window.getHeight()) {
+                if (window == selected_window) {
+                    return window;
+                } else {
+                    if (selected_window != null) {
+                        selected_window.clearSelected();
+                    }
+                    selected_window = window;
+                    selected_window.setSelected();
+                }
                 return window;
             }
         }

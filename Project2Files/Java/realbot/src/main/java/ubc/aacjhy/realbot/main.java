@@ -25,7 +25,7 @@ public class main extends PApplet {
     }
 
     public void settings() {
-        size(500, 500);
+        size(800, 500);
     }
 
     public void setup() {
@@ -58,22 +58,21 @@ public class main extends PApplet {
     public void mousePressed() {
         Window selected_window = main_window.getMouseWindow();
         if (selected_window.getType().equals("controller")) {
-            mode = 3;
+            mode = 2;
         } else if (selected_window.getType().equals("midi_sequencer")) {
             mode = 1;
         } else if (selected_window.getType().equals("console")) {
             mode = 0;
         }
         switch (mode) {
-            case 0:
+            case 0: //console
                 break;
-            case 1:
-            case 2:
+            case 1: //Midi keys
                 if (mouseButton == LEFT) {
                     selected_window.mousePressedWindow();
                 }
                 break;
-            case 3:
+            case 2: //Controller
                 if (mouseButton == LEFT) {
                     selected_window.mousePressedWindow();
                 }
@@ -164,13 +163,15 @@ public class main extends PApplet {
                     break;
             }
         } else if (mode == 2) {
-            switch (keyCode) {
-                case 'P':
-                    mode = 1;
-                    break;
-                default:
-                    break;
-            }
+            main_window.selected_window.keyPressed(keyCode);
+        }
+    }
+
+    public void keyReleased() {
+        if (mode == 0) {
+
+        } else if (mode == 2) {
+            main_window.selected_window.keyReleased();
         }
     }
 }

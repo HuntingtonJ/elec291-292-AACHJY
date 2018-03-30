@@ -10,11 +10,15 @@
 #define BAUDRATE      115200L  // Baud rate of UART in bps
 #define VDD 3.3122 // The measured value of VDD in volts
 
+unsigned char buffer[CHARS_PER_LINE];
+
 volatile unsigned bit offset_flag=1;
 volatile unsigned bit speedbit=1;
 volatile unsigned bit  Z_but=0;
 
-volatile unsigned char mode = 1;
+volatile unsigned char mode = 0;
+
+int getsn (char * buff, int len);
 
 char _c51_external_startup (void)
 {
@@ -123,7 +127,6 @@ int getsn (char * buff, int len){
 }
 
 void main(void) {
-	unsigned char buffer[6];
 	char speed;
 	char direction;
 	int off_x=0;
@@ -165,29 +168,28 @@ void main(void) {
 			printf("Enter command: \r\n");
 			getsn(buffer, CHARS_PER_LINE);
 			getCommand(buffer); //after use, is clear, only used within functions
-
+				
 		} else if ((mode == 1)) {
-		Z_but=read_nunchuck(&direction, &speed, buffer, off_x, off_y);
-
+			Z_but=read_nunchuck(&direction, &speed, buffer, off_x, off_y);
 			printf("Z_but: %i", Z_but);
 		
-		if(Z_but==0){ 
-			if(speedbit){
-				sendCommand(SPEED_OP, speed);
-				printf("yesssss\n\n");
-				speedbit=0;
-			} 
-			else {
-				printf("dirrrrrrrrr: %i \n\n", direction);
-				sendCommand(DIRECTION_OP, direction);
-				speedbit=1;
-				
-				//printf("3\n\r");
+			if(Z_but==0){ 
+				if(speedbit){
+					sendCommand(SPEED_OP, speed);
+					printf("yesssss\n\n");
+					speedbit=0;
+				} 
+				else {
+					printf("dirrrrrrrrr: %i \n\n", direction);
+					sendCommand(DIRECTION_OP, direction);
+					speedbit=1;
+					
+					//printf("3\n\r");
+				}
 			}
-		}
-		//	mode=0;
-			printf("direction: %d   speed: %d \n", direction, speed);
-		//	printf("\x1b[2J");
+			//	mode=0;
+				printf("direction: %d   speed: %d \n", direction, speed);
+			//	printf("\x1b[2J");
 		}
 	}	
 }

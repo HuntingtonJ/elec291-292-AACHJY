@@ -6,6 +6,7 @@ import processing.core.PVector;
 public class Button {
     private PApplet p;
     private Window window;
+    private Function_Matrix function_matrix;
 
     private String label;
 
@@ -21,9 +22,10 @@ public class Button {
     private PVector fill_c = new PVector(100, 100, 100);
     private PVector fill_c_pressed = new PVector(130, 130, 130);
 
-    public Button(PApplet p, Window win, String l, int x, int y, int w, int h) {
+    public Button(PApplet p, Window win, Function_Matrix f_m, String l, int x, int y, int w, int h) {
         this.p = p;
-        window = win;
+        this.window = win;
+        this.function_matrix = f_m;
 
         label = l;
 

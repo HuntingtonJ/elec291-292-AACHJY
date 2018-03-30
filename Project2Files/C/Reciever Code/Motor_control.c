@@ -86,39 +86,26 @@ int getsn (char * buff, int len)
 
 void Timer1ISR(void) 
 {
-<<<<<<< HEAD
 	TIM1_SR &= ~BIT0; // clear update interrupt flag	
-=======
-	TIM1_SR &= ~BIT0; // clear update interrupt flag
-		
-	// pwm_count++;
-	// if(pwm_count>100) pwm_count=0;
-	
-	// Mot1_forward=pwm_count>duty_cycleLF?0:1;
-	// Mot1_reverse=pwm_count>duty_cycleLR?0:1;
-
-	// Mot2_forward=pwm_count>duty_cycleRF?0:1;
-	// Mot2_reverse=pwm_count>duty_cycleRR?0:1;	
->>>>>>> 0058459bf41386d0117071ae9bac42d68ff7f0bd
     
     TogglePins(); // toggle the state of the LED every second  
 }
 
 void TogglePins(void) 
 {    
-	if (count >= duty_cycleLF) {
+	if (count == duty_cycleLF) {
 		GPIOA_ODR ^= BIT4;	//&= ~( BIT4 );
 	} 
 	
-	if (count >= duty_cycleLR) {
+	if (count == duty_cycleLR) {
 		GPIOA_ODR ^= BIT5;	//&= ~( BIT5 );
 	}
 	
-	if (count >= duty_cycleRF) {
+	if (count == duty_cycleRF) {
 		GPIOA_ODR ^= BIT6;	//&= ~( BIT6 );
 	}
 	
-	if (count >= duty_cycleRR) {
+	if (count == duty_cycleRR) {
 		GPIOA_ODR ^= BIT7;	//&= ~( BIT7 );
 	}
 	
