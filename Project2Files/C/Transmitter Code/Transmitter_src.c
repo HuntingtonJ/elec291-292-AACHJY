@@ -169,7 +169,7 @@ void main(void) {
 			getsn(buffer, CHARS_PER_LINE);
 			getCommand(buffer); //after use, is clear, only used within functions
 				
-		} else if ((mode == 1)) {
+		} else if (mode == 1) {
 			Z_but=read_nunchuck(&direction, &speed, buffer, off_x, off_y);
 			printf("Z_but: %i", Z_but);
 		
@@ -178,8 +178,7 @@ void main(void) {
 					sendCommand(SPEED_OP, speed);
 					printf("yesssss\n\n");
 					speedbit=0;
-				} 
-				else {
+				} else {
 					printf("dirrrrrrrrr: %i \n\n", direction);
 					sendCommand(DIRECTION_OP, direction);
 					speedbit=1;

@@ -24,9 +24,10 @@
 #define LIGHTS_OP		0b011
 #define STOP_OP			0b111
 
+extern volatile unsigned char mode;
 
 volatile bit reload_flag = 0;
-unsigned int freq4 = 15000;
+unsigned int freq4 = 7025;
 unsigned int reload4 = 65109;
 
 
@@ -247,6 +248,10 @@ void getCommand(char* input) {
 				break;
 			case 'i':
 				printf("Reload: %u, Freq: %d \r\n", reload4, freq4);
+				break;
+			case 'm':
+				mode = 1;
+				printf("Mode set to 1 (wii-nunchuck)\r\n");
 				break;
 			case 'o':
 			    if (input[2] == 0)
