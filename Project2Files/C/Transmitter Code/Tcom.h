@@ -11,7 +11,7 @@
 #define  SMB_FREQUENCY  100000L   // I2C SCL clock rate (10kHz to 100kHz)
 
 #define OUT0 P2_0
-#define OUT1 P1_6
+#define OUT1 P2_1
 
 // volatile unsigned char pwm_count = 0;
 // volatile unsigned char duty_cycle0 = 50;
@@ -104,6 +104,7 @@ void Timer4_ISR(void) interrupt INTERRUPT_TIMER4 {
 	TF4H = 0; //interrupt flag
 	
 	OUT0 = !OUT0;
+	OUT1 = !OUT0;
 	reload_flag = 0;
 }
 

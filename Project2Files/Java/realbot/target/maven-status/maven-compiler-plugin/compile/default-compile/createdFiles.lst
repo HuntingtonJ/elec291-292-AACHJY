@@ -1,8 +1,14 @@
 ubc\aacjhy\realbot\Midi_Window.class
 ubc\aacjhy\realbot\Controller_Window.class
+ubc\aacjhy\realbot\Window.class
 ubc\aacjhy\realbot\Console_Window.class
 ubc\aacjhy\realbot\main.class
+ubc\aacjhy\realbot\Controller_Function_Matrix.class
+ubc\aacjhy\realbot\RootHandler.class
+ubc\aacjhy\realbot\EchoHeaderHandler.class
+ubc\aacjhy\realbot\EchoGetHandler.class
 ubc\aacjhy\realbot\Main_Window.class
 ubc\aacjhy\realbot\Midi_Note.class
 ubc\aacjhy\realbot\Button.class
-ubc\aacjhy\realbot\Window.class
+ubc\aacjhy\realbot\EchoPostHandler.class
+ubc\aacjhy\realbot\Function_Matrix.class

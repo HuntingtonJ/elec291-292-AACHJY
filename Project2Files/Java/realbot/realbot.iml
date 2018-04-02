@@ -14,5 +14,6 @@
     <orderEntry type="library" name="Maven: org.processing:core:3.3.6-1" level="project" />
     <orderEntry type="library" name="Maven: org.processing:serial:3.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.scream3r:jssc:2.8.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.sun.net.httpserver:http:20070405" level="project" />
   </component>
 </module>

@@ -86,7 +86,7 @@ char _c51_external_startup (void)
 
 	P0MDOUT |= 0x14; // Enable UART0 TX as push-pull output and UART1 Tx (pin 0.2)
 	P1MDOUT |= 0xff; // Enable Push/Pull on port 1
-	//P2MDOUT |= 0x01; //Push pull on pin 0
+	P2MDOUT |= 0x03; //Push pull on pin 0
 	XBR0     = 0b_0000_0101; // Enable UART0 on P0.4(TX) and P0.5(RX) and SMB0 I/O on (0.0 SDA) and (0.1 SCL)               
 	XBR1     = 0x00; // Enable T0 on P0.0
 	XBR2     = 0x41; // Enable crossbar and weak pull-ups .... (page 110) may need to set BIT0 to enable UART1 IO (0.2 Tx) and 0.3 RX

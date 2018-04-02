@@ -1,16 +1,26 @@
 package ubc.aacjhy.realbot;
 
+import com.sun.net.httpserver.HttpServer;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.serial.Serial;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.InetSocketAddress;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class main extends PApplet {
 
     private Serial myPort;
-
     private String inString;
-
     private int lf = 10;
+
+    public static int port = 9000;
+    private HttpServer server;
 
     private boolean shift_flag = false;
     private int mode = 0;
@@ -34,6 +44,8 @@ public class main extends PApplet {
             myPort = new Serial(this, Serial.list()[0], 115200);
             myPort.bufferUntil(lf);
         }
+
+        HttpServerInit();
 
         main_window = new Main_Window(this, "main_window", myPort);
         main_window.addWindow(main_window,0, 0);
@@ -172,6 +184,58 @@ public class main extends PApplet {
 
         } else if (mode == 2) {
             main_window.selected_window.keyReleased();
+        }
+    }
+
+    public void HttpServerInit() {
+        try {
+            server = HttpServer.create(new InetSocketAddress(port), 0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("server started at " + port);
+        server.createContext("/", new RootHandler());
+        server.createContext("/echoHeader", new EchoHeaderHandler());
+        server.createContext("/echoGet", new EchoGetHandler());
+        server.createContext("/echoPost", new EchoPostHandler());
+        server.setExecutor(null);
+        server.start();
+    }
+
+    public static void parseQuery(String query, Map<String, Object> parameters) throws UnsupportedEncodingException {
+
+        if (query != null) {
+            String pairs[] = query.split("[&]");
+            for (String pair : pairs) {
+                String param[] = pair.split("[=]");
+                String key = null;
+                String value = null;
+                if (param.length > 0) {
+                    key = URLDecoder.decode(param[0],
+                            System.getProperty("file.encoding"));
+                }
+
+                if (param.length > 1) {
+                    value = URLDecoder.decode(param[1],
+                            System.getProperty("file.encoding"));
+                }
+
+                if (parameters.containsKey(key)) {
+                    Object obj = parameters.get(key);
+                    if (obj instanceof List<?>) {
+                        List<String> values = (List<String>) obj;
+                        values.add(value);
+
+                    } else if (obj instanceof String) {
+                        List<String> values = new ArrayList<String>();
+                        values.add((String) obj);
+                        values.add(value);
+                        parameters.put(key, values);
+                    }
+                } else {
+                    parameters.put(key, value);
+                }
+            }
         }
     }
 }
