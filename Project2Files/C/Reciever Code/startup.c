@@ -2,6 +2,7 @@
 #include "serial.h"
 #include "USART2.h"
 #include "Motor_control.h"
+#include "Servo_control.h"
 
 void ResetInit(void);
 void Default_Handler(void);
@@ -9,6 +10,7 @@ void Hard_Fault_Handler(void);
 void isr_usart1(void);
 void isr_usart2(void);
 void Timer1ISR(void);
+void Timer2ISR(void);
 
 // Allocated stack space as defined in linker script lpc824.ld
 extern unsigned int _StackTop;
@@ -31,7 +33,7 @@ const void * Vectors[] __attribute__((section(".vectors"))) ={
 	0,                 	/* Reserved */
 	0,                 	/* Reserved */
 	Default_Handler,   	/* PendSV */
-	Default_Handler, 	/* SysTick */		
+	Default_Handler, 	/* SysTick */
 /* External interrupt handlers follow */
 	Default_Handler, 	/* WWDG */
 	Default_Handler, 	/* PVD */
@@ -48,7 +50,7 @@ const void * Vectors[] __attribute__((section(".vectors"))) ={
 	Default_Handler,	/* ADC_COMP */
 	Timer1ISR,     		/* TIM1_BRK_UP_TRG_COM */
 	Default_Handler, 	/* TIM1_CC */
-	Default_Handler, 	/* TIM2 */
+	Timer2ISR, 	/* TIM2 */
 	Default_Handler, 	/* TIM3 */
 	Default_Handler, 	/* TIM6_DAC */
 	Default_Handler, 	/* RESERVED */
@@ -107,7 +109,7 @@ void initClock()
 
     // set PLL multiplier to 12 (yielding 48MHz)
     RCC_CFGR &= ~(BIT21 | BIT20 | BIT19 | BIT18);
-    RCC_CFGR |= (BIT21 | BIT19 ); 
+    RCC_CFGR |= (BIT21 | BIT19 );
 
     // Need to limit ADC clock to below 14MHz so will change ADC prescaler to 4
     RCC_CFGR |= BIT14;
@@ -124,8 +126,8 @@ void initClock()
     RCC_CR |= BIT24;
     // Wait for the PLL to lock
     while( !(RCC_CR & BIT25));
-          
-    // set PLL as system clock source 
+
+    // set PLL as system clock source
     RCC_CFGR |= BIT1;
 }
 
@@ -141,14 +143,14 @@ void ResetInit()
 
 	#ifdef SHOW_LD_SCRIPT_ASSIGMENTS
 	PRINTVAR(&_etext)
-	PRINTVAR(&_data)	    
-	PRINTVAR(&_edata)	    
-	PRINTVAR(&_bss)	    
+	PRINTVAR(&_data)
+	PRINTVAR(&_edata)
+	PRINTVAR(&_bss)
 	PRINTVAR(&_ebss)
 	PRINTVAR(&__init_array_start)
-	PRINTVAR(&__init_array_end)	    
+	PRINTVAR(&__init_array_end)
 	#endif
-   
+
 	main();
 	//eputs("Returned from main()");
 	while (1) ; // hang if main returns
