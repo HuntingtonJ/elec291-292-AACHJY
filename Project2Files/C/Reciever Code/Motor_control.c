@@ -253,7 +253,7 @@ void turn_SWW(char speed){
 			duty_cycleRR=0;
 			}
 
-void drive(unsigned char speed, unsigned char direction){
+void drive(unsigned char speed, unsigned char direction, unsigned char *headflag, unsigned char *tailflag, unsigned char *Rindicflag, unsigned char *Lindicflag){
 
 			switch(direction){
 
@@ -263,6 +263,10 @@ void drive(unsigned char speed, unsigned char direction){
 						printf("carson likes fish\r\n");
 						//headlight=ON;
 						//taillight=OFF;
+						headflag = 1;
+						tailflag = 0;
+						Rindicflag = 0;
+						Lindicflag = 0;
 						break;
 					}
 
@@ -272,6 +276,10 @@ void drive(unsigned char speed, unsigned char direction){
 					printf("go reverse\n");
 					//headlight=ON;
 					//taillight=ON;
+					headflag = 0;
+					tailflag = 1;
+					Rindicflag = 0;
+					Lindicflag = 0;
 					break;
 				}
 
@@ -279,6 +287,10 @@ void drive(unsigned char speed, unsigned char direction){
 				{
 					turn_west(speed);
 					printf("turn west\n");
+					headflag = 1;
+					tailflag = 0;
+					Rindicflag = 0;
+					Lindicflag = 1;
 					break;
 				}
 
@@ -286,6 +298,10 @@ void drive(unsigned char speed, unsigned char direction){
 				{
 					turn_east(speed);
 					printf("turn east\n");
+					headflag = 1;
+					tailflag = 0;
+					Rindicflag = 1;
+					Lindicflag = 0;
 					break;
 				}
 
@@ -294,6 +310,10 @@ void drive(unsigned char speed, unsigned char direction){
 					turn_NW(speed);
 					printf("turn nw\n");
 					break;
+					headflag = 1;
+					tailflag = 0;
+					Rindicflag = 0;
+					Lindicflag = 1;
 
 				}
 
@@ -301,6 +321,10 @@ void drive(unsigned char speed, unsigned char direction){
 				{ 
 					turn_NNE(speed);
 					printf("turn nne\n");
+					headflag = 1;
+					tailflag = 0;
+					Rindicflag = 1;
+					Lindicflag = 0;
 					break;
 					}
 
@@ -308,6 +332,10 @@ void drive(unsigned char speed, unsigned char direction){
 				{ 
 					turn_NNW(speed);
 					printf("turn nnw\n");
+					headflag = 1;
+					tailflag = 0;
+					Rindicflag = 0;
+					Lindicflag = 1;
 					break;
 					}
 
@@ -315,6 +343,10 @@ void drive(unsigned char speed, unsigned char direction){
 				{ 
 					turn_NE(speed);
 					printf("turn ne\n");
+					headflag = 1;
+					tailflag = 0;
+					Rindicflag = 1;
+					Lindicflag = 0;
 					break;
 					}
 
@@ -322,6 +354,10 @@ void drive(unsigned char speed, unsigned char direction){
 				{ 
 					turn_NEE(speed);
 					printf("turn nee\n");
+					headflag = 1;
+					tailflag = 0;
+					Rindicflag = 1;
+					Lindicflag = 0;
 					break;
 					}
 
@@ -329,6 +365,10 @@ void drive(unsigned char speed, unsigned char direction){
 				{ 
 					turn_NWW(speed);
 					printf("turn nww\n");
+					headflag = 1;
+					tailflag = 0;
+					Rindicflag = 0;
+					Lindicflag = 1;
 					break;
 					}
 
@@ -337,6 +377,10 @@ void drive(unsigned char speed, unsigned char direction){
 				{
 					turn_SW(speed);
 					printf("turn sw\n");
+					headflag = 0;
+					tailflag = 1;
+					Rindicflag = 0;
+					Lindicflag = 1;
 					break;
 
 				}
@@ -345,6 +389,10 @@ void drive(unsigned char speed, unsigned char direction){
 				{ 
 					turn_SSE(speed);
 					printf("turn sse\n");
+					headflag = 0;
+					tailflag = 1;
+					Rindicflag = 1;
+					Lindicflag = 0;
 					break;
 					}
 
@@ -352,6 +400,10 @@ void drive(unsigned char speed, unsigned char direction){
 				{ 
 					turn_SSW(speed);
 					printf("turn ssw\n");
+					headflag = 0;
+					tailflag = 1;
+					Rindicflag = 0;
+					Lindicflag = 1;
 					break;
 					}
 
@@ -359,6 +411,10 @@ void drive(unsigned char speed, unsigned char direction){
 				{ 
 					turn_SE(speed);
 					printf("turn se\n");
+					headflag = 0;
+					tailflag = 1;
+					Rindicflag = 1;
+					Lindicflag = 0;
 					break;
 					}
 
@@ -366,6 +422,10 @@ void drive(unsigned char speed, unsigned char direction){
 				{ 
 					turn_SEE(speed);
 					printf("turn see\n");
+					headflag = 0;
+					tailflag = 1;
+					Rindicflag = 1;
+					Lindicflag = 0;
 					break;
 					}
 
@@ -373,11 +433,19 @@ void drive(unsigned char speed, unsigned char direction){
 				{ 
 					turn_SWW(speed);
 					printf("turn sww\n");
+					headflag = 0;
+					tailflag = 1;
+					Rindicflag = 0;
+					Lindicflag = 1;
 					break;
 					}
 			case uknownOP:
 				{
 					printf("Drive Stationary\r\n");
+					headflag = 0;
+					tailflag = 0;
+					Rindicflag = 1;
+					Lindicflag = 1;
 					stop();
 					break;
 				}
@@ -387,6 +455,10 @@ void drive(unsigned char speed, unsigned char direction){
 					stop();
 					direction='x';
 					printf("default\r\n");
+					headflag = 0;
+					tailflag = 0;
+					Rindicflag = 0;
+					Lindicflag = 0;
 					break;
 				}
 

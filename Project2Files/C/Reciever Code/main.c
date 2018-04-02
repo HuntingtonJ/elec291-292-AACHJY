@@ -59,8 +59,8 @@ void SysInit(void)
 {
 	// Set up output port bit for blinking LED
 	RCC_AHBENR |= 0x00020000;  // peripheral clock enable for port A
-	GPIOA_MODER |= ( BIT8 | BIT10 | BIT12 | BIT14); // Make pin PAx output
-	GPIOA_OTYPER &= ~( BIT4 | BIT5 | BIT6 | BIT7);  //Set as push-pull
+	GPIOA_MODER |= (BIT8 | BIT9| BIT10 | BIT11 | BIT12 | BIT14); // Make pin PAx output
+	GPIOA_OTYPER &= ~( BIT4 | BIT5 | BIT6 | BIT7 );  //Set as push-pull, pins PA4-7=0
 	//GPIOA_ODR |= ( BIT4 | BIT5| BIT6 | BIT7 );      //Set to 1
 	
 	
@@ -72,6 +72,30 @@ void SysInit(void)
 	TIM1_CR1 |= BIT0;     // enable counting    
 	TIM1_DIER |= BIT0;    // enable update event (reload event) interrupt  
 	enable_interrupts();
+}
+
+void lights(headflag, tailflag, Rindicflag, Lindicflag){
+	
+	if(headflag == 1){
+		GPIOA_ODR = BIT9;
+	}else{
+		GPIOA_ODR = ~(BIT9);
+	}
+	if(tailflag == 1){
+		GPIOA_ODR = BIT10;
+	}else{
+		GPIOA_ODR = ~(BIT10);
+	}
+	if(Rindicflag == 1){
+		GPIOA_ODR ^= BIT11;
+	}else{
+		GPIOA_ODR = ~(BIT11);
+	}
+	if(Lindicflag == 1){
+		GPIOA_ODR ^= BIT12;
+	}else{
+		GPIOA_ODR = ~(BIT12);
+	}
 }
 
 //Take RX_data value recieved from EFM8 and convert the char back to get the 
@@ -117,7 +141,7 @@ int main(void) {
     int newF, reload;
     unsigned char opcode, value;
     unsigned char speed, direction;
-
+	unsigned char headflag=0, tailflag=0, Rindicflag=0, Lindicflag=0;
 	SysInit();
 	
     printf("Magnetic Field Receiver.\r\n\r\n");
@@ -127,7 +151,7 @@ int main(void) {
     	if (U2_RX_flag & 1) {
     		Extract_op_val(RX_data, &speed, &direction);
 			printf("speed=%d, direction=%d\r\n", speed, direction);
-			drive(speed, direction);
+			drive(speed, direction, &headflag, &tailflag, & Rindicflag, &Lindicflag);
     		//printf("Received: %d\r\n", RX_data);
     		U2_RX_flag = 0;
     	}
@@ -135,9 +159,8 @@ int main(void) {
     		printf("Receive Overflow\r\n");
     		U2_RXO_flag = 0;
     	}
-		//printf("speed=%d, direction=%d\r\n", speed, direction);
-		//printf("speed=%d, direction=%d\r\n", speed, direction);
-		//drive(speed, direction);
+		lights(headflag, tailflag, Rindicflag, Lindicflag);
+
     	putc2(0x55);
 	}
 }
