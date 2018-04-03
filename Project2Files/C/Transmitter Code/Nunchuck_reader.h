@@ -208,7 +208,6 @@ void nunchuck_init(bit print_extension_type)
 void nunchuck_getdata(unsigned char * s)
 {
 	unsigned char i;
-
 	// Start measurement
 	I2C_start();
 	I2C_write(0xA4);
@@ -362,10 +361,8 @@ bit read_nunchuck(char * direction, char * speed, char * rbuf, int off_x, int of
 
 
 //	while(1)
-	
 		nunchuck_getdata(rbuf);
-
-	//	printf("rbuf0: %i, rbuf1: %i \n\r", (int) rbuf[0], (int) rbuf[1]);
+		printf("rbuf0: %i, rbuf1: %i \n\r", (int) rbuf[0], (int) rbuf[1]);
 		
 
 		joy_x=(int)rbuf[0]-128-off_x;
@@ -383,8 +380,8 @@ bit read_nunchuck(char * direction, char * speed, char * rbuf, int off_x, int of
 		// if (rbuf[5] & 0x40) acc_z+=2;
 		// if (rbuf[5] & 0x80) acc_z+=1;
 		
-	//	printf("Buttons(Z:%c, C:%c) Joystick(%4d, %4d)\r",
-	//		   Z_but?'1':'0', but2?'1':'0', joy_x, joy_y);
+		printf("Buttons(Z:%c, C:%c) Joystick(%4d, %4d)\r",
+			   Z_but?'1':'0', but2?'1':'0', joy_x, joy_y);
 		waitms(100); //determine if we want to change this length
 	
 

@@ -8,33 +8,34 @@ Transmitter_src
 
 <SEGMENTS>
 R_GSINIT,code,0000,NO
-R_BSEG,bit,0007,NO
+R_BSEG,bit,0008,NO
 R_XSEG,xdata,0000,NO
 BIT_BANK,data,0000,OV
-R_CONST,code,020F,NO
+R_CONST,code,0251,NO
 rbank0,data,0000,OV
 R_PSEG,xdata,0000,NO
 R_DINIT,code,0017,NO
-R_DSEG,data,003E,NO
+R_DSEG,data,0041,NO
 R_OSEG,data,0001,OV
 R_IXSEG,xdata,0000,NO
 R_ISEG,idata,0000,NO
 R_HOME,code,0000,NO
 R_XINIT,code,0000,NO
-R_CSEG,code,0ECD,NO
+R_CSEG,code,0F59,NO
 </SEGMENTS>
 
 <LOCALS>
 L036066?,R_CSEG,0AA8,0000
 L036062?,R_CSEG,0AC4,0000
 L033013?,R_CSEG,06E4,0000
-L039008?,R_CSEG,0CBC,0000
-L039005?,R_CSEG,0C54,0000
-L039002?,R_CSEG,0C9D,0000
-L039001?,R_CSEG,0C80,0000
+L039008?,R_CSEG,0D5D,0000
+L039005?,R_CSEG,0CF5,0000
+L039002?,R_CSEG,0D3E,0000
+L039001?,R_CSEG,0D21,0000
 L036078?,R_CSEG,0A51,0000
 L030001?,R_CSEG,0668,0000
 L036074?,R_CSEG,0A6E,0000
+_read_nunchuck_joy_x_1_168,R_DSEG,0022,0001
 _sendCommandS_op_1_88,R_DSEG,0005,0001
 L036070?,R_CSEG,0A8B,0000
 L015001?,R_CSEG,02DE,0000
@@ -43,8 +44,8 @@ _nunchuck_init_sloc2_1_0,R_DSEG,0012,0002
 L036085?,R_CSEG,0B16,0000
 L003001?,R_CSEG,0069,0000
 L036084?,R_CSEG,0A11,0000
-_getsn_buff_1_172,R_DSEG,0035,0003
-_main_off_y_1_178,R_DSEG,003C,0002
+_getsn_buff_1_172,R_DSEG,0038,0003
+_main_off_y_1_178,R_DSEG,003F,0002
 L034010?,R_CSEG,0852,0000
 L019018?,R_CSEG,04C0,0000
 L019017?,R_CSEG,04AB,0000
@@ -57,19 +58,21 @@ L019013?,R_CSEG,0486,0000
 L031001?,R_CSEG,0677,0000
 L028003?,R_CSEG,0601,0000
 L019010?,R_CSEG,046D,0000
-_getsn_sloc0_1_0,R_DSEG,0038,0002
+_getsn_sloc0_1_0,R_DSEG,003B,0002
 L016001?,R_CSEG,0343,0000
 L004008?,R_CSEG,0084,0000
+__str_20,R_CONST,0222,0000
+__str_21,R_CONST,0235,0000
 __str_10,R_CONST,0124,0000
 __str_11,R_CONST,0136,0000
 __str_12,R_CONST,016A,0000
-__str_13,R_CONST,0186,0000
-__str_14,R_CONST,01B4,0000
-__str_15,R_CONST,01BA,0000
-__str_16,R_CONST,01CC,0000
-__str_17,R_CONST,01D6,0000
-__str_18,R_CONST,01E0,0000
-__str_19,R_CONST,01F3,0000
+__str_13,R_CONST,0182,0000
+__str_14,R_CONST,01AA,0000
+__str_15,R_CONST,01C6,0000
+__str_16,R_CONST,01F4,0000
+__str_17,R_CONST,01FA,0000
+__str_18,R_CONST,020C,0000
+__str_19,R_CONST,0218,0000
 _nunchuck_init_sloc1_1_0,R_DSEG,0010,0002
 L004001?,R_CSEG,007F,0000
 L035013?,R_CSEG,08F4,0000
@@ -103,14 +106,14 @@ L012015?,R_CSEG,01A4,0000
 L036026?,R_CSEG,099B,0000
 L021004?,R_CSEG,04FE,0000
 L036022?,R_CSEG,09B8,0000
-_main_speed_1_178,R_DSEG,003A,0001
+_main_speed_1_178,R_DSEG,003D,0001
 L021001?,R_CSEG,0503,0000
-L040017?,R_CSEG,0DA5,0000
+_read_nunchuck_joy_y_1_168,R_DSEG,0023,0001
 L036038?,R_CSEG,0944,0000
-L040014?,R_CSEG,0DE0,0000
+L040015?,R_CSEG,0E31,0000
 L036034?,R_CSEG,0961,0000
+L040012?,R_CSEG,0E6C,0000
 L012020?,R_CSEG,01C1,0000
-L040010?,R_CSEG,0E97,0000
 L036030?,R_CSEG,097E,0000
 L034004?,R_CSEG,088E,0000
 L036046?,R_CSEG,0B14,0000
@@ -140,9 +143,9 @@ __str_7,R_CONST,00D6,0000
 __str_8,R_CONST,00EE,0000
 __str_9,R_CONST,010D,0000
 L011002?,R_CSEG,0140,0000
-_main_direction_1_178,R_DSEG,003B,0001
-L039018?,R_CSEG,0CB6,0000
-L039015?,R_CSEG,0C7D,0000
+_main_direction_1_178,R_DSEG,003E,0001
+L039018?,R_CSEG,0D57,0000
+L039015?,R_CSEG,0D1E,0000
 L036006?,R_CSEG,0A0C,0000
 L036002?,R_CSEG,093F,0000
 L003018?,R_CSEG,0076,0000
@@ -153,18 +156,24 @@ L012004?,R_CSEG,0206,0000
 L012003?,R_CSEG,01EB,0000
 L012002?,R_CSEG,01D0,0000
 L036151?,R_CSEG,0A19,0000
-L040007?,R_CSEG,0E64,0000
-L040004?,R_CSEG,0D6E,0000
+L040008?,R_CSEG,0F23,0000
+L040005?,R_CSEG,0EF0,0000
+L037006?,R_CSEG,0BFE,0000
 L028014?,R_CSEG,05E6,0000
-L040002?,R_CSEG,0D0E,0000
+L040002?,R_CSEG,0DFA,0000
+L037005?,R_CSEG,0BFB,0000
 L028013?,R_CSEG,05E4,0000
+L037004?,R_CSEG,0BEE,0000
+L037003?,R_CSEG,0BEC,0000
 L028011?,R_CSEG,065C,0000
 _nunchuck_init_sloc0_1_0,R_DSEG,000E,0002
-L038004?,R_CSEG,0BFA,0000
-L038001?,R_CSEG,0BEF,0000
+_read_nunchuck_sloc0_1_0,R_DSEG,0024,0001
+L038004?,R_CSEG,0C9B,0000
+L038001?,R_CSEG,0C90,0000
 L036058?,R_CSEG,0AD8,0000
 L036054?,R_CSEG,0AEC,0000
 _sendCommandS_d_1_88,R_DSEG,0006,0001
+_read_nunchuck_but2_1_168,R_BSEG,0004,0001
 L036050?,R_CSEG,0B00,0000
 </LOCALS>
 
@@ -174,9 +183,9 @@ _WriteData,R_CSEG,0585,0000
 _nunchuck_getdata,R_CSEG,081A,0000
 _Timer4_init,R_CSEG,00C2,0000
 _getCommand,R_CSEG,0385,0000
-_Z_but,R_BSEG,0006,0001
-_main,R_CSEG,0CD9,0000
-_buffer,R_DSEG,0022,0010
+_Z_but,R_BSEG,0007,0001
+_main,R_CSEG,0D7A,0000
+_buffer,R_DSEG,0025,0010
 _I2C_read,R_CSEG,0666,0000
 _freq4,R_DSEG,0000,0002
 _LCD_pulse,R_CSEG,0544,0000
@@ -187,14 +196,14 @@ _Timer0_ISR,R_CSEG,00A0,0000
 _getchar1,R_CSEG,007C,0000
 _LCD_4BIT,R_CSEG,05A3,0000
 _putchar1,R_CSEG,0061,0000
-__c51_external_startup,R_CSEG,0BD1,0000
+__c51_external_startup,R_CSEG,0C72,0000
 _UART1_Init,R_CSEG,0000,0000
 _read_nunchuck,R_CSEG,0B19,0000
 _LCD_byte,R_CSEG,054F,0000
 _reloadToFrequency,R_CSEG,0273,0000
 _get_direction,R_CSEG,08F7,0000
 _PWMon,R_CSEG,0382,0000
-_getsn,R_CSEG,0C38,0000
+_getsn,R_CSEG,0CD9,0000
 _LCDprint_PARM_2,R_DSEG,0007,0001
 _LCDprint_PARM_3,R_BSEG,0001,0001
 _setReload,R_CSEG,0316,0000
@@ -210,21 +219,21 @@ _reload_flag,R_BSEG,0000,0001
 _I2C_stop,R_CSEG,067D,0000
 _sendCommand_PARM_2,R_DSEG,0004,0001
 _Timer2us,R_CSEG,04E5,0000
-_mode,R_DSEG,0032,0001
+_mode,R_DSEG,0035,0001
 _sendCommand,R_CSEG,00F5,0000
 _get_speed,R_CSEG,0893,0000
 _frequencyToReload,R_CSEG,023D,0000
-_speedbit,R_BSEG,0005,0001
+_speedbit,R_BSEG,0006,0001
 _read_nunchuck_PARM_2,R_DSEG,0015,0003
 _read_nunchuck_PARM_3,R_DSEG,0018,0003
 _read_nunchuck_PARM_4,R_DSEG,001B,0002
 _read_nunchuck_PARM_5,R_DSEG,001D,0002
-_offset_flag,R_BSEG,0004,0001
+_offset_flag,R_BSEG,0005,0001
 _Tcom_init,R_CSEG,04C1,0000
 _nunchuck_init,R_CSEG,0682,0000
 _I2C_write,R_CSEG,065D,0000
 _Timer0_init,R_CSEG,008E,0000
-_getsn_PARM_2,R_DSEG,0033,0002
+_getsn_PARM_2,R_DSEG,0036,0002
 _waitms,R_CSEG,0512,0000
 _get_speed_PARM_2,R_DSEG,0014,0001
 </PUBLICS>
@@ -1623,68 +1632,154 @@ AF data8(_read_nunchuck_PARM_3;0x0002;+;)
 8E 83
 8F F0
 12 addr16(_nunchuck_getdata;)  
-AD data8(_read_nunchuck_PARM_3;)
-AE data8(_read_nunchuck_PARM_3;0x0001;+;)
+74 01
+25 data8(_read_nunchuck_PARM_3;)
+FD
+E4
+35 data8(_read_nunchuck_PARM_3;0x0001;+;)
+FE
 AF data8(_read_nunchuck_PARM_3;0x0002;+;)
 8D 82
 8E 83
 8F F0
 12 addr16(__gptrget;)  
-F8
-33
-95 E0
-E8
-24 80
-A9 data8(_read_nunchuck_PARM_4;)
-C3
-99
-F8
-74 01
-2D
-F9
-E4
-3E
-FA
-8F 03
-89 82
-8A 83
-8B F0
-12 addr16(__gptrget;)  
-F9
-33
-95 E0
-E9
-24 80
-AA data8(_read_nunchuck_PARM_5;)
-C3
-9A
-F9
-74 05
-2D
 FD
-E4
-3E
+33
+95 E0
 FE
-8D 82
-8E 83
-8F F0
+AF data8(_read_nunchuck_PARM_3;)
+A8 data8(_read_nunchuck_PARM_3;0x0001;+;)
+A9 data8(_read_nunchuck_PARM_3;0x0002;+;)
+8F 82
+88 83
+89 F0
 12 addr16(__gptrget;)  
+FA
+33
+95 E0
+FB
+C0 07
+C0 00
+C0 01
+C0 05
+C0 06
+C0 02
+C0 03
+74 data8(__str_12;)
+C0 E0
+74 data8(__str_12;0x0008;>>;)
+C0 E0
+74 80
+C0 E0
+12 addr16(_printf;)  
+E5 81
+24 F9
+F5 81
+D0 01
+D0 00
+D0 07
+8F 82
+88 83
+89 F0
+12 addr16(__gptrget;)  
+FA
+33
+95 E0
+EA
+24 80
+FA
+AB data8(_read_nunchuck_PARM_4;)
+C3
+9B
+F5 data8(_read_nunchuck_joy_x_1_168;)
+74 01
+2F
+FB
+E4
+38
+FC
+89 05
+8B 82
+8C 83
+8D F0
+12 addr16(__gptrget;)  
+FB
+33
+95 E0
+EB
+24 80
+FB
+AC data8(_read_nunchuck_PARM_5;)
+C3
+9C
+F5 data8(_read_nunchuck_joy_y_1_168;)
+74 05
+2F
+FF
+E4
+38
+F8
+8F 82
+88 83
+89 F0
+12 addr16(__gptrget;)  
+FF
 13
 92 data8(_read_nunchuck_Z_but_1_168;)
+EF
+A2 E1
+92 data8(_read_nunchuck_but2_1_168;)
+E5 data8(_read_nunchuck_joy_y_1_168;)
+FC
+33
+95 E0
+FD
+E5 data8(_read_nunchuck_joy_x_1_168;)
+FE
+33
+95 E0
+FF
+30 bit(_read_nunchuck_but2_1_168;) rel3(L037003?;)
+78 31
+80 rel2(L037004?;)
+78 30
+E8
+33
+95 E0
+F9
+30 bit(_read_nunchuck_Z_but_1_168;) rel3(L037005?;)
+75 data8(_read_nunchuck_sloc0_1_0;) 31
+80 rel2(L037006?;)
+75 data8(_read_nunchuck_sloc0_1_0;) 30
+E5 data8(_read_nunchuck_sloc0_1_0;)
+FB
+33
+95 E0
+FA
+C0 04
+C0 05
+C0 06
+C0 07
+C0 00
+C0 01
+C0 03
+C0 02
+74 data8(__str_13;)
+C0 E0
+74 data8(__str_13;0x0008;>>;)
+C0 E0
+74 80
+C0 E0
+12 addr16(_printf;)  
+E5 81
+24 F5
+F5 81
 90 00 64
-C0 00
-C0 01
 12 addr16(_waitms;)  
-D0 01
-D0 00
-89 data8(_get_direction_PARM_2;)
-88 82
-C0 00
-C0 01
+85 data8(_read_nunchuck_joy_y_1_168;) data8(_get_direction_PARM_2;)
+85 data8(_read_nunchuck_joy_x_1_168;) 82
 12 addr16(_get_direction;)  
 AA 82
-D0 01
-D0 00
 85 data8(_read_nunchuck_direction_1_167;) 82
 85 data8(_read_nunchuck_direction_1_167;0x0001;+;) 83
 85 data8(_read_nunchuck_direction_1_167;0x0002;+;) F0
@@ -1693,8 +1788,8 @@ EA
 AA data8(_read_nunchuck_PARM_2;)
 AB data8(_read_nunchuck_PARM_2;0x0001;+;)
 AC data8(_read_nunchuck_PARM_2;0x0002;+;)
-89 data8(_get_speed_PARM_2;)
-88 82
+85 data8(_read_nunchuck_joy_y_1_168;) data8(_get_speed_PARM_2;)
+85 data8(_read_nunchuck_joy_x_1_168;) 82
 C0 02
 C0 03
 C0 04
@@ -1846,25 +1941,15 @@ C0 03
 12 addr16(_LCD_4BIT;)  
 90 00 C8
 12 addr16(_waitms;)  
-D0 03
-D0 02
-74 01
-B5 data8(_mode;) rel3(L040002?;)
 D2 bit(_nunchuck_init_PARM_1;)
-C0 02
-C0 03
 12 addr16(_nunchuck_init;)  
-D0 03
-D0 02
 90 00 64
-C0 02
-C0 03
 12 addr16(_waitms;)  
 D0 03
 D0 02
-30 bit(_offset_flag;) rel3(L040004?;)
+30 bit(_offset_flag;) rel3(L040002?;)
 74 01
-B5 data8(_mode;) rel3(L040004?;)
+B5 data8(_mode;) rel3(L040002?;)
 90 data16(_buffer;)  
 75 F0 40
 12 addr16(_nunchuck_getdata;)  
@@ -1890,9 +1975,9 @@ C0 data8(_main_off_y_1_178;)
 C0 data8(_main_off_y_1_178;0x0001;+;)
 C0 02
 C0 03
-74 data8(__str_12;)
+74 data8(__str_14;)
 C0 E0
-74 data8(__str_12;0x0008;>>;)
+74 data8(__str_14;0x0008;>>;)
 C0 E0
 74 80
 C0 E0
@@ -1907,9 +1992,9 @@ C2 bit(_offset_flag;)
 C0 02
 C0 03
 12 addr16(_waitms;)  
-74 data8(__str_13;)
+74 data8(__str_15;)
 C0 E0
-74 data8(__str_13;0x0008;>>;)
+74 data8(__str_15;0x0008;>>;)
 C0 E0
 74 80
 C0 E0
@@ -1921,18 +2006,18 @@ C0 E0
 12 addr16(_waitms;)  
 75 data8(_LCDprint_PARM_2;) 01
 D2 bit(_LCDprint_PARM_3;)
-90 data16(__str_14;)  
+90 data16(__str_16;)  
 75 F0 80
 12 addr16(_LCDprint;)  
 D0 03
 D0 02
 E5 data8(_mode;)
-70 rel2(L040014?;)
+70 rel2(L040012?;)
 C0 02
 C0 03
-74 data8(__str_15;)
+74 data8(__str_17;)
 C0 E0
-74 data8(__str_15;0x0008;>>;)
+74 data8(__str_17;0x0008;>>;)
 C0 E0
 74 80
 C0 E0
@@ -1951,9 +2036,9 @@ F5 data8(_getsn_PARM_2;0x0001;+;)
 12 addr16(_getCommand;)  
 D0 03
 D0 02
-80 rel2(L040017?;)
+80 rel2(L040015?;)
 74 01
-B5 data8(_mode;) rel3(L040017?;)
+B5 data8(_mode;) rel3(L040015?;)
 75 data8(_read_nunchuck_PARM_2;) data8(_main_speed_1_178;)
 75 data8(_read_nunchuck_PARM_2;0x0001;+;) 00
 75 data8(_read_nunchuck_PARM_2;0x0002;+;) 40
@@ -1977,9 +2062,9 @@ FE
 7F 00
 C0 06
 C0 07
-74 data8(__str_16;)
+74 data8(__str_18;)
 C0 E0
-74 data8(__str_16;0x0008;>>;)
+74 data8(__str_18;0x0008;>>;)
 C0 E0
 74 80
 C0 E0
@@ -1989,16 +2074,16 @@ E5 81
 F5 81
 D0 03
 D0 02
-20 bit(_Z_but;) rel3(L040010?;)
-30 bit(_speedbit;) rel3(L040007?;)
+20 bit(_Z_but;) rel3(L040008?;)
+30 bit(_speedbit;) rel3(L040005?;)
 85 data8(_main_speed_1_178;) data8(_sendCommand_PARM_2;)
 75 82 00
 C0 02
 C0 03
 12 addr16(_sendCommand;)  
-74 data8(__str_17;)
+74 data8(__str_19;)
 C0 E0
-74 data8(__str_17;0x0008;>>;)
+74 data8(__str_19;0x0008;>>;)
 C0 E0
 74 80
 C0 E0
@@ -2009,7 +2094,7 @@ C0 E0
 D0 03
 D0 02
 C2 bit(_speedbit;)
-80 rel2(L040010?;)
+80 rel2(L040008?;)
 E5 data8(_main_direction_1_178;)
 FE
 33
@@ -2019,9 +2104,9 @@ C0 02
 C0 03
 C0 06
 C0 07
-74 data8(__str_18;)
+74 data8(__str_20;)
 C0 E0
-74 data8(__str_18;0x0008;>>;)
+74 data8(__str_20;0x0008;>>;)
 C0 E0
 74 80
 C0 E0
@@ -2051,9 +2136,9 @@ C0 06
 C0 07
 C0 04
 C0 05
-74 data8(__str_19;)
+74 data8(__str_21;)
 C0 E0
-74 data8(__str_19;0x0008;>>;)
+74 data8(__str_21;0x0008;>>;)
 C0 E0
 74 80
 C0 E0
@@ -2063,7 +2148,7 @@ E5 81
 F5 81
 D0 03
 D0 02
-02 addr16(L040017?;)  
+02 addr16(L040015?;)  
 </CODE>
 
 <CODE R_CSEG>
@@ -2154,6 +2239,16 @@ D0 02
 78 
 0A
 00
+72 62 75 66 30 3A 20 25 69 2C 20 72 62 75 66 31 3A
+20 25 69 20 
+0A
+0D
+00
+42 75 74 74 6F 6E 73 28 5A 3A 25 63 2C 20 43 3A 25
+63 29 20 4A 6F 79 73 74 69 63 6B 28 25 34 64 2C
+20 25 34 64 29 
+0D
+00
 4F 66 66 73 65 74 5F 58 3A 25 34 64 20 4F 66 66 73
 65 74 5F 59 3A 25 34 64 
 0A
@@ -2176,6 +2271,8 @@ D0 02
 0A
 00
 5A 5F 62 75 74 3A 20 25 69 
+0D
+0A
 00
 79 65 73 73 73 73 73 
 0A

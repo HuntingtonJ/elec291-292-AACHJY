@@ -7,6 +7,8 @@ volatile unsigned char duty_cycleLR = 0;  //Left wheel reverse (default 0)
 volatile unsigned char duty_cycleRF = 25; //Right wheel forward
 volatile unsigned char duty_cycleRR = 0;  //Right wheel reverse
 
+unsigned char headflag=0, tailflag=0, Rindicflag=0, Lindicflag=0;
+
 // volatile unsigned char pwm_count=0;
 // volatile unsigned char duty_cycleLF=0;
 // volatile unsigned char duty_cycleLR=0; 
@@ -119,85 +121,82 @@ void TogglePins(void)
 
 //a function that describes going straight
 void go_straight(char speed){
-				//Let the speed will become the duty of both motors equally
-	 			duty_cycleLF=speed;
-		 		duty_cycleRF=speed;
-		 		duty_cycleLR=0;
-		 		duty_cycleRR=0;
-		
-	 		}
+	//Let the speed will become the duty of both motors equally
+	duty_cycleLF=speed;
+	duty_cycleRF=speed;
+	duty_cycleLR=0;
+	duty_cycleRR=0;
+}
 
 void go_reverse(char speed){
-				//Let the speed will become the duty of both motors equally
-	 			duty_cycleLF=0;
-		 		duty_cycleRF=0;
-		 		duty_cycleLR=speed;
-		 		duty_cycleRR=speed;
-		
-	 		}
+	//Let the speed will become the duty of both motors equally
+	duty_cycleLF=0;
+	duty_cycleRF=0;
+	duty_cycleLR=speed;
+	duty_cycleRR=speed;
+}
 
 void turn_west(char speed ){
-				//Let the speed will become the duty of both motors equally
-
-	 			duty_cycleLF=0;
-		 		duty_cycleRF=speed;
-		 		duty_cycleLR=speed;
-		 		duty_cycleRR=0;
-		
-	 		}
+	//Let the speed will become the duty of both motors equally
+	duty_cycleLF=0;
+	duty_cycleRF=speed;
+	duty_cycleLR=speed;
+	duty_cycleRR=0;
+}
+	 		
 void turn_east(char speed){
-				//Let the speed will become the duty of both motors equally
-	 			duty_cycleLF=speed;
-		 		duty_cycleRF=0;
-		 		duty_cycleLR=0;
-		 		duty_cycleRR=speed;
-		
-	 		}
+	//Let the speed will become the duty of both motors equally
+	duty_cycleLF=speed;
+	duty_cycleRF=0;
+	duty_cycleLR=0;
+	duty_cycleRR=speed;
+
+}
 
 void turn_NW(char speed){
-				//Let the speed will become the duty of both motors equally
-	 			duty_cycleLF=speed/3;
-		 		duty_cycleRF=speed*2;
-		 		duty_cycleLR=0;
-		 		duty_cycleRR=0;
-		
-	 		}
+	//Let the speed will become the duty of both motors equally
+	duty_cycleLF=speed/3;
+	duty_cycleRF=speed*2;
+	duty_cycleLR=0;
+	duty_cycleRR=0;
+
+}
 
 void turn_NE(char speed){
-				//Let the speed will become the duty of both motors equally
-	 			duty_cycleLF=speed*2;
-		 		duty_cycleRF=speed/3;
-		 		duty_cycleLR=0;
-		 		duty_cycleRR=0;
-	 		}
+	//Let the speed will become the duty of both motors equally
+	duty_cycleLF=speed*2;
+	duty_cycleRF=speed/3;
+	duty_cycleLR=0;
+	duty_cycleRR=0;
+}
 
 void turn_NNE(char speed){
-				duty_cycleLF=speed;
-		 		duty_cycleRF=speed/2;
-		 		duty_cycleLR=0;
-		 		duty_cycleRR=0;
-			}
+	duty_cycleLF=speed;
+	duty_cycleRF=speed/2;
+	duty_cycleLR=0;
+	duty_cycleRR=0;
+}
 
 void turn_NNW(char speed){
-				duty_cycleLF=speed/2;
-		 		duty_cycleRF=speed;
-		 		duty_cycleLR=0;
-		 		duty_cycleRR=0;
-			}
+	duty_cycleLF=speed/2;
+	duty_cycleRF=speed;
+	duty_cycleLR=0;
+	duty_cycleRR=0;
+}
 
 void turn_NEE(char speed){
-				duty_cycleLF=speed;
-		 		duty_cycleRF=speed/5;
-		 		duty_cycleLR=0;
-		 		duty_cycleRR=0;
-			}
+	duty_cycleLF=speed;
+	duty_cycleRF=speed/5;
+	duty_cycleLR=0;
+	duty_cycleRR=0;
+}
 
 void turn_NWW(char speed){
-				duty_cycleLF=speed/5;
-		 		duty_cycleRF=speed;
-		 		duty_cycleLR=0;
-		 		duty_cycleRR=0;
-			}
+	duty_cycleLF=speed/5;
+	duty_cycleRF=speed;
+	duty_cycleLR=0;
+	duty_cycleRR=0;
+}
 
 void turn_SW(char speed){
 //Let the speed will become the duty of both motors equally
@@ -210,258 +209,200 @@ void turn_SW(char speed){
 
 
 void turn_SE(char speed){
-				//Let the speed will become the duty of both motors equally
-	 			duty_cycleLF=0;
-		 		duty_cycleRF=0;
-		 		duty_cycleLR=speed;
-		 		duty_cycleRR=speed/3;
-	 		}
+	//Let the speed will become the duty of both motors equally
+	duty_cycleLF=0;
+	duty_cycleRF=0;
+	duty_cycleLR=speed;
+	duty_cycleRR=speed/3;
+}
 
 void turn_SSE(char speed){
-				duty_cycleLF=0;
-		 		duty_cycleRF=0;
-		 		duty_cycleLR=speed;
-		 		duty_cycleRR=speed/2;
-			}
+	duty_cycleLF=0;
+	duty_cycleRF=0;
+	duty_cycleLR=speed;
+	duty_cycleRR=speed/2;
+}
 
 void turn_SSW(char speed){
-				duty_cycleLF=0;
-		 		duty_cycleRF=0;
-		 		duty_cycleLR=speed/2;
-		 		duty_cycleRR=speed;
-			}
+	duty_cycleLF=0;
+	duty_cycleRF=0;
+	duty_cycleLR=speed/2;
+	duty_cycleRR=speed;
+}
 
 void turn_SEE(char speed){
-				duty_cycleLF=0;
-		 		duty_cycleRF=0;
-		 		duty_cycleLR=speed;
-		 		duty_cycleRR=speed/5;
-			}
+	duty_cycleLF=0;
+	duty_cycleRF=0;
+	duty_cycleLR=speed;
+	duty_cycleRR=speed/5;
+}
 
 void turn_SWW(char speed){
-				duty_cycleLF=0;
-		 		duty_cycleRF=0;
-		 		duty_cycleLR=speed/5;
-		 		duty_cycleRR=speed;
-			}
+	duty_cycleLF=0;
+	duty_cycleRF=0;
+	duty_cycleLR=speed/5;
+	duty_cycleRR=speed;
+}
 
 
-	void stop(){
-			duty_cycleLF=0;
-			duty_cycleLR=0;
-			duty_cycleRF=0;
-			duty_cycleRR=0;
-			}
+void stop(){
+	duty_cycleLF=0;
+	duty_cycleLR=0;
+	duty_cycleRF=0;
+	duty_cycleRR=0;
+}
 
-void drive(unsigned char speed, unsigned char direction, unsigned char *headflag, unsigned char *tailflag, unsigned char *Rindicflag, unsigned char *Lindicflag){
-
-			switch(direction){
-
-			case north :
-					{
-						go_straight(speed);
-						printf("carson likes fish\r\n");
-						//headlight=ON;
-						//taillight=OFF;
-						headflag = 1;
-						tailflag = 0;
-						Rindicflag = 0;
-						Lindicflag = 0;
-						break;
-					}
-
-			case south: 
-				{
-					go_reverse(speed);
-					printf("go reverse\n");
-					//headlight=ON;
-					//taillight=ON;
-					headflag = 0;
-					tailflag = 1;
-					Rindicflag = 0;
-					Lindicflag = 0;
-					break;
-				}
-
-			case west: 
-				{
-					turn_west(speed);
-					printf("turn west\n");
-					headflag = 1;
-					tailflag = 0;
-					Rindicflag = 0;
-					Lindicflag = 1;
-					break;
-				}
-
-			case east: 
-				{
-					turn_east(speed);
-					printf("turn east\n");
-					headflag = 1;
-					tailflag = 0;
-					Rindicflag = 1;
-					Lindicflag = 0;
-					break;
-				}
-
-			case NW: 
-				{
-					turn_NW(speed);
-					printf("turn nw\n");
-					break;
-					headflag = 1;
-					tailflag = 0;
-					Rindicflag = 0;
-					Lindicflag = 1;
-
-				}
-
-			case NNE: 
-				{ 
-					turn_NNE(speed);
-					printf("turn nne\n");
-					headflag = 1;
-					tailflag = 0;
-					Rindicflag = 1;
-					Lindicflag = 0;
-					break;
-					}
-
-			case NNW: 
-				{ 
-					turn_NNW(speed);
-					printf("turn nnw\n");
-					headflag = 1;
-					tailflag = 0;
-					Rindicflag = 0;
-					Lindicflag = 1;
-					break;
-					}
-
-			case NE: 
-				{ 
-					turn_NE(speed);
-					printf("turn ne\n");
-					headflag = 1;
-					tailflag = 0;
-					Rindicflag = 1;
-					Lindicflag = 0;
-					break;
-					}
-
-			case NEE: 
-				{ 
-					turn_NEE(speed);
-					printf("turn nee\n");
-					headflag = 1;
-					tailflag = 0;
-					Rindicflag = 1;
-					Lindicflag = 0;
-					break;
-					}
-
-			case NWW: 
-				{ 
-					turn_NWW(speed);
-					printf("turn nww\n");
-					headflag = 1;
-					tailflag = 0;
-					Rindicflag = 0;
-					Lindicflag = 1;
-					break;
-					}
-
-
-			case SW: 
-				{
-					turn_SW(speed);
-					printf("turn sw\n");
-					headflag = 0;
-					tailflag = 1;
-					Rindicflag = 0;
-					Lindicflag = 1;
-					break;
-
-				}
-
-			case SSE: 
-				{ 
-					turn_SSE(speed);
-					printf("turn sse\n");
-					headflag = 0;
-					tailflag = 1;
-					Rindicflag = 1;
-					Lindicflag = 0;
-					break;
-					}
-
-			case SSW: 
-				{ 
-					turn_SSW(speed);
-					printf("turn ssw\n");
-					headflag = 0;
-					tailflag = 1;
-					Rindicflag = 0;
-					Lindicflag = 1;
-					break;
-					}
-
-			case SE: 
-				{ 
-					turn_SE(speed);
-					printf("turn se\n");
-					headflag = 0;
-					tailflag = 1;
-					Rindicflag = 1;
-					Lindicflag = 0;
-					break;
-					}
-
-			case SEE: 
-				{ 
-					turn_SEE(speed);
-					printf("turn see\n");
-					headflag = 0;
-					tailflag = 1;
-					Rindicflag = 1;
-					Lindicflag = 0;
-					break;
-					}
-
-			case SWW: 
-				{ 
-					turn_SWW(speed);
-					printf("turn sww\n");
-					headflag = 0;
-					tailflag = 1;
-					Rindicflag = 0;
-					Lindicflag = 1;
-					break;
-					}
-			case uknownOP:
-				{
-					printf("Drive Stationary\r\n");
-					headflag = 0;
-					tailflag = 0;
-					Rindicflag = 1;
-					Lindicflag = 1;
-					stop();
-					break;
-				}
-			
-			default: 
-				{
-					stop();
-					direction='x';
-					printf("default\r\n");
-					headflag = 0;
-					tailflag = 0;
-					Rindicflag = 0;
-					Lindicflag = 0;
-					break;
-				}
-
-		}
+void drive(unsigned char speed, unsigned char direction){
+	switch(direction){
+		case north :
+			go_straight(speed);
+			printf("carson likes fish\r\n");
+			//headlight=ON;
+			//taillight=OFF;
+			headflag = 1;
+			tailflag = 0;
+			Rindicflag = 0;
+			Lindicflag = 0;
+			break;
+		case south: 
+			go_reverse(speed);
+			printf("go reverse\n");
+			//headlight=ON;
+			//taillight=ON;
+			headflag = 0;
+			tailflag = 1;
+			Rindicflag = 0;
+			Lindicflag = 0;
+			break;
+		case west: 
+			turn_west(speed);
+			printf("turn west\n");
+			headflag = 1;
+			tailflag = 0;
+			Rindicflag = 0;
+			Lindicflag = 1;
+			break;
+		case east: 
+			turn_east(speed);
+			printf("turn east\n");
+			headflag = 1;
+			tailflag = 0;
+			Rindicflag = 1;
+			Lindicflag = 0;
+			break;
+		case NW: 
+			turn_NW(speed);
+			printf("turn nw\n");
+			headflag = 1;
+			tailflag = 0;
+			Rindicflag = 0;
+			Lindicflag = 1;
+			break;
+		case NNE: 
+			turn_NNE(speed);
+			printf("turn nne\n");
+			headflag = 1;
+			tailflag = 0;
+			Rindicflag = 1;
+			Lindicflag = 0;
+			break;
+		case NNW: 
+			turn_NNW(speed);
+			printf("turn nnw\n");
+			headflag = 1;
+			tailflag = 0;
+			Rindicflag = 0;
+			Lindicflag = 1;
+			break;
+		case NE: 
+			turn_NE(speed);
+			printf("turn ne\n");
+			headflag = 1;
+			tailflag = 0;
+			Rindicflag = 1;
+			Lindicflag = 0;
+			break;
+		case NEE: 
+			turn_NEE(speed);
+			printf("turn nee\n");
+			headflag = 1;
+			tailflag = 0;
+			Rindicflag = 1;
+			Lindicflag = 0;
+			break;
+		case NWW: 
+			turn_NWW(speed);
+			printf("turn nww\n");
+			headflag = 1;
+			tailflag = 0;
+			Rindicflag = 0;
+			Lindicflag = 1;
+			break;
+		case SW: 
+			turn_SW(speed);
+			printf("turn sw\n");
+			headflag = 0;
+			tailflag = 1;
+			Rindicflag = 0;
+			Lindicflag = 1;
+			break;
+		case SSE: 
+			turn_SSE(speed);
+			printf("turn sse\n");
+			headflag = 0;
+			tailflag = 1;
+			Rindicflag = 1;
+			Lindicflag = 0;
+			break;
+		case SSW: 
+			turn_SSW(speed);
+			printf("turn ssw\n");
+			headflag = 0;
+			tailflag = 1;
+			Rindicflag = 0;
+			Lindicflag = 1;
+			break;
+		case SE: 
+			turn_SE(speed);
+			printf("turn se\n");
+			headflag = 0;
+			tailflag = 1;
+			Rindicflag = 1;
+			Lindicflag = 0;
+			break;
+		case SEE: 
+			turn_SEE(speed);
+			printf("turn see\n");
+			headflag = 0;
+			tailflag = 1;
+			Rindicflag = 1;
+			Lindicflag = 0;
+			break;
+		case SWW: 
+			turn_SWW(speed);
+			printf("turn sww\n");
+			headflag = 0;
+			tailflag = 1;
+			Rindicflag = 0;
+			Lindicflag = 1;
+			break;
+		case uknownOP:
+			printf("Drive Stationary\r\n");
+			headflag = 0;
+			tailflag = 0;
+			Rindicflag = 1;
+			Lindicflag = 1;
+			stop();
+			break;
+		default: 
+			stop();
+			direction='x';
+			printf("default\r\n");
+			headflag = 0;
+			tailflag = 0;
+			Rindicflag = 0;
+			Lindicflag = 0;
+			break;
+	}
 }
 

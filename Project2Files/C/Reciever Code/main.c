@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "Motor_control.h"
 #include "USART2.h"
+#include "Servo_control.h"
 
 #define SYSCLK 48000000L
 #define DEF_F 100L
@@ -16,32 +17,6 @@
 //unsigned char
 
 int egets(char *s, int Max);
-
-// void TogglePins(void)
-// {
-// 	if (count == duty_cycleLF) {
-// 		GPIOA_ODR &= ~( BIT4 );
-// 	}
-
-// 	if (count == duty_cycleLR) {
-// 		GPIOA_ODR &= ~( BIT5 );
-// 	}
-
-// 	if (count == duty_cycleRF) {
-// 		GPIOA_ODR &= ~( BIT6 );
-// 	}
-
-// 	if (count == duty_cycleRR) {
-// 		GPIOA_ODR &= ~( BIT7 );
-// 	}
-
-// 	if (count == 100) {
-// 		GPIOA_ODR |= ( BIT4 | BIT5| BIT6 | BIT7 );
-// 		count = 0;
-// 	} else {
-// 		count++;
-// 	}
-// }
 
 
 // Interrupt service routines are the same as normal
@@ -80,7 +55,7 @@ void SysInit(void)
 	enable_interrupts();
 }
 
-void lights(headflag, tailflag, Rindicflag, Lindicflag){
+void lights(unsigned char headflag, unsigned char tailflag, unsigned char Rindicflag, unsigned char Lindicflag){
 
 	if(headflag == 1){
 		GPIOA_ODR = BIT9;
@@ -129,6 +104,7 @@ void Extract_op_val(unsigned char RX_data, unsigned char *speed, unsigned char *
 			break;
 		case 0b100:
 			printf("\t\t\tGRAB_OP\n");
+			servo_update(value);
 			break;
 		case 0b111:
 			printf("\t\t\tSTOP_OP\n");
@@ -147,7 +123,6 @@ int main(void) {
     int newF, reload;
     unsigned char opcode, value;
     unsigned char speed, direction;
-	unsigned char headflag=0, tailflag=0, Rindicflag=0, Lindicflag=0;
 	unsigned char upflag=1, downflag=0;
 	SysInit();
 
@@ -158,7 +133,7 @@ int main(void) {
     	if (U2_RX_flag & 1) {
     		Extract_op_val(RX_data, &speed, &direction);
 			printf("speed=%d, direction=%d\r\n", speed, direction);
-			drive(speed, direction, &headflag, &tailflag, & Rindicflag, &Lindicflag);
+			drive(speed, direction);
     		//printf("Received: %d\r\n", RX_data);
     		U2_RX_flag = 0;
     	}

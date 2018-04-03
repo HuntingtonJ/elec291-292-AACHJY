@@ -76,4 +76,9 @@ void turn_SWW(char speed);
 
 void stop();
 
+//void drive(unsigned char speed, unsigned char direction, unsigned char *headflag, unsigned char *tailflag, unsigned char *Rindicflag, unsigned char *Lindicflag);
 void drive(unsigned char speed, unsigned char direction);
+extern unsigned char headflag;
+extern unsigned char tailflag;
+extern unsigned char Rindicflag;
+extern unsigned char Lindicflag;

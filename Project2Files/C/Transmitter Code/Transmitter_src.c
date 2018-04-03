@@ -86,7 +86,7 @@ char _c51_external_startup (void)
 
 	P0MDOUT |= 0x14; // Enable UART0 TX as push-pull output and UART1 Tx (pin 0.2)
 	P1MDOUT |= 0xff; // Enable Push/Pull on port 1
-	P2MDOUT |= 0x03; //Push pull on pin 0
+	P2MDOUT |= 0x03; //Push pull on pin P2.0 P2.1
 	XBR0     = 0b_0000_0101; // Enable UART0 on P0.4(TX) and P0.5(RX) and SMB0 I/O on (0.0 SDA) and (0.1 SCL)               
 	XBR1     = 0x00; // Enable T0 on P0.0
 	XBR2     = 0x41; // Enable crossbar and weak pull-ups .... (page 110) may need to set BIT0 to enable UART1 IO (0.2 Tx) and 0.3 RX
@@ -138,9 +138,7 @@ void main(void) {
 	LCD_4BIT();
 
 	waitms(200);
-	if (mode == 1) {
-		nunchuck_init(1);
-	}
+	nunchuck_init(1);
 	waitms(100);
 
 	if(offset_flag && mode == 1){
@@ -167,13 +165,12 @@ void main(void) {
 		if (mode == 0) {
 			printf("Enter command: \r\n");
 			getsn(buffer, CHARS_PER_LINE);
-			getCommand(buffer); //after use, is clear, only used within functions
-				
+			getCommand(buffer); //after use, is clear, only used within functions	
 		} else if (mode == 1) {
 			Z_but=read_nunchuck(&direction, &speed, buffer, off_x, off_y);
-			printf("Z_but: %i", Z_but);
+			printf("Z_but: %i\r\n", Z_but);
 		
-			if(Z_but==0){ 
+			if(Z_but == 0){ 
 				if(speedbit){
 					sendCommand(SPEED_OP, speed);
 					printf("yesssss\n\n");
