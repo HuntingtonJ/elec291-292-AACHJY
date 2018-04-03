@@ -2,18 +2,12 @@
 #include "Motor_control.h"
 
 volatile unsigned char count = 0;
-volatile unsigned char duty_cycleLF = 75; //Left wheel forward
+volatile unsigned char duty_cycleLF = 0; //Left wheel forward
 volatile unsigned char duty_cycleLR = 0;  //Left wheel reverse (default 0)
-volatile unsigned char duty_cycleRF = 25; //Right wheel forward
+volatile unsigned char duty_cycleRF = 0; //Right wheel forward
 volatile unsigned char duty_cycleRR = 0;  //Right wheel reverse
 
 unsigned char headflag=0, tailflag=0, Rindicflag=0, Lindicflag=0;
-
-// volatile unsigned char pwm_count=0;
-// volatile unsigned char duty_cycleLF=0;
-// volatile unsigned char duty_cycleLR=0; 
-// volatile unsigned char duty_cycleRF=0;
-// volatile unsigned char duty_cycleRR=0; 
 
 
 // #define Mot1_forward P1_6
@@ -117,6 +111,29 @@ void TogglePins(void)
 	} else {
 		count++;
 	}	
+}
+
+void lights(void){
+	if(headflag == 1){
+		GPIOA_ODR |= BIT14;
+	} else {
+		GPIOA_ODR &= ~(BIT14);
+	}
+	if(tailflag == 1){
+		GPIOA_ODR |= BIT13;
+	} else {
+		GPIOA_ODR &= ~(BIT13);
+	}
+	if(Rindicflag == 1){
+		GPIOA_ODR |= BIT12;
+	} else {
+		GPIOA_ODR &= ~(BIT12);
+	}
+	if(Lindicflag == 1){
+		GPIOA_ODR |= BIT11;
+	} else {
+		GPIOA_ODR &= ~(BIT11);
+	}
 }
 
 //a function that describes going straight
@@ -257,151 +274,182 @@ void drive(unsigned char speed, unsigned char direction){
 		case north :
 			go_straight(speed);
 			printf("carson likes fish\r\n");
-			//headlight=ON;
-			//taillight=OFF;
-			headflag = 1;
-			tailflag = 0;
-			Rindicflag = 0;
-			Lindicflag = 0;
+			//headflag = 1;
+			//tailflag = 0;
+			//Rindicflag = 0;
+			//Lindicflag = 0;
+			GPIOA_ODR |= BIT14;
+			GPIOA_ODR &= ~( BIT11 | BIT12 | BIT13 );
 			break;
 		case south: 
 			go_reverse(speed);
 			printf("go reverse\n");
-			//headlight=ON;
-			//taillight=ON;
-			headflag = 0;
-			tailflag = 1;
-			Rindicflag = 0;
-			Lindicflag = 0;
+			//headflag = 0;
+			//tailflag = 1;
+			//Rindicflag = 0;
+			//Lindicflag = 0;
+			GPIOA_ODR |= BIT13;
+			GPIOA_ODR &= ~( BIT11 | BIT12 | BIT14 );
 			break;
 		case west: 
 			turn_west(speed);
 			printf("turn west\n");
-			headflag = 1;
-			tailflag = 0;
-			Rindicflag = 0;
-			Lindicflag = 1;
+			//headflag = 1;
+			//tailflag = 0;
+			//Rindicflag = 0;
+			//Lindicflag = 1;
+			GPIOA_ODR |= ( BIT11 | BIT14 );
+			GPIOA_ODR &= ~( BIT12 | BIT13 );
 			break;
 		case east: 
 			turn_east(speed);
 			printf("turn east\n");
-			headflag = 1;
-			tailflag = 0;
-			Rindicflag = 1;
-			Lindicflag = 0;
+			//headflag = 1;
+			//tailflag = 0;
+			//Rindicflag = 1;
+			//Lindicflag = 0;
+			GPIOA_ODR |= ( BIT12 | BIT14 );
+			GPIOA_ODR &= ~( BIT11 | BIT13 );
 			break;
 		case NW: 
 			turn_NW(speed);
 			printf("turn nw\n");
-			headflag = 1;
-			tailflag = 0;
-			Rindicflag = 0;
-			Lindicflag = 1;
+			//headflag = 1;
+			//tailflag = 0;
+			//Rindicflag = 0;
+			//Lindicflag = 1;
+			GPIOA_ODR |= ( BIT11 | BIT14 );
+			GPIOA_ODR &= ~( BIT12 | BIT13 );
 			break;
 		case NNE: 
 			turn_NNE(speed);
 			printf("turn nne\n");
-			headflag = 1;
-			tailflag = 0;
-			Rindicflag = 1;
-			Lindicflag = 0;
+			//headflag = 1;
+			//tailflag = 0;
+			//Rindicflag = 1;
+			//Lindicflag = 0;
+			GPIOA_ODR |= ( BIT12 | BIT14 );
+			GPIOA_ODR &= ~( BIT11 | BIT13 );
 			break;
 		case NNW: 
 			turn_NNW(speed);
 			printf("turn nnw\n");
-			headflag = 1;
-			tailflag = 0;
-			Rindicflag = 0;
-			Lindicflag = 1;
+			//headflag = 1;
+			//tailflag = 0;
+			//Rindicflag = 0;
+			//Lindicflag = 1;
+			GPIOA_ODR |= ( BIT11 | BIT14 );
+			GPIOA_ODR &= ~( BIT12 | BIT13 );
 			break;
 		case NE: 
 			turn_NE(speed);
 			printf("turn ne\n");
-			headflag = 1;
-			tailflag = 0;
-			Rindicflag = 1;
-			Lindicflag = 0;
+			// headflag = 1;
+			// tailflag = 0;
+			// Rindicflag = 1;
+			// Lindicflag = 0;
+			GPIOA_ODR |= ( BIT12 | BIT14 );
+			GPIOA_ODR &= ~( BIT11 | BIT13 );
 			break;
 		case NEE: 
 			turn_NEE(speed);
 			printf("turn nee\n");
-			headflag = 1;
-			tailflag = 0;
-			Rindicflag = 1;
-			Lindicflag = 0;
+			// headflag = 1;
+			// tailflag = 0;
+			// Rindicflag = 1;
+			// Lindicflag = 0;
+			GPIOA_ODR |= ( BIT12 | BIT14 );
+			GPIOA_ODR &= ~( BIT11 | BIT13 );
 			break;
 		case NWW: 
 			turn_NWW(speed);
 			printf("turn nww\n");
-			headflag = 1;
-			tailflag = 0;
-			Rindicflag = 0;
-			Lindicflag = 1;
+			// headflag = 1;
+			// tailflag = 0;
+			// Rindicflag = 0;
+			// Lindicflag = 1;
+			GPIOA_ODR |= ( BIT11 | BIT14 );
+			GPIOA_ODR &= ~( BIT12 | BIT13 );
 			break;
 		case SW: 
 			turn_SW(speed);
 			printf("turn sw\n");
-			headflag = 0;
-			tailflag = 1;
-			Rindicflag = 0;
-			Lindicflag = 1;
+			// headflag = 0;
+			// tailflag = 1;
+			// Rindicflag = 0;
+			// Lindicflag = 1;
+			GPIOA_ODR |= ( BIT11 | BIT13 );
+			GPIOA_ODR &= ~( BIT12 | BIT14 );
 			break;
 		case SSE: 
 			turn_SSE(speed);
 			printf("turn sse\n");
-			headflag = 0;
-			tailflag = 1;
-			Rindicflag = 1;
-			Lindicflag = 0;
+			// headflag = 0;
+			// tailflag = 1;
+			// Rindicflag = 1;
+			// Lindicflag = 0;
+			GPIOA_ODR |= ( BIT12 | BIT13 );
+			GPIOA_ODR &= ~( BIT11 | BIT14 );
 			break;
 		case SSW: 
 			turn_SSW(speed);
 			printf("turn ssw\n");
-			headflag = 0;
-			tailflag = 1;
-			Rindicflag = 0;
-			Lindicflag = 1;
+			// headflag = 0;
+			// tailflag = 1;
+			// Rindicflag = 0;
+			// Lindicflag = 1;
+			GPIOA_ODR |= ( BIT11 | BIT13 );
+			GPIOA_ODR &= ~( BIT12 | BIT14 );
 			break;
 		case SE: 
 			turn_SE(speed);
 			printf("turn se\n");
-			headflag = 0;
-			tailflag = 1;
-			Rindicflag = 1;
-			Lindicflag = 0;
+			// headflag = 0;
+			// tailflag = 1;
+			// Rindicflag = 1;
+			// Lindicflag = 0;
+			GPIOA_ODR |= ( BIT12 | BIT13 );
+			GPIOA_ODR &= ~( BIT11 | BIT14 );
 			break;
 		case SEE: 
 			turn_SEE(speed);
 			printf("turn see\n");
-			headflag = 0;
-			tailflag = 1;
-			Rindicflag = 1;
-			Lindicflag = 0;
+			// headflag = 0;
+			// tailflag = 1;
+			// Rindicflag = 1;
+			// Lindicflag = 0;
+			GPIOA_ODR |= ( BIT12 | BIT13 );
+			GPIOA_ODR &= ~( BIT11 | BIT14 );
 			break;
 		case SWW: 
 			turn_SWW(speed);
 			printf("turn sww\n");
-			headflag = 0;
-			tailflag = 1;
-			Rindicflag = 0;
-			Lindicflag = 1;
+			// headflag = 0;
+			// tailflag = 1;
+			// Rindicflag = 0;
+			// Lindicflag = 1;
+			GPIOA_ODR |= ( BIT11 | BIT13 );
+			GPIOA_ODR &= ~( BIT12 | BIT14 );
 			break;
 		case uknownOP:
 			printf("Drive Stationary\r\n");
-			headflag = 0;
-			tailflag = 0;
-			Rindicflag = 1;
-			Lindicflag = 1;
+			// headflag = 0;
+			// tailflag = 0;
+			// Rindicflag = 1;
+			// Lindicflag = 1;
+			GPIOA_ODR |= ( BIT11 | BIT12 );
+			GPIOA_ODR &= ~( BIT13 | BIT14 );
 			stop();
 			break;
 		default: 
 			stop();
 			direction='x';
 			printf("default\r\n");
-			headflag = 0;
-			tailflag = 0;
-			Rindicflag = 0;
-			Lindicflag = 0;
+			// headflag = 0;
+			// tailflag = 0;
+			// Rindicflag = 0;
+			// Lindicflag = 0;
+			GPIOA_ODR &= ~( BIT11 | BIT12 | BIT13 | BIT14 );
 			break;
 	}
 }

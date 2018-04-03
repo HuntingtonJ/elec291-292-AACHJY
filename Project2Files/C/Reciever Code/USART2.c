@@ -4,6 +4,7 @@
 
 volatile unsigned char U2_RX_flag = 0;
 volatile unsigned char U2_RXO_flag = 0;
+volatile unsigned char U2_RXNF_flag = 0;
 volatile unsigned char RX_data = 0;
 
 void initUSART2(int BaudRate) {
@@ -37,7 +38,7 @@ void initUSART2(int BaudRate) {
 	USART2_CR1    |= ( BIT2 | BIT3 | BIT5 );  //Enable Transmit, Receive and Receive Interrupt.
 	//USART2_CR1    |= BIT6;  //Enable Transmit Interrupt
 	USART2_CR2     = 0x00000000;
-	USART2_CR3     = 0x00000000;
+	USART2_CR3     = 0x00000001; //EIE for ORE, NF, FE
 	
 	USART2_BRR     = BaudRateDivisor;
 	//USART2_GTBR   |= BIT4;//Divide by 8
@@ -49,12 +50,18 @@ void initUSART2(int BaudRate) {
 }
 
 void isr_usart2(void) {
-	//Checks if RXNE flag is enables
-	if (USART2_ISR & BIT5) { //RXNE 
-		usart2_rx();
-	} else if (USART2_ISR & BIT3) { //ORE
+	if (USART2_ISR & BIT2) { //NF
+		usart2_rxnf();
+	}
+	//Checks if ORE flag is set (overrun)
+	if (USART2_ISR & BIT3) { //ORE
 		usart2_rxo();
 	}
+	//Checks if RXNE flag is set
+	if (USART2_ISR & BIT5) { //RXNE 
+		usart2_rx();
+	} 
+	
 }
 
 void usart2_rx(void) {
@@ -65,8 +72,15 @@ void usart2_rx(void) {
 
 void usart2_rxo(void) {
 	// Handles usart2 receive overflow
-	USART2_RQR |= BIT3;
+	USART2_RQR |= BIT3; //Clear RXNE
+	USART2_ICR |= BIT3; //Clear ORE
 	U2_RXO_flag = 1;
+}
+
+void usart2_rxnf(void) {
+	USART2_RQR |= BIT3; //Clear RXNE
+	USART2_ICR |= BIT2; //Clear NF
+	U2_RXNF_flag = 1;
 }
 
 void putc2(unsigned char c) {

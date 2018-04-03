@@ -57,6 +57,9 @@ extern volatile unsigned char duty_cycleRR;  //Right wheel reverse
 
 int getsn (char * buff, int len);  
 void TogglePins(void);
+
+void lights(void);
+
 void go_straight(char speed);
 void go_reverse(char speed);
 void turn_west(char speed);

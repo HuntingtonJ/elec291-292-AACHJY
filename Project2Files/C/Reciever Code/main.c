@@ -7,14 +7,7 @@
 
 #define SYSCLK 48000000L
 #define DEF_F 100L
-#define Servo_F 12500L
-// unsigned char count = 0;
-// unsigned char duty_cycleLF = 75; //Left wheel forward
-// unsigned char duty_cycleLR = 0;  //Left wheel reverse (default 0)
-// unsigned char duty_cycleRF = 25; //Right wheel forward
-// unsigned char duty_cycleRR = 0;  //Right wheel reverse
-//unsigned char opcode;
-//unsigned char
+#define Servo_F 250L
 
 int egets(char *s, int Max);
 
@@ -34,9 +27,13 @@ void SysInit(void)
 {
 	// Set up output port bit for blinking LED
 	RCC_AHBENR |= 0x00020000;  // peripheral clock enable for port A
-	GPIOA_MODER |= (BIT8 | BIT9| BIT10 | BIT11 | BIT12 | BIT14 | BIT16); // Make pin PAx output
-	GPIOA_OTYPER &= ~( BIT4 | BIT5 | BIT6 | BIT7 | BIT8 );  //Set as push-pull, pins PA4-7=0
-	//GPIOA_ODR |= ( BIT4 | BIT5| BIT6 | BIT7 );      //Set to 1
+	GPIOA_MODER |= ( BIT8 | BIT10 | BIT12 | BIT14 );   // Motorpins: PA4,PA5,PA6,PA7
+	GPIOA_MODER |= ( BIT22 | BIT24 | BIT26 | BIT28 );  // Lights: PA11,PA12,PA13,PA14
+	//GPIOA_MODER |= ( BIT16 );                        // Servo: PA8
+	GPIOA_OTYPER &= ~( BIT4 | BIT5 | BIT6 | BIT7 );    //Set as push-pull, pins PA4-7=0
+	GPIOA_OTYPER &= ~( BIT11 | BIT12 | BIT13 | BIT14 );
+	GPIOA_ODR |= ( BIT4 | BIT5| BIT6 | BIT7 );         //Set to 1
+	GPIOA_ODR |= ( BIT11 | BIT12 | BIT13 | BIT14 );
 
 
 	// Set up timer
@@ -48,35 +45,11 @@ void SysInit(void)
 	TIM1_DIER |= BIT0;    // enable update event (reload event) interrupt
 
 	RCC_APB1ENR |=BIT0;// turn on clock for timer2
-	TIM2_ARR= (SYSCLK/8)/(Servo_F);
+	TIM2_ARR= (SYSCLK/8)/(100*(Servo_F/2));
 	TIM2_CR1 |= BIT4;     // Downcounting
 	TIM2_CR1 |= BIT0;     // enable counting
 	TIM2_DIER |= BIT0;    // enable update event (reload event) interrupt
 	enable_interrupts();
-}
-
-void lights(unsigned char headflag, unsigned char tailflag, unsigned char Rindicflag, unsigned char Lindicflag){
-
-	if(headflag == 1){
-		GPIOA_ODR = BIT9;
-	}else{
-		GPIOA_ODR = ~(BIT9);
-	}
-	if(tailflag == 1){
-		GPIOA_ODR = BIT10;
-	}else{
-		GPIOA_ODR = ~(BIT10);
-	}
-	if(Rindicflag == 1){
-		GPIOA_ODR ^= BIT11;
-	}else{
-		GPIOA_ODR = ~(BIT11);
-	}
-	if(Lindicflag == 1){
-		GPIOA_ODR ^= BIT12;
-	}else{
-		GPIOA_ODR = ~(BIT12);
-	}
 }
 
 //Take RX_data value recieved from EFM8 and convert the char back to get the
@@ -130,8 +103,8 @@ int main(void) {
 
 	while (1){
 		//Receives data on Pin 9.
-    	if (U2_RX_flag & 1) {
-    		Extract_op_val(RX_data, &speed, &direction);
+    	if (U2_RX_flag & 1) {                                       //  If new data have been received...
+    		Extract_op_val(RX_data, &speed, &direction);            //	Convert the 1 byte data value into an OP code and a data value.
 			printf("speed=%d, direction=%d\r\n", speed, direction);
 			drive(speed, direction);
     		//printf("Received: %d\r\n", RX_data);
@@ -141,7 +114,12 @@ int main(void) {
     		printf("Receive Overflow\r\n");
     		U2_RXO_flag = 0;
     	}
-		lights(headflag, tailflag, Rindicflag, Lindicflag);
+    	if (U2_RXNF_flag & 1) {
+    		printf("Noise Error\r\n");
+    		drive(0,0);
+    		U2_RXNF_flag = 0;
+    	}
+		//lights();
 
     	putc2(0x55);
 	}
