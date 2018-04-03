@@ -11,7 +11,7 @@ LIBPATH1=$(subst \libgcc.a,,$(shell dir /s /b "$(GCCPATH)*libgcc.a" | find "v6-m
 LIBPATH2=$(subst \libc_nano.a,,$(shell dir /s /b "$(GCCPATH)*libc_nano.a" | find "v6-m"))
 LIBSPEC=-L"$(LIBPATH1)" -L"$(LIBPATH2)"
 
-OBJS=main.o serial.o startup.o newlib_stubs.o USART2.o Motor_control.o Servo_control.o
+OBJS=main.o serial.o startup.o newlib_stubs.o USART2.o Motor_control.o
 
 PORTN=$(shell type COMPORT.inc)
 
@@ -37,9 +37,7 @@ USART2.o: USART2.c USART2.h
 
 Motor_control.o: Motor_control.c Motor_control.h
 	$(CC) -c $(CCFLAGS) Motor_control.c -o Motor_control.o
-	
-Servo_control.o: Servo_control.c Servo_control.h
-	$(CC) -c $(CCFLAGS) Servo_control.c -o Servo_control.o
+
 	
 clean: 
 	@del $(OBJS) 2>NUL

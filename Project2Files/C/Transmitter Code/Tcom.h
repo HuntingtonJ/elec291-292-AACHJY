@@ -26,9 +26,12 @@
 
 extern volatile unsigned char mode;
 
+#define reload4_low 65107L
+
 volatile bit reload_flag = 0;
 unsigned int freq4 = 7025;
 unsigned int reload4 = 65109;
+//unsigned int reload4_low = 65107;
 
 
 //initialize timer0 for I2C clk synchronizations with the Wii Nunchuck
@@ -91,7 +94,7 @@ void Timer4_init(void) {
 	TMR4CN0=0b_0000_0000;
 	TMR4CN1=0b_0110_0000;
 	
-	TMR4RL=reload4; //reload = 2^16 - (SYSCLK/12)/(F*2); 15kHz
+	TMR4RL=reload4; //reload = 2^16 - (SYSCLK/12)/(F*2);
 	TMR4=0xffff;
 	
 	EIE2|=0b_0000_0100;

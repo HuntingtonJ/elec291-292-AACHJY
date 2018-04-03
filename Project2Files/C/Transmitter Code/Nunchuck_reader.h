@@ -342,7 +342,7 @@ char get_direction(char x_axis, char y_axis){
 
 
 
-bit read_nunchuck(char * direction, char * speed, char * rbuf, int off_x, int off_y)
+bit read_nunchuck(char * direction, char * speed, unsigned char * c_but, char * rbuf, int off_x, int off_y)
 {
 	//unsigned char rbuf[6];
  	char joy_x, joy_y;
@@ -389,6 +389,7 @@ bit read_nunchuck(char * direction, char * speed, char * rbuf, int off_x, int of
 
 		*direction=get_direction(joy_x, joy_y);
 		*speed = get_speed(joy_x, joy_y);
+		*c_but = (char)but2;
 		
 		return Z_but;
 

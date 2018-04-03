@@ -38,7 +38,8 @@ void initUSART2(int BaudRate) {
 	USART2_CR1    |= ( BIT2 | BIT3 | BIT5 );  //Enable Transmit, Receive and Receive Interrupt.
 	//USART2_CR1    |= BIT6;  //Enable Transmit Interrupt
 	USART2_CR2     = 0x00000000;
-	USART2_CR3     = 0x00000001; //EIE for ORE, NF, FE
+	USART2_CR3     = 0x00000000;
+	//USART2_CR3     = 0x00000001; //EIE for ORE, NF, FE
 	
 	USART2_BRR     = BaudRateDivisor;
 	//USART2_GTBR   |= BIT4;//Divide by 8
@@ -50,17 +51,18 @@ void initUSART2(int BaudRate) {
 }
 
 void isr_usart2(void) {
-	if (USART2_ISR & BIT2) { //NF
-		usart2_rxnf();
-	}
+	//if (USART2_ISR & BIT2) { //NF
+	//	usart2_rxnf();
+	//}
 	//Checks if ORE flag is set (overrun)
-	if (USART2_ISR & BIT3) { //ORE
-		usart2_rxo();
-	}
+	
 	//Checks if RXNE flag is set
 	if (USART2_ISR & BIT5) { //RXNE 
 		usart2_rx();
 	} 
+	if (USART2_ISR & BIT3) { //ORE
+		usart2_rxo();
+	}
 	
 }
 

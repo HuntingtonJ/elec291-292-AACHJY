@@ -43,12 +43,13 @@ void SysInit(void)
 	TIM1_CR1 |= BIT4;     // Downcounting
 	TIM1_CR1 |= BIT0;     // enable counting
 	TIM1_DIER |= BIT0;    // enable update event (reload event) interrupt
-
+/*
 	RCC_APB1ENR |=BIT0;// turn on clock for timer2
 	TIM2_ARR= (SYSCLK/8)/(100*(Servo_F/2));
 	TIM2_CR1 |= BIT4;     // Downcounting
 	TIM2_CR1 |= BIT0;     // enable counting
 	TIM2_DIER |= BIT0;    // enable update event (reload event) interrupt
+	*/
 	enable_interrupts();
 }
 
@@ -77,7 +78,6 @@ void Extract_op_val(unsigned char RX_data, unsigned char *speed, unsigned char *
 			break;
 		case 0b100:
 			printf("\t\t\tGRAB_OP\n");
-			servo_update(value);
 			break;
 		case 0b111:
 			printf("\t\t\tSTOP_OP\n");
@@ -114,11 +114,11 @@ int main(void) {
     		printf("Receive Overflow\r\n");
     		U2_RXO_flag = 0;
     	}
-    	if (U2_RXNF_flag & 1) {
-    		printf("Noise Error\r\n");
-    		drive(0,0);
-    		U2_RXNF_flag = 0;
-    	}
+    	//if (U2_RXNF_flag & 1) {
+    	//	printf("Noise Error\r\n");
+    	//	drive(0,0);
+    	//	U2_RXNF_flag = 0;
+    	//}
 		//lights();
 
     	putc2(0x55);
