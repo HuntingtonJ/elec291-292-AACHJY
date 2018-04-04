@@ -10,7 +10,7 @@ void Hard_Fault_Handler(void);
 void isr_usart1(void);
 void isr_usart2(void);
 void Timer1ISR(void);
-void Timer2ISR(void);
+
 
 // Allocated stack space as defined in linker script lpc824.ld
 extern unsigned int _StackTop;

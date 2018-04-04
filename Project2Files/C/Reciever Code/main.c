@@ -43,13 +43,7 @@ void SysInit(void)
 	TIM1_CR1 |= BIT4;     // Downcounting
 	TIM1_CR1 |= BIT0;     // enable counting
 	TIM1_DIER |= BIT0;    // enable update event (reload event) interrupt
-/*
-	RCC_APB1ENR |=BIT0;// turn on clock for timer2
-	TIM2_ARR= (SYSCLK/8)/(100*(Servo_F/2));
-	TIM2_CR1 |= BIT4;     // Downcounting
-	TIM2_CR1 |= BIT0;     // enable counting
-	TIM2_DIER |= BIT0;    // enable update event (reload event) interrupt
-	*/
+
 	enable_interrupts();
 }
 
@@ -104,22 +98,16 @@ int main(void) {
 	while (1){
 		//Receives data on Pin 9.
     	if (U2_RX_flag & 1) {                                       //  If new data have been received...
-    		Extract_op_val(RX_data, &speed, &direction);            //	Convert the 1 byte data value into an OP code and a data value.
-			printf("speed=%d, direction=%d\r\n", speed, direction);
+    		//Extract_op_val(RX_data, &speed, &direction);            //	Convert the 1 byte data value into an OP code and a data value.
+			//printf("speed=%d, direction=%d\r\n", speed, direction);
 			drive(speed, direction);
-    		//printf("Received: %d\r\n", RX_data);
+    		printf("Received: %d\r\n", RX_data);
     		U2_RX_flag = 0;
     	}
-    	if (U2_RXO_flag & 1) {
-    		printf("Receive Overflow\r\n");
-    		U2_RXO_flag = 0;
-    	}
-    	//if (U2_RXNF_flag & 1) {
-    	//	printf("Noise Error\r\n");
-    	//	drive(0,0);
-    	//	U2_RXNF_flag = 0;
+    	//if (U2_RXO_flag & 1) {
+    	//	printf("Receive Overflow\r\n");
+    	//	U2_RXO_flag = 0;
     	//}
-		//lights();
 
     	putc2(0x55);
 	}
